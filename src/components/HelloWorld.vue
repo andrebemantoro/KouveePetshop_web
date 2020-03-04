@@ -16,7 +16,7 @@
           >
             <v-card class="elevation-12">
               <v-toolbar
-                color="primary"
+                color="green"
                 dark
                 flat
               >
@@ -36,17 +36,14 @@
                   </template>
              
                 </v-tooltip>
-                <v-tooltip right>
-                  
-                  <span>Codepen</span>
-                </v-tooltip>
+            
               </v-toolbar>
               <v-card-text>
                 <v-form>
                   <v-text-field
                     label="Login"
                     name="login"
-                    prepend-icon="person"
+                    prepend-icon="mdi mdi-account"
                     type="text"
                   />
 
@@ -54,14 +51,14 @@
                     id="password"
                     label="Password"
                     name="password"
-                    prepend-icon="lock"
+                    prepend-icon="mdi mdi-lock"
                     type="password"
                   />
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary">Login</v-btn>
+                <v-btn color="green">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
