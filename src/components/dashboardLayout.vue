@@ -8,10 +8,10 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text router to="/">Home</v-btn>
+        <!-- <v-btn text router to="/">Home</v-btn>
         <v-btn text router to="/about_us">About us</v-btn>
         <v-btn text router to="/gallery">Gallery</v-btn>
-        <v-btn text router to="/contact">Contact</v-btn>
+        <v-btn text router to="/contact">Contact</v-btn> -->
       </v-toolbar-items>
     </v-app-bar>
 
