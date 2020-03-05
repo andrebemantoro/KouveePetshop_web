@@ -2,44 +2,36 @@ import Vue from "vue";
 import Router from "vue-router";
 // import { loadavg } from 'os'
 
-const dashboardLayout = () =>
-  import(
-    /* webpackChunkName: "dashboard" */ "../components/dashboardLayout.vue"
-  );
-const Login = () =>
-  import(/* webpackChunkName: "dashboard" */ "../components/Login.vue");
+const dashboardLayout = () => import('../components/dashboardLayout.vue')
+// const adminDashboard = () => import('../components/adminDashboard.vue')
+// const userDashboard = () => import('../components/userDashboard.vue')
 
-function loadView(view) {
-  return () =>
-    import(
-      /* webpackChunkName: "view-[request]" */ `../components/${view}.vue`
-    );
+
+function loadView(view){
+    return()=>import(`../components/LoginLayout/${view}.vue`)
 }
 
+// function loadMe(view){
+//     return() =>import(`../components/homeContents/${view}.vue`)
+// }
+
+// function loadViews(view){
+// 	return()=>import(`../components/userDashboardContents/${view}.vue`)
+// }
 const routes = [
   {
-    path: "/components/Login.vue",
-    component: Login
+      path:'/LoginLayout',
+      component: dashboardLayout,
+      children: [
+          {
+              name: 'Login',
+              path: '',
+              component: loadView('Login')
+          },
+      ]
   },
+]
 
-  {
-    path: "/components/dashboardLayout.vue",
-    component: dashboardLayout,
-    children: [
-      {
-        name: "UserController",
-        path: "/userController",
-        component: loadView("userController")
-      },
-
-      {
-        name: "SparepartController",
-        path: "/sparepartController",
-        component: loadView("sparepartController")
-      }
-    ]
-  }
-];
 Vue.use(Router);
 
 const router = new Router({ mode: "history", routes: routes });
