@@ -30,6 +30,13 @@ const routes = [
           },
       ]
   },
+  {
+    path: '/Menu',
+    component: loadView('Menu'),
+    name: 'Menu',
+
+    
+  },
 ]
 
 Vue.use(Router);
