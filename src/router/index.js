@@ -1,28 +1,47 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Router from "vue-router";
+// import { loadavg } from 'os'
 
-Vue.use(VueRouter);
+const dashboardLayout = () =>
+  import(
+    /* webpackChunkName: "dashboard" */ "../components/dashboardLayout.vue"
+  );
+const Login = () =>
+  import(/* webpackChunkName: "dashboard" */ "../components/Login.vue");
+
+function loadView(view) {
+  return () =>
+    import(
+      /* webpackChunkName: "view-[request]" */ `../components/${view}.vue`
+    );
+}
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home
+    path: "/components/Login.vue",
+    component: Login
   },
+
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/components/dashboardLayout.vue",
+    component: dashboardLayout,
+    children: [
+      {
+        name: "UserController",
+        path: "/userController",
+        component: loadView("userController")
+      },
+
+      {
+        name: "SparepartController",
+        path: "/sparepartController",
+        component: loadView("sparepartController")
+      }
+    ]
   }
 ];
+Vue.use(Router);
 
-const router = new VueRouter({
-  routes
-});
+const router = new Router({ mode: "history", routes: routes });
 
 export default router;
