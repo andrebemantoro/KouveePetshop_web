@@ -2,7 +2,7 @@
     <div>
         <v-navigation-drawer v-model="drawer" class="greydarken-3" dark app clipped fixed temporary>
             <v-list-item>
-                <img src="../assets/marijuana.png" style="height:45px;width:45px">
+                <!-- <img src="../assets/marijuana.png" style="height:45px;width:45px"> -->
                 <v-list-item-content>
                     <v-list-item-title class="title" style="margin-left:10px;">
                         The High Five
@@ -37,7 +37,7 @@
 
             <VSpacer />
 
-            <img src="../assets/marijuana.png" style="height:45px;width:45px">
+            <!-- <img src="../assets/marijuana.png" style="height:45px;width:45px"> -->
 
         </v-app-bar>
 

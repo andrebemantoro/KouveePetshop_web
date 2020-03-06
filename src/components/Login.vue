@@ -58,7 +58,9 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn text router to="/Menu" color="green">Login</v-btn>
+                <router-link :to="'/menu'">
+                  <v-btn text router to="/menu" color="green">Login</v-btn>
+                </router-link>
               </v-card-actions>
             </v-card>
           </v-col>

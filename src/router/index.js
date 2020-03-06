@@ -3,12 +3,13 @@ import Router from "vue-router";
 // import { loadavg } from 'os'
 
 const dashboardLayout = () => import('../components/dashboardLayout.vue')
+const loginLayout = () => import('../components/Login.vue')
 // const adminDashboard = () => import('../components/adminDashboard.vue')
 // const userDashboard = () => import('../components/userDashboard.vue')
 
 
 function loadView(view){
-    return()=>import(`../components/LoginLayout/${view}.vue`)
+    return()=>import(`../components/${view}.vue`)
 }
 
 // function loadMe(view){
@@ -21,22 +22,27 @@ function loadView(view){
 const routes = [
   {
       path:'/',
-      component: dashboardLayout,
+      component: loginLayout,
       children: [
           {
               name: 'Login',
-              path: '/LoginLayout',
-              component: loadView('Login')
+              path: '',
+           
           },
       ]
   },
   {
-    path: '/Menu',
-    component: loadView('Menu'),
-    name: 'Menu',
-
-    
-  },
+    path:'/menu',
+    component: dashboardLayout,
+    children: [
+        {
+            name: 'Menu',
+            path: '/menu',
+            component: loadView('Menu')
+         
+        },
+    ]
+},
 ]
 
 Vue.use(Router);
