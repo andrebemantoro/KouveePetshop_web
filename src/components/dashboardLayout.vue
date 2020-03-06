@@ -60,7 +60,7 @@
                     },
                     {
                         title: 'Produk',
-                        icon: 'mdi-pill',
+                        icon: '',
                         to: "/menuProduk"
                     },
                     {

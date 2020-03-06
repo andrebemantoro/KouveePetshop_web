@@ -20,7 +20,7 @@
                 dark
                 flat
               >
-                <v-toolbar-title>Kouvee Login</v-toolbar-title>
+                <v-toolbar-title>Kouvee Petshop Login</v-toolbar-title>
                 <v-spacer />
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
