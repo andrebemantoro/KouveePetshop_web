@@ -4,6 +4,8 @@ import "./registerServiceWorker";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 
+Vue.prototype.$http = Axios;
+Vue.prototype.$apiUrl = 'http://localhost/kouveepethsop_api';
 Vue.config.productionTip = false;
 
 new Vue({
