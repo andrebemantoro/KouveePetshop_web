@@ -22,7 +22,6 @@
                         <tbody>
                             <tr v-for="(item,index) in items" :key="item.id">
                                 <td>{{ index+1 }}</td>
-                                <td>{{ item.id_pegawai}}</td>
                                 <td>{{ item.nama }}</td>
                                 <td>{{ item.alamat }}</td>
                                 <td>{{ item.tanggal_lahir }}</td>
@@ -75,7 +74,7 @@
                                 <v-text-field label="Nomor Telepon*" v-model="form.telp" required></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-select label="Role*" v-model="form.Role" :items="items" required>
+                                <v-select label="Role*" v-model="form.role" :items="items" required>
                                 </v-select>
                             </v-col>
                             <v-col cols="12">
@@ -113,11 +112,15 @@
                 keyword: '',
                 headers: [{
                         text: 'No',
-                        value: 'id_pegawai',
+                        value: 'index',
                     },
                     {
                         text: 'Nama Pegawai',
                         value: 'nama'
+                    },
+                    {
+                        text: 'Alamat',
+                        value: 'alamat'
                     },
                     {
                         text: 'Tanggal Lahir',
@@ -152,6 +155,14 @@
                         value: 'modified_by'
                     },
                     {
+                        text: 'Modified By',
+                        value: 'modified_by'
+                    },
+                    {
+                        text: 'Delete At',
+                        value: 'delete_at'
+                    },
+                    {
                         text: 'Delete By',
                         value: 'delete_by'
                     },
@@ -170,6 +181,7 @@
                 text: '',
                 load: false,
                 form: {
+               
                    nama: '',
                     alamat: '',
                     tanggal_lahir: '',
