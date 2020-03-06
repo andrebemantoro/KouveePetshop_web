@@ -18,16 +18,16 @@ function loadLayanan(view){
     return()=>import(`../components/layananLayout/${view}.vue`)
 }
 function loadPegawai(view){
-    return()=>import(`../components/pegawaiLayout${view}.vue`)
+    return()=>import(`../components/pegawaiLayout/${view}.vue`)
 }
 function loadPengadaan(view){
-    return()=>import(`../components/pengadaanLayout${view}.vue`)
+    return()=>import(`../components/pengadaanLayout/${view}.vue`)
 }
 function loadProduk(view){
-    return()=>import(`../components/produkLayout${view}.vue`)
+    return()=>import(`../components/produkLayout/${view}.vue`)
 }
 function loadSupplier(view){
-    return()=>import(`../components/supplierLayout${view}.vue`)
+    return()=>import(`../components/supplierLayout/${view}.vue`)
 }
 
 
