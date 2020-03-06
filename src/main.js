@@ -3,9 +3,10 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
+import Axios from 'axios';
 
 Vue.prototype.$http = Axios;
-Vue.prototype.$apiUrl = 'http://localhost/kouveepethsop_api';
+Vue.prototype.$apiUrl = 'http://localhost:80/kouveepetshop_api';
 Vue.config.productionTip = false;
 
 new Vue({
