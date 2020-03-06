@@ -22,7 +22,7 @@
                         <tbody>
                             <tr v-for="(item,index) in items" :key="item.id">
                                 <td>{{ index+1 }}</td>
-                                <td>{{ item.id_pegawai }}</td>
+                                <td>{{ item.ID_PEGAWAI}}</td>
                                 <td>{{ item.nama }}</td>
                                 <td>{{ item.alamat }}</td>
                                 <td>{{ item.tanggal_lahir }}</td>
@@ -186,7 +186,7 @@
         },
         methods: {
             getData() {
-                var uri = this.$apiUrl + '/Pegawai'
+                var uri = this.$apiUrl + 'Pegawai'
                 this.$http.get(uri).then(response => {
                     this.pegawais = response.data.message
                 })
