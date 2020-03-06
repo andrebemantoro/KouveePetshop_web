@@ -269,24 +269,24 @@
         //             this.color = 'red';
         //         })
         //     },
-        //     setForm() {
-        //         if (this.typeInput === 'new') {
-        //             this.sendData()
-        //         } else {
-        //             console.log("dddd")
-        //             this.updateData()
-        //         }
-        //     },
-        //     resetForm() {
-        //         this.form = {
-        //            bong_code: '',
-        //             name: '',
-        //             merk: '',
-        //            bong_type: '',
-        //             price: '',
-        //             link_image:''
-        //         }
-        //     }
+            setForm() {
+                if (this.typeInput === 'new') {
+                    this.sendData()
+                } else {
+                    console.log("dddd")
+                    this.updateData()
+                }
+            },
+            resetForm() {
+                this.form = {
+                   bong_code: '',
+                    name: '',
+                    merk: '',
+                   bong_type: '',
+                    price: '',
+                    link_image:''
+                }
+            }
         },
         mounted() {
             this.getData();
