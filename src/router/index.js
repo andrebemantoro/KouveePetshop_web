@@ -8,9 +8,9 @@ const loginLayout = () => import('../components/Login.vue')
 // const userDashboard = () => import('../components/userDashboard.vue')
 
 
-function loadLogin(view){
-    return()=>import(`../components/${view}.vue`)
-}
+// function loadLogin(view){
+//     return()=>import(`../components/${view}.vue`)
+// }
 function loadHewan(view){
     return()=>import(`../components/hewanLayout/${view}.vue`)
 }
@@ -48,14 +48,8 @@ const routes = [
     component: dashboardLayout,
     children: [
         {
-            name: 'Menu',
-            path: '/menu',
-            component: loadLogin('Menu')
-         
-        },
-        {
             name: 'Hewan',
-            path: '/MenuHewan',
+            path: '/menuhewan',
             component: loadHewan('MenuHewan')
          
         },
