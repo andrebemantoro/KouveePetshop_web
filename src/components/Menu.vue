@@ -2,10 +2,10 @@
     <div>
         <v-navigation-drawer v-model="drawer" class="greydarken-3" dark app clipped fixed temporary>
             <v-list-item>
-                <!-- <img src="../assets/marijuana.png" style="height:45px;width:45px"> -->
+                <img src="../assets/paw.png" style="height:45px;width:45px">
                 <v-list-item-content>
                     <v-list-item-title class="title" style="margin-left:10px;">
-                        The High Five
+                        Kouvee Petshop
                     </v-list-item-title>
                     <v-list-item-subtitle style="margin-left:10px;">
                         {{ name }}
@@ -37,7 +37,7 @@
 
             <VSpacer />
 
-            <!-- <img src="../assets/marijuana.png" style="height:45px;width:45px"> -->
+          
 
         </v-app-bar>
 
@@ -53,19 +53,35 @@
             return {
                 drawer: null,
                 items: [{
-                        title: 'User List',
+                        title: 'Pegawai',
                         icon: 'mdi-account',
-                        to: "/userController"
+                        to: "/menuPegawai"
+                        
                     },
                     {
-                        title: 'Drug List',
+                        title: 'Produk',
                         icon: 'mdi-pill',
-                        to: "/drugController"
+                        to: "/menuProduk"
                     },
                     {
-                        title: 'Bong List',
+                        title: 'Layanan',
                         icon: 'mdi-flask-outline',
-                        to: "/bongController"
+                        to: "/menuLayanan"
+                    },
+                    {
+                        title: 'Supplier',
+                        icon: 'mdi-flask-outline',
+                        to: "/menuSupplier"
+                    },
+                    {
+                        title: 'Pengadaan',
+                        icon: 'mdi-flask-outline',
+                        to: "/menuPengadaan"
+                    },
+                    {
+                        title: 'Hewan',
+                        icon: 'mdi-flask-outline',
+                        to: "/menuHewan"
                     },
                 ],
             }
