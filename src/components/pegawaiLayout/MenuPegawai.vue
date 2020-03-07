@@ -22,6 +22,7 @@
                         <tbody>
                             <tr v-for="(item,index) in items" :key="item.id">
                                 <td>{{ index+1 }}</td>
+                                <td>{{ item.id_pegawai }}</td>
                                 <td>{{ item.nama }}</td>
                                 <td>{{ item.alamat }}</td>
                                 <td>{{ item.tanggal_lahir }}</td>
@@ -113,6 +114,10 @@
                 headers: [{
                         text: 'No',
                         value: 'index',
+                    },
+                    {
+                        text: 'Id Pegawai',
+                        value: 'id_pegawai'
                     },
                     {
                         text: 'Nama Pegawai',
@@ -232,44 +237,48 @@
                     this.load = false;
                 })
             },
-        //     updateData() {
-        //         this.bong.append('bong_code', this.form.bong_code);
-        //         this.bong.append('name', this.form.name);
-        //         this.bong.append('merk', this.form.merk);
-        //         this.bong.append('bong_type', this.form.bong_type);
-        //         this.bong.append('price', this.form.price);
-        //         this.bong.append('link_image', this.form.link_image);
-        //         var uri = this.$apiUrl + '/bong/' + this.updatedId;
-        //         this.load = true
-        //         this.$http.post(uri, this.bong).then(response => {
-        //             this.snackbar = true; //mengaktifkan snackbar
-        //             this.color = 'green'; //memberi warna snackbar
-        //             this.text = response.data.message; //memasukkan pesan kesnackbar
-        //             this.load = false;
-        //             this.dialog = false
-        //             this.getData(); //mengambil databong
-        //             this.resetForm();
-        //             this.typeInput = 'new';
-        //         }).catch(error => {
-        //             this.errors = error
-        //             this.snackbar = true;
-        //             this.text = 'Try Again';
-        //             this.color = 'red';
-        //             this.load = false;
-        //             this.typeInput = 'new';
-        //         })
-        //     },
-        //     editHandler(item) {
-        //         this.typeInput = 'edit';
-        //         this.dialog = true;
-        //         this.form.bong_code = item.bong_code;
-        //         this.form.name = item.name;
-        //         this.form.merk = item.merk;
-        //         this.form.price = item.price,
-        //         this.form.bong_type = item.bong_type;
-        //         this.form.link_image = item.link_image;
-        //         this.updatedId = item.id
-        //     },
+            updateData() {
+                
+                this.pegawai.append('nama', this.form.nama);
+                this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
+                this.pegawai.append('alamat', this.form.alamat);
+                this.pegawai.append('telp', this.form.telp);
+                this.pegawai.append('role', this.form.role);
+                this.pegawai.append('username', this.form.username);
+                this.pegawai.append('password', this.form.password);
+                this.pegawai.append('created_by', this.form.created_by);
+                var uri = this.$apiUrl + 'Pegawai/' + this.updatedId;
+                this.load = true
+                this.$http.post(uri, this.pegawai).then(response => {
+                    this.snackbar = true; //mengaktifkan snackbar
+                    this.color = 'green'; //memberi warna snackbar
+                    this.text = response.data.message; //memasukkan pesan kesnackbar
+                    this.load = false;
+                    this.dialog = false
+                    this.getData(); //mengambil databong
+                    this.resetForm();
+                    this.typeInput = 'new';
+                }).catch(error => {
+                    this.errors = error
+                    this.snackbar = true;
+                    this.text = 'Try Again';
+                    this.color = 'red';
+                    this.load = false;
+                    this.typeInput = 'new';
+                })
+            },
+            editHandler(item) {
+                this.typeInput = 'edit';
+                this.dialog = true;
+                this.form.nama = item.nama;
+                this.form.alamat = item.alamat;
+                this.form.tanggal_lahir = item.tanggal_lahir;
+                this.form.telp = item.telp;
+                this.form.role = item.role,
+                this.form.username = item.username;
+                this.form.password = item.password;
+                this.updatedId = item.id
+            },
         //     deleteData(deleteId) { //mengahapus data
         //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
         //         this.$http.delete(uri).then(response => {
