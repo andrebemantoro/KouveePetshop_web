@@ -2,7 +2,7 @@
     <v-container>
         <v-card>
             <v-container grid-list-md mb-0>
-                <h2 class="text-md-center">Data Pegawai Kouvee Petshop</h2>
+                <h2 class="text-md-center">Data Produk Kouvee Petshop</h2>
                 <v-layout row wrap style="margin:10px">
                     <v-flex xs6>
                         <v-btn depressed dark rounded style="text-transform: none !important;" color="green accent-3"
@@ -201,34 +201,33 @@
                     this.produks = response.data.message
                 })
             },
-            // sendData() {
-            //     this.pegawai.append('nama', this.form.nama);
-            //     this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
-            //     this.pegawai.append('alamat', this.form.alamat);
-            //     this.pegawai.append('telp', this.form.telp);
-            //     this.pegawai.append('role', this.form.role);
-            //     this.pegawai.append('username', this.form.username);
-            //     this.pegawai.append('password', this.form.password);
-            //     this.pegawai.append('created_by', this.form.created_by);
+            sendData() {
+                this.produk.append('nama', this.form.nama);
+                this.produk.append('satuan', this.form.tanggal_lahir);
+                this.produk.append('jumlah_stok', this.form.alamat);
+                this.produk.append('harga', this.form.telp);
+                this.produk.append('min_stok', this.form.role);
+                this.produk.append('gambar', this.form.username);
+                this.produk.append('created_by', this.form.created_by);
              
-            //     var uri = this.$apiUrl + 'Pegawai'
-            //     this.load = true
-            //     this.$http.post(uri, this.pegawai).then(response => {
-            //         this.snackbar = true; //mengaktifkan snackbar
-            //         this.color = 'green'; //memberi warna snackbar
-            //         this.text = response.data.message; //memasukkan pesan kesnackbar
-            //         this.load = false;
-            //         this.dialog = false
-            //         this.getData(); //mengambil [pegawai]
-            //         this.resetForm();
-            //     }).catch(error => {
-            //         this.errors = error
-            //         this.snackbar = true;
-            //         this.text = 'Try Again';
-            //         this.color = 'red';
-            //         this.load = false;
-            //     })
-            // },
+                var uri = this.$apiUrl + 'Produk'
+                this.load = true
+                this.$http.post(uri, this.produk).then(response => {
+                    this.snackbar = true; //mengaktifkan snackbar
+                    this.color = 'green'; //memberi warna snackbar
+                    this.text = response.data.message; //memasukkan pesan kesnackbar
+                    this.load = false;
+                    this.dialog = false
+                    this.getData(); //mengambil [pegawai]
+                    this.resetForm();
+                }).catch(error => {
+                    this.errors = error
+                    this.snackbar = true;
+                    this.text = 'Try Again';
+                    this.color = 'red';
+                    this.load = false;
+                })
+            },
             // updateData() {
                 
             //     this.pegawai.append('nama', this.form.nama);
@@ -286,25 +285,25 @@
         //             this.color = 'red';
         //         })
         //     },
-        //     setForm() {
-        //         if (this.typeInput === 'new') {
-        //             this.sendData()
-        //         } else {
-        //             console.log("dddd")
-        //             this.updateData()
-        //         }
-        //     },
-        //     resetForm() {
-        //         this.form = {
-        //             nama: '',
-        //             alamat: '',
-        //             tanggal_lahir: '',
-        //             telp: '',
-        //             role: '',
-        //             username:'',
-        //             password:''
-        //         }
-        //     }
+            setForm() {
+                if (this.typeInput === 'new') {
+                    this.sendData()
+                } else {
+                    console.log("dddd")
+                    this.updateData()
+                }
+            },
+            resetForm() {
+                this.form = {
+                    nama: '',
+                    satuan: '',
+                    jumlah_stok: '',
+                    min_stok: '',
+                    harga: '',
+                    gambar: ''
+                   
+                }
+            }
         },
         mounted() {
             this.getData();
