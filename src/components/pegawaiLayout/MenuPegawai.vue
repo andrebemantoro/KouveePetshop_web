@@ -81,7 +81,7 @@
                                 <v-text-field label="Username*" v-model="form.username" required></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field label="Password*" v-model="form.password"></v-text-field>
+                                <v-text-field label="Password*" v-model="form.password" required></v-text-field>
                             </v-col>
                             
                         </v-row>
@@ -188,7 +188,8 @@
                    telp: '',
                     username: '',
                    password:'',
-                   role:''
+                   role:'',
+                   created_by:'admin'
                 },
                pegawai: new FormData,
                 typeInput: 'new',
@@ -203,31 +204,34 @@
                     this.pegawais = response.data.message
                 })
             },
-        //     sendData() {
-        //         this.bong.append('bong_code', this.form.bong_code);
-        //         this.bong.append('name', this.form.name);
-        //         this.bong.append('merk', this.form.merk);
-        //         this.bong.append('bong_type', this.form.bong_type);
-        //         this.bong.append('price', this.form.price);
-        //         this.bong.append('link_image', this.form.link_image);
-        //         var uri = this.$apiUrl + '/bong'
-        //         this.load = true
-        //         this.$http.post(uri, this.bong).then(response => {
-        //             this.snackbar = true; //mengaktifkan snackbar
-        //             this.color = 'green'; //memberi warna snackbar
-        //             this.text = response.data.message; //memasukkan pesan kesnackbar
-        //             this.load = false;
-        //             this.dialog = false
-        //             this.getData(); //mengambil databong 
-        //             this.resetForm();
-        //         }).catch(error => {
-        //             this.errors = error
-        //             this.snackbar = true;
-        //             this.text = 'Try Again';
-        //             this.color = 'red';
-        //             this.load = false;
-        //         })
-        //     },
+            sendData() {
+                this.pegawai.append('nama', this.form.nama);
+                this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
+                this.pegawai.append('alamat', this.form.alamat);
+                this.pegawai.append('telp', this.form.telp);
+                this.pegawai.append('role', this.form.role);
+                this.pegawai.append('username', this.form.username);
+                this.pegawai.append('password', this.form.password);
+                this.pegawai.append('created_by', this.form.created_by);
+             
+                var uri = this.$apiUrl + 'Pegawai'
+                this.load = true
+                this.$http.post(uri, this.pegawai).then(response => {
+                    this.snackbar = true; //mengaktifkan snackbar
+                    this.color = 'green'; //memberi warna snackbar
+                    this.text = response.data.message; //memasukkan pesan kesnackbar
+                    this.load = false;
+                    this.dialog = false
+                    this.getData(); //mengambil [pegawai]
+                    this.resetForm();
+                }).catch(error => {
+                    this.errors = error
+                    this.snackbar = true;
+                    this.text = 'Try Again';
+                    this.color = 'red';
+                    this.load = false;
+                })
+            },
         //     updateData() {
         //         this.bong.append('bong_code', this.form.bong_code);
         //         this.bong.append('name', this.form.name);
@@ -291,12 +295,13 @@
             },
             resetForm() {
                 this.form = {
-                   bong_code: '',
-                    name: '',
-                    merk: '',
-                   bong_type: '',
-                    price: '',
-                    link_image:''
+                    nama: '',
+                    alamat: '',
+                    tanggal_lahir: '',
+                    telp: '',
+                    role: '',
+                    username:'',
+                    password:''
                 }
             }
         },
