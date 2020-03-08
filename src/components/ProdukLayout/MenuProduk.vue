@@ -20,7 +20,7 @@
                 <v-data-table :headers="headers" :items="produks" :search="keyword" :loading="load">
                     <template v-slot:body="{ items }">
                         <tbody>
-                            <tr v-for="(item,index) in items" :key="item.id">
+                            <tr v-for="(item,index) in items" :key="item.id_produk">
                                 <td>{{ index+1 }}</td>
                                 <td>{{ item.id_produk }}</td>
                                 <td>{{ item.nama }}</td>
@@ -41,7 +41,7 @@
                                     <v-btn icon color="indigo" light @click="editHandler(item)">
                                         <v-icon>mdi-pencil</v-icon>
                                     </v-btn>
-                                    <v-btn icon color="error" light @click="deleteData(item.id)">
+                                    <v-btn icon color="error" light @click="deleteData(item.id_produk)">
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </td>
@@ -203,11 +203,11 @@
             },
             sendData() {
                 this.produk.append('nama', this.form.nama);
-                this.produk.append('satuan', this.form.tanggal_lahir);
-                this.produk.append('jumlah_stok', this.form.alamat);
-                this.produk.append('harga', this.form.telp);
-                this.produk.append('min_stok', this.form.role);
-                this.produk.append('gambar', this.form.username);
+                this.produk.append('satuan', this.form.satuan);
+                this.produk.append('jumlah_stok', this.form.jumlah_stok);
+                this.produk.append('harga', this.form.harga);
+                this.produk.append('min_stok', this.form.min_stok);
+                this.produk.append('gambar', this.form.gambar);
                 this.produk.append('created_by', this.form.created_by);
              
                 var uri = this.$apiUrl + 'Produk'
@@ -270,21 +270,21 @@
             //     this.form.password = item.password;
             //     this.updatedId = item.id
             // },
-        //     deleteData(deleteId) { //mengahapus data
-        //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
-        //         this.$http.delete(uri).then(response => {
-        //             this.snackbar = true;
-        //             this.text = response.data.message;
-        //             this.color = 'green'
-        //             this.deleteDialog = false;
-        //             this.getData();
-        //         }).catch(error => {
-        //             this.errors = error
-        //             this.snackbar = true;
-        //             this.text = 'Try Again';
-        //             this.color = 'red';
-        //         })
-        //     },
+            deleteData(deleteId) { //mengahapus data
+                var uri = this.$apiUrl + 'Produk/' + deleteId; //data dihapus berdasarkan id
+                this.$http.post(uri).then(response => {
+                    this.snackbar = true;
+                    this.text = response.data.message;
+                    this.color = 'green'
+                    this.deleteDialog = false;
+                    this.getData();
+                }).catch(error => {
+                    this.errors = error
+                    this.snackbar = true;
+                    this.text = 'Try Again';
+                    this.color = 'red';
+                })
+            },
             setForm() {
                 if (this.typeInput === 'new') {
                     this.sendData()
