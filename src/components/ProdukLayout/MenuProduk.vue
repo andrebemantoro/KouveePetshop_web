@@ -41,7 +41,7 @@
                                     <v-btn icon color="indigo" light @click="editHandler(item)">
                                         <v-icon>mdi-pencil</v-icon>
                                     </v-btn>
-                                    <v-btn icon color="error" light @click="deleteData(item.id_produk)">
+                                    <v-btn icon color="error" light @click="setDelete()">
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </td>
@@ -186,7 +186,8 @@
                 harga: '',
                 min_stok: '',
                 gambar:'',
-                created_by:'admin'
+                created_by:'admin',
+                aktif: '0'
                 },
                produk: new FormData,
                 typeInput: 'new',
@@ -270,19 +271,41 @@
             //     this.form.password = item.password;
             //     this.updatedId = item.id
             // },
-            deleteData(deleteId) { //mengahapus data
-                var uri = this.$apiUrl + 'Produk/' + deleteId; //data dihapus berdasarkan id
-                this.$http.post(uri).then(response => {
-                    this.snackbar = true;
-                    this.text = response.data.message;
-                    this.color = 'green'
-                    this.deleteDialog = false;
-                    this.getData();
+            // deleteData(deleteId) { //mengahapus data
+            //     var uri = this.$apiUrl + 'Produk/' + deleteId; //data dihapus berdasarkan id
+            //     this.$http.post(uri).then(response => {
+            //         this.snackbar = true;
+            //         this.text = response.data.message;
+            //         this.color = 'green'
+            //         this.deleteDialog = false;
+            //         this.getData();
+            //     }).catch(error => {
+            //         this.errors = error
+            //         this.snackbar = true;
+            //         this.text = 'Try Again';
+            //         this.color = 'red';
+            //     })
+            // },
+            softDelete(){
+              this.aktif.append('aktif', this.form.aktif);
+              var uri = this.$apiUrl + 'Produk/' + this.updatedId;
+                this.load = true
+                this.$http.post(uri, this.produk).then(response => {
+                    this.snackbar = true; //mengaktifkan snackbar
+                    this.color = 'green'; //memberi warna snackbar
+                    this.text = response.data.message; //memasukkan pesan kesnackbar
+                    this.load = false;
+                    this.dialog = false
+                    this.getData(); //mengambil databong
+                    this.resetForm();
+                    this.typeInput = 'new';
                 }).catch(error => {
                     this.errors = error
                     this.snackbar = true;
                     this.text = 'Try Again';
                     this.color = 'red';
+                    this.load = false;
+                    this.typeInput = 'new';
                 })
             },
             setForm() {
@@ -292,6 +315,12 @@
                     console.log("dddd")
                     this.updateData()
                 }
+            },
+            setDelete() {
+                
+                    console.log("dddd")
+                    this.softDelete()
+                
             },
             resetForm() {
                 this.form = {
