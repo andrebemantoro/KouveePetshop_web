@@ -1,42 +1,21 @@
 <template>
   <v-app id="inspire">
     <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            cols="12"
-            sm="8"
-            md="4"
-          >
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar
-                color="green"
-                dark
-                flat
-              >
-                <v-toolbar-title>Kouvee Petshop Login</v-toolbar-title>
+              <v-toolbar color="green" dark flat>
+                <v-toolbar-title
+                  >Kouvee Petshop for Admin Login</v-toolbar-title
+                >
                 <v-spacer />
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn
-                      :href="source"
-                      icon
-                      large
-                      target="_blank"
-                      v-on="on"
-                    >
-                     
+                    <v-btn :href="source" icon large target="_blank" v-on="on">
                     </v-btn>
                   </template>
-             
                 </v-tooltip>
-            
               </v-toolbar>
               <v-card-text>
                 <v-form>
@@ -59,7 +38,9 @@
               <v-card-actions>
                 <v-spacer />
                 <router-link :to="'/menu'">
-                  <v-btn text router to="/menu" color="green">Login</v-btn>
+                  <v-btn text router to="/menuPegawai" color="green"
+                    >Login</v-btn
+                  >
                 </router-link>
               </v-card-actions>
             </v-card>
@@ -71,9 +52,9 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String,
-    },
+export default {
+  props: {
+    source: String
   }
+};
 </script>
