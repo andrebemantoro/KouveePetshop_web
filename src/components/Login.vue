@@ -5,7 +5,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="green" dark flat>
+              <v-toolbar color="#f9c99e" dark flat>
                 <v-toolbar-title
                   >Kouvee Petshop for Admin Login</v-toolbar-title
                 >
@@ -38,7 +38,7 @@
               <v-card-actions>
                 <v-spacer />
                 <router-link :to="'/menu'">
-                  <v-btn text router to="/menuPegawai" color="green"
+                  <v-btn text router to="/menuPegawai" color="#6c573c"
                     >Login</v-btn
                   >
                 </router-link>
