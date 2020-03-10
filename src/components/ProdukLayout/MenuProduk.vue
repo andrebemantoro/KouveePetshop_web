@@ -11,7 +11,7 @@
               dark
               rounded
               style="text-transform: none !important;"
-              color="#f9c99e"
+              color="green accent-3"
               @click="dialog = true"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
