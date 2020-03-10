@@ -36,7 +36,7 @@
         >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id">
+              <tr v-for="(item, index) in items" :key="item.id_pegawai">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_pegawai }}</td>
                 <td>{{ item.nama }}</td>
@@ -58,7 +58,7 @@
                   <v-btn icon color="indigo" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon color="error" light @click="deleteData(item.id)">
+                  <v-btn icon color="error" light @click="deleteData(item.id_pegawai)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </td>
@@ -245,7 +245,8 @@ export default {
         username: "",
         password: "",
         role: "",
-        created_by: "admin"
+        created_by: "admin",
+        delete_by: "admin"
       },
       pegawai: new FormData(),
       typeInput: "new",
@@ -334,21 +335,23 @@ export default {
       this.form.password = item.password;
       this.updatedId = item.id;
     },
-    //     deleteData(deleteId) { //mengahapus data
-    //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
-    //         this.$http.delete(uri).then(response => {
-    //             this.snackbar = true;
-    //             this.text = response.data.message;
-    //             this.color = 'green'
-    //             this.deleteDialog = false;
-    //             this.getData();
-    //         }).catch(error => {
-    //             this.errors = error
-    //             this.snackbar = true;
-    //             this.text = 'Try Again';
-    //             this.color = 'red';
-    //         })
-    //     },
+    deleteData(deleteId) { //mengahapus data
+            this.pegawai.append("delete_by", this.form.delete_by);
+            var uri = this.$apiUrl + 'Pegawai' + '/delete/'+ deleteId; //data dihapus berdasarkan id
+            this.load = true;
+            this.$http.post(uri,this.pegawai).then(response => {
+                this.snackbar = true;
+                this.text = response.data.message;
+                this.color = 'green'
+                this.deleteDialog = false;
+                this.getData();
+            }).catch(error => {
+                this.errors = error
+                this.snackbar = true;
+                this.text = 'Try Again';
+                this.color = 'red';
+            })
+        },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();
