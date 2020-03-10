@@ -31,6 +31,7 @@
         <v-data-table
           :headers="headers"
           :items="layanans"
+          :items2="hargalayanans"
           :search="keyword"
           :loading="load"
         >
@@ -159,6 +160,7 @@ export default {
         }
       ],
       layanans: [],
+      hargalayanans: [],
       snackbar: false,
       color: null,
       text: "",
@@ -176,18 +178,22 @@ export default {
   methods: {
     getData() {
       var uri = this.$apiUrl + "Layanan";
+      var uri2= this.$apiUrl + "HargaLayanan";
       this.$http.get(uri).then(response => {
         this.layanans = response.data.message;
       });
+      this.$http.get(uri2).then(response => {
+        this.hargalayanans = response.data.message;
+      });
     },
     sendData() {
-      this.produk.append("nama", this.form.nama);
-      this.produk.append("created_by", this.form.created_by);
+      this.layanan.append("nama", this.form.nama);
+      this.layanan.append("created_by", this.form.created_by);
 
       var uri = this.$apiUrl + "Layanan";
       this.load = true;
       this.$http
-        .post(uri, this.produk)
+        .post(uri, this.layanan)
         .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
