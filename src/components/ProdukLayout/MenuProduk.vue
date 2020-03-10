@@ -133,7 +133,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false"
+          <v-btn color="blue darken-1" text @click="resetForm(), dialog = false"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -191,7 +191,7 @@ export default {
         },
         {
           text: "Gambar",
-          value: "gambar"
+          value: ""
         },
         {
           text: "Created At",
@@ -239,7 +239,8 @@ export default {
         min_stok: "",
         gambar: "",
         created_by: "admin",
-        delete_by: "admin"
+        delete_by: "admin",
+        modified_by: "admin"
       },
       produk: new FormData(),
       typeInput: "new",
@@ -284,38 +285,38 @@ export default {
           this.load = false;
         });
     },
-    // updateData() {  
-    //   this.pegawai.append("nama", this.form.nama);
-    //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
-    //   this.pegawai.append("alamat", this.form.alamat);
-    //   this.pegawai.append("telp", this.form.telp);
-    //   this.pegawai.append("role", this.form.role);
-    //   this.pegawai.append("username", this.form.username);
-    //   this.pegawai.append("password", this.form.password);
-    //   this.pegawai.append("created_by", this.form.created_by);
-    //   var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
-    //   this.load = true;
-    //   this.$http
-    //     .post(uri, this.pegawai)
-    //     .then(response => {
-    //       this.snackbar = true; //mengaktifkan snackbar
-    //       this.color = "green"; //memberi warna snackbar
-    //       this.text = response.data.message; //memasukkan pesan kesnackbar
-    //       this.load = false;
-    //       this.dialog = false;
-    //       this.getData(); //mengambil databong
-    //       this.resetForm();
-    //       this.typeInput = "new";
-    //     })
-    //     .catch(error => {
-    //       this.errors = error;
-    //       this.snackbar = true;
-    //       this.text = "Try Again";
-    //       this.color = "red";
-    //       this.load = false;
-    //       this.typeInput = "new";
-    //     });
-    // },
+    updateData() {  
+      this.produk.append("nama", this.form.nama);
+      this.produk.append("satuan", this.form.satuan);
+      this.produk.append("jumlah_stok", this.form.jumlah_stok);
+      this.produk.append("harga", this.form.harga);
+      this.produk.append("min_stok", this.form.min_stok);
+      this.produk.append("gambar", this.form.gambar);
+      this.produk.append("modified_by", this.form.modified_by);
+      
+      var uri = this.$apiUrl + "Produk/" +'update/'+ this.updatedId;
+      this.load = true;
+      this.$http
+        .post(uri, this.produk)
+        .then(response => {
+          this.snackbar = true; //mengaktifkan snackbar
+          this.color = "green"; //memberi warna snackbar
+          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.load = false;
+          this.dialog = false;
+          this.getData(); //mengambil databong
+          this.resetForm();
+          this.typeInput = "new";
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+          this.load = false;
+          this.typeInput = "new";
+        });
+    },
     editHandler(item) {
       this.typeInput = "edit";
       this.dialog = true;

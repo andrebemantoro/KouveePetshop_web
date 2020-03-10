@@ -135,7 +135,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false"
+          <v-btn color="blue darken-1" text  @click="resetForm(), dialog = false"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -246,7 +246,8 @@ export default {
         password: "",
         role: "",
         created_by: "admin",
-        delete_by: "admin"
+        delete_by: "admin",
+       modified_by: "admin"
       },
       pegawai: new FormData(),
       typeInput: "new",
@@ -300,8 +301,8 @@ export default {
       this.pegawai.append("role", this.form.role);
       this.pegawai.append("username", this.form.username);
       this.pegawai.append("password", this.form.password);
-      this.pegawai.append("created_by", this.form.created_by);
-      var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
+      this.pegawai.append("modified_by", this.form.modified_by);
+      var uri = this.$apiUrl + "Pegawai/" +'update/'+this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
@@ -333,7 +334,7 @@ export default {
       this.form.telp = item.telp;
       (this.form.role = item.role), (this.form.username = item.username);
       this.form.password = item.password;
-      this.updatedId = item.id;
+      this.updatedId = item.id_pegawai;
     },
     deleteData(deleteId) { //mengahapus data
             this.pegawai.append("delete_by", this.form.delete_by);
