@@ -71,7 +71,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Pegawai</span>
+          <span class="headline">Detail Produk</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -86,48 +86,47 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Alamat*"
-                  v-model="form.alamat"
+                  label="Stok Minimal*"
+                  v-model="form.min_stok"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Tanggal Lahir*"
-                  v-model="form.tanggal_lahir"
+                  label="Jumlah Stok*"
+                  v-model="form.jumlah_stok"
                   required
                 ></v-text-field>
+             
+             
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Nomor Telepon*"
-                  v-model="form.telp"
+                  label="Harga*"
+                  v-model="form.harga"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-select
-                  label="Role*"
-                  v-model="form.role"
+                  label="Satuan*"
+                  v-model="form.satuan"
                   :items="items"
                   required
                 >
                 </v-select>
               </v-col>
               <v-col cols="12">
-                <v-text-field
-                  label="Username*"
-                  v-model="form.username"
+                <!-- <v-text-field
+                  label="Gambar*"
+                  v-model="form.gambar"
                   required
-                ></v-text-field>
+                ></v-text-field> -->
+                <template>
+                 <v-file-input accept="image/*" label="File input" v-model="form.gambar"></v-file-input>
+                  </template>
               </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Password*"
-                  v-model="form.password"
-                  required
-                ></v-text-field>
-              </v-col>
+             
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -159,7 +158,7 @@ export default {
   data() {
     return {
       dialog: false,
-      items: ["Cashier", "Customer Service"],
+      items: ["Buah", "Karung", "Lusin"],
       keyword: "",
       headers: [
         {
@@ -241,7 +240,7 @@ export default {
         gambar: "",
         created_by: "admin"
       },
-      pegawai: new FormData(),
+      produk: new FormData(),
       typeInput: "new",
       errors: "",
       updatedId: ""
@@ -254,37 +253,36 @@ export default {
         this.produks = response.data.message;
       });
     },
-    // sendData() {
-    //   this.pegawai.append("nama", this.form.nama);
-    //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
-    //   this.pegawai.append("alamat", this.form.alamat);
-    //   this.pegawai.append("telp", this.form.telp);
-    //   this.pegawai.append("role", this.form.role);
-    //   this.pegawai.append("username", this.form.username);
-    //   this.pegawai.append("password", this.form.password);
-    //   this.pegawai.append("created_by", this.form.created_by);
+    sendData() {
+      this.produk.append("nama", this.form.nama);
+      this.produk.append("satuan", this.form.satuan);
+      this.produk.append("jumlah_stok", this.form.jumlah_stok);
+      this.produk.append("harga", this.form.harga);
+      this.produk.append("min_stok", this.form.min_stok);
+      this.produk.append("gambar", this.form.gambar);
+      this.produk.append("created_by", this.form.created_by);
 
-    //   var uri = this.$apiUrl + "Pegawai";
-    //   this.load = true;
-    //   this.$http
-    //     .post(uri, this.pegawai)
-    //     .then(response => {
-    //       this.snackbar = true; //mengaktifkan snackbar
-    //       this.color = "green"; //memberi warna snackbar
-    //       this.text = response.data.message; //memasukkan pesan kesnackbar
-    //       this.load = false;
-    //       this.dialog = false;
-    //       this.getData(); //mengambil [pegawai]
-    //       this.resetForm();
-    //     })
-    //     .catch(error => {
-    //       this.errors = error;
-    //       this.snackbar = true;
-    //       this.text = "Try Again";
-    //       this.color = "red";
-    //       this.load = false;
-    //     });
-    // },
+      var uri = this.$apiUrl + "Produk";
+      this.load = true;
+      this.$http
+        .post(uri, this.produk)
+        .then(response => {
+          this.snackbar = true; //mengaktifkan snackbar
+          this.color = "green"; //memberi warna snackbar
+          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.load = false;
+          this.dialog = false;
+          this.getData(); //mengambil [pegawai]
+          this.resetForm();
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+          this.load = false;
+        });
+    },
     // updateData() {  
     //   this.pegawai.append("nama", this.form.nama);
     //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
@@ -317,17 +315,17 @@ export default {
     //       this.typeInput = "new";
     //     });
     // },
-    // editHandler(item) {
-    //   this.typeInput = "edit";
-    //   this.dialog = true;
-    //   this.form.nama = item.nama;
-    //   this.form.alamat = item.alamat;
-    //   this.form.tanggal_lahir = item.tanggal_lahir;
-    //   this.form.telp = item.telp;
-    //   (this.form.role = item.role), (this.form.username = item.username);
-    //   this.form.password = item.password;
-    //   this.updatedId = item.id;
-    // },
+    editHandler(item) {
+      this.typeInput = "edit";
+      this.dialog = true;
+      this.form.nama = item.nama;
+      this.form.satuan = item.satuan;
+      this.form.jumlah_stok = item.jumlah_stok;
+      this.form.harga = item.harga;
+      this.form.min_stok = item.min_stok;
+      this.form.gambar = item.password;
+      this.updatedId = item.id;
+    },
     //     deleteData(deleteId) { //mengahapus data
     //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
     //         this.$http.delete(uri).then(response => {
@@ -354,12 +352,12 @@ export default {
     resetForm() {
       this.form = {
         nama: "",
-        alamat: "",
-        tanggal_lahir: "",
-        telp: "",
-        role: "",
-        username: "",
-        password: ""
+        satuan: "",
+        jumlah_stok: "",
+        harga: "",
+        min_stok: "",
+        gambar: "",
+     
       };
     }
   },

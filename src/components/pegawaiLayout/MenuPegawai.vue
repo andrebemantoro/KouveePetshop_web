@@ -262,7 +262,7 @@ export default {
     },
     sendData() {
       this.pegawai.append("nama", this.form.nama);
-      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
+      this.pegawai.append("tanggal_lahir", this.picker.tanggal_lahir);
       this.pegawai.append("alamat", this.form.alamat);
       this.pegawai.append("telp", this.form.telp);
       this.pegawai.append("role", this.form.role);
