@@ -90,6 +90,7 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="dialog=false">Close</v-btn>
                     <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+                    <v-btn color="Red darken-1" text @click="setForm()">Delete</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -259,18 +260,18 @@
             //         this.typeInput = 'new';
             //     })
             // },
-            // editHandler(item) {
-            //     this.typeInput = 'edit';
-            //     this.dialog = true;
-            //     this.form.nama = item.nama;
-            //     this.form.alamat = item.alamat;
-            //     this.form.tanggal_lahir = item.tanggal_lahir;
-            //     this.form.telp = item.telp;
-            //     this.form.role = item.role,
-            //     this.form.username = item.username;
-            //     this.form.password = item.password;
-            //     this.updatedId = item.id
-            // },
+            editHandler(item) {
+                this.typeInput = 'edit';
+                this.dialog = true;
+                this.form.nama = item.nama;
+                this.form.alamat = item.alamat;
+                this.form.tanggal_lahir = item.tanggal_lahir;
+                this.form.telp = item.telp;
+                this.form.role = item.role,
+                this.form.username = item.username;
+                this.form.password = item.password;
+                this.updatedId = item.id
+            },
             // deleteData(deleteId) { //mengahapus data
             //     var uri = this.$apiUrl + 'Produk/' + deleteId; //data dihapus berdasarkan id
             //     this.$http.post(uri).then(response => {
@@ -286,27 +287,9 @@
             //         this.color = 'red';
             //     })
             // },
-            softDelete(){
-              this.aktif.append('aktif', this.form.aktif);
-              var uri = this.$apiUrl + 'Produk/' + this.updatedId;
-                this.load = true
-                this.$http.post(uri, this.produk).then(response => {
-                    this.snackbar = true; //mengaktifkan snackbar
-                    this.color = 'green'; //memberi warna snackbar
-                    this.text = response.data.message; //memasukkan pesan kesnackbar
-                    this.load = false;
-                    this.dialog = false
-                    this.getData(); //mengambil databong
-                    this.resetForm();
-                    this.typeInput = 'new';
-                }).catch(error => {
-                    this.errors = error
-                    this.snackbar = true;
-                    this.text = 'Try Again';
-                    this.color = 'red';
-                    this.load = false;
-                    this.typeInput = 'new';
-                })
+            softDelete(item){
+                this.updatedId = item.id
+        
             },
             setForm() {
                 if (this.typeInput === 'new') {
