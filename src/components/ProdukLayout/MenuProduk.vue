@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <v-card>
@@ -11,7 +10,7 @@
               dark
               rounded
               style="text-transform: none !important;"
-              color="green accent-3"
+              color="#f9c99e"
               @click="dialog = true"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
@@ -37,15 +36,15 @@
         >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id_produk">
+              <tr v-for="(item, index) in items" :key="item.id">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_produk }}</td>
                 <td>{{ item.nama }}</td>
-                <td>{{ item.jumlah_stok }}</td>
-                <td>{{ item.min_stok }}</td>
                 <td>{{ item.satuan }}</td>
+                <td>{{ item.jumlah_stok }}</td>
                 <td>{{ item.harga }}</td>
-                <td>{{ item.gambar }}</td>
+                <td>{{ item.min_stok }}</td>
+                <td>{{ item.gambar}}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -58,7 +57,7 @@
                   <v-btn icon color="indigo" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon color="error" light @click="setDelete()">
+                  <v-btn icon color="error" light @click="deleteData(item.id)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </td>
@@ -72,7 +71,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detil Produk</span>
+          <span class="headline">Profil Pegawai</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -87,22 +86,29 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Stok Minimal*"
-                  v-model="form.min_stok"
+                  label="Alamat*"
+                  v-model="form.alamat"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Jumlah Stok*"
-                  v-model="form.jumlah_stok"
+                  label="Tanggal Lahir*"
+                  v-model="form.tanggal_lahir"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Nomor Telepon*"
+                  v-model="form.telp"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-select
-                  label="Satuan*"
-                  v-model="form.satuan"
+                  label="Role*"
+                  v-model="form.role"
                   :items="items"
                   required
                 >
@@ -110,15 +116,15 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Harga*"
-                  v-model="form.harga"
+                  label="Username*"
+                  v-model="form.username"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  label="Gambar*"
-                  v-model="form.gambar"
+                  label="Password*"
+                  v-model="form.password"
                   required
                 ></v-text-field>
               </v-col>
@@ -148,13 +154,12 @@
     </v-snackbar>
   </v-container>
 </template>
-
 <script>
 export default {
   data() {
     return {
       dialog: false,
-      items: ["Buah", "Lusin", "Box"],
+      items: ["Cashier", "Customer Service"],
       keyword: "",
       headers: [
         {
@@ -166,28 +171,32 @@ export default {
           value: "id_produk"
         },
         {
-          text: "Nama Produk",
+          text: "Nama Pegawai",
           value: "nama"
         },
         {
-          text: "Jumlah Stok",
-          value: "jumlah_stok"
+          text: "Alamat",
+          value: "alamat"
         },
         {
-          text: "Stok Minimal",
-          value: "min_stok"
+          text: "Tanggal Lahir",
+          value: "tanggal_lahir"
         },
         {
-          text: "Satuan",
-          value: "satuan"
+          text: "Nomor Telepon",
+          value: "telp"
         },
         {
-          text: "Harga",
-          value: "harga"
+          text: "Username",
+          value: "username"
         },
         {
-          text: "Gambar",
-          value: "gambar"
+          text: "Password",
+          value: "password"
+        },
+        {
+          text: "Role",
+          value: "role"
         },
         {
           text: "Created At",
@@ -229,15 +238,15 @@ export default {
       load: false,
       form: {
         nama: "",
-        satuan: "",
-        jumlah_stok: "",
-        harga: "",
-        min_stok: "",
-        gambar: "",
-        created_by: "admin",
-        aktif: "0"
+        alamat: "",
+        tanggal_lahir: "",
+        telp: "",
+        username: "",
+        password: "",
+        role: "",
+        created_by: "admin"
       },
-      produk: new FormData(),
+      pegawai: new FormData(),
       typeInput: "new",
       errors: "",
       updatedId: ""
@@ -251,18 +260,19 @@ export default {
       });
     },
     sendData() {
-      this.produk.append("nama", this.form.nama);
-      this.produk.append("satuan", this.form.satuan);
-      this.produk.append("jumlah_stok", this.form.jumlah_stok);
-      this.produk.append("harga", this.form.harga);
-      this.produk.append("min_stok", this.form.min_stok);
-      this.produk.append("gambar", this.form.gambar);
-      this.produk.append("created_by", this.form.created_by);
+      this.pegawai.append("nama", this.form.nama);
+      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
+      this.pegawai.append("alamat", this.form.alamat);
+      this.pegawai.append("telp", this.form.telp);
+      this.pegawai.append("role", this.form.role);
+      this.pegawai.append("username", this.form.username);
+      this.pegawai.append("password", this.form.password);
+      this.pegawai.append("created_by", this.form.created_by);
 
-      var uri = this.$apiUrl + "Produk";
+      var uri = this.$apiUrl + "Pegawai";
       this.load = true;
       this.$http
-        .post(uri, this.produk)
+        .post(uri, this.pegawai)
         .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
@@ -280,69 +290,19 @@ export default {
           this.load = false;
         });
     },
-    // updateData() {
-
-    //     this.pegawai.append('nama', this.form.nama);
-    //     this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
-    //     this.pegawai.append('alamat', this.form.alamat);
-    //     this.pegawai.append('telp', this.form.telp);
-    //     this.pegawai.append('role', this.form.role);
-    //     this.pegawai.append('username', this.form.username);
-    //     this.pegawai.append('password', this.form.password);
-    //     this.pegawai.append('created_by', this.form.created_by);
-    //     var uri = this.$apiUrl + 'Pegawai/' + this.updatedId;
-    //     this.load = true
-    //     this.$http.post(uri, this.pegawai).then(response => {
-    //         this.snackbar = true; //mengaktifkan snackbar
-    //         this.color = 'green'; //memberi warna snackbar
-    //         this.text = response.data.message; //memasukkan pesan kesnackbar
-    //         this.load = false;
-    //         this.dialog = false
-    //         this.getData(); //mengambil databong
-    //         this.resetForm();
-    //         this.typeInput = 'new';
-    //     }).catch(error => {
-    //         this.errors = error
-    //         this.snackbar = true;
-    //         this.text = 'Try Again';
-    //         this.color = 'red';
-    //         this.load = false;
-    //         this.typeInput = 'new';
-    //     })
-    // },
-    // editHandler(item) {
-    //     this.typeInput = 'edit';
-    //     this.dialog = true;
-    //     this.form.nama = item.nama;
-    //     this.form.alamat = item.alamat;
-    //     this.form.tanggal_lahir = item.tanggal_lahir;
-    //     this.form.telp = item.telp;
-    //     this.form.role = item.role,
-    //     this.form.username = item.username;
-    //     this.form.password = item.password;
-    //     this.updatedId = item.id
-    // },
-    // deleteData(deleteId) { //mengahapus data
-    //     var uri = this.$apiUrl + 'Produk/' + deleteId; //data dihapus berdasarkan id
-    //     this.$http.post(uri).then(response => {
-    //         this.snackbar = true;
-    //         this.text = response.data.message;
-    //         this.color = 'green'
-    //         this.deleteDialog = false;
-    //         this.getData();
-    //     }).catch(error => {
-    //         this.errors = error
-    //         this.snackbar = true;
-    //         this.text = 'Try Again';
-    //         this.color = 'red';
-    //     })
-    // },
-    softDelete() {
-      this.aktif.append("aktif", this.form.aktif);
-      var uri = this.$apiUrl + "Produk/" + this.updatedId;
+    updateData() {  
+      this.pegawai.append("nama", this.form.nama);
+      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
+      this.pegawai.append("alamat", this.form.alamat);
+      this.pegawai.append("telp", this.form.telp);
+      this.pegawai.append("role", this.form.role);
+      this.pegawai.append("username", this.form.username);
+      this.pegawai.append("password", this.form.password);
+      this.pegawai.append("created_by", this.form.created_by);
+      var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
       this.load = true;
       this.$http
-        .post(uri, this.produk)
+        .post(uri, this.pegawai)
         .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
@@ -362,6 +322,32 @@ export default {
           this.typeInput = "new";
         });
     },
+    editHandler(item) {
+      this.typeInput = "edit";
+      this.dialog = true;
+      this.form.nama = item.nama;
+      this.form.alamat = item.alamat;
+      this.form.tanggal_lahir = item.tanggal_lahir;
+      this.form.telp = item.telp;
+      (this.form.role = item.role), (this.form.username = item.username);
+      this.form.password = item.password;
+      this.updatedId = item.id;
+    },
+    //     deleteData(deleteId) { //mengahapus data
+    //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
+    //         this.$http.delete(uri).then(response => {
+    //             this.snackbar = true;
+    //             this.text = response.data.message;
+    //             this.color = 'green'
+    //             this.deleteDialog = false;
+    //             this.getData();
+    //         }).catch(error => {
+    //             this.errors = error
+    //             this.snackbar = true;
+    //             this.text = 'Try Again';
+    //             this.color = 'red';
+    //         })
+    //     },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();
@@ -370,20 +356,20 @@ export default {
         this.updateData();
       }
     },
-    setDelete() {
-      console.log("dddd");
-      this.softDelete();
-    },
     resetForm() {
       this.form = {
         nama: "",
-        satuan: "",
-        jumlah_stok: "",
-        min_stok: "",
-        harga: "",
-        gambar: ""
+        alamat: "",
+        tanggal_lahir: "",
+        telp: "",
+        role: "",
+        username: "",
+        password: ""
       };
     }
+  },
+  mounted() {
+    this.getData();
   }
 };
 </script>
