@@ -171,32 +171,28 @@ export default {
           value: "id_produk"
         },
         {
-          text: "Nama Pegawai",
+          text: "Nama Produk",
           value: "nama"
         },
         {
-          text: "Alamat",
-          value: "alamat"
+          text: "Satuan",
+          value: "satuan"
         },
         {
-          text: "Tanggal Lahir",
-          value: "tanggal_lahir"
+          text: "Jumlah Stok",
+          value: "jumlah_stok"
         },
         {
-          text: "Nomor Telepon",
-          value: "telp"
+          text: "Harga",
+          value: "harga"
         },
         {
-          text: "Username",
-          value: "username"
+          text: "Stok Minimal",
+          value: "min_stok"
         },
         {
-          text: "Password",
-          value: "password"
-        },
-        {
-          text: "Role",
-          value: "role"
+          text: "Gambar",
+          value: "gambar"
         },
         {
           text: "Created At",
@@ -238,12 +234,11 @@ export default {
       load: false,
       form: {
         nama: "",
-        alamat: "",
-        tanggal_lahir: "",
-        telp: "",
-        username: "",
-        password: "",
-        role: "",
+        satuan: "",
+        jumlah_stok: "",
+        harga: "",
+        min_stok: "",
+        gambar: "",
         created_by: "admin"
       },
       pegawai: new FormData(),
@@ -259,80 +254,80 @@ export default {
         this.produks = response.data.message;
       });
     },
-    sendData() {
-      this.pegawai.append("nama", this.form.nama);
-      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
-      this.pegawai.append("alamat", this.form.alamat);
-      this.pegawai.append("telp", this.form.telp);
-      this.pegawai.append("role", this.form.role);
-      this.pegawai.append("username", this.form.username);
-      this.pegawai.append("password", this.form.password);
-      this.pegawai.append("created_by", this.form.created_by);
+    // sendData() {
+    //   this.pegawai.append("nama", this.form.nama);
+    //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
+    //   this.pegawai.append("alamat", this.form.alamat);
+    //   this.pegawai.append("telp", this.form.telp);
+    //   this.pegawai.append("role", this.form.role);
+    //   this.pegawai.append("username", this.form.username);
+    //   this.pegawai.append("password", this.form.password);
+    //   this.pegawai.append("created_by", this.form.created_by);
 
-      var uri = this.$apiUrl + "Pegawai";
-      this.load = true;
-      this.$http
-        .post(uri, this.pegawai)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil [pegawai]
-          this.resetForm();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-          this.load = false;
-        });
-    },
-    updateData() {  
-      this.pegawai.append("nama", this.form.nama);
-      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
-      this.pegawai.append("alamat", this.form.alamat);
-      this.pegawai.append("telp", this.form.telp);
-      this.pegawai.append("role", this.form.role);
-      this.pegawai.append("username", this.form.username);
-      this.pegawai.append("password", this.form.password);
-      this.pegawai.append("created_by", this.form.created_by);
-      var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.pegawai)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil databong
-          this.resetForm();
-          this.typeInput = "new";
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-          this.load = false;
-          this.typeInput = "new";
-        });
-    },
-    editHandler(item) {
-      this.typeInput = "edit";
-      this.dialog = true;
-      this.form.nama = item.nama;
-      this.form.alamat = item.alamat;
-      this.form.tanggal_lahir = item.tanggal_lahir;
-      this.form.telp = item.telp;
-      (this.form.role = item.role), (this.form.username = item.username);
-      this.form.password = item.password;
-      this.updatedId = item.id;
-    },
+    //   var uri = this.$apiUrl + "Pegawai";
+    //   this.load = true;
+    //   this.$http
+    //     .post(uri, this.pegawai)
+    //     .then(response => {
+    //       this.snackbar = true; //mengaktifkan snackbar
+    //       this.color = "green"; //memberi warna snackbar
+    //       this.text = response.data.message; //memasukkan pesan kesnackbar
+    //       this.load = false;
+    //       this.dialog = false;
+    //       this.getData(); //mengambil [pegawai]
+    //       this.resetForm();
+    //     })
+    //     .catch(error => {
+    //       this.errors = error;
+    //       this.snackbar = true;
+    //       this.text = "Try Again";
+    //       this.color = "red";
+    //       this.load = false;
+    //     });
+    // },
+    // updateData() {  
+    //   this.pegawai.append("nama", this.form.nama);
+    //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
+    //   this.pegawai.append("alamat", this.form.alamat);
+    //   this.pegawai.append("telp", this.form.telp);
+    //   this.pegawai.append("role", this.form.role);
+    //   this.pegawai.append("username", this.form.username);
+    //   this.pegawai.append("password", this.form.password);
+    //   this.pegawai.append("created_by", this.form.created_by);
+    //   var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
+    //   this.load = true;
+    //   this.$http
+    //     .post(uri, this.pegawai)
+    //     .then(response => {
+    //       this.snackbar = true; //mengaktifkan snackbar
+    //       this.color = "green"; //memberi warna snackbar
+    //       this.text = response.data.message; //memasukkan pesan kesnackbar
+    //       this.load = false;
+    //       this.dialog = false;
+    //       this.getData(); //mengambil databong
+    //       this.resetForm();
+    //       this.typeInput = "new";
+    //     })
+    //     .catch(error => {
+    //       this.errors = error;
+    //       this.snackbar = true;
+    //       this.text = "Try Again";
+    //       this.color = "red";
+    //       this.load = false;
+    //       this.typeInput = "new";
+    //     });
+    // },
+    // editHandler(item) {
+    //   this.typeInput = "edit";
+    //   this.dialog = true;
+    //   this.form.nama = item.nama;
+    //   this.form.alamat = item.alamat;
+    //   this.form.tanggal_lahir = item.tanggal_lahir;
+    //   this.form.telp = item.telp;
+    //   (this.form.role = item.role), (this.form.username = item.username);
+    //   this.form.password = item.password;
+    //   this.updatedId = item.id;
+    // },
     //     deleteData(deleteId) { //mengahapus data
     //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
     //         this.$http.delete(uri).then(response => {
