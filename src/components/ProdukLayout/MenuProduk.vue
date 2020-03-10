@@ -36,7 +36,7 @@
         >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id">
+              <tr v-for="(item, index) in items" :key="item.id_produk">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_produk }}</td>
                 <td>{{ item.nama }}</td>
@@ -57,7 +57,7 @@
                   <v-btn icon color="indigo" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon color="error" light @click="deleteData(item.id)">
+                  <v-btn icon color="error" light @click="deleteData(item.id_produk)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </td>
@@ -238,7 +238,8 @@ export default {
         harga: "",
         min_stok: "",
         gambar: "",
-        created_by: "admin"
+        created_by: "admin",
+        delete_by: "admin"
       },
       produk: new FormData(),
       typeInput: "new",
@@ -324,23 +325,25 @@ export default {
       this.form.harga = item.harga;
       this.form.min_stok = item.min_stok;
       this.form.gambar = item.password;
-      this.updatedId = item.id;
+      this.updatedId = item.id_produk;
     },
-    //     deleteData(deleteId) { //mengahapus data
-    //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
-    //         this.$http.delete(uri).then(response => {
-    //             this.snackbar = true;
-    //             this.text = response.data.message;
-    //             this.color = 'green'
-    //             this.deleteDialog = false;
-    //             this.getData();
-    //         }).catch(error => {
-    //             this.errors = error
-    //             this.snackbar = true;
-    //             this.text = 'Try Again';
-    //             this.color = 'red';
-    //         })
-    //     },
+        deleteData(deleteId) { //mengahapus data
+            this.produk.append("delete_by", this.form.delete_by);
+            var uri = this.$apiUrl + 'Produk' + '/delete/'+ deleteId; //data dihapus berdasarkan id
+            this.load = true;
+            this.$http.post(uri,this.produk).then(response => {
+                this.snackbar = true;
+                this.text = response.data.message;
+                this.color = 'green'
+                this.deleteDialog = false;
+                this.getData();
+            }).catch(error => {
+                this.errors = error
+                this.snackbar = true;
+                this.text = 'Try Again';
+                this.color = 'red';
+            })
+        },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();
