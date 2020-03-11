@@ -61,6 +61,9 @@
                   <v-btn icon color="error" light @click="deleteData(item.id_pegawai)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
+                  <v-btn icon color="indigo" light @click="changePassword(item)">
+                    <v-icon>mdi-key"</v-icon>
+                  </v-btn>
                 </td>
               </tr>
             </tbody>
@@ -122,13 +125,13 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <!-- <v-col cols="12">
                 <v-text-field
                   label="Password*"
                   v-model="form.password"
                   required
                 ></v-text-field>
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -269,7 +272,7 @@ export default {
       this.pegawai.append("telp", this.form.telp);
       this.pegawai.append("role", this.form.role);
       this.pegawai.append("username", this.form.username);
-      this.pegawai.append("password", this.form.password);
+      // this.pegawai.append("password", this.form.password);
       this.pegawai.append("created_by", this.form.created_by);
 
       var uri = this.$apiUrl + "Pegawai";
@@ -332,7 +335,13 @@ export default {
       this.form.alamat = item.alamat;
       this.form.tanggal_lahir = item.tanggal_lahir;
       this.form.telp = item.telp;
-      (this.form.role = item.role), (this.form.username = item.username);
+      this.form.role = item.role, 
+      this.form.username = item.username;
+      this.updatedId = item.id_pegawai;
+    },
+    changePassword(item){
+      this.typeInput = "edit";
+      this.dialog = true;
       this.form.password = item.password;
       this.updatedId = item.id_pegawai;
     },
