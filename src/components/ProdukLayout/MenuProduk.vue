@@ -54,12 +54,61 @@
                 <td>{{ item.aktif }}</td>
 
                 <td>
-                  <v-btn icon color="indigo" light @click="editHandler(item)">
+                  <div class="text-center">
+                      <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon color="error" light @click="deleteData(item.id_produk)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
+                  </div>
+                  
+                  <!-- -------------------------------------------------------- -->
+                   <div class="text-center">
+                    <v-dialog
+                      v-model="pesan"
+                      width="500"
+                      
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          icon
+                          color="red lighten-2"
+                          dark
+                          v-on="on"
+                        >
+                        <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </template>
+
+                      <v-card>
+                        <v-card-title
+                          class="headline Red lighten-2"
+                          primary-title
+                        >
+                          Konfirmasi Hapus
+                        </v-card-title>
+
+                        <v-card-text>
+                          Data yang akan dihapus, Lanjutkan ?
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            text
+                            @click="deleteData(item.id_produk), pesan=false"
+                          >
+                            Hapus
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                  
+                  
+                  
+                  <!-- -------------------------------------------------------- -->
                 </td>
               </tr>
             </tbody>
