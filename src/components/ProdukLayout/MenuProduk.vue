@@ -44,7 +44,7 @@
                 <td>{{ item.jumlah_stok }}</td>
                 <td>{{ item.harga }}</td>
                 <td>{{ item.min_stok }}</td>
-                <td>{{ item.gambar}}</td>
+                <td>{{ item.gambar }}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -97,8 +97,6 @@
                   v-model="form.jumlah_stok"
                   required
                 ></v-text-field>
-             
-             
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -123,10 +121,13 @@
                   required
                 ></v-text-field> -->
                 <template>
-                 <v-file-input accept="image/*" label="File input" v-model="form.gambar"></v-file-input>
-                  </template>
+                  <v-file-input
+                    accept="image/*"
+                    label="File input"
+                    v-model="form.gambar"
+                  ></v-file-input>
+                </template>
               </v-col>
-             
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -283,7 +284,7 @@ export default {
           this.load = false;
         });
     },
-    // updateData() {  
+    // updateData() {
     //   this.pegawai.append("nama", this.form.nama);
     //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
     //   this.pegawai.append("alamat", this.form.alamat);
@@ -356,8 +357,7 @@ export default {
         jumlah_stok: "",
         harga: "",
         min_stok: "",
-        gambar: "",
-     
+        gambar: ""
       };
     }
   },

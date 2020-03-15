@@ -6,7 +6,7 @@ import vuetify from "./plugins/vuetify";
 import Axios from "axios";
 
 Vue.prototype.$http = Axios;
-Vue.prototype.$apiUrl = "http://localhost/kouveepetshop_api/index.php/";
+Vue.prototype.$apiUrl = "http://kouveepetshopapi.smithdev.tech/index.php/";
 Vue.config.productionTip = false;
 
 new Vue({
