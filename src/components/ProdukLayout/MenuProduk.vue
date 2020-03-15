@@ -36,7 +36,7 @@
         >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id">
+              <tr v-for="(item, index) in items" :key="item.id_produk">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_produk }}</td>
                 <td>{{ item.nama }}</td>
@@ -54,12 +54,61 @@
                 <td>{{ item.aktif }}</td>
 
                 <td>
-                  <v-btn icon color="indigo" light @click="editHandler(item)">
+                  <div class="text-center">
+                      <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon color="error" light @click="deleteData(item.id)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
+                  </div>
+                  
+                  <!-- -------------------------------------------------------- -->
+                   <div class="text-center">
+                    <v-dialog
+                      v-model="pesan"
+                      width="500"
+                      
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          icon
+                          color="red lighten-2"
+                          dark
+                          v-on="on"
+                        >
+                        <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </template>
+
+                      <v-card>
+                        <v-card-title
+                          class="headline Red lighten-2"
+                          primary-title
+                        >
+                          Konfirmasi Hapus
+                        </v-card-title>
+
+                        <v-card-text>
+                          Data yang akan dihapus, Lanjutkan ?
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            text
+                            @click="deleteData(item.id_produk), pesan=false"
+                          >
+                            Hapus
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                  
+                  
+                  
+                  <!-- -------------------------------------------------------- -->
                 </td>
               </tr>
             </tbody>
@@ -134,7 +183,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false"
+          <v-btn color="blue darken-1" text @click="resetForm(), dialog = false"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -192,7 +241,7 @@ export default {
         },
         {
           text: "Gambar",
-          value: "gambar"
+          value: ""
         },
         {
           text: "Created At",
@@ -239,7 +288,9 @@ export default {
         harga: "",
         min_stok: "",
         gambar: "",
-        created_by: "admin"
+        created_by: "admin",
+        delete_by: "admin",
+        modified_by: "admin"
       },
       produk: new FormData(),
       typeInput: "new",
@@ -284,6 +335,7 @@ export default {
           this.load = false;
         });
     },
+<<<<<<< HEAD
     // updateData() {
     //   this.pegawai.append("nama", this.form.nama);
     //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
@@ -316,6 +368,40 @@ export default {
     //       this.typeInput = "new";
     //     });
     // },
+=======
+    updateData() {  
+      this.produk.append("nama", this.form.nama);
+      this.produk.append("satuan", this.form.satuan);
+      this.produk.append("jumlah_stok", this.form.jumlah_stok);
+      this.produk.append("harga", this.form.harga);
+      this.produk.append("min_stok", this.form.min_stok);
+      this.produk.append("gambar", this.form.gambar);
+      this.produk.append("modified_by", this.form.modified_by);
+      
+      var uri = this.$apiUrl + "Produk/" +'update/'+ this.updatedId;
+      this.load = true;
+      this.$http
+        .post(uri, this.produk)
+        .then(response => {
+          this.snackbar = true; //mengaktifkan snackbar
+          this.color = "green"; //memberi warna snackbar
+          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.load = false;
+          this.dialog = false;
+          this.getData(); //mengambil databong
+          this.resetForm();
+          this.typeInput = "new";
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+          this.load = false;
+          this.typeInput = "new";
+        });
+    },
+>>>>>>> 19174b22a2fb095df6d7c53ae382dae2baf97bad
     editHandler(item) {
       this.typeInput = "edit";
       this.dialog = true;
@@ -325,23 +411,25 @@ export default {
       this.form.harga = item.harga;
       this.form.min_stok = item.min_stok;
       this.form.gambar = item.password;
-      this.updatedId = item.id;
+      this.updatedId = item.id_produk;
     },
-    //     deleteData(deleteId) { //mengahapus data
-    //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
-    //         this.$http.delete(uri).then(response => {
-    //             this.snackbar = true;
-    //             this.text = response.data.message;
-    //             this.color = 'green'
-    //             this.deleteDialog = false;
-    //             this.getData();
-    //         }).catch(error => {
-    //             this.errors = error
-    //             this.snackbar = true;
-    //             this.text = 'Try Again';
-    //             this.color = 'red';
-    //         })
-    //     },
+        deleteData(deleteId) { //mengahapus data
+            this.produk.append("delete_by", this.form.delete_by);
+            var uri = this.$apiUrl + 'Produk' + '/delete/'+ deleteId; //data dihapus berdasarkan id
+            this.load = true;
+            this.$http.post(uri,this.produk).then(response => {
+                this.snackbar = true;
+                this.text = response.data.message;
+                this.color = 'green'
+                this.deleteDialog = false;
+                this.getData();
+            }).catch(error => {
+                this.errors = error
+                this.snackbar = true;
+                this.text = 'Try Again';
+                this.color = 'red';
+            })
+        },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();

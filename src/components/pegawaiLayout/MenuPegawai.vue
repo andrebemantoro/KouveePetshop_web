@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-      <v-container grid-list-md mb-0>
+      <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Pegawai Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
@@ -36,7 +36,7 @@
         >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id">
+              <tr v-for="(item, index) in items" :key="item.id_pegawai">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_pegawai }}</td>
                 <td>{{ item.nama }}</td>
@@ -55,12 +55,66 @@
                 <td>{{ item.aktif }}</td>
 
                 <td>
-                  <v-btn icon color="indigo" light @click="editHandler(item)">
+                  <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon color="error" light @click="deleteData(item.id)">
-                    <v-icon>mdi-delete</v-icon>
+            
+                  <div class="text-center">
+                    <v-btn icon color="indigo" light @click="changePassword(item)">
+                    <v-icon>mdi-lock</v-icon>
                   </v-btn>
+                  </div>
+                  
+
+                    <!-- -------------------------------------------------------- -->
+                   <div class="text-center">
+                    <v-dialog
+                      v-model="pesan"
+                      width="500"
+                      
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          icon
+                          color="red lighten-2"
+                          dark
+                          v-on="on"
+                        >
+                        <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </template>
+
+                      <v-card>
+                        <v-card-title
+                          class="headline Red lighten-2"
+                          primary-title
+                        >
+                          Konfirmasi Hapus
+                        </v-card-title>
+
+                        <v-card-text>
+                          Data yang akan dihapus, Lanjutkan ?
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            text
+                            @click="deleteData(item.id_pegawai), pesan=false"
+                          >
+                            Hapus
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                  
+                  
+                  
+                  <!-- -------------------------------------------------------- -->
                 </td>
               </tr>
             </tbody>
@@ -135,7 +189,37 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false"
+          <v-btn color="blue darken-1" text  @click="resetForm(), dialog = false"
+            >Close</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialogPassword" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <v-spacer />
+          <span class="headline">Profil Pegawai</span>
+          <v-spacer />
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Password*"
+                  v-model="form.password"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text  @click="resetFormPassword(), dialogPassword = false"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -245,7 +329,9 @@ export default {
         username: "",
         password: "",
         role: "",
-        created_by: "admin"
+        created_by: "admin",
+        delete_by: "admin",
+       modified_by: "admin"
       },
       pegawai: new FormData(),
       typeInput: "new",
@@ -262,7 +348,7 @@ export default {
     },
     sendData() {
       this.pegawai.append("nama", this.form.nama);
-      this.pegawai.append("tanggal_lahir", this.picker.tanggal_lahir);
+      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
       this.pegawai.append("alamat", this.form.alamat);
       this.pegawai.append("telp", this.form.telp);
       this.pegawai.append("role", this.form.role);
@@ -298,9 +384,35 @@ export default {
       this.pegawai.append("telp", this.form.telp);
       this.pegawai.append("role", this.form.role);
       this.pegawai.append("username", this.form.username);
+      this.pegawai.append("modified_by", this.form.modified_by);
+      var uri = this.$apiUrl + "Pegawai/" +'update/'+this.updatedId;
+      this.load = true;
+      this.$http
+        .post(uri, this.pegawai)
+        .then(response => {
+          this.snackbar = true; //mengaktifkan snackbar
+          this.color = "green"; //memberi warna snackbar
+          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.load = false;
+          this.dialog = false;
+          this.getData(); //mengambil databong
+          this.resetForm();
+          this.typeInput = "new";
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+          this.load = false;
+          this.typeInput = "new";
+        });
+    },
+    updatePassword() {  
+      
       this.pegawai.append("password", this.form.password);
-      this.pegawai.append("created_by", this.form.created_by);
-      var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
+      this.pegawai.append("modified_by", this.form.modified_by);
+      var uri = this.$apiUrl + "Pegawai/" +'update/'+this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
@@ -330,25 +442,39 @@ export default {
       this.form.alamat = item.alamat;
       this.form.tanggal_lahir = item.tanggal_lahir;
       this.form.telp = item.telp;
-      (this.form.role = item.role), (this.form.username = item.username);
-      this.form.password = item.password;
-      this.updatedId = item.id;
+      this.form.role = item.role, 
+      this.form.username = item.username;
+      this.updatedId = item.id_pegawai;
     },
-    //     deleteData(deleteId) { //mengahapus data
-    //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
-    //         this.$http.delete(uri).then(response => {
-    //             this.snackbar = true;
-    //             this.text = response.data.message;
-    //             this.color = 'green'
-    //             this.deleteDialog = false;
-    //             this.getData();
-    //         }).catch(error => {
-    //             this.errors = error
-    //             this.snackbar = true;
-    //             this.text = 'Try Again';
-    //             this.color = 'red';
-    //         })
-    //     },
+    changePassword(item){
+      this.typeInput = "edit";
+      this.dialogPassword = true;
+       this.form.nama = item.nama;
+      this.form.alamat = item.alamat;
+      this.form.tanggal_lahir = item.tanggal_lahir;
+      this.form.telp = item.telp;
+      this.form.role = item.role, 
+      this.form.username = item.username;
+      this.form.password = item.password;
+      this.updatedId = item.id_pegawai;
+    },
+    deleteData(deleteId) { //mengahapus data
+            this.pegawai.append("delete_by", this.form.delete_by);
+            var uri = this.$apiUrl + 'Pegawai' + '/delete/'+ deleteId; //data dihapus berdasarkan id
+            this.load = true;
+            this.$http.post(uri,this.pegawai).then(response => {
+                this.snackbar = true;
+                this.text = response.data.message;
+                this.color = 'green'
+                this.deleteDialog = false;
+                this.getData();
+            }).catch(error => {
+                this.errors = error
+                this.snackbar = true;
+                this.text = 'Try Again';
+                this.color = 'red';
+            })
+        },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();
@@ -356,6 +482,12 @@ export default {
         console.log("dddd");
         this.updateData();
       }
+    },
+    setFormPassword() {
+    
+        console.log("dddd");
+        this.updateData();
+      
     },
     resetForm() {
       this.form = {
@@ -365,6 +497,12 @@ export default {
         telp: "",
         role: "",
         username: "",
+        password: ""
+      };
+    },
+    resetFormPassword() {
+      this.form = {
+        
         password: ""
       };
     }
