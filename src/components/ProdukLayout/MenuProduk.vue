@@ -1,6 +1,8 @@
 <template>
-  <v-container>
-    <v-card>
+<div class="MenuProduk">
+
+  <v-container >
+    <v-card class="TableProduk"> 
       <v-container grid-list-md mb-0>
         <h2 class="text-md-center">Data Produk Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
@@ -33,10 +35,12 @@
           :items="produks"
           :search="keyword"
           :loading="load"
+          class="TableProduk2"
         >
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr v-for="(item, index) in items" :key="item.id_produk">
+          <template v-slot:body="{ items }" >
+            <tbody >
+              
+              <tr v-for="(item, index) in items" :key="item.id_produk" class="NamaKolom">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_produk }}</td>
                 <td>{{ item.nama }}</td>
@@ -201,6 +205,7 @@
       </v-btn>
     </v-snackbar>
   </v-container>
+    </div>
 </template>
 <script>
 export default {
@@ -419,3 +424,25 @@ export default {
   }
 };
 </script>
+<style  scoped>
+  .MenuProduk {
+    background-image: url(../../assets/MenuProdukImage.jpg);
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 865px;
+     background-repeat: no-repeat;
+  }
+  .TableProduk{
+    background-color: #00000063;
+  }
+  .TableProduk2{
+    background-color: #0000002c;
+  }
+  .text-md-center{
+    font-family: 'Carrois Gothic SC';font-size: 50px;
+  }
+  .NamaKolom{
+    font-family: 'Carrois Gothic SC';font-size: 40px;
+  }
+</style>
