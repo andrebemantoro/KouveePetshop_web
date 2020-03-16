@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-unused-vars */
 <template>
   <v-container>
     <v-card>
@@ -27,11 +28,13 @@
             </v-text-field>
           </v-flex>
         </v-layout>
-
+        <v-expansion-panels>
+          <v-expansion-panel v-for="(item, index) in layanans" :key="item.id">
+            <v-expansion-panel-header>
+              
         <v-data-table
           :headers="headers"
           :items="layanans"
-          :items2="hargalayanans"
           :search="keyword"
           :loading="load"
         >
@@ -39,7 +42,6 @@
             <tbody>
               <tr v-for="(item, index) in items" :key="item.id">
                 <td>{{ index + 1 }}</td>
-                <td>{{ item.id_layanan }}</td>
                 <td>{{ item.nama }}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
@@ -48,19 +50,25 @@
                 <td>{{ item.delete_by }}</td>
                 <td>{{ item.delete_at }}</td>
                 <td>{{ item.aktif }}</td>
-
-                <td>
-                  <v-btn icon color="indigo" light @click="editHandler(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn icon color="error" light @click="deleteData(item.id)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </td>
               </tr>
-            </tbody>
+                     </tbody>
           </template>
         </v-data-table>
+              </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <tr />
+              <tr>
+                <v-btn icon color="indigo" light @click="editHandler(item)">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn icon color="error" light @click="deleteData(item.id)">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </tr>
+            </v-expansion-panel-content>
+       
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-container>
     </v-card>
     <v-dialog v-model="dialog" persistent max-width="600px">

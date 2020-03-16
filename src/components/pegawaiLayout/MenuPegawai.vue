@@ -377,7 +377,7 @@ export default {
           this.load = false;
         });
     },
-    updateData() {  
+    updateData() {
       this.pegawai.append("nama", this.form.nama);
       this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
       this.pegawai.append("alamat", this.form.alamat);

@@ -48,7 +48,7 @@
                 <td>{{ item.jumlah_stok }}</td>
                 <td>{{ item.harga }}</td>
                 <td>{{ item.min_stok }}</td>
-                <td>{{ item.gambar}}</td>
+                <td>{{ item.gambar }}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -150,8 +150,6 @@
                   v-model="form.jumlah_stok"
                   required
                 ></v-text-field>
-             
-             
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -176,10 +174,13 @@
                   required
                 ></v-text-field> -->
                 <template>
-                 <v-file-input accept="image/*" label="File input" v-model="form.gambar"></v-file-input>
-                  </template>
+                  <v-file-input
+                    accept="image/*"
+                    label="File input"
+                    v-model="form.gambar"
+                  ></v-file-input>
+                </template>
               </v-col>
-             
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -339,6 +340,40 @@ export default {
           this.load = false;
         });
     },
+<<<<<<< HEAD
+    // updateData() {
+    //   this.pegawai.append("nama", this.form.nama);
+    //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
+    //   this.pegawai.append("alamat", this.form.alamat);
+    //   this.pegawai.append("telp", this.form.telp);
+    //   this.pegawai.append("role", this.form.role);
+    //   this.pegawai.append("username", this.form.username);
+    //   this.pegawai.append("password", this.form.password);
+    //   this.pegawai.append("created_by", this.form.created_by);
+    //   var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
+    //   this.load = true;
+    //   this.$http
+    //     .post(uri, this.pegawai)
+    //     .then(response => {
+    //       this.snackbar = true; //mengaktifkan snackbar
+    //       this.color = "green"; //memberi warna snackbar
+    //       this.text = response.data.message; //memasukkan pesan kesnackbar
+    //       this.load = false;
+    //       this.dialog = false;
+    //       this.getData(); //mengambil databong
+    //       this.resetForm();
+    //       this.typeInput = "new";
+    //     })
+    //     .catch(error => {
+    //       this.errors = error;
+    //       this.snackbar = true;
+    //       this.text = "Try Again";
+    //       this.color = "red";
+    //       this.load = false;
+    //       this.typeInput = "new";
+    //     });
+    // },
+=======
     updateData() {  
       this.produk.append("nama", this.form.nama);
       this.produk.append("satuan", this.form.satuan);
@@ -371,6 +406,7 @@ export default {
           this.typeInput = "new";
         });
     },
+>>>>>>> 19174b22a2fb095df6d7c53ae382dae2baf97bad
     editHandler(item) {
       this.typeInput = "edit";
       this.dialog = true;
@@ -414,8 +450,7 @@ export default {
         jumlah_stok: "",
         harga: "",
         min_stok: "",
-        gambar: "",
-     
+        gambar: ""
       };
     }
   },
