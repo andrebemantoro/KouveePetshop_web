@@ -4,12 +4,7 @@ import Router from "vue-router";
 
 const dashboardLayout = () => import("../components/dashboardLayout.vue");
 const loginLayout = () => import("../components/Login.vue");
-// const adminDashboard = () => import('../components/adminDashboard.vue')
-// const userDashboard = () => import('../components/userDashboard.vue')
 
-// function loadLogin(view){
-//     return()=>import(`../components/${view}.vue`)
-// }
 function loadHewan(view) {
   return () => import(`../components/hewanLayout/${view}.vue`);
 }

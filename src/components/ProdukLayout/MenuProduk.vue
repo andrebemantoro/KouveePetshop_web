@@ -340,50 +340,15 @@ export default {
           this.load = false;
         });
     },
-<<<<<<< HEAD
-    // updateData() {
-    //   this.pegawai.append("nama", this.form.nama);
-    //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
-    //   this.pegawai.append("alamat", this.form.alamat);
-    //   this.pegawai.append("telp", this.form.telp);
-    //   this.pegawai.append("role", this.form.role);
-    //   this.pegawai.append("username", this.form.username);
-    //   this.pegawai.append("password", this.form.password);
-    //   this.pegawai.append("created_by", this.form.created_by);
-    //   var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
-    //   this.load = true;
-    //   this.$http
-    //     .post(uri, this.pegawai)
-    //     .then(response => {
-    //       this.snackbar = true; //mengaktifkan snackbar
-    //       this.color = "green"; //memberi warna snackbar
-    //       this.text = response.data.message; //memasukkan pesan kesnackbar
-    //       this.load = false;
-    //       this.dialog = false;
-    //       this.getData(); //mengambil databong
-    //       this.resetForm();
-    //       this.typeInput = "new";
-    //     })
-    //     .catch(error => {
-    //       this.errors = error;
-    //       this.snackbar = true;
-    //       this.text = "Try Again";
-    //       this.color = "red";
-    //       this.load = false;
-    //       this.typeInput = "new";
-    //     });
-    // },
-=======
-    updateData() {  
+    updateData() {
       this.produk.append("nama", this.form.nama);
       this.produk.append("satuan", this.form.satuan);
       this.produk.append("jumlah_stok", this.form.jumlah_stok);
-      this.produk.append("harga", this.form.harga);
-      this.produk.append("min_stok", this.form.min_stok);
+      this.produk.append("harga", this.form.telp);
+      this.produk.append("min_stok", this.form.role);
       this.produk.append("gambar", this.form.gambar);
       this.produk.append("modified_by", this.form.modified_by);
-      
-      var uri = this.$apiUrl + "Produk/" +'update/'+ this.updatedId;
+      var uri = this.$apiUrl + "Produk/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.produk)
@@ -406,7 +371,6 @@ export default {
           this.typeInput = "new";
         });
     },
->>>>>>> 19174b22a2fb095df6d7c53ae382dae2baf97bad
     editHandler(item) {
       this.typeInput = "edit";
       this.dialog = true;
