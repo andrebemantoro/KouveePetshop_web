@@ -33,6 +33,7 @@
           :items="pegawais"
           :search="keyword"
           :loading="load"
+         
         >
           <template v-slot:body="{ items }">
             <tbody>
@@ -117,6 +118,7 @@
         </v-data-table>
       </v-container>
     </v-card>
+    <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -171,13 +173,13 @@
                   required
                 ></v-text-field>
               </v-col>
-              <!-- <v-col cols="12">
+              <v-col cols="12">
                 <v-text-field
                   label="Password*"
                   v-model="form.password"
                   required
                 ></v-text-field>
-              </v-col> -->
+              </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -194,6 +196,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- -------------------------------------------------------- -->
+
+    <!-- -------------------Dialog Password------------------------------------- -->
     <v-dialog v-model="dialogPassword" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -227,6 +232,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- -------------------------------------------------------- -->
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -442,7 +448,8 @@ export default {
       this.form.alamat = item.alamat;
       this.form.tanggal_lahir = item.tanggal_lahir;
       this.form.telp = item.telp;
-      (this.form.role = item.role), (this.form.username = item.username);
+      (this.form.role = item.role), 
+      (this.form.username = item.username);
       this.updatedId = item.id_pegawai;
     },
     changePassword(item) {

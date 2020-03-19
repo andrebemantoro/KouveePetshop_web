@@ -300,7 +300,7 @@ export default {
   },
   methods: {
     getData() {
-      var uri = this.$apiUrl + "Produk";
+      var uri = this.$apiUrl + "Produk/" +"getAll";
       this.$http.get(uri).then(response => {
         this.produks = response.data.message;
       });
@@ -343,7 +343,7 @@ export default {
       this.produk.append("min_stok", this.form.min_stok);
       this.produk.append("gambar", this.form.gambar);
       this.produk.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Produk/" + this.updatedId;
+      var uri = this.$apiUrl + "Produk/" +"update/"+ this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.produk)
