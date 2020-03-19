@@ -55,26 +55,16 @@
 
                 <td>
                   <div class="text-center">
-                      <v-btn icon color="blue" light @click="editHandler(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
+                    <v-btn icon color="blue" light @click="editHandler(item)">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
                   </div>
-                  
                   <!-- -------------------------------------------------------- -->
-                   <div class="text-center">
-                    <v-dialog
-                      v-model="pesan"
-                      width="500"
-                      
-                    >
+                  <div class="text-center">
+                    <v-dialog v-model="pesan" width="500">
                       <template v-slot:activator="{ on }">
-                        <v-btn
-                          icon
-                          color="red lighten-2"
-                          dark
-                          v-on="on"
-                        >
-                        <v-icon>mdi-delete</v-icon>
+                        <v-btn icon color="red lighten-2" dark v-on="on">
+                          <v-icon>mdi-delete</v-icon>
                         </v-btn>
                       </template>
 
@@ -97,7 +87,7 @@
                           <v-btn
                             color="primary"
                             text
-                            @click="deleteData(item.id_produk), pesan=false"
+                            @click="deleteData(item.id_produk), (pesan = false)"
                           >
                             Hapus
                           </v-btn>
@@ -105,9 +95,7 @@
                       </v-card>
                     </v-dialog>
                   </div>
-                  
-                  
-                  
+
                   <!-- -------------------------------------------------------- -->
                 </td>
               </tr>
@@ -183,7 +171,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="resetForm(), dialog = false"
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="resetForm(), (dialog = false)"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -335,41 +326,7 @@ export default {
           this.load = false;
         });
     },
-<<<<<<< HEAD
-    // updateData() {
-    //   this.pegawai.append("nama", this.form.nama);
-    //   this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
-    //   this.pegawai.append("alamat", this.form.alamat);
-    //   this.pegawai.append("telp", this.form.telp);
-    //   this.pegawai.append("role", this.form.role);
-    //   this.pegawai.append("username", this.form.username);
-    //   this.pegawai.append("password", this.form.password);
-    //   this.pegawai.append("created_by", this.form.created_by);
-    //   var uri = this.$apiUrl + "Pegawai/" + this.updatedId;
-    //   this.load = true;
-    //   this.$http
-    //     .post(uri, this.pegawai)
-    //     .then(response => {
-    //       this.snackbar = true; //mengaktifkan snackbar
-    //       this.color = "green"; //memberi warna snackbar
-    //       this.text = response.data.message; //memasukkan pesan kesnackbar
-    //       this.load = false;
-    //       this.dialog = false;
-    //       this.getData(); //mengambil databong
-    //       this.resetForm();
-    //       this.typeInput = "new";
-    //     })
-    //     .catch(error => {
-    //       this.errors = error;
-    //       this.snackbar = true;
-    //       this.text = "Try Again";
-    //       this.color = "red";
-    //       this.load = false;
-    //       this.typeInput = "new";
-    //     });
-    // },
-=======
-    updateData() {  
+    updateData() {
       this.produk.append("nama", this.form.nama);
       this.produk.append("satuan", this.form.satuan);
       this.produk.append("jumlah_stok", this.form.jumlah_stok);
@@ -377,8 +334,8 @@ export default {
       this.produk.append("min_stok", this.form.min_stok);
       this.produk.append("gambar", this.form.gambar);
       this.produk.append("modified_by", this.form.modified_by);
-      
-      var uri = this.$apiUrl + "Produk/" +'update/'+ this.updatedId;
+
+      var uri = this.$apiUrl + "Produk/" + "update/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.produk)
@@ -401,7 +358,6 @@ export default {
           this.typeInput = "new";
         });
     },
->>>>>>> 19174b22a2fb095df6d7c53ae382dae2baf97bad
     editHandler(item) {
       this.typeInput = "edit";
       this.dialog = true;
@@ -413,23 +369,27 @@ export default {
       this.form.gambar = item.password;
       this.updatedId = item.id_produk;
     },
-        deleteData(deleteId) { //mengahapus data
-            this.produk.append("delete_by", this.form.delete_by);
-            var uri = this.$apiUrl + 'Produk' + '/delete/'+ deleteId; //data dihapus berdasarkan id
-            this.load = true;
-            this.$http.post(uri,this.produk).then(response => {
-                this.snackbar = true;
-                this.text = response.data.message;
-                this.color = 'green'
-                this.deleteDialog = false;
-                this.getData();
-            }).catch(error => {
-                this.errors = error
-                this.snackbar = true;
-                this.text = 'Try Again';
-                this.color = 'red';
-            })
-        },
+    deleteData(deleteId) {
+      //mengahapus data
+      this.produk.append("delete_by", this.form.delete_by);
+      var uri = this.$apiUrl + "Produk" + "/delete/" + deleteId; //data dihapus berdasarkan id
+      this.load = true;
+      this.$http
+        .post(uri, this.produk)
+        .then(response => {
+          this.snackbar = true;
+          this.text = response.data.message;
+          this.color = "green";
+          this.deleteDialog = false;
+          this.getData();
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+        });
+    },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();

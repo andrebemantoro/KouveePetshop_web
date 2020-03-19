@@ -58,29 +58,24 @@
                   <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-            
-                  <div class="text-center">
-                    <v-btn icon color="indigo" light @click="changePassword(item)">
-                    <v-icon>mdi-lock</v-icon>
-                  </v-btn>
-                  </div>
-                  
 
-                    <!-- -------------------------------------------------------- -->
-                   <div class="text-center">
-                    <v-dialog
-                      v-model="pesan"
-                      width="500"
-                      
+                  <div class="text-center">
+                    <v-btn
+                      icon
+                      color="indigo"
+                      light
+                      @click="changePassword(item)"
                     >
+                      <v-icon>mdi-lock</v-icon>
+                    </v-btn>
+                  </div>
+
+                  <!-- -------------------------------------------------------- -->
+                  <div class="text-center">
+                    <v-dialog v-model="pesan" width="500">
                       <template v-slot:activator="{ on }">
-                        <v-btn
-                          icon
-                          color="red lighten-2"
-                          dark
-                          v-on="on"
-                        >
-                        <v-icon>mdi-delete</v-icon>
+                        <v-btn icon color="red lighten-2" dark v-on="on">
+                          <v-icon>mdi-delete</v-icon>
                         </v-btn>
                       </template>
 
@@ -103,7 +98,9 @@
                           <v-btn
                             color="primary"
                             text
-                            @click="deleteData(item.id_pegawai), pesan=false"
+                            @click="
+                              deleteData(item.id_pegawai), (pesan = false)
+                            "
                           >
                             Hapus
                           </v-btn>
@@ -111,9 +108,7 @@
                       </v-card>
                     </v-dialog>
                   </div>
-                  
-                  
-                  
+
                   <!-- -------------------------------------------------------- -->
                 </td>
               </tr>
@@ -189,7 +184,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text  @click="resetForm(), dialog = false"
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="resetForm(), (dialog = false)"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -219,7 +217,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text  @click="resetFormPassword(), dialogPassword = false"
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="resetFormPassword(), (dialogPassword = false)"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -331,7 +332,7 @@ export default {
         role: "",
         created_by: "admin",
         delete_by: "admin",
-       modified_by: "admin"
+        modified_by: "admin"
       },
       pegawai: new FormData(),
       typeInput: "new",
@@ -385,7 +386,7 @@ export default {
       this.pegawai.append("role", this.form.role);
       this.pegawai.append("username", this.form.username);
       this.pegawai.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Pegawai/" +'update/'+this.updatedId;
+      var uri = this.$apiUrl + "Pegawai/" + "update/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
@@ -408,11 +409,10 @@ export default {
           this.typeInput = "new";
         });
     },
-    updatePassword() {  
-      
+    updatePassword() {
       this.pegawai.append("password", this.form.password);
       this.pegawai.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Pegawai/" +'update/'+this.updatedId;
+      var uri = this.$apiUrl + "Pegawai/" + "update/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
@@ -442,39 +442,41 @@ export default {
       this.form.alamat = item.alamat;
       this.form.tanggal_lahir = item.tanggal_lahir;
       this.form.telp = item.telp;
-      this.form.role = item.role, 
-      this.form.username = item.username;
+      (this.form.role = item.role), (this.form.username = item.username);
       this.updatedId = item.id_pegawai;
     },
-    changePassword(item){
+    changePassword(item) {
       this.typeInput = "edit";
       this.dialogPassword = true;
-       this.form.nama = item.nama;
+      this.form.nama = item.nama;
       this.form.alamat = item.alamat;
       this.form.tanggal_lahir = item.tanggal_lahir;
       this.form.telp = item.telp;
-      this.form.role = item.role, 
-      this.form.username = item.username;
+      (this.form.role = item.role), (this.form.username = item.username);
       this.form.password = item.password;
       this.updatedId = item.id_pegawai;
     },
-    deleteData(deleteId) { //mengahapus data
-            this.pegawai.append("delete_by", this.form.delete_by);
-            var uri = this.$apiUrl + 'Pegawai' + '/delete/'+ deleteId; //data dihapus berdasarkan id
-            this.load = true;
-            this.$http.post(uri,this.pegawai).then(response => {
-                this.snackbar = true;
-                this.text = response.data.message;
-                this.color = 'green'
-                this.deleteDialog = false;
-                this.getData();
-            }).catch(error => {
-                this.errors = error
-                this.snackbar = true;
-                this.text = 'Try Again';
-                this.color = 'red';
-            })
-        },
+    deleteData(deleteId) {
+      //mengahapus data
+      this.pegawai.append("delete_by", this.form.delete_by);
+      var uri = this.$apiUrl + "Pegawai" + "/delete/" + deleteId; //data dihapus berdasarkan id
+      this.load = true;
+      this.$http
+        .post(uri, this.pegawai)
+        .then(response => {
+          this.snackbar = true;
+          this.text = response.data.message;
+          this.color = "green";
+          this.deleteDialog = false;
+          this.getData();
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+        });
+    },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();
@@ -484,10 +486,8 @@ export default {
       }
     },
     setFormPassword() {
-    
-        console.log("dddd");
-        this.updateData();
-      
+      console.log("dddd");
+      this.updateData();
     },
     resetForm() {
       this.form = {
@@ -502,7 +502,6 @@ export default {
     },
     resetFormPassword() {
       this.form = {
-        
         password: ""
       };
     }

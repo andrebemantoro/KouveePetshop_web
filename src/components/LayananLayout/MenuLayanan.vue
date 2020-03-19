@@ -31,30 +31,30 @@
         <v-expansion-panels>
           <v-expansion-panel v-for="(item, index) in layanans" :key="item.id">
             <v-expansion-panel-header>
-              
-        <v-data-table
-          :headers="headers"
-          :items="layanans"
-          :search="keyword"
-          :loading="load"
-        >
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr v-for="(item, index) in items" :key="item.id">
-                <td>{{ index + 1 }}</td>
-                <td>{{ item.nama }}</td>
-                <td>{{ item.created_at }}</td>
-                <td>{{ item.created_by }}</td>
-                <td>{{ item.modified_at }}</td>
-                <td>{{ item.modified_by }}</td>
-                <td>{{ item.delete_by }}</td>
-                <td>{{ item.delete_at }}</td>
-                <td>{{ item.aktif }}</td>
-              </tr>
-                     </tbody>
-          </template>
-        </v-data-table>
-              </v-expansion-panel-header>
+              <v-data-table
+                :headers="headers"
+                :items="layanans"
+                :search="keyword"
+                :loading="load"
+              >
+                <template v-slot:body="{ layanans }">
+                  <tbody>
+                    <tr>
+                      <td>{{ index + 1 }}</td>
+                      <td>{{ item.id_layanan }}</td>
+                      <td>{{ item.nama }}</td>
+                      <td>{{ item.created_at }}</td>
+                      <td>{{ item.created_by }}</td>
+                      <td>{{ item.modified_at }}</td>
+                      <td>{{ item.modified_by }}</td>
+                      <td>{{ item.delete_by }}</td>
+                      <td>{{ item.delete_at }}</td>
+                      <td>{{ item.aktif }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-data-table>
+            </v-expansion-panel-header>
             <v-expansion-panel-content>
               <tr />
               <tr>
@@ -66,7 +66,6 @@
                 </v-btn>
               </tr>
             </v-expansion-panel-content>
-       
           </v-expansion-panel>
         </v-expansion-panels>
       </v-container>
