@@ -335,8 +335,8 @@ export default {
       this.produk.append("nama", this.form.nama);
       this.produk.append("satuan", this.form.satuan);
       this.produk.append("jumlah_stok", this.form.jumlah_stok);
-      this.produk.append("harga", this.form.telp);
-      this.produk.append("min_stok", this.form.role);
+      this.produk.append("harga", this.form.harga);
+      this.produk.append("min_stok", this.form.min_stok);
       this.produk.append("gambar", this.form.gambar);
       this.produk.append("modified_by", this.form.modified_by);
       var uri = this.$apiUrl + "Produk/" + this.updatedId;
