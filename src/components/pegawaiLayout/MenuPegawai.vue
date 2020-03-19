@@ -171,13 +171,13 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <!-- <v-col cols="12">
                 <v-text-field
                   label="Password*"
                   v-model="form.password"
                   required
                 ></v-text-field>
-              </v-col>
+              </v-col> -->
             </v-row>
           </v-container>
           <small>*indicates required field</small>
