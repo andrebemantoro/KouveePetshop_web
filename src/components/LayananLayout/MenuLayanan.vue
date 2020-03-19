@@ -37,7 +37,7 @@
                 :search="keyword"
                 :loading="load"
               >
-                <template v-slot:body="{ layanans }">
+                <template v-slot:body="{}">
                   <tbody>
                     <tr>
                       <td>{{ index + 1 }}</td>
