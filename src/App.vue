@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <v-app>
     <main>
@@ -9,6 +8,6 @@
 
 <script>
 export default {
-  name: "App",
+  name: "App"
 };
 </script>
