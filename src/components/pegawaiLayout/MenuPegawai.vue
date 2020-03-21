@@ -71,7 +71,7 @@
                     </v-btn>
                   </div>
 
-                  <!-- -------------------------------------------------------- -->
+                  <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
                   <div class="text-center">
                     <v-dialog v-model="pesan" width="500">
                       <template v-slot:activator="{ on }">
@@ -143,12 +143,20 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
-                <v-text-field
+              <v-col cols="20">
+                Tanggal Lahir
+               <v-date-picker
+                  v-model="date"
+                  full-width
+                  :landscape="$vuetify.breakpoint.smAndUp"
+                  class="mt-4"
+                ></v-date-picker>
+
+                <!-- <v-text-field
                   label="Tanggal Lahir*"
                   v-model="form.tanggal_lahir"
                   required
-                ></v-text-field>
+                ></v-text-field> -->
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -197,7 +205,85 @@
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-
+     <!-- -------------Dialog edit khusus agar passwordnya gak ikut------------------------------------------- -->
+    <v-dialog v-model="dialogEdit" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <v-spacer />
+          <span class="headline">Profil Pegawai</span>
+          <v-spacer />
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Nama*"
+                  v-model="form.nama"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Alamat*"
+                  v-model="form.alamat"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Tanggal Lahir*"
+                  v-model="form.tanggal_lahir"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Nomor Telepon*"
+                  v-model="form.telp"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-select
+                  label="Role*"
+                  v-model="form.role"
+                  :items="items"
+                  required
+                >
+                </v-select>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Username*"
+                  v-model="form.username"
+                  required
+                ></v-text-field>
+              </v-col>
+              <!-- <v-col cols="12">
+                <v-text-field
+                  label="Password*"
+                  v-model="form.password"
+                  required
+                ></v-text-field>
+              </v-col> -->
+            </v-row>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="resetForm(), (dialogEdit = false)"
+            >Close</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- -------------------------------------------------------- -->
     <!-- -------------------Dialog Password------------------------------------- -->
     <v-dialog v-model="dialogPassword" persistent max-width="600px">
       <v-card>
@@ -251,6 +337,7 @@ export default {
   data() {
     return {
       dialog: false,
+      date: new Date().toISOString().substr(0, 10),
       items: ["Cashier", "Customer Service"],
       keyword: "",
       headers: [
@@ -355,7 +442,7 @@ export default {
     },
     sendData() {
       this.pegawai.append("nama", this.form.nama);
-      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
+      this.pegawai.append("tanggal_lahir", this.date);
       this.pegawai.append("alamat", this.form.alamat);
       this.pegawai.append("telp", this.form.telp);
       this.pegawai.append("role", this.form.role);
@@ -443,7 +530,7 @@ export default {
     },
     editHandler(item) {
       this.typeInput = "edit";
-      this.dialog = true;
+      this.dialogEdit = true;
       this.form.nama = item.nama;
       this.form.alamat = item.alamat;
       this.form.tanggal_lahir = item.tanggal_lahir;

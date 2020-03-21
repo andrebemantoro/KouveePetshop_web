@@ -1,4 +1,5 @@
 <template>
+
   <div class="MenuProduk">
     <v-container>
       <v-card class="TableProduk">
@@ -425,11 +426,11 @@ export default {
 <style scoped>
 .MenuProduk {
   background-image: url(../../assets/MenuProdukImage.jpg);
-  background-position: center;
-  background-attachment: fixed;
-  background-size: cover;
-  height: 865px;
-  background-repeat: no-repeat;
+  
+ -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 .TableProduk {
   background-color: #00000063;
