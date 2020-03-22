@@ -23,6 +23,9 @@ function loadProduk(view) {
 function loadSupplier(view) {
   return () => import(`../components/supplierLayout/${view}.vue`);
 }
+function loadUkuran(view) {
+  return () => import(`../components/ukuranLayout/${view}.vue`);
+}
 
 const routes = [
   {
@@ -68,6 +71,11 @@ const routes = [
         name: "Supplier",
         path: "/MenuSupplier",
         component: loadSupplier("MenuSupplier")
+      },
+      {
+        name: "Ukuran",
+        path: "/MenuUkuran",
+        component: loadUkuran("MenuUkuran")
       }
     ]
   }

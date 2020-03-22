@@ -84,6 +84,11 @@ export default {
           to: "/menuSupplier"
         },
         {
+          title: "Ukuran",
+          icon: "mdi-ruler",
+          to: "/menuUkuran"
+        },
+        {
           title: "Pengadaan",
           icon: "mdi-plus-circle-multiple-outline",
           to: "/menuPengadaan"
