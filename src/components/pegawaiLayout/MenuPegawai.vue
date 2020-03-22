@@ -144,19 +144,31 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="20">
-                Tanggal Lahir
-               <v-date-picker
-                  v-model="date"
-                  full-width
-                  :landscape="$vuetify.breakpoint.smAndUp"
-                  class="mt-4"
-                ></v-date-picker>
-
-                <!-- <v-text-field
-                  label="Tanggal Lahir*"
-                  v-model="form.tanggal_lahir"
-                  required
-                ></v-text-field> -->
+                  <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="form.tanggal_lahir"
+                        label="Tanggal Lahir*"
+                      
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      ref="picker"
+                      v-model="form.tanggal_lahir"
+                      :max="new Date().toISOString().substr(0, 10)"
+                      min="1950-01-01"
+                      @change="save"
+                    ></v-date-picker>
+                  </v-menu>
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -260,13 +272,7 @@
                   required
                 ></v-text-field>
               </v-col>
-              <!-- <v-col cols="12">
-                <v-text-field
-                  label="Password*"
-                  v-model="form.password"
-                  required
-                ></v-text-field>
-              </v-col> -->
+  
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -335,11 +341,14 @@
 <script>
 export default {
   data() {
+ 
+   
     return {
       dialog: false,
-      date: new Date().toISOString().substr(0, 10),
       items: ["Cashier", "Customer Service"],
       keyword: "",
+      // date: null,
+      menu: false,
       headers: [
         {
           text: "No",
@@ -432,8 +441,18 @@ export default {
       errors: "",
       updatedId: ""
     };
+   
   },
+      watch: {
+      menu (val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+      },
+     },
   methods: {
+    
+     save (date) {
+        this.$refs.menu.save(date)
+      },
     getData() {
       var uri = this.$apiUrl + "Pegawai";
       this.$http.get(uri).then(response => {
@@ -442,7 +461,7 @@ export default {
     },
     sendData() {
       this.pegawai.append("nama", this.form.nama);
-      this.pegawai.append("tanggal_lahir", this.date);
+      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
       this.pegawai.append("alamat", this.form.alamat);
       this.pegawai.append("telp", this.form.telp);
       this.pegawai.append("role", this.form.role);
@@ -515,7 +534,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
-          this.getData(); //mengambil databong
+          this.getData(); //mengambil data pegawi
           this.resetForm();
           this.typeInput = "new";
         })
