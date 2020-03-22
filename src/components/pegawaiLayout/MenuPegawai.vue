@@ -1,5 +1,22 @@
 <template>
   <v-container>
+    
+    <v-bottom-navigation
+    v-model="bottomNav"
+    dark
+    shift
+  >
+    <v-btn >
+      <span>Aktif</span>
+      <v-icon>mdi-account-multiple</v-icon>
+    </v-btn>
+  
+    <v-btn>
+      <span>Non Aktif</span>
+      <v-icon>mdi-delete-empty</v-icon>
+    </v-btn>
+
+  </v-bottom-navigation>
     <v-card>
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Pegawai Kouvee Petshop</h2>
@@ -337,7 +354,9 @@
       </v-btn>
     </v-snackbar>
   </v-container>
+  
 </template>
+
 <script>
 export default {
   data() {
@@ -347,7 +366,7 @@ export default {
       dialog: false,
       items: ["Cashier", "Customer Service"],
       keyword: "",
-      // date: null,
+      bottomNav: 1,
       menu: false,
       headers: [
         {
@@ -443,6 +462,15 @@ export default {
     };
    
   },
+  computed: {
+      color () {
+        switch (this.bottomNav) {
+          case 0: return 'blue-grey'
+          case 1: return 'teal'
+
+        }
+      },
+    },
       watch: {
       menu (val) {
         val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
