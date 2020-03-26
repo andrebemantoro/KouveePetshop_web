@@ -464,7 +464,7 @@ export default {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
     }
   },
-  
+
   methods: {
     save(date) {
       this.$refs.menu.save(date);
@@ -627,7 +627,7 @@ export default {
         username: "",
         password: "",
         created_by: "admin",
-         delete_by: "admin",
+        delete_by: "admin",
         modified_by: "admin"
       };
     },

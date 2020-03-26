@@ -34,12 +34,16 @@
           :single-expand="singleExpand"
           :expanded.sync="expanded"
           show-expand
-          :item-key="item.id"
+          :loading="load"
           class="elevation-1"
         >
-          <template v-slot:expanded-item="{ headers, item }">
+          <template v-slot:expanded-item="{ headers, items }">
             <tbody>
-              <tr>
+              <tr
+                v-for="(item, index) in items"
+                :key="item.id_produk"
+                class="NamaKolom"
+              >
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_layanan }}</td>
                 <td>{{ item.nama }}</td>
