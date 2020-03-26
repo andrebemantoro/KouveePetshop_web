@@ -63,7 +63,7 @@
                 <td>{{ item.modified_by }}</td>
                 <td>{{ item.delete_by }}</td>
                 <td>{{ item.delete_at }}</td>
-                <td>{{ item.aktif }}</td>
+                <!-- <td>{{ item.aktif }}</td> -->
 
                 <td>
                   <v-btn icon color="blue" light @click="editHandler(item)">
@@ -417,10 +417,10 @@ export default {
           text: "Delete By",
           value: "delete_by"
         },
-        {
-          text: "Aktif",
-          value: "aktif"
-        },
+        // {
+        //   text: "Aktif",
+        //   value: "aktif"
+        // },
         {
           text: "Action",
           value: null
@@ -449,21 +449,22 @@ export default {
       updatedId: ""
     };
   },
-  computed: {
-    color() {
-      switch (this.bottomNav) {
-        case 0:
-          return "blue-grey";
-        case 1:
-          return "teal";
-      }
-    }
-  },
+  // computed: {
+  //   color() {
+  //     switch (this.bottomNav) {
+  //       case 0:
+  //         return "blue-grey";
+  //       case 1:
+  //         return "teal";
+  //     }
+  //   }
+  // },
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
     }
   },
+  
   methods: {
     save(date) {
       this.$refs.menu.save(date);
@@ -523,7 +524,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
-          this.getData(); //mengambil databong
+          this.getData(); //mengambil datapegawai
           this.resetForm();
           this.typeInput = "new";
         })
@@ -625,7 +626,9 @@ export default {
         role: "",
         username: "",
         password: "",
-        created_by: ""
+        created_by: "admin",
+         delete_by: "admin",
+        modified_by: "admin"
       };
     },
     resetFormPassword() {
