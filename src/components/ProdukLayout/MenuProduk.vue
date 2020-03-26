@@ -1,5 +1,4 @@
 <template>
-
   <div class="MenuProduk">
     <v-container>
       <v-card class="TableProduk">
@@ -301,7 +300,7 @@ export default {
   },
   methods: {
     getData() {
-      var uri = this.$apiUrl + "Produk/" +"getAll";
+      var uri = this.$apiUrl + "Produk/" + "getAll";
       this.$http.get(uri).then(response => {
         this.produks = response.data.message;
       });
@@ -344,7 +343,7 @@ export default {
       this.produk.append("min_stok", this.form.min_stok);
       this.produk.append("gambar", this.form.gambar);
       this.produk.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Produk/" +"update/"+ this.updatedId;
+      var uri = this.$apiUrl + "Produk/" + "update/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.produk)
@@ -426,11 +425,11 @@ export default {
 <style scoped>
 .MenuProduk {
   background-image: url(../../assets/MenuProdukImage.jpg);
-  
- -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 .TableProduk {
   background-color: #00000063;

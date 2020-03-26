@@ -28,53 +28,78 @@
             </v-text-field>
           </v-flex>
         </v-layout>
-        <v-expansion-panels>
-          <v-expansion-panel v-for="(item, index) in layanans" :key="item.id">
-            <v-expansion-panel-header>
-              <v-data-table
-                :headers="headers"
-                :items="layanans"
-                :search="keyword"
-                :loading="load"
-              >
-                <template v-slot:body="{}">
-                  <tbody>
-                    <tr>
-                      <td>{{ index + 1 }}</td>
-                      <td>{{ item.id_layanan }}</td>
-                      <td>{{ item.nama }}</td>
-                      <td>{{ item.created_at }}</td>
-                      <td>{{ item.created_by }}</td>
-                      <td>{{ item.modified_at }}</td>
-                      <td>{{ item.modified_by }}</td>
-                      <td>{{ item.delete_by }}</td>
-                      <td>{{ item.delete_at }}</td>
-                      <td>{{ item.aktif }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-data-table>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <tr />
+        <v-data-table
+          :headers="headers"
+          :items="layanans"
+          :single-expand="singleExpand"
+          :expanded.sync="expanded"
+          show-expand
+          :item-key="item.id"
+          class="elevation-1"
+        >
+          <template v-slot:expanded-item="{ headers, item }">
+            <tbody>
               <tr>
-                <v-btn icon color="indigo" light @click="editHandler(item)">
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn icon color="error" light @click="deleteData(item.id)">
+                <td>{{ index + 1 }}</td>
+                <td>{{ item.id_layanan }}</td>
+                <td>{{ item.nama }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>{{ item.created_by }}</td>
+                <td>{{ item.modified_at }}</td>
+                <td>{{ item.modified_by }}</td>
+                <td>{{ item.delete_by }}</td>
+                <td>{{ item.delete_at }}</td>
+                <td>{{ item.aktif }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-data-table>
+        <tr>
+          <div class="text-center">
+            <v-btn icon color="indigo" light @click="editHandler(item)">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </div>
+          <div class="text-center">
+            <v-dialog v-model="pesan" width="500">
+              <template v-slot:activator="{ on }">
+                <v-btn icon color="red lighten-2" dark v-on="on">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
-              </tr>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+              </template>
+
+              <v-card>
+                <v-card-title class="headline Red lighten-2" primary-title>
+                  Konfirmasi Hapus
+                </v-card-title>
+
+                <v-card-text>
+                  Data yang akan dihapus, Lanjutkan ?
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="deleteData(item.id_layanan), (pesan = false)"
+                  >
+                    Hapus
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+        </tr>
       </v-container>
     </v-card>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detil Layanan</span>
+          <span class="headline">Detail Layanan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -117,6 +142,8 @@
 export default {
   data() {
     return {
+      expanded: [],
+      singleExpand: true,
       dialog: false,
       // items: ["Buah", "Lusin", "Box"],
       keyword: "",
@@ -174,7 +201,8 @@ export default {
       load: false,
       form: {
         nama: "",
-        created_by: "admin"
+        created_by: "admin",
+        modified_by: "admin"
       },
       layanan: new FormData(),
       typeInput: "new",
@@ -218,63 +246,59 @@ export default {
           this.load = false;
         });
     },
-    // updateData() {
-
-    //     this.pegawai.append('nama', this.form.nama);
-    //     this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
-    //     this.pegawai.append('alamat', this.form.alamat);
-    //     this.pegawai.append('telp', this.form.telp);
-    //     this.pegawai.append('role', this.form.role);
-    //     this.pegawai.append('username', this.form.username);
-    //     this.pegawai.append('password', this.form.password);
-    //     this.pegawai.append('created_by', this.form.created_by);
-    //     var uri = this.$apiUrl + 'Pegawai/' + this.updatedId;
-    //     this.load = true
-    //     this.$http.post(uri, this.pegawai).then(response => {
-    //         this.snackbar = true; //mengaktifkan snackbar
-    //         this.color = 'green'; //memberi warna snackbar
-    //         this.text = response.data.message; //memasukkan pesan kesnackbar
-    //         this.load = false;
-    //         this.dialog = false
-    //         this.getData(); //mengambil databong
-    //         this.resetForm();
-    //         this.typeInput = 'new';
-    //     }).catch(error => {
-    //         this.errors = error
-    //         this.snackbar = true;
-    //         this.text = 'Try Again';
-    //         this.color = 'red';
-    //         this.load = false;
-    //         this.typeInput = 'new';
-    //     })
-    // },
-    // editHandler(item) {
-    //     this.typeInput = 'edit';
-    //     this.dialog = true;
-    //     this.form.nama = item.nama;
-    //     this.form.alamat = item.alamat;
-    //     this.form.tanggal_lahir = item.tanggal_lahir;
-    //     this.form.telp = item.telp;
-    //     this.form.role = item.role,
-    //     this.form.username = item.username;
-    //     this.form.password = item.password;
-    //     this.updatedId = item.id
-    // },
-    //     deleteData(deleteId) { //mengahapus data
-    //         var uri = this.$apiUrl + '/bong/' + deleteId; //data dihapus berdasarkan id
-    //         this.$http.delete(uri).then(response => {
-    //             this.snackbar = true;
-    //             this.text = response.data.message;
-    //             this.color = 'green'
-    //             this.deleteDialog = false;
-    //             this.getData();
-    //         }).catch(error => {
-    //             this.errors = error
-    //             this.snackbar = true;
-    //             this.text = 'Try Again';
-    //             this.color = 'red';
-    //         })
-    //     },
+    updateData() {
+      this.layanan.append("nama", this.form.nama);
+      this.layanan.append("modified_by", this.form.modified_by);
+      var uri = this.$apiUrl + "Layanan/" + this.updatedId;
+      this.load = true;
+      this.$http
+        .post(uri, this.layanan)
+        .then(response => {
+          this.snackbar = true; //mengaktifkan snackbar
+          this.color = "green"; //memberi warna snackbar
+          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.load = false;
+          this.dialog = false;
+          this.getData(); //mengambil databong
+          this.resetForm();
+          this.typeInput = "new";
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+          this.load = false;
+          this.typeInput = "new";
+        });
+    },
+    editHandler(item) {
+      this.typeInput = "edit";
+      this.dialog = true;
+      this.form.nama = item.nama;
+      this.updatedId = item.id_layanan;
+    },
+    deleteData(deleteId) {
+      //mengahapus data
+      this.layanan.append("delete_by", this.form.delete_by);
+      var uri = this.$apiUrl + "Layanan" + "/delete/" + deleteId; //data dihapus berdasarkan id
+      this.load = true;
+      this.$http
+        .post(uri, this.layanan)
+        .then(response => {
+          this.snackbar = true;
+          this.text = response.data.message;
+          this.color = "green";
+          this.deleteDialog = false;
+          this.getData();
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+        });
+    },
     setForm() {
       if (this.typeInput === "new") {
         this.sendData();

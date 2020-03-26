@@ -1,22 +1,16 @@
 <template>
   <v-container>
-    
-    <v-bottom-navigation
-    v-model="bottomNav"
-    dark
-    shift
-  >
-    <v-btn >
-      <span>Aktif</span>
-      <v-icon>mdi-account-multiple</v-icon>
-    </v-btn>
-  
-    <v-btn>
-      <span>Non Aktif</span>
-      <v-icon>mdi-delete-empty</v-icon>
-    </v-btn>
+    <v-bottom-navigation v-model="bottomNav" dark shift>
+      <v-btn>
+        <span>Aktif</span>
+        <v-icon>mdi-account-multiple</v-icon>
+      </v-btn>
 
-  </v-bottom-navigation>
+      <v-btn>
+        <span>Non Aktif</span>
+        <v-icon>mdi-delete-empty</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
     <v-card>
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Pegawai Kouvee Petshop</h2>
@@ -50,7 +44,6 @@
           :items="pegawais"
           :search="keyword"
           :loading="load"
-         
         >
           <template v-slot:body="{ items }">
             <tbody>
@@ -161,31 +154,30 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="20">
-                  <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-text-field
-                        v-model="form.tanggal_lahir"
-                        label="Tanggal Lahir*"
-                      
-                        readonly
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      ref="picker"
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
                       v-model="form.tanggal_lahir"
-                      :max="new Date().toISOString().substr(0, 10)"
-                      min="1950-01-01"
-                      @change="save"
-                    ></v-date-picker>
-                  </v-menu>
+                      label="Tanggal Lahir*"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    ref="picker"
+                    v-model="form.tanggal_lahir"
+                    :max="new Date().toISOString().substr(0, 10)"
+                    min="1950-01-01"
+                    @change="save"
+                  ></v-date-picker>
+                </v-menu>
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -234,7 +226,7 @@
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-     <!-- -------------Dialog edit khusus agar passwordnya gak ikut------------------------------------------- -->
+    <!-- -------------Dialog edit khusus agar passwordnya gak ikut------------------------------------------- -->
     <v-dialog v-model="dialogEdit" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -289,7 +281,6 @@
                   required
                 ></v-text-field>
               </v-col>
-  
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -354,14 +345,11 @@
       </v-btn>
     </v-snackbar>
   </v-container>
-  
 </template>
 
 <script>
 export default {
   data() {
- 
-   
     return {
       dialog: false,
       items: ["Cashier", "Customer Service"],
@@ -460,27 +448,26 @@ export default {
       errors: "",
       updatedId: ""
     };
-   
   },
   computed: {
-      color () {
-        switch (this.bottomNav) {
-          case 0: return 'blue-grey'
-          case 1: return 'teal'
-
-        }
-      },
-    },
-      watch: {
-      menu (val) {
-        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
-      },
-     },
+    color() {
+      switch (this.bottomNav) {
+        case 0:
+          return "blue-grey";
+        case 1:
+          return "teal";
+      }
+    }
+  },
+  watch: {
+    menu(val) {
+      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
+    }
+  },
   methods: {
-    
-     save (date) {
-        this.$refs.menu.save(date)
-      },
+    save(date) {
+      this.$refs.menu.save(date);
+    },
     getData() {
       var uri = this.$apiUrl + "Pegawai";
       this.$http.get(uri).then(response => {
@@ -582,8 +569,7 @@ export default {
       this.form.alamat = item.alamat;
       this.form.tanggal_lahir = item.tanggal_lahir;
       this.form.telp = item.telp;
-      (this.form.role = item.role), 
-      (this.form.username = item.username);
+      (this.form.role = item.role), (this.form.username = item.username);
       this.updatedId = item.id_pegawai;
     },
     changePassword(item) {
@@ -639,7 +625,7 @@ export default {
         role: "",
         username: "",
         password: "",
-        created_by:""
+        created_by: ""
       };
     },
     resetFormPassword() {
