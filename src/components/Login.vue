@@ -9,7 +9,7 @@
                 <v-toolbar-title
                   >Kouvee Petshop for Admin Login</v-toolbar-title
                 >
-                <v-spacer/>
+                <v-spacer />
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn :href="source" icon large target="_blank" v-on="on">
@@ -36,10 +36,16 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
+                <router-link :to="'/MenuCustomerService'">
+                  <v-btn text router to="/menuPelanggan" color="#6c573c"
+                    >Login CS Temp</v-btn
+                  >
+                </router-link>
                 <v-spacer />
-                <router-link :to="'/menu'">
+                <router-link :to="'/MenuAdmin'">
                   <v-btn text router to="/menuPegawai" color="#6c573c"
-                    >Login</v-btn>
+                    >Login</v-btn
+                  >
                 </router-link>
               </v-card-actions>
             </v-card>

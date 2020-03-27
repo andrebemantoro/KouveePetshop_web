@@ -424,7 +424,7 @@ export default {
 </script>
 <style scoped>
 .MenuProduk {
-  background-image: url(../../assets/MenuProdukImage.jpg);
+  background-image: url(../../../assets/MenuProdukImage.jpg);
 
   -webkit-background-size: cover;
   -moz-background-size: cover;

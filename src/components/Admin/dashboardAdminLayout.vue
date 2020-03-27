@@ -10,7 +10,7 @@
       temporary
     >
       <v-list-item>
-        <img src="../assets/paw.png" style="height:45px;width:45px" />
+        <img src="../../assets/paw.png" style="height:45px;width:45px" />
         <v-list-item-content>
           <v-list-item-title class="title" style="margin-left:10px;">
             Kouvee Petshop

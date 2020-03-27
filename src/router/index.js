@@ -2,29 +2,36 @@ import Vue from "vue";
 import Router from "vue-router";
 // import { loadavg } from 'os'
 
-const dashboardLayout = () => import("../components/dashboardLayout.vue");
+const dashboardAdminLayout = () =>
+  import("../components/Admin/dashboardAdminLayout.vue");
+const dashboardCSLayout = () =>
+  import("../components/Customer_service/dashboardCSLayout.vue");
 const loginLayout = () => import("../components/Login.vue");
 
 function loadHewan(view) {
-  return () => import(`../components/hewanLayout/${view}.vue`);
+  return () => import(`../components/Admin/hewanLayout/${view}.vue`);
 }
 function loadLayanan(view) {
-  return () => import(`../components/layananLayout/${view}.vue`);
+  return () => import(`../components/Admin/layananLayout/${view}.vue`);
 }
 function loadPegawai(view) {
-  return () => import(`../components/pegawaiLayout/${view}.vue`);
+  return () => import(`../components/Admin/pegawaiLayout/${view}.vue`);
 }
 function loadPengadaan(view) {
-  return () => import(`../components/pengadaanLayout/${view}.vue`);
+  return () => import(`../components/Admin/pengadaanLayout/${view}.vue`);
 }
 function loadProduk(view) {
-  return () => import(`../components/produkLayout/${view}.vue`);
+  return () => import(`../components/Admin/produkLayout/${view}.vue`);
 }
 function loadSupplier(view) {
-  return () => import(`../components/supplierLayout/${view}.vue`);
+  return () => import(`../components/Admin/supplierLayout/${view}.vue`);
 }
 function loadUkuran(view) {
-  return () => import(`../components/ukuranLayout/${view}.vue`);
+  return () => import(`../components/Admin/ukuranLayout/${view}.vue`);
+}
+function loadPelanggan(view) {
+  return () =>
+    import(`../components/Customer_service/pelangganLayout/${view}.vue`);
 }
 
 const routes = [
@@ -39,8 +46,8 @@ const routes = [
     ]
   },
   {
-    path: "/Menu",
-    component: dashboardLayout,
+    path: "/MenuAdmin",
+    component: dashboardAdminLayout,
     children: [
       {
         name: "Hewan",
@@ -76,6 +83,17 @@ const routes = [
         name: "Ukuran",
         path: "/MenuUkuran",
         component: loadUkuran("MenuUkuran")
+      }
+    ]
+  },
+  {
+    path: "/MenuCustomerService",
+    component: dashboardCSLayout,
+    children: [
+      {
+        name: "Pelanggan",
+        path: "/MenuPelanggan",
+        component: loadPelanggan("MenuPelanggan")
       }
     ]
   }
