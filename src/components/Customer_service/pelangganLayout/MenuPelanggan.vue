@@ -282,9 +282,9 @@ export default {
         alamat: "",
         tanggal_lahir: "",
         telp: "",
-        created_by: "",
-        delete_by: "",
-        modified_by: ""
+        created_by: "Customer Service",
+        delete_by: "Customer Service",
+        modified_by: "Customer Service"
       },
       pelanggan: new FormData(),
       typeInput: "new",
@@ -423,9 +423,9 @@ export default {
         alamat: "",
         tanggal_lahir: "",
         telp: "",
-        created_by: "",
-        delete_by: "",
-        modified_by: ""
+        created_by: "Customer Service",
+        delete_by: "Customer Service",
+        modified_by: "Customer Service"
       };
     }
   },
