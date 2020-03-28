@@ -303,7 +303,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Pegawai</span>
+          <span class="headline">Detail Pegawai</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>

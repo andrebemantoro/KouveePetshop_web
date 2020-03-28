@@ -63,18 +63,9 @@
                 <!-- <td>{{ item.aktif }}</td> -->
 
                 <td>
-                  <v-btn icon color="blue" light @click="editHandler(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-
                   <div class="text-center">
-                    <v-btn
-                      icon
-                      color="indigo"
-                      light
-                      @click="changePassword(item)"
-                    >
-                      <v-icon>mdi-lock</v-icon>
+                    <v-btn icon color="blue" light @click="editHandler(item)">
+                      <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </div>
 
@@ -130,7 +121,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Pelanggan</span>
+          <span class="headline">Detail Pelanggan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
