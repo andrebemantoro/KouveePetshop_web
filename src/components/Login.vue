@@ -20,10 +20,11 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Login"
-                    name="login"
+                    label="Username"
+                    name="username"
                     prepend-icon="mdi mdi-account"
                     type="text"
+                    v-model="form.email"
                   />
 
                   <v-text-field
@@ -32,6 +33,8 @@
                     name="password"
                     prepend-icon="mdi mdi-lock"
                     type="password"
+                    v-model="form.password"
+
                   />
                 </v-form>
               </v-card-text>
@@ -42,11 +45,18 @@
                   >
                 </router-link>
                 <v-spacer />
-                <router-link :to="'/MenuAdmin'">
+                <!-- <router-link :to="'/MenuAdmin'">
                   <v-btn text router to="/menuPegawai" color="#6c573c"
                     >Login</v-btn
                   >
-                </router-link>
+                </router-link> -->
+                <v-btn  
+                depressed 
+                rounded 
+                large 
+                style="text-transform: none !important;" 
+                color="primary" 
+                @click="login()">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -58,8 +68,66 @@
 
 <script>
 export default {
+    data () { 
+          return { 
+              dialog: false, 
+              snackbar: false, 
+              color: null, 
+              text: '', 
+              load: false,
+              users: {},
+              form: { 
+                  email : null, 
+                  password : null 
+              }, 
+              user : new FormData(), 
+              typeInput: 'new', 
+              errors : ''
+          } 
+      }, 
   props: {
     source: String
-  }
+  },
+  methods:{ 
+      getData(){ 
+        var uri = this.$apiUrl + "Pegawai";
+        this.user = new FormData();
+        this.user.append("username", this.form.nama);
+        this.user.append("password", this.form.password);
+        this.$http.post(uri, this.user).then(response =>{ 
+          if (response.data.id) {
+              sessionStorage.setItem("id", response.data.id_pegawai);
+              sessionStorage.setItem("nama", response.data.nama);
+              console.log(sessionStorage.getItem(id));
+              
+              alert("Login Success");
+            } else {
+              alert("Login Failed");
+            }
+          }) 
+      }, 
+      login() {
+        this.getData();
+        var url = this.$apiUrl +  "Pegawai/" + "verify";
+          this.user = new FormData();
+          this.user.append("username", this.form.username);
+          this.user.append("password", this.form.password);
+          this.$http.post(url, this.user).then(response => {
+            if (response.data.token) {
+              sessionStorage.setItem("token", response.data.token);
+              //  headers.setItem("token", response.data.token);
+              // eslint-disable-next-line no-console
+              console.log(sessionStorage);
+              if(this.form.username == "adminbarbarbe@gmail.com" && this.form.password == "ZAQ123wsx*") {
+                sessionStorage.setItem("type", 0);
+                this.$router.push({ name: "User" }); 
+              } else {
+                sessionStorage.setItem("type", 1);
+                this.$router.push({ name: "HomeUser" });
+              }
+            }
+        });
+      },
+    } 
 };
 </script>
