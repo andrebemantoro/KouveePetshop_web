@@ -325,7 +325,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetFormPassword(), (dialogPassword = false)"
+            @click="resetForm(), (dialogPassword = false)"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
@@ -606,7 +606,7 @@ export default {
     },
     setFormPassword() {
       console.log("dddd");
-      this.updateData();
+      this.updatePassword();
     },
     resetForm() {
       this.form = {
