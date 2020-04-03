@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <v-app id="inspire">
     <v-content>
@@ -112,3 +113,5 @@ export default {
   } 
   };
 </script>
+=======
+>>>>>>> 93edef5811fae466d59e73f4b6acaaa474f39840

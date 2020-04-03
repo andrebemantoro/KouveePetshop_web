@@ -63,7 +63,7 @@
                 <td>{{ item.modified_by }}</td>
                 <td>{{ item.delete_by }}</td>
                 <td>{{ item.delete_at }}</td>
-                <!-- <td>{{ item.aktif }}</td> -->
+                
 
                 <td>
                   <v-btn icon color="blue" light @click="editHandler(item)">
@@ -293,7 +293,7 @@
             @click="resetForm(), (dialogEdit = false)"
             >Close</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm(),(dialogEdit = false)">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -449,16 +449,7 @@ export default {
       updatedId: ""
     };
   },
-  // computed: {
-  //   color() {
-  //     switch (this.bottomNav) {
-  //       case 0:
-  //         return "blue-grey";
-  //       case 1:
-  //         return "teal";
-  //     }
-  //   }
-  // },
+
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));

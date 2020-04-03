@@ -422,27 +422,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-.MenuProduk {
-  background-image: url(../../../assets/MenuProdukImage.jpg);
 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-.TableProduk {
-  background-color: #00000063;
-}
-.TableProduk2 {
-  background-color: #0000002c;
-}
-.text-md-center {
-  font-family: "Carrois Gothic SC";
-  font-size: 50px;
-}
-.NamaKolom {
-  font-family: "Carrois Gothic SC";
-  font-size: 40px;
-}
-</style>
