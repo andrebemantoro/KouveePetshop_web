@@ -45,7 +45,7 @@
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar dark app fixed clipped-left height="70px" color="grey darken-3">
+    <v-app-bar light app fixed clipped-left height="70px" color="grey darken-3">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
       <VSpacer />
@@ -110,3 +110,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.v-toolbar__content, .v-toolbar__extension{
+   background-color: azure;
+ }
+</style>
