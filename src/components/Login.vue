@@ -78,6 +78,7 @@ export default {
                   password : null 
               }, 
               user : new FormData(), 
+              pegawai : [],
               typeInput: 'new', 
               errors : ''
           } 
@@ -100,18 +101,16 @@ export default {
           this.$http
           .post(url, this.user)
           .then(response => {
-              // console.log(response.data.message);
-            if(response.data.message !=null) {
-              if(response.data.message.username == this.form.username && response.data.message.password == this.form.password ) {
-                sessionStorage.setItem("Id", response.data.message.id_pegawai)
-                sessionStorage.setItem("Nama", response.data.message.nama);
-                this.$router.push({ name: "Pelanggan" });
-                console.log("customer service");
-              }
+            this.pegawai = response.data.message;
+            // console.log(response.data.message);
+            if(this.pegawai != null) {
+            sessionStorage.setItem("Id", response.data.message.id_pegawai)
+            sessionStorage.setItem("Nama", response.data.message.nama);
+            this.$router.push({ name: "Pelanggan" });
+            console.log("customer service");
             }
             else {
               alert("Username atau Password Salah!");
-              console.log(response.data.message.username);
             }
           })
           .catch(error => {
@@ -119,6 +118,7 @@ export default {
             this.snackbar = true;
             this.text = "Try Again";
             this.color = "red";
+            
           });
         }
     },
