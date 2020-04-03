@@ -24,11 +24,10 @@
                     name="username"
                     prepend-icon="mdi mdi-account"
                     type="text"
-                    v-model="form.email"
+                    v-model="form.username"
                   />
 
                   <v-text-field
-                    id="password"
                     label="Password"
                     name="password"
                     prepend-icon="mdi mdi-lock"
@@ -51,11 +50,8 @@
                   >
                 </router-link> -->
                 <v-btn  
-                depressed 
-                rounded 
-                large 
                 style="text-transform: none !important;" 
-                color="primary" 
+                color="#6c573c" 
                 @click="login()">Login</v-btn>
               </v-card-actions>
             </v-card>
@@ -75,9 +71,8 @@ export default {
               color: null, 
               text: '', 
               load: false,
-              users: {},
               form: { 
-                  email : null, 
+                  username : null, 
                   password : null 
               }, 
               user : new FormData(), 
@@ -89,45 +84,31 @@ export default {
     source: String
   },
   methods:{ 
-      getData(){ 
-        var uri = this.$apiUrl + "Pegawai";
+  
+    login() {
+      // this.getData();
+      var url = this.$apiUrl +  "Pegawai/" + "auth" ;
         this.user = new FormData();
-        this.user.append("username", this.form.nama);
+        this.user.append("username", this.form.username);
         this.user.append("password", this.form.password);
-        this.$http.post(uri, this.user).then(response =>{ 
+        this.$http.post(url, this.user).then(response => {
           if (response.data.id) {
-              sessionStorage.setItem("id", response.data.id_pegawai);
-              sessionStorage.setItem("nama", response.data.nama);
-              console.log(sessionStorage.getItem(id));
-              
-              alert("Login Success");
+            sessionStorage.setItem("token", response.data.token);
+            //  headers.setItem("token", response.data.token);
+            // eslint-disable-next-line no-console
+            console.log(sessionStorage);
+            if(this.form.username == "adminbarbarbe@gmail.com" && this.form.password == "ZAQ123wsx*") {
+              sessionStorage.setItem("type", 0);
+              this.$router.push({ name: "User" }); 
             } else {
-              alert("Login Failed");
+              sessionStorage.setItem("type", 1);
+              this.$router.push({ name: "HomeUser" });
+              console.log("lonnte");
             }
-          }) 
-      }, 
-      login() {
-        this.getData();
-        var url = this.$apiUrl +  "Pegawai/" + "verify";
-          this.user = new FormData();
-          this.user.append("username", this.form.username);
-          this.user.append("password", this.form.password);
-          this.$http.post(url, this.user).then(response => {
-            if (response.data.token) {
-              sessionStorage.setItem("token", response.data.token);
-              //  headers.setItem("token", response.data.token);
-              // eslint-disable-next-line no-console
-              console.log(sessionStorage);
-              if(this.form.username == "adminbarbarbe@gmail.com" && this.form.password == "ZAQ123wsx*") {
-                sessionStorage.setItem("type", 0);
-                this.$router.push({ name: "User" }); 
-              } else {
-                sessionStorage.setItem("type", 1);
-                this.$router.push({ name: "HomeUser" });
-              }
-            }
-        });
-      },
-    } 
-};
+          }
+          console.log("hapie");
+      });
+    },
+  } 
+  };
 </script>
