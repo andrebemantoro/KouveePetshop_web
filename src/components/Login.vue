@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <template>
   <v-app id="inspire">
     <v-content>
@@ -87,12 +86,14 @@ export default {
   methods:{ 
   
     login() {
-      // this.getData();
-      var url = this.$apiUrl +  "Pegawai/" + "auth" ;
-        this.user = new FormData();
         this.user.append("username", this.form.username);
         this.user.append("password", this.form.password);
-        this.$http.post(url, this.user).then(response => {
+
+        var url = this.$apiUrl +  "Pegawai/" + "auth" ;
+        this.load = true;
+        this.$http.
+        post(url, this.user).
+        then(response => {
           if (response.data.id) {
             sessionStorage.setItem("token", response.data.token);
             //  headers.setItem("token", response.data.token);
@@ -113,5 +114,3 @@ export default {
   } 
   };
 </script>
-=======
->>>>>>> 93edef5811fae466d59e73f4b6acaaa474f39840
