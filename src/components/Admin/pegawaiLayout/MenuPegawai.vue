@@ -83,7 +83,7 @@
 
                   <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
                   <div class="text-center">
-                    <v-dialog v-model="pesan" width="500">
+                    <v-dialog width="500">
                       <template v-slot:activator="{ on }">
                         <v-btn icon color="red lighten-2" dark v-on="on">
                           <v-icon>mdi-delete</v-icon>
@@ -110,7 +110,7 @@
                             color="primary"
                             text
                             @click="
-                              deleteData(item.id_pegawai), (pesan = false)
+                              deleteData(item.id_pegawai)
                             "
                           >
                             Hapus
@@ -227,7 +227,7 @@
     </v-dialog>
     <!-- -------------------------------------------------------- -->
     <!-- -------------Dialog edit khusus agar passwordnya gak ikut------------------------------------------- -->
-    <v-dialog v-model="dialogEdit" persistent max-width="600px">
+    <v-dialog  persistent max-width="600px">
       <v-card>
         <v-card-title>
           <v-spacer />
@@ -290,16 +290,16 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogEdit = false)"
+            @click="resetForm()"
             >Close</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm(),(dialogEdit = false)">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
     <!-- -------------------Dialog Password------------------------------------- -->
-    <v-dialog v-model="dialogPassword" persistent max-width="600px">
+    <v-dialog persistent max-width="600px">
       <v-card>
         <v-card-title>
           <v-spacer />
@@ -325,7 +325,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogPassword = false)"
+            @click="resetForm()"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>

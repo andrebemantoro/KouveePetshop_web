@@ -16,7 +16,6 @@
             Kouvee Petshop
           </v-list-item-title>
           <v-list-item-subtitle style="margin-left:10px;">
-            {{ name }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
