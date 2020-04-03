@@ -41,7 +41,7 @@ const routes = [
     children: [
       {
         name: "Login",
-        path: "/login"
+        path: "/"
       }
     ]
   },
