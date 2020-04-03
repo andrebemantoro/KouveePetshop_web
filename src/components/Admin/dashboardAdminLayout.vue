@@ -3,7 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       class="greydarken-3"
-      dark
+      grey
       app
       clipped
       fixed

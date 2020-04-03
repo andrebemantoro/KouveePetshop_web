@@ -461,7 +461,7 @@ export default {
       this.$refs.menu.save(date);
     },
     getData() {
-      var uri = this.$apiUrl + "Pegawai";
+      var uri = this.$apiUrl + "Pegawai/"+"all_get" ;
       this.$http.get(uri).then(response => {
         this.pegawais = response.data.message;
       });
