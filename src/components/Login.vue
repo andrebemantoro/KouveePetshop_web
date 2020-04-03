@@ -114,7 +114,6 @@ export default {
           .post(url, this.user)
           .then(response => {
             this.pegawai = response.data.message;
-            console.log(this.pegawai);
             if(this.pegawai.id_pegawai!=null) {
               if(this.pegawai.role.toLowerCase()=="customer service"){//login ke menu customer service
                 sessionStorage.setItem("Id", response.data.message.id_pegawai)

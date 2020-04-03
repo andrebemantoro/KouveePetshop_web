@@ -56,7 +56,7 @@ const routes = [
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/login' })
+              next({ path: '/' })
           }
         }, 
         name: "Hewan",
@@ -70,7 +70,7 @@ const routes = [
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/login' })
+              next({ path: '/' })
           }
         }, 
         name: "Layanan",
@@ -84,7 +84,7 @@ const routes = [
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/login' })
+              next({ path: '/' })
           }
         }, 
         name: "Pegawai",
@@ -98,7 +98,7 @@ const routes = [
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/login' })
+              next({ path: '/' })
           }
         }, 
         name: "Pengadaan",
@@ -112,7 +112,7 @@ const routes = [
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/login' })
+              next({ path: '/' })
           }
         }, 
         name: "Produk",
@@ -126,7 +126,7 @@ const routes = [
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/login' })
+              next({ path: '/' })
           }
         }, 
         name: "Supplier",
@@ -140,7 +140,7 @@ const routes = [
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/login' })
+              next({ path: '/' })
           }
         }, 
         name: "Ukuran",
@@ -154,6 +154,15 @@ const routes = [
     component: dashboardCSLayout,
     children: [
       {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem("Nama") != null) {
+              next()
+          } else {
+            sessionStorage.removeItem("Nama");
+            sessionStorage.removeItem("Id");
+              next({ path: '/' })
+          }
+        }, 
         name: "Pelanggan",
         path: "/MenuPelanggan",
         component: loadPelanggan("MenuPelanggan")
