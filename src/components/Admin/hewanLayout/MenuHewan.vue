@@ -265,9 +265,9 @@ export default {
       load: false,
       form: {
         nama: "",
-        created_by: "admin",
-        delete_by: "admin",
-        modified_by: "admin"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       jenishewan: new FormData(),
       typeInput: "new",

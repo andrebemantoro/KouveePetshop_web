@@ -101,13 +101,10 @@ export default {
       ]
     };
   },
-  created() {
-    this.name = localStorage.getItem("name");
-  },
   methods: {
     logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("type");
+      sessionStorage.removeItem("Nama");
+      sessionStorage.removeItem("Id");
       this.$router.push({ name: "Login" });
     }
   }

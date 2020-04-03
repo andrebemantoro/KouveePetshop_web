@@ -165,7 +165,9 @@ export default {
       load: false,
       form: {
         nama: "",
-        created_by: "admin"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       layanan: new FormData(),
       typeInput: "new",

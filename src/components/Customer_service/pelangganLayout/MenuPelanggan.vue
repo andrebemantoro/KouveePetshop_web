@@ -282,9 +282,9 @@ export default {
         alamat: "",
         tanggal_lahir: "",
         telp: "",
-        created_by: "Customer Service",
-        delete_by: "Customer Service",
-        modified_by: "Customer Service"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       pelanggan: new FormData(),
       typeInput: "new",

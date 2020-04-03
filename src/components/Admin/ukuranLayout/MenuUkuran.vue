@@ -212,10 +212,9 @@ export default {
       load: false,
       form: {
         nama: "",
-        
-        created_by: "admin",
-        delete_by: "admin",
-        modified_by: "admin"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       ukuran: new FormData(),
       typeInput: "new",
@@ -292,7 +291,7 @@ export default {
     deleteData(deleteId) {
       //mengahapus data
       this.ukuran.append("delete_by", this.form.delete_by);
-      var uri = this.$apiUrl + "Ukuran" + "/delete/" + deleteId; //data dihapus berdasarkan id
+      var uri = this.$apiUrl + "UkuranHewan/" + "delete/" + deleteId; //data dihapus berdasarkan id
       this.load = true;
       this.$http
         .post(uri, this.ukuran)

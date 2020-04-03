@@ -7,7 +7,7 @@
             <v-card class="elevation-12">
               <v-toolbar color="#f9c99e" dark flat>
                 <v-toolbar-title
-                  >Kouvee Petshop for Admin Login</v-toolbar-title
+                  >Kouvee Petshop Login</v-toolbar-title
                 >
                 <v-spacer />
                 <v-tooltip bottom>
@@ -24,6 +24,7 @@
                     name="username"
                     prepend-icon="mdi mdi-account"
                     type="text"
+                    required
                     v-model="form.username"
                   />
 
@@ -32,17 +33,18 @@
                     name="password"
                     prepend-icon="mdi mdi-lock"
                     type="password"
+                    required
                     v-model="form.password"
 
                   />
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <router-link :to="'/MenuCustomerService'">
+                <!-- <router-link :to="'/MenuCustomerService'">
                   <v-btn text router to="/menuPelanggan" color="#6c573c"
                     >Login CS Temp</v-btn
                   >
-                </router-link>
+                </router-link> -->
                 <v-spacer />
                 <!-- <router-link :to="'/MenuAdmin'">
                   <v-btn text router to="/menuPegawai" color="#6c573c"
@@ -84,32 +86,41 @@ export default {
     source: String
   },
   methods:{ 
-  
     login() {
-        this.user.append("username", this.form.username);
-        this.user.append("password", this.form.password);
-
-        var url = this.$apiUrl +  "Pegawai/" + "auth" ;
-        this.load = true;
-        this.$http.
-        post(url, this.user).
-        then(response => {
-          if (response.data.id) {
-            sessionStorage.setItem("token", response.data.token);
-            //  headers.setItem("token", response.data.token);
-            // eslint-disable-next-line no-console
-            console.log(sessionStorage);
-            if(this.form.username == "adminbarbarbe@gmail.com" && this.form.password == "ZAQ123wsx*") {
-              sessionStorage.setItem("type", 0);
-              this.$router.push({ name: "User" }); 
-            } else {
-              sessionStorage.setItem("type", 1);
-              this.$router.push({ name: "HomeUser" });
-              console.log("lonnte");
+        if(this.form.username == "admin" && this.form.password == "admin123") {
+              sessionStorage.setItem("Nama", "admin");
+              this.$router.push({ name: "Pegawai" }); 
+              console.log("admin");
+        }
+        else {
+          this.user.append("username", this.form.username);
+          this.user.append("password", this.form.password);
+          var url = this.$apiUrl +  "Pegawai/" + "auth" ;
+          this.load = true;
+          this.$http
+          .post(url, this.user)
+          .then(response => {
+              // console.log(response.data.message);
+            if(response.data.message !=null) {
+              if(response.data.message.username == this.form.username && response.data.message.password == this.form.password ) {
+                sessionStorage.setItem("Id", response.data.message.id_pegawai)
+                sessionStorage.setItem("Nama", response.data.message.nama);
+                this.$router.push({ name: "Pelanggan" });
+                console.log("customer service");
+              }
             }
-          }
-          console.log("hapie");
-      });
+            else {
+              alert("Username atau Password Salah!");
+              console.log(response.data.message.username);
+            }
+          })
+          .catch(error => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = "Try Again";
+            this.color = "red";
+          });
+        }
     },
   } 
   };
