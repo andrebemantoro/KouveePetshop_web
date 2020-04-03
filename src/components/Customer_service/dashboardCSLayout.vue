@@ -46,7 +46,7 @@
 
     <v-app-bar dark app fixed clipped-left height="70px" color="grey darken-3">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-     
+      
       <VSpacer />
     </v-app-bar>
 

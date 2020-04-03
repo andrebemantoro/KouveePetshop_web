@@ -11,3 +11,9 @@ export default {
   name: "App"
 };
 </script>
+<style scoped>
+.v-toolbar__content, .v-toolbar__extension{
+   background-color: azure;
+ }
+</style>
+
