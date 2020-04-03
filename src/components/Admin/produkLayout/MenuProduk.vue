@@ -413,7 +413,10 @@ export default {
         jumlah_stok: "",
         harga: "",
         min_stok: "",
-        gambar: ""
+        gambar: "",
+        created_by: "admin",
+        delete_by: "admin",
+        modified_by: "admin"
       };
     }
   },

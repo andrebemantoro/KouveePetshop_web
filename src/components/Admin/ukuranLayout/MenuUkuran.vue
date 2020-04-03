@@ -287,12 +287,12 @@ export default {
       this.dialog = true;
       this.form.nama = item.nama;
      
-      this.updatedId = item.id_ukuran;
+      this.updatedId = item.id_ukuran_hewan;
     },
     deleteData(deleteId) {
       //mengahapus data
       this.ukuran.append("delete_by", this.form.delete_by);
-      var uri = this.$apiUrl + "Ukuran" + "/delete/" + deleteId; //data dihapus berdasarkan id
+      var uri = this.$apiUrl + "UkuranHewan" + "/delete/" + deleteId; //data dihapus berdasarkan id
       this.load = true;
       this.$http
         .post(uri, this.ukuran)
@@ -321,7 +321,9 @@ export default {
     resetForm() {
       this.form = {
         nama: "",
-        
+        modified_by : "admin",
+        delete_by: "admin",
+        created_by: "admin"        
       };
     }
   },
