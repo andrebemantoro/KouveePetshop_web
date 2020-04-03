@@ -31,7 +31,7 @@
 
           <v-data-table
             :headers="headers"
-            :items="ukuranss"
+            :items="ukurans"
             :search="keyword"
             :loading="load"
             class="TableUkuran2"
@@ -225,15 +225,17 @@ export default {
   },
   methods: {
     getData() {
-      var uri = this.$apiUrl + "Ukuran/" + "getAll";
+      var uri = this.$apiUrl + "UkuranHewan/" + "getAll";
       this.$http.get(uri).then(response => {
         this.ukurans = response.data.message;
       });
     },
     sendData() {
       this.ukuran.append("nama", this.form.nama);
+      this.ukuran.append("created_by", this.form.created_by);
       
-      var uri = this.$apiUrl + "Ukuran";
+      
+      var uri = this.$apiUrl + "UkuranHewan";
       this.load = true;
       this.$http
         .post(uri, this.ukuran)
@@ -256,8 +258,8 @@ export default {
     },
     updateData() {
       this.ukuran.append("nama", this.form.nama);
-      
-      var uri = this.$apiUrl + "Ukuran/" + "update/" + this.updatedId;
+      this.ukuran.append("modified_by", this.form.modified_by);
+      var uri = this.$apiUrl + "UkuranHewan/" + "update/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.ukuran)
