@@ -26,6 +26,9 @@ function loadSupplier(view) {
 function loadUkuran(view) {
   return () => import(`../components/Admin/ukuranLayout/${view}.vue`);
 }
+function loadJenis(view) {
+  return () => import(`../components/Admin/jenisHewanLayout/${view}.vue`);
+}
 function loadHewan(view) {
   return () => import(`../components/Customer_service/hewanLayout/${view}.vue`);
 }
@@ -132,6 +135,20 @@ const routes = [
         name: "Ukuran",
         path: "/MenuUkuran",
         component: loadUkuran("MenuUkuran")
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem("Nama")== "admin") {
+              next()
+          } else {
+            sessionStorage.removeItem("Nama");
+            sessionStorage.removeItem("Id");
+              next({ path: '/' })
+          }
+        }, 
+        name: "Jenis",
+        path: "/MenuJenis",
+        component: loadJenis("MenuJenisHewan")
       }
     ]
   },

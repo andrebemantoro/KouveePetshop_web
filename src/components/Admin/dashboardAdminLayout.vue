@@ -87,15 +87,21 @@ export default {
           to: "/menuSupplier"
         },
         {
-          title: "Ukuran",
+          title: "Ukuran Hewan",
           icon: "mdi-ruler",
           to: "/menuUkuran"
+        },
+        {
+          title: "Jenis Hewan",
+          icon: "mdi-dog",
+          to: "/menuJenis"
         },
         {
           title: "Pengadaan",
           icon: "mdi-plus-circle-multiple-outline",
           to: "/menuPengadaan"
         },
+       
       ]
     };
   },

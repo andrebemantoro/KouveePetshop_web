@@ -41,18 +41,16 @@
 
         <v-data-table
           :headers="headers"
-          :items="hewans"
+          :items="jenishewans"
           :search="keyword"
           :loading="load"
-          :jenises="jenishewans"
         >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id_hewans">
+              <tr v-for="(item, index) in items" :key="item.id_jenis_hewan">
                 <td>{{ index + 1 }}</td>
-                <td>{{ item.id_hewan }}</td>
+                <td>{{ item.id_jenis_hewan }}</td>
                 <td>{{ item.nama }}</td>
-                <!-- <td>{{item2.nama}}</td> -->
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -65,18 +63,6 @@
                   <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-
-                  <div class="text-center">
-                    <v-btn
-                      icon
-                      color="indigo"
-                      light
-                      @click="changePassword(item)"
-                    >
-                      <v-icon>mdi-lock</v-icon>
-                    </v-btn>
-                  </div>
-
                   <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
                   <div class="text-center">
                     <v-dialog  width="500">
@@ -212,7 +198,6 @@ export default {
     return {
       dialog: false,
       jenishewans: [],
-      hewans:[],
       keyword: "",
       bottomNav: 1,
       menu: false,
@@ -222,16 +207,12 @@ export default {
           value: "index"
         },
         {
-          text: "Id Hewan",
-          value: "id_hewan"
-        },
-        {
-          text: "Nama Hewan",
-          value: "nama"
+          text: "Id Jenis Hewan",
+          value: "id_jenis_hewan"
         },
         {
           text: "Jenis Hewan",
-          value: "jenis"
+          value: "nama"
         },
         {
           text: "Created At",
@@ -295,12 +276,8 @@ export default {
   methods: {
     getData() {
       var uri = this.$apiUrl + "JenisHewan";
-      var uri2 = this.$apiUrl + "Hewan";
       this.$http.get(uri).then(response => {
         this.jenishewans = response.data.message;
-      });
-      this.$http.get(uri2).then(response => {
-        this.hewans = response.data.message;
       });
     },
     sendData() {

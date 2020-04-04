@@ -326,10 +326,10 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogPassword = false)"
+            @click="resetFormPassword(), (dialogPassword = false)"
             >Close</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setFormPassword()">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -528,7 +528,7 @@ export default {
     updatePassword() {
       this.pegawai.append("password", this.form.password);
       this.pegawai.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Pegawai/" + "update/" + this.updatedId;
+      var uri = this.$apiUrl + "Pegawai/" + "updatepass/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
