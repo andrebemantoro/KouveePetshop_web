@@ -23,7 +23,9 @@
       </v-list-item>
 
       <v-divider></v-divider>
-      <v-list>
+      <v-list
+      rounded
+      >
         <v-list-item
           v-for="item in items"
           :key="item.title"

@@ -8,9 +8,6 @@ const dashboardCSLayout = () =>
   import("../components/Customer_service/dashboardCSLayout.vue");
 const loginLayout = () => import("../components/Login.vue");
 
-function loadHewan(view) {
-  return () => import(`../components/Admin/hewanLayout/${view}.vue`);
-}
 function loadLayanan(view) {
   return () => import(`../components/Admin/layananLayout/${view}.vue`);
 }
@@ -28,6 +25,9 @@ function loadSupplier(view) {
 }
 function loadUkuran(view) {
   return () => import(`../components/Admin/ukuranLayout/${view}.vue`);
+}
+function loadHewan(view) {
+  return () => import(`../components/Customer_service/hewanLayout/${view}.vue`);
 }
 function loadPelanggan(view) {
   return () =>
