@@ -55,7 +55,6 @@
                 <td>{{ item.tanggal_lahir }}</td>
                 <td>{{ item.telp }}</td>
                 <td>{{ item.username }}</td>
-                <td>{{ item.password }}</td>
                 <td>{{ item.role }}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
@@ -206,6 +205,7 @@
                 <v-text-field
                   label="Password*"
                   v-model="form.password"
+                  type=password
                   required
                 ></v-text-field>
               </v-col>
@@ -313,6 +313,7 @@
                 <v-text-field
                   label="Password*"
                   v-model="form.password"
+                  type=password
                   required
                 ></v-text-field>
               </v-col>
@@ -384,10 +385,6 @@ export default {
         {
           text: "Username",
           value: "username"
-        },
-        {
-          text: "Password",
-          value: "password"
         },
         {
           text: "Role",

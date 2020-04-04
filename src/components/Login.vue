@@ -97,8 +97,12 @@ export default {
         if(this.form.username == "admin") {
           if(this.form.password == "admin123"){
             sessionStorage.setItem("Nama", "admin");
+            this.snackbar = true;
+            this.text = "Login Berhasil";
+            this.color = "green";
             this.$router.push({ name: "Pegawai" }); 
             console.log("admin");
+            
           }else{
             this.snackbar = true;
             this.text = "Login Gagal";
@@ -115,11 +119,14 @@ export default {
           .then(response => {
             this.pegawai = response.data.message;
             if(this.pegawai.id_pegawai!=null) {
-              if(this.pegawai.role.toLowerCase()=="customer service"){//login ke menu customer service
-                sessionStorage.setItem("Id", response.data.message.id_pegawai)
-                sessionStorage.setItem("Nama", response.data.message.nama);
-                this.$router.push({ name: "Pelanggan" });
-                console.log("customer service");
+              if(this.pegawai.role.toLowerCase()=="customer service"){ //login ke menu customer 
+                  sessionStorage.setItem("Id", response.data.message.id_pegawai);
+                  sessionStorage.setItem("Nama", response.data.message.nama);
+                  this.snackbar = true;
+                  this.text = "Login Berhasil";
+                  this.color = "green";
+                  this.$router.push({ name: "Pelanggan" });
+                  console.log("customer service");
               }else if(this.pegawai.role.toLowerCase()=="kasir"){
                 //code untuk login ke kasir 
               }else{

@@ -8,9 +8,6 @@ const dashboardCSLayout = () =>
   import("../components/Customer_service/dashboardCSLayout.vue");
 const loginLayout = () => import("../components/Login.vue");
 
-function loadHewan(view) {
-  return () => import(`../components/Admin/hewanLayout/${view}.vue`);
-}
 function loadLayanan(view) {
   return () => import(`../components/Admin/layananLayout/${view}.vue`);
 }
@@ -28,6 +25,9 @@ function loadSupplier(view) {
 }
 function loadUkuran(view) {
   return () => import(`../components/Admin/ukuranLayout/${view}.vue`);
+}
+function loadHewan(view) {
+  return () => import(`../components/Customer_service/hewanLayout/${view}.vue`);
 }
 function loadPelanggan(view) {
   return () =>
@@ -49,20 +49,6 @@ const routes = [
     path: "/MenuAdmin",
     component: dashboardAdminLayout,
     children: [
-      {
-        beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
-          } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-              next({ path: '/' })
-          }
-        }, 
-        name: "Hewan",
-        path: "/MenuHewan",
-        component: loadHewan("MenuHewan")
-      },
       {
         beforeEnter(to, from, next) {
           if (sessionStorage.getItem("Nama")== "admin") {
@@ -166,6 +152,20 @@ const routes = [
         name: "Pelanggan",
         path: "/MenuPelanggan",
         component: loadPelanggan("MenuPelanggan")
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem("Nama") != null) {
+              next()
+          } else {
+            sessionStorage.removeItem("Nama");
+            sessionStorage.removeItem("Id");
+              next({ path: '/' })
+          }
+        }, 
+        name: "Hewan",
+        path: "/MenuHewan",
+        component: loadHewan("MenuHewan")
       }
     ]
   }
