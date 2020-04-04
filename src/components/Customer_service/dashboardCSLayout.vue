@@ -2,20 +2,21 @@
   <div>
     <v-navigation-drawer
       v-model="drawer"
+      width="300px"
       class="greydarken-3"
-      dark
       app
       clipped
       fixed
       temporary
     >
       <v-list-item>
-        <img src="../../assets/paw.png" style="height:45px;width:45px" />
+        <img src="../../assets/kouveepetshoplogo.png" style="height:45px;width:80px" />
         <v-list-item-content>
           <v-list-item-title class="title" style="margin-left:10px;">
             Kouvee Petshop
           </v-list-item-title>
           <v-list-item-subtitle style="margin-left:10px;">
+            for Customer Service
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -44,7 +45,7 @@
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar dark app fixed clipped-left height="70px" color="grey darken-3">
+    <v-app-bar light app fixed clipped-left height="70px" color="grey darken-3">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
       <VSpacer />
@@ -66,6 +67,11 @@ export default {
           title: "Pelanggan",
           icon: "mdi-account",
           to: "/menuPelanggan"
+        },
+        {
+          title: "Hewan",
+          icon: "mdi-dog",
+          to: "/menuHewan"
         }
       ]
     };

@@ -2,6 +2,7 @@
   <div>
     <v-navigation-drawer
       v-model="drawer"
+      width="300px"
       class="greydarken-3"
       grey
       app
@@ -10,12 +11,13 @@
       temporary
     >
       <v-list-item>
-        <img src="../../assets/dog.png" style="height:45px;width:45px" />
+        <img src="../../assets/kouveepetshoplogo.png" style="height:45px;width:80px" />
         <v-list-item-content>
           <v-list-item-title class="title" style="margin-left:10px;">
             Kouvee Petshop
           </v-list-item-title>
           <v-list-item-subtitle style="margin-left:10px;">
+            for Admin
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -92,11 +94,6 @@ export default {
           icon: "mdi-plus-circle-multiple-outline",
           to: "/menuPengadaan"
         },
-        {
-          title: "Hewan",
-          icon: "mdi-dog",
-          to: "/menuHewan"
-        }
       ]
     };
   },

@@ -158,7 +158,7 @@ export default {
           value: null
         }
       ],
-      layanans: [],
+      suppliers: [],
       snackbar: false,
       color: null,
       text: "",

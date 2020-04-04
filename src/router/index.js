@@ -59,20 +59,6 @@ const routes = [
               next({ path: '/' })
           }
         }, 
-        name: "Hewan",
-        path: "/MenuHewan",
-        component: loadHewan("MenuHewan")
-      },
-      {
-        beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
-          } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-              next({ path: '/' })
-          }
-        }, 
         name: "Layanan",
         path: "/MenuLayanan",
         component: loadLayanan("MenuLayanan")
@@ -166,6 +152,20 @@ const routes = [
         name: "Pelanggan",
         path: "/MenuPelanggan",
         component: loadPelanggan("MenuPelanggan")
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem("Nama") != null) {
+              next()
+          } else {
+            sessionStorage.removeItem("Nama");
+            sessionStorage.removeItem("Id");
+              next({ path: '/' })
+          }
+        }, 
+        name: "Hewan",
+        path: "/MenuHewan",
+        component: loadHewan("MenuHewan")
       }
     ]
   }
