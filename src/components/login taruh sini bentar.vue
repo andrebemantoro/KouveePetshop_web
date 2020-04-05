@@ -94,55 +94,26 @@
         <template>
           <v-row>
              <v-col v-for="(item, i) in produks" :key="i" cols="3">
-    
-                <v-card
-                    class="mx-auto"
-                    max-width="344"
-                >
-                    <img:
-                   src="{{item.gambar}}"
-                    height="200px"
-                    >
-
-                    <v-card-title>
-                    {{item.nama}}
-                    </v-card-title>
-
-                    <v-card-subtitle>
-                    {{item.jumlah_stok}}
-                    </v-card-subtitle>
-
-                    <v-card-actions>
-                    <v-btn text @click="editHandler(item)">Edit</v-btn>
-
-                    <v-btn
-                        color="purple"
-                        text
-                    >
-                        Explore
-                    </v-btn>
-
-                    <v-spacer></v-spacer>
-
-                    <v-btn
-                        icon
-                        @click="show = !show"
-                    >
-                        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                    </v-btn>
-                    </v-card-actions>
-
-                    <v-expand-transition>
-                    <div v-show="show">
-                        <v-divider></v-divider>
-
-                        <v-card-text>
-                        I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-                        </v-card-text>
-                    </div>
-                    </v-expand-transition>
-                </v-card>
-
+          <v-card class="mx-auto" max-width="250" elevation="5" outlined>
+            <v-list-item three-line>
+              <v-list-item-content>
+                <img :src="item.gambar" height="250" >
+                <v-list-item-title class="headline text-center" v-text="item.nama"></v-list-item-title>
+                <v-row>
+                  <v-col>
+                    <div>Merk : {{item.satuan}}</div>
+                    <div>Type : {{item.harga}}</div>
+                    <div>Price : {{item.jumlah_stok}}</div>
+                  </v-col>
+                </v-row>
+              </v-list-item-content>
+            </v-list-item>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn color="danger" @click="deleteData(item.id_produk)">Delete</v-btn>
+              <v-spacer />
+            </v-card-actions>
+          </v-card>
           <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000"> {{ text }} <v-btn dark text
                 @click="snackbar = false"> Close </v-btn>
         </v-snackbar>
@@ -252,7 +223,6 @@ export default {
       updatedId: ""
     };
   },
-  show: false,
   methods: {
     getData() {
       var uri = this.$apiUrl + "Produk/" + "getAll";
