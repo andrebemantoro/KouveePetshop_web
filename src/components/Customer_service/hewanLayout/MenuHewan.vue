@@ -1,6 +1,6 @@
 <template>
   <div style="margin:20px">
-    <v-bottom-navigation v-model="bottomNav" dark shift>
+    <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-btn>
         <span>Aktif</span>
         <v-icon>mdi-account-multiple</v-icon>
@@ -12,13 +12,8 @@
       </v-btn>
     </v-bottom-navigation> -->
     <v-card>
-<<<<<<< HEAD
-      <v-container grid-list-md mb-20>
-        <h2 class="text-md-center">Data Hewan Kouvee Petshop</h2>
-=======
       <div class="pt-5">
-        <h2 class="text-md-center">Data Jenis Hewan Kouvee Petshop</h2>
->>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
+        <h2 class="text-md-center">Data Hewan Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
             <v-btn depressed dark rounded style="text-transform: none !important;" color="#f9c99e"
@@ -28,16 +23,7 @@
             </v-btn>
           </v-flex>
           <v-flex xs6 class="text-right">
-<<<<<<< HEAD
-            <v-text-field
-              v-model="keyword"
-              append-icon="mdi-search"
-              label="Cari"
-              hide-details
-            >
-=======
-            <v-text-field v-model="keyword" append-icon="mdi-search" label="Search" hide-details>
->>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
+            <v-text-field v-model="keyword" append-icon="mdi-search" label="Cari" hide-details>
             </v-text-field>
           </v-flex>
         </v-layout>
@@ -123,35 +109,6 @@
                 label="Jenis Hewan*"
               ></v-autocomplete>
               </v-col>
-<<<<<<< HEAD
-            </v-row>
-          </v-container>
-          <small>*wajib diisi</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="resetForm(), (dialog = false)"
-            >Tutup</v-btn
-          >
-          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="dialogEdit" persistent max-width="600px">
-      <v-card>
-        <v-card-title>
-          <v-spacer />
-          <span class="headline">Profil Jenis Hewan</span>
-          <v-spacer />
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-=======
->>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
               <v-col cols="12">
                 <v-autocomplete
                 v-model="form.id_pelanggan" required
@@ -196,18 +153,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-<<<<<<< HEAD
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="resetForm(), (dialogEdit = false)"
-            >Tutup</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="resetForm(), (dialog = false)">Tutup</v-btn>
           <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
-=======
-          <v-btn color="blue darken-1" text @click="resetForm(), (dialog = false)">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
->>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -225,6 +172,8 @@
 export default {
   data() {
     return {
+      save: "",
+      on: "",
       dialog: false,
       deleteDialog: false,
       dialogLabel: "Tambah Hewan",
@@ -384,9 +333,9 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
+          this.getData(); //mengambil data hewan
           this.resetForm();
           this.typeInput = "new";
-          this.getData();
         })
         .catch(error => {
           this.errors = error;
@@ -451,18 +400,16 @@ export default {
     resetForm() {
       this.form = {
         nama: "",
-<<<<<<< HEAD
-=======
         id_jenis_hewan: "",
         id_pelanggan: "",
+        nama: "",
         tanggal_lahir: "",
->>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama")
       };
     },
-    customFilter (item, queryText, itemText) {
+    customFilter (item, queryText) {
       const textOne = item.nama.toLowerCase()
       const textTwo = item.nama.toLowerCase()
       const searchText = queryText.toLowerCase()

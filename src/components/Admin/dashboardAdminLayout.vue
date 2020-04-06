@@ -30,7 +30,7 @@
           v-for="item in items"
           :key="item.title"
           link
-          @click="$router.push(item.to)"
+          @click="$router.push(item.to).catch(error=>{})"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>

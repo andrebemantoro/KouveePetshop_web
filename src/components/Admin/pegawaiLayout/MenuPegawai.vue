@@ -428,6 +428,10 @@ export default {
         
       ],
       pegawais: [],
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 80c775d6563f38322488c994e2b2ec84ef663c32
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
@@ -572,7 +576,7 @@ export default {
     changePassword(item) {
       this.typeInput = "edit";
       this.dialogPassword = true;   
-      this.form.password = item.password;
+      this.form.password = "";
       this.updatedId = item.id_pegawai;
     },
     deleteData(deleteId) {

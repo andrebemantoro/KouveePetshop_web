@@ -319,7 +319,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
-          this.getData(); //mengambil datapegawai
+          this.getData(); //mengambil data jenis hewan
           this.resetForm();
           this.typeInput = "new";
         })
