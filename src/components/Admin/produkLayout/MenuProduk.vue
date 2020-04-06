@@ -106,10 +106,7 @@
                  
                   height="200" 
                 />
-                    <!-- <img
-                   src="{{item.gambar}}"
-                    height="200px"
-                    > -->
+                  
 
                     <v-card-title>
                    {{item.nama}}
@@ -218,6 +215,7 @@ export default {
   data() {
     return {
       show: false,
+      notShow :[],
       dialog: false,
       items: ["Buah", "Karung", "Lusin"],
       keyword: "",
