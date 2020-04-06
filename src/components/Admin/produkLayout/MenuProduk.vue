@@ -4,7 +4,7 @@
     <template>
       <v-toolbar flat color="white">
         <v-text-field
-        v-model="search"
+        v-model="keyword"
         label="Search"
         single-line
         hide-details
@@ -112,20 +112,21 @@
                     > -->
 
                     <v-card-title>
-                    ID Produk: {{item.id_produk}}<br>{{item.nama}}
+                   {{item.nama}}
                     </v-card-title>
 
                     <v-card-subtitle>
-                    Jumlah Stok :{{item.jumlah_stok}}
+                    ID Produk: {{item.id_produk}}
+                    
                     </v-card-subtitle>
                    
 
                     <v-card-actions>
                     <v-btn text @click="editHandler(item)">Edit</v-btn>
                     <v-spacer></v-spacer>
-<!-- ---------------------------------------------------------------------------------------------- -->
-                  <!-- -------------------------------------------------------- -->
-                    <!-- <div class="text-center">
+<!-- ----------------------------------Dialog Untuk Konfirmasi Hapus------------------------------------------------------------ -->
+                 
+                    <div >
                       <v-dialog v-model="pesan" width="500">
                         <template v-slot:activator="{ on }">
                           <v-btn icon color="red lighten-2" dark v-on="on" text="">
@@ -150,7 +151,7 @@
                           <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn
-                              color="primary"
+                              color="red"
                               text
                               @click="
                                 deleteData(item.id_produk), (pesan = false)
@@ -161,9 +162,9 @@
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
-                    </div> -->
+                    </div>
 
-                    <!-- -------------------------------------------------------- -->
+                   
                     
 <!-- ---------------------------------------------------------------------------------------------- -->
 
@@ -183,9 +184,14 @@
 
                         <v-card-text>
                           <v-card-subtitle>
+                            Jumlah Stok  :{{item.jumlah_stok}}<br>
                             Stok Minimal : {{item.min_stok}}<br>
-                            Harga        : {{item.min_stok}}<br>
+                            Harga        : {{item.harga}}<br>
                             Satuan       : {{item.satuan}}<br>
+                            Created By   : {{item.created_by}}<br>
+                            Created At   : {{item.created_at}}<br>
+                            Modified By  : {{item.modified_by}}<br>
+                            Modified At  : {{item.modified_at}}<br>
                           </v-card-subtitle>
                           
                         </v-card-text>
