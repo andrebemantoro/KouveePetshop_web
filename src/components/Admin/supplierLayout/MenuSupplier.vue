@@ -5,7 +5,7 @@
       <v-toolbar flat color="white">
         <v-text-field
         v-model="search"
-        label="Search"
+        label="Cari"
         single-line
         hide-details
         ></v-text-field>
@@ -55,9 +55,9 @@
               color="blue darken-1"
               text
               @click="resetForm(), (dialog = false)"
-              >Close</v-btn
+              >Tutup</v-btn
             >
-            <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
           </v-card-actions>
         </v-card>
         </v-dialog>
@@ -90,7 +90,7 @@
                 
 
                 <v-card-actions>
-                <v-btn text @click="editHandler(item)">Edit</v-btn>
+                <v-btn text @click="editHandler(item)">Ubah</v-btn>
                 <v-spacer></v-spacer>
 
                     <!-- ----------------------------------Dialog Untuk Konfirmasi Hapus------------------------------------------------------------ -->
@@ -99,7 +99,7 @@
                       <v-dialog v-model="pesan" width="500">
                         <template v-slot:activator="{ on }">
                           <v-btn icon color="red lighten-2" dark v-on="on" text="">
-                            Delete
+                            Hapus
                           </v-btn>
                         </template>
 
@@ -123,7 +123,7 @@
                               color="red"
                               text
                               @click="
-                                deleteData(item.id_produk), (pesan = false)
+                                deleteData(item.id_supplier), (pesan = false)
                               "
                             >
                               Hapus
@@ -151,12 +151,12 @@
 
                         <v-card-text>
                           <v-card-subtitle>
-                            Alamat : {{item.alamat}}<br>
-                            Nomor Telepon : {{item.telp}}<br>
-                            Created By   : {{item.created_by}}<br>
-                            Created At   : {{item.created_at}}<br>
-                            Modified By  : {{item.modified_by}}<br>
-                            Modified At  : {{item.modified_at}}<br>
+                            Alamat          : {{item.alamat}}<br>
+                            Nomor Telepon   : {{item.telp}}<br>
+                            Dibuat Oleh     : {{item.created_by}}<br>
+                            Tanggal Dibuat  : {{item.created_at}}<br>
+                            Diubah Oleh     : {{item.modified_by}}<br>
+                            Tanggal Diubah  : {{item.modified_at}}<br>
                           </v-card-subtitle>
                           
                         </v-card-text>
@@ -165,7 +165,7 @@
                 </v-card>
 
           <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000"> {{ text }} <v-btn dark text
-                @click="snackbar = false"> Close </v-btn>
+                @click="snackbar = false"> Tutup </v-btn>
         </v-snackbar>
         </v-col>
           </v-row> 
@@ -302,7 +302,7 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        console.log("data berhasil diubah");
         this.updateData();
       }
     },

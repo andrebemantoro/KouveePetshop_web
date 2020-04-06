@@ -5,7 +5,7 @@
       <v-toolbar flat color="white">
         <v-text-field
         v-model="keyword"
-        label="Search"
+        label="Cari"
         single-line
         hide-details
         ></v-text-field>
@@ -81,9 +81,9 @@
               color="blue darken-1"
               text
               @click="resetForm(), (dialog = false)"
-              >Close</v-btn
+              >Tutup</v-btn
             >
-            <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
           </v-card-actions>
         </v-card>
         </v-dialog>
@@ -119,7 +119,7 @@
                    
 
                     <v-card-actions>
-                    <v-btn text @click="editHandler(item)">Edit</v-btn>
+                    <v-btn text @click="editHandler(item)">Ubah</v-btn>
                     <v-spacer></v-spacer>
 <!-- ----------------------------------Dialog Untuk Konfirmasi Hapus------------------------------------------------------------ -->
                  
@@ -127,7 +127,7 @@
                       <v-dialog v-model="pesan" width="500">
                         <template v-slot:activator="{ on }">
                           <v-btn icon color="red lighten-2" dark v-on="on" text="">
-                            Delete
+                            Hapus
                           </v-btn>
                         </template>
 
@@ -181,14 +181,14 @@
 
                         <v-card-text>
                           <v-card-subtitle>
-                            Jumlah Stok  :{{item.jumlah_stok}}<br>
-                            Stok Minimal : {{item.min_stok}}<br>
-                            Harga        : {{item.harga}}<br>
-                            Satuan       : {{item.satuan}}<br>
-                            Created By   : {{item.created_by}}<br>
-                            Created At   : {{item.created_at}}<br>
-                            Modified By  : {{item.modified_by}}<br>
-                            Modified At  : {{item.modified_at}}<br>
+                            Jumlah Stok     :{{item.jumlah_stok}}<br>
+                            Stok Minimal    : {{item.min_stok}}<br>
+                            Harga           : {{item.harga}}<br>
+                            Satuan          : {{item.satuan}}<br>
+                            Dibuat Oleh     : {{item.created_by}}<br>
+                            Tanggal Dibuat  : {{item.created_at}}<br>
+                            Diubah Oleh     : {{item.modified_by}}<br>
+                            Tanggal Diubah  : {{item.modified_at}}<br>
                           </v-card-subtitle>
                           
                         </v-card-text>
@@ -197,7 +197,7 @@
                 </v-card>
 
           <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000"> {{ text }} <v-btn dark text
-                @click="snackbar = false"> Close </v-btn>
+                @click="snackbar = false"> Tutup </v-btn>
         </v-snackbar>
         </v-col>
           </v-row> 
@@ -219,72 +219,6 @@ export default {
       dialog: false,
       items: ["Buah", "Karung", "Lusin"],
       keyword: "",
-      headers: [
-        {
-          text: "No",
-          value: "index"
-        },
-        {
-          text: "Id Produk",
-          value: "id_produk"
-        },
-        {
-          text: "Nama Produk",
-          value: "nama"
-        },
-        {
-          text: "Satuan",
-          value: "satuan"
-        },
-        {
-          text: "Jumlah Stok",
-          value: "jumlah_stok"
-        },
-        {
-          text: "Harga",
-          value: "harga"
-        },
-        {
-          text: "Stok Minimal",
-          value: "min_stok"
-        },
-        {
-          text: "Gambar",
-          value: ""
-        },
-        {
-          text: "Created At",
-          value: "created_at"
-        },
-        {
-          text: "Created By",
-          value: "created_by"
-        },
-        {
-          text: "Modified At",
-          value: "modified_by"
-        },
-        {
-          text: "Modified By",
-          value: "modified_by"
-        },
-        {
-          text: "Delete At",
-          value: "delete_at"
-        },
-        {
-          text: "Delete By",
-          value: "delete_by"
-        },
-        {
-          text: "Aktif",
-          value: "aktif"
-        },
-        {
-          text: "Action",
-          value: null
-        }
-      ],
       produks: [],
       pesan: "",
       search: "",
@@ -414,7 +348,7 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        console.log("data berhasil diubah");
         this.updateData();
       }
     },

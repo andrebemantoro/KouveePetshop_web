@@ -16,7 +16,7 @@
             Kouvee Petshop
           </v-list-item-title>
           <v-list-item-subtitle style="margin-left:10px;">
-            for Customer Service
+            untuk Customer Service
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -42,7 +42,7 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block @click="logout()">Logout</v-btn>
+          <v-btn block @click="logout()">Keluar</v-btn>
         </div>
       </template>
     </v-navigation-drawer>

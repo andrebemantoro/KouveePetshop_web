@@ -32,7 +32,7 @@
             <v-text-field
               v-model="keyword"
               append-icon="mdi-search"
-              label="Search"
+              label="Cari"
               hide-details
             >
             </v-text-field>
@@ -130,7 +130,7 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -138,9 +138,9 @@
             color="blue darken-1"
             text
             @click="resetForm(), (dialog = false)"
-            >Close</v-btn
+            >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -163,7 +163,7 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -171,9 +171,9 @@
             color="blue darken-1"
             text
             @click="resetForm(), (dialogEdit = false)"
-            >Close</v-btn
+            >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -186,7 +186,7 @@
     >
       {{ text }}
       <v-btn dark text @click="snackbar = false">
-        Close
+        Tutup
       </v-btn>
     </v-snackbar>
   </v-container>
@@ -215,19 +215,19 @@ export default {
           value: "nama"
         },
         {
-          text: "Created At",
+          text: "Tanggal Dibuat",
           value: "created_at"
         },
         {
-          text: "Created By",
+          text: "Dibuat Oleh",
           value: "created_by"
         },
         {
-          text: "Modified At",
+          text: "Tanggal Diubah",
           value: "modified_by"
         },
         {
-          text: "Modified By",
+          text: "Diubah Oleh",
           value: "modified_by"
         },
         // {
@@ -243,7 +243,7 @@ export default {
         //   value: "aktif"
         // },
         {
-          text: "Action",
+          text: "Aksi",
           value: null
         }
       ],
@@ -363,16 +363,16 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        console.log("data berhasil diubah");
         this.updateData();
       }
     },
     resetForm() {
       this.form = {
         nama: "",
-        created_by: "admin",
-        delete_by: "admin",
-        modified_by: "admin"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
     },
     resetFormPassword() {

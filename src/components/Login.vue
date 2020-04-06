@@ -7,7 +7,7 @@
             <v-card class="elevation-12">
               <v-toolbar color="#fff4cb"  flat>
                 <v-toolbar-title
-                  >Kouvee Petshop Login</v-toolbar-title
+                  >Masuk Kouvee Petshop</v-toolbar-title
                 >
                 <v-spacer />
                 <v-tooltip bottom>
@@ -54,7 +54,7 @@
                 <v-btn  
                 style="text-transform: none !important;" 
                 color="#6c573c" 
-                @click="login()">Login</v-btn>
+                @click="login()">Masuk</v-btn>
               </v-card-actions>
               <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
                 {{ text }}
@@ -121,7 +121,7 @@ export default {
             if(this.pegawai.id_pegawai!=null) {
               if(this.pegawai.role.toLowerCase()=="customer service"){ //login ke menu customer 
                   sessionStorage.setItem("Id", response.data.message.id_pegawai);
-                  sessionStorage.setItem("Nama", response.data.message.nama);
+                  sessionStorage.setItem("Nama", response.data.message.username);
                   this.snackbar = true;
                   this.text = "Login Berhasil";
                   this.color = "green";
