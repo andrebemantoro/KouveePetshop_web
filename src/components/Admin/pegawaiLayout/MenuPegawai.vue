@@ -422,8 +422,13 @@ export default {
           text: "Action",
           value: null
         }
+        
       ],
       pegawais: [],
+      dialogEdit: "",
+      dialogPassword: "",
+      pesan: "",
+      search: "",
       snackbar: false,
       color: null,
       text: "",

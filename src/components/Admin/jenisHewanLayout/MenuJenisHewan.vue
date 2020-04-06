@@ -258,6 +258,7 @@ export default {
         modified_by: sessionStorage.getItem("Nama")
       },
       jenishewan: new FormData(),
+      dialogEdit: "",
       typeInput: "new",
       errors: "",
       updatedId: ""

@@ -288,6 +288,8 @@ export default {
         }
       ],
       produks: [],
+      pesan: "",
+      search: "",
       snackbar: false,
       color: null,
       text: "",
