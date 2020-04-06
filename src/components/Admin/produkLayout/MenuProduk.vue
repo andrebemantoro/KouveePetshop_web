@@ -100,7 +100,7 @@
                     max-width="344"
                 >
                 <v-img      
-                  :src= "$apiUrl+item.gambar"
+                  :src= "$apiUrl2+'produk/'+item.gambar"
                   contain
                   class="grey lighten-2"
                   width="80"

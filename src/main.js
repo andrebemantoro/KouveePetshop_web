@@ -7,6 +7,7 @@ import Axios from "axios";
 
 Vue.prototype.$http = Axios;
 Vue.prototype.$apiUrl = "http://kouveepetshopapi.smithdev.xyz/index.php/";
+Vue.prototype.$apiUrl2 = "http://kouveepetshopapi.smithdev.xyz/upload/";
 Vue.config.productionTip = false;
 
 new Vue({
