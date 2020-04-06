@@ -99,10 +99,17 @@
                     class="mx-auto"
                     max-width="344"
                 >
-                    <img:
+                <v-img      
+                  :src= "$apiUrl+item.gambar"
+                  contain
+                  class="grey lighten-2"
+                  width="80"
+                  height="80" 
+                />
+                    <!-- <img
                    src="{{item.gambar}}"
                     height="200px"
-                    >
+                    > -->
 
                     <v-card-title>
                     {{item.nama}}
@@ -147,9 +154,7 @@
                 @click="snackbar = false"> Close </v-btn>
         </v-snackbar>
         </v-col>
-          </v-row>
-          
-          
+          </v-row> 
         </template>
       </v-flex>
     </v-layout>
@@ -249,7 +254,7 @@ export default {
       produk: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
   show: false,
