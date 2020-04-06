@@ -13,7 +13,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Tambah Produk</v-btn>
+            <v-btn color="#f9c99e" depressed rounded dark class="mb-2" v-on="on">Tambah Produk</v-btn>
           </template>
           <v-card>
           <v-card-title>
@@ -73,7 +73,7 @@
                 </v-col>
               </v-row>
             </v-container>
-            <small>*indicates required field</small>
+            <small>*wajib diisi</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -420,9 +420,9 @@ export default {
         harga: "",
         min_stok: "",
         gambar: "",
-        created_by: "admin",
-        delete_by: "admin",
-        modified_by: "admin"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
     }
   },

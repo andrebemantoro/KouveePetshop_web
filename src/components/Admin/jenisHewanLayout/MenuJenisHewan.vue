@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-bottom-navigation v-model="bottomNav" dark shift>
+    <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-btn>
         <span>Aktif</span>
         <v-icon>mdi-account-multiple</v-icon>
@@ -10,7 +10,7 @@
         <span>Non Aktif</span>
         <v-icon>mdi-delete-empty</v-icon>
       </v-btn>
-    </v-bottom-navigation>
+    </v-bottom-navigation> -->
     <v-card>
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Jenis Hewan Kouvee Petshop</h2>
