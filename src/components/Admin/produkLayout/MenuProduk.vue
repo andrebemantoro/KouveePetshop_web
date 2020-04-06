@@ -103,8 +103,8 @@
                   :src= "$apiUrl2+'produk/'+item.gambar"
                   contain
                   class="grey lighten-2"
-                  width="80"
-                  height="80" 
+                 
+                  height="200" 
                 />
                     <!-- <img
                    src="{{item.gambar}}"
@@ -112,22 +112,60 @@
                     > -->
 
                     <v-card-title>
-                    {{item.nama}}
+                    ID Produk: {{item.id_produk}}<br>{{item.nama}}
                     </v-card-title>
 
                     <v-card-subtitle>
-                    {{item.jumlah_stok}}
+                    Jumlah Stok :{{item.jumlah_stok}}
                     </v-card-subtitle>
+                   
 
                     <v-card-actions>
                     <v-btn text @click="editHandler(item)">Edit</v-btn>
+                    <v-spacer></v-spacer>
+<!-- ---------------------------------------------------------------------------------------------- -->
+                  <!-- -------------------------------------------------------- -->
+                    <div class="text-center">
+                      <v-dialog v-model="pesan" width="500">
+                        <template v-slot:activator="{ on }">
+                          <v-btn icon color="red lighten-2" dark v-on="on" text="">
+                            Delete
+                          </v-btn>
+                        </template>
 
-                    <v-btn
-                        color="purple"
-                        text
-                    >
-                        Explore
-                    </v-btn>
+                        <v-card>
+                          <v-card-title
+                            class="headline Red lighten-2"
+                            primary-title
+                          >
+                            Konfirmasi Hapus
+                          </v-card-title>
+
+                          <v-card-text>
+                            Data yang akan dihapus, Lanjutkan ?
+                          </v-card-text>
+
+                          <v-divider></v-divider>
+
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              color="primary"
+                              text
+                              @click="
+                                deleteData(item.id_produk), (pesan = false)
+                              "
+                            >
+                              Hapus
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </div>
+
+                    <!-- -------------------------------------------------------- -->
+                    
+<!-- ---------------------------------------------------------------------------------------------- -->
 
                     <v-spacer></v-spacer>
 
@@ -144,7 +182,12 @@
                         <v-divider></v-divider>
 
                         <v-card-text>
-                        I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+                          <v-card-subtitle>
+                            Stok Minimal : {{item.min_stok}}<br>
+                            Harga        : {{item.min_stok}}<br>
+                            Satuan       : {{item.satuan}}<br>
+                          </v-card-subtitle>
+                          
                         </v-card-text>
                     </div>
                     </v-expand-transition>
@@ -158,14 +201,17 @@
         </template>
       </v-flex>
     </v-layout>
-
+ 
+      
 </div>
+
 </template>
 
 <script>
 export default {
   data() {
     return {
+      show: false,
       dialog: false,
       items: ["Buah", "Karung", "Lusin"],
       keyword: "",
@@ -257,7 +303,7 @@ export default {
       updatedId: "",
     };
   },
-  show: false,
+  
   methods: {
     getData() {
       var uri = this.$apiUrl + "Produk/" + "getAll";
