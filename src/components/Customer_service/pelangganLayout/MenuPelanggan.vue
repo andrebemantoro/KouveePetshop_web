@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-bottom-navigation v-model="bottomNav" dark shift>
+    <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-btn>
         <span>Aktif</span>
         <v-icon>mdi-account-multiple</v-icon>
@@ -10,7 +10,7 @@
         <span>Non Aktif</span>
         <v-icon>mdi-delete-empty</v-icon>
       </v-btn>
-    </v-bottom-navigation>
+    </v-bottom-navigation> -->
     <v-card>
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Pelanggan Kouvee Petshop</h2>
@@ -58,8 +58,8 @@
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
                 <td>{{ item.modified_by }}</td>
-                <td>{{ item.delete_by }}</td>
-                <td>{{ item.delete_at }}</td>
+                <!-- <td>{{ item.delete_by }}</td>
+                <td>{{ item.delete_at }}</td> -->
                 <!-- <td>{{ item.aktif }}</td> -->
 
                 <td>
@@ -256,14 +256,14 @@ export default {
           text: "Modified By",
           value: "modified_by"
         },
-        {
-          text: "Delete At",
-          value: "delete_at"
-        },
-        {
-          text: "Delete By",
-          value: "delete_by"
-        },
+        // {
+        //   text: "Delete At",
+        //   value: "delete_at"
+        // },
+        // {
+        //   text: "Delete By",
+        //   value: "delete_by"
+        // },
         // {
         //   text: "Aktif",
         //   value: "aktif"

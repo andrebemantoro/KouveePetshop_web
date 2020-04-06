@@ -180,14 +180,14 @@ export default {
           text: "Modified By",
           value: "modified_by"
         },
-        {
-          text: "Delete At",
-          value: "delete_at"
-        },
-        {
-          text: "Delete By",
-          value: "delete_by"
-        },
+        // {
+        //   text: "Delete At",
+        //   value: "delete_at"
+        // },
+        // {
+        //   text: "Delete By",
+        //   value: "delete_by"
+        // },
         {
           text: "Aktif",
           value: "aktif"

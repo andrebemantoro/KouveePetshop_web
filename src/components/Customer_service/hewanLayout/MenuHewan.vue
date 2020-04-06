@@ -57,8 +57,8 @@
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
                 <td>{{ item.modified_by }}</td>
-                <td>{{ item.delete_by }}</td>
-                <td>{{ item.delete_at }}</td>
+                <!-- <td>{{ item.delete_by }}</td>
+                <td>{{ item.delete_at }}</td> -->
                 <!-- <td>{{ item.aktif }}</td> -->
 
                 <td>
@@ -249,14 +249,14 @@ export default {
           text: "Modified By",
           value: "modified_by"
         },
-        {
-          text: "Delete At",
-          value: "delete_at"
-        },
-        {
-          text: "Delete By",
-          value: "delete_by"
-        },
+        // {
+        //   text: "Delete At",
+        //   value: "delete_at"
+        // },
+        // {
+        //   text: "Delete By",
+        //   value: "delete_by"
+        // },
         // {
         //   text: "Aktif",
         //   value: "aktif"
