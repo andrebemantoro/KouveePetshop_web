@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
+  <div style="margin:20px">
+    <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-btn>
         <span>Aktif</span>
         <v-icon>mdi-account-multiple</v-icon>
@@ -12,47 +12,46 @@
       </v-btn>
     </v-bottom-navigation> -->
     <v-card>
+<<<<<<< HEAD
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Hewan Kouvee Petshop</h2>
+=======
+      <div class="pt-5">
+        <h2 class="text-md-center">Data Jenis Hewan Kouvee Petshop</h2>
+>>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
-            <v-btn
-              depressed
-              dark
-              rounded
-              style="text-transform: none !important;"
-              color="#f9c99e"
-              @click="dialog = true"
-            >
+            <v-btn depressed dark rounded style="text-transform: none !important;" color="#f9c99e"
+              @click="showAddDialog">
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Jenis Hewan
             </v-btn>
           </v-flex>
           <v-flex xs6 class="text-right">
+<<<<<<< HEAD
             <v-text-field
               v-model="keyword"
               append-icon="mdi-search"
               label="Cari"
               hide-details
             >
+=======
+            <v-text-field v-model="keyword" append-icon="mdi-search" label="Search" hide-details>
+>>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
             </v-text-field>
           </v-flex>
         </v-layout>
 
-        <v-data-table
-          :headers="headers"
-          :items="hewans"
-          :search="keyword"
-          :loading="load"
-          :jenises="jenishewans"
-        >
+        <v-data-table :headers="headers" :items="hewans" :search="keyword" :loading="load">
           <template v-slot:body="{ items }">
             <tbody>
               <tr v-for="(item, index) in items" :key="item.id_hewans">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_hewan }}</td>
-                <td>{{ item.nama }}</td>
-                <!-- <td>{{item2.nama}}</td> -->
+                <td>{{ item.nama_hewan }}</td>
+                <td>{{ item.nama_jenis_hewan}}</td>
+                <td>{{ item.nama_pelanggan}}</td>
+                <td>{{ item.tanggal_lahir_hewan}}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -60,88 +59,71 @@
                 <!-- <td>{{ item.delete_by }}</td>
                 <td>{{ item.delete_at }}</td> -->
                 <!-- <td>{{ item.aktif }}</td> -->
-
                 <td>
                   <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-
-                  <div class="text-center">
-                    <v-btn
-                      icon
-                      color="indigo"
-                      light
-                      @click="changePassword(item)"
-                    >
-                      <v-icon>mdi-lock</v-icon>
-                    </v-btn>
-                  </div>
-
-                  <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
-                  <div class="text-center">
-                    <v-dialog  width="500">
-                      <template v-slot:activator="{ on }">
-                        <v-btn icon color="red lighten-2" dark v-on="on">
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </template>
-
-                      <v-card>
-                        <v-card-title
-                          class="headline Red lighten-2"
-                          primary-title
-                        >
-                          Konfirmasi Hapus
-                        </v-card-title>
-
-                        <v-card-text>
-                          Data yang akan dihapus, Lanjutkan ?
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="primary"
-                            text
-                            @click="
-                              deleteData(item.id_jenis_hewan)
-                            "
-                          >
-                            Hapus
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </div>
-
-                  <!-- -------------------------------------------------------- -->
+                  <v-btn icon color="red lighten-2" dark v-on="on" @click="deleteRow(item)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
                 </td>
               </tr>
             </tbody>
           </template>
         </v-data-table>
-      </v-container>
+      </div>
     </v-card>
+    <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title>
+            Konfirmasi Hapus
+          </v-card-title>
+          <v-card-text>
+            Data yang akan dihapus, Lanjutkan ?
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDialog=false">
+              Batal
+            </v-btn>
+            <v-btn color="primary" text @click="deleteData(deleteId)">
+              Hapus
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- -------------------------------------------------------- -->
+
     <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Jenis Hewan</span>
+          <span class="headline">{{dialogLabel}}</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field
-                  label="Jenis Hewan*"
-                  v-model="form.nama"
-                  required
-                ></v-text-field>
+                <v-text-field label="Nama Hewan*" v-model="form.nama" required></v-text-field>
               </v-col>
+              <v-col cols="12">
+                <v-autocomplete
+                v-model="form.id_jenis_hewan" required
+                :items="jenishewans"
+                :filter="customFilter"
+                item-value="id_jenis_hewan"
+                color="white"
+                item-text="nama"
+                label="Jenis Hewan*"
+              ></v-autocomplete>
+              </v-col>
+<<<<<<< HEAD
             </v-row>
           </v-container>
           <small>*wajib diisi</small>
@@ -168,12 +150,45 @@
         <v-card-text>
           <v-container>
             <v-row>
+=======
+>>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
               <v-col cols="12">
-                <v-text-field
-                  label="Jenis Hewan*"
-                  v-model="form.nama"
-                  required
-                ></v-text-field>
+                <v-autocomplete
+                v-model="form.id_pelanggan" required
+                auto-select-first
+                :items="pelanggans"
+                :filter="customFilter"
+                item-value="id_pelanggan"
+                color="white"
+                item-text="nama"
+                label="Nama Pemilik*"
+              ></v-autocomplete>
+              </v-col>
+              <v-col cols="20">
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="form.tanggal_lahir"
+                      label="Tanggal Lahir*"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    ref="picker"
+                    v-model="form.tanggal_lahir"
+                    :max="new Date().toISOString().substr(0, 10)"
+                    min="1950-01-01"
+                    @change="save"
+                  ></v-date-picker>
+                </v-menu>
               </v-col>
             </v-row>
           </v-container>
@@ -181,6 +196,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+<<<<<<< HEAD
           <v-btn
             color="blue darken-1"
             text
@@ -188,22 +204,21 @@
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+=======
+          <v-btn color="blue darken-1" text @click="resetForm(), (dialog = false)">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+>>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-    <v-snackbar
-      v-model="snackbar"
-      :color="color"
-      :multi-line="true"
-      :timeout="3000"
-    >
+    <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
       {{ text }}
       <v-btn dark text @click="snackbar = false">
         Tutup
       </v-btn>
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -211,13 +226,15 @@ export default {
   data() {
     return {
       dialog: false,
+      deleteDialog: false,
+      dialogLabel: "Tambah Hewan",
       jenishewans: [],
-      hewans:[],
+      pelanggans: [],
+      hewans: [],
       keyword: "",
       bottomNav: 1,
       menu: false,
-      headers: [
-        {
+      headers: [{
           text: "No",
           value: "index"
         },
@@ -227,11 +244,19 @@ export default {
         },
         {
           text: "Nama Hewan",
-          value: "nama"
+          value: "nama_hewan"
         },
         {
           text: "Jenis Hewan",
-          value: "jenis"
+          value: "nama_jenis_hewan"
+        },
+        {
+          text: "Nama Pemilik",
+          value: "nama_pelanggan"
+        },
+        {
+          text: "Tanggal Lahir",
+          value: "tanggal_lahir_hewan"
         },
         {
           text: "Tanggal Dibuat",
@@ -250,16 +275,16 @@ export default {
           value: "modified_by"
         },
         // {
-        //   text: "Delete At",
-        //   value: "delete_at"
+        // text: "Delete At",
+        // value: "delete_at"
         // },
         // {
-        //   text: "Delete By",
-        //   value: "delete_by"
+        // text: "Delete By",
+        // value: "delete_by"
         // },
         // {
-        //   text: "Aktif",
-        //   value: "aktif"
+        // text: "Aktif",
+        // value: "aktif"
         // },
         {
           text: "Aksi",
@@ -272,54 +297,68 @@ export default {
       load: false,
       form: {
         nama: "",
+        id_jenis_hewan: "",
+        id_pelanggan: "",
+        tanggal_lahir: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama")
       },
-      jenishewan: new FormData(),
-      dialogEdit: "",
+      hewan: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
+      deleteId:"",
     };
   },
   // computed: {
-  //   color() {
-  //     switch (this.bottomNav) {
-  //       case 0:
-  //         return "blue-grey";
-  //       case 1:
-  //         return "teal";
-  //     }
-  //   }
+  // color() {
+  // switch (this.bottomNav) {
+  // case 0:
+  // return "blue-grey";
+  // case 1:
+  // return "teal";
+  // }
+  // }
   // },
   methods: {
     getData() {
-      var uri = this.$apiUrl + "JenisHewan";
-      var uri2 = this.$apiUrl + "Hewan";
+      var uri = this.$apiUrl + "Hewan/getWithJoin";
       this.$http.get(uri).then(response => {
-        this.jenishewans = response.data.message;
-      });
-      this.$http.get(uri2).then(response => {
         this.hewans = response.data.message;
       });
     },
-    sendData() {
-      this.jenishewan.append("nama", this.form.nama);
-      this.jenishewan.append("created_by", this.form.created_by);
-
+    getPelanggan() {
+      var uri = this.$apiUrl + "Pelanggan";
+      this.$http.get(uri).then(response => {
+        this.pelanggans = response.data.message;
+      });
+    },
+    getJenisHewan() {
       var uri = this.$apiUrl + "JenisHewan";
+      this.$http.get(uri).then(response => {
+        this.jenishewans = response.data.message;
+      });
+    },
+    sendData() {
+      this.hewan.append("nama", this.form.nama);
+      this.hewan.append("id_jenis_hewan", this.form.id_jenis_hewan);
+      this.hewan.append("id_pelanggan", this.form.id_pelanggan);
+      this.hewan.append("tanggal_lahir", this.form.tanggal_lahir);
+      this.hewan.append("created_by", this.form.created_by);
+
+      var uri = this.$apiUrl + "Hewan";
       this.load = true;
       this.$http
-        .post(uri, this.jenishewan)
+        .post(uri, this.hewan)
         .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
-          this.getData();
           this.resetForm();
+          this.getData();
         })
         .catch(error => {
           this.errors = error;
@@ -330,21 +369,24 @@ export default {
         });
     },
     updateData() {
-      this.jenishewan.append("nama", this.form.nama);
-      this.jenishewan.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "JenisHewan/" + "update/" + this.updatedId;
+      this.hewan.append("nama", this.form.nama);
+      this.hewan.append("id_jenis_hewan", this.form.id_jenis_hewan);
+      this.hewan.append("id_pelanggan", this.form.id_pelanggan);
+      this.hewan.append("tanggal_lahir", this.form.tanggal_lahir);
+      this.hewan.append("modified_by", this.form.modified_by);
+      var uri = this.$apiUrl + "Hewan/" + "update/" + this.updatedId;
       this.load = true;
       this.$http
-        .post(uri, this.jenishewan)
+        .post(uri, this.hewan)
         .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
-          this.getData(); //mengambil datapegawai
           this.resetForm();
           this.typeInput = "new";
+          this.getData();
         })
         .catch(error => {
           this.errors = error;
@@ -355,24 +397,40 @@ export default {
           this.typeInput = "new";
         });
     },
+    showAddDialog(){
+      this.typeInput = "new";
+      this.dialogLabel = "Tambah Hewan",
+      this.resetForm();
+      this.dialog = true
+    },
     editHandler(item) {
       this.typeInput = "edit";
-      this.dialogEdit = true;
-      this.form.nama = item.nama;
-      this.updatedId = item.id_jenis_hewan;
+      this.dialogLabel = "Edit Hewan",
+      this.dialog = true
+      this.dialog = true;
+      this.form.nama = item.nama_hewan;
+      this.form.id_jenis_hewan = item.id_jenis_hewan;
+      this.form.id_pelanggan = item.id_pelanggan;
+      this.form.tanggal_lahir = item.tanggal_lahir_hewan;
+      this.updatedId = item.id_hewan;
+    },
+    deleteRow(item){
+      this.deleteId=item.id_hewan;
+      this.deleteDialog=true;
     },
     deleteData(deleteId) {
       //mengahapus data
-      this.jenishewan.append("delete_by", this.form.delete_by);
-      var uri = this.$apiUrl + "JenisHewan" + "/delete/" + deleteId; //data dihapus berdasarkan id
+      this.hewan.append("delete_by", this.form.delete_by);
+      var uri = this.$apiUrl + "Hewan" + "/delete/" + deleteId; //data dihapus berdasarkan id
       this.load = true;
       this.$http
-        .post(uri, this.jenishewan)
+        .post(uri, this.hewan)
         .then(response => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
+          this.deleteId=""
           this.getData();
         })
         .catch(error => {
@@ -393,19 +451,30 @@ export default {
     resetForm() {
       this.form = {
         nama: "",
+<<<<<<< HEAD
+=======
+        id_jenis_hewan: "",
+        id_pelanggan: "",
+        tanggal_lahir: "",
+>>>>>>> 5f1c5d531f616c5a73bb945c2ab81b6baed66cd8
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama")
       };
     },
-    resetFormPassword() {
-      this.form = {
-        password: ""
-      };
-    }
+    customFilter (item, queryText, itemText) {
+      const textOne = item.nama.toLowerCase()
+      const textTwo = item.nama.toLowerCase()
+      const searchText = queryText.toLowerCase()
+      
+      return textOne.indexOf(searchText) > -1 ||
+        textTwo.indexOf(searchText) > -1
+    },
   },
   mounted() {
     this.getData();
+    this.getPelanggan();
+    this.getJenisHewan();
   }
 };
 </script>
