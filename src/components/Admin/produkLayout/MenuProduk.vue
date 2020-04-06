@@ -1,11 +1,16 @@
 <template>
 <div>
-  <!-- <v-data-table :headers="headers" :items="desserts" :search="search" sort-by="calories" class="elevation-1"> -->
+
     <template>
       <v-toolbar flat color="white">
         <v-text-field
+<<<<<<< HEAD
+        v-model="search"
+        label="Search"
+=======
         v-model="keyword"
         label="Cari"
+>>>>>>> 628acffedf45b4a22e6918d551f7b7bb8187abf5
         single-line
         hide-details
         ></v-text-field>
@@ -214,6 +219,7 @@
 export default {
   data() {
     return {
+      search:'',
       show: false,
       notShow :[],
       dialog: false,
@@ -221,7 +227,7 @@ export default {
       keyword: "",
       produks: [],
       pesan: "",
-      search: '',
+      
       snackbar: false,
       color: null,
       text: "",
