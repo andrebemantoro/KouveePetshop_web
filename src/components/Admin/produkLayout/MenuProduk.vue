@@ -287,7 +287,7 @@ export default {
       ],
       produks: [],
       pesan: "",
-      search: "",
+      search: '',
       snackbar: false,
       color: null,
       text: "",
