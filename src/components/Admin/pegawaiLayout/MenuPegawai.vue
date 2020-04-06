@@ -329,7 +329,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetFormPassword(), (dialogPassword = false)"
+            @click="resetForm(), (dialogPassword = false)"
             >Close</v-btn
           >
           <v-btn color="blue darken-1" text @click="setFormPassword()">Save</v-btn>
@@ -428,6 +428,7 @@ export default {
         
       ],
       pegawais: [],
+      dialog:"",
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
