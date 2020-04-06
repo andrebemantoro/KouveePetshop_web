@@ -16,28 +16,44 @@
         <h2 class="text-md-center">Data Hewan Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
-            <v-btn depressed dark rounded style="text-transform: none !important;" color="#f9c99e"
-              @click="showAddDialog">
+            <v-btn
+              depressed
+              dark
+              rounded
+              style="text-transform: none !important;"
+              color="#f9c99e"
+              @click="showAddDialog"
+            >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Jenis Hewan
             </v-btn>
           </v-flex>
           <v-flex xs6 class="text-right">
-            <v-text-field v-model="keyword" append-icon="mdi-search" label="Cari" hide-details>
+            <v-text-field
+              v-model="keyword"
+              append-icon="mdi-search"
+              label="Cari"
+              hide-details
+            >
             </v-text-field>
           </v-flex>
         </v-layout>
 
-        <v-data-table :headers="headers" :items="hewans" :search="keyword" :loading="load">
+        <v-data-table
+          :headers="headers"
+          :items="hewans"
+          :search="keyword"
+          :loading="load"
+        >
           <template v-slot:body="{ items }">
             <tbody>
               <tr v-for="(item, index) in items" :key="item.id_hewans">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_hewan }}</td>
                 <td>{{ item.nama_hewan }}</td>
-                <td>{{ item.nama_jenis_hewan}}</td>
-                <td>{{ item.nama_pelanggan}}</td>
-                <td>{{ item.tanggal_lahir_hewan}}</td>
+                <td>{{ item.nama_jenis_hewan }}</td>
+                <td>{{ item.nama_pelanggan }}</td>
+                <td>{{ item.tanggal_lahir_hewan }}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -49,7 +65,13 @@
                   <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon color="red lighten-2" dark v-on="on" @click="deleteRow(item)">
+                  <v-btn
+                    icon
+                    color="red lighten-2"
+                    dark
+                    v-on="on"
+                    @click="deleteRow(item)"
+                  >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </td>
@@ -72,7 +94,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="deleteDialog=false">
+            <v-btn color="primary" text @click="deleteDialog = false">
               Batal
             </v-btn>
             <v-btn color="primary" text @click="deleteData(deleteId)">
@@ -89,37 +111,43 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">{{dialogLabel}}</span>
+          <span class="headline">{{ dialogLabel }}</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Hewan*" v-model="form.nama" required></v-text-field>
+                <v-text-field
+                  label="Nama Hewan*"
+                  v-model="form.nama"
+                  required
+                ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-autocomplete
-                v-model="form.id_jenis_hewan" required
-                :items="jenishewans"
-                :filter="customFilter"
-                item-value="id_jenis_hewan"
-                color="white"
-                item-text="nama"
-                label="Jenis Hewan*"
-              ></v-autocomplete>
+                  v-model="form.id_jenis_hewan"
+                  required
+                  :items="jenishewans"
+                  :filter="customFilter"
+                  item-value="id_jenis_hewan"
+                  color="white"
+                  item-text="nama"
+                  label="Jenis Hewan*"
+                ></v-autocomplete>
               </v-col>
               <v-col cols="12">
                 <v-autocomplete
-                v-model="form.id_pelanggan" required
-                auto-select-first
-                :items="pelanggans"
-                :filter="customFilter"
-                item-value="id_pelanggan"
-                color="white"
-                item-text="nama"
-                label="Nama Pemilik*"
-              ></v-autocomplete>
+                  v-model="form.id_pelanggan"
+                  required
+                  auto-select-first
+                  :items="pelanggans"
+                  :filter="customFilter"
+                  item-value="id_pelanggan"
+                  color="white"
+                  item-text="nama"
+                  label="Nama Pemilik*"
+                ></v-autocomplete>
               </v-col>
               <v-col cols="20">
                 <v-menu
@@ -153,13 +181,23 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="resetForm(), (dialog = false)">Tutup</v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="resetForm(), (dialog = false)"
+            >Tutup</v-btn
+          >
           <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-    <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :multi-line="true"
+      :timeout="3000"
+    >
       {{ text }}
       <v-btn dark text @click="snackbar = false">
         Tutup
@@ -183,45 +221,46 @@ export default {
       keyword: "",
       bottomNav: 1,
       menu: false,
-      headers: [{
+      headers: [
+        {
           text: "No",
-          value: "index"
+          value: "index",
         },
         {
           text: "Id Hewan",
-          value: "id_hewan"
+          value: "id_hewan",
         },
         {
           text: "Nama Hewan",
-          value: "nama_hewan"
+          value: "nama_hewan",
         },
         {
           text: "Jenis Hewan",
-          value: "nama_jenis_hewan"
+          value: "nama_jenis_hewan",
         },
         {
           text: "Nama Pemilik",
-          value: "nama_pelanggan"
+          value: "nama_pelanggan",
         },
         {
           text: "Tanggal Lahir",
-          value: "tanggal_lahir_hewan"
+          value: "tanggal_lahir_hewan",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         // text: "Delete At",
@@ -237,8 +276,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
+          value: null,
+        },
       ],
       snackbar: false,
       color: null,
@@ -251,13 +290,13 @@ export default {
         tanggal_lahir: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       hewan: new FormData(),
       typeInput: "new",
       errors: "",
       updatedId: "",
-      deleteId:"",
+      deleteId: "",
     };
   },
   // computed: {
@@ -273,19 +312,19 @@ export default {
   methods: {
     getData() {
       var uri = this.$apiUrl + "Hewan/getWithJoin";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
       });
     },
     getPelanggan() {
       var uri = this.$apiUrl + "Pelanggan";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.pelanggans = response.data.message;
       });
     },
     getJenisHewan() {
       var uri = this.$apiUrl + "JenisHewan";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.jenishewans = response.data.message;
       });
     },
@@ -300,7 +339,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.hewan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -309,7 +348,7 @@ export default {
           this.resetForm();
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -327,7 +366,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.hewan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -337,7 +376,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -346,16 +385,14 @@ export default {
           this.typeInput = "new";
         });
     },
-    showAddDialog(){
+    showAddDialog() {
       this.typeInput = "new";
-      this.dialogLabel = "Tambah Hewan",
-      this.resetForm();
-      this.dialog = true
+      (this.dialogLabel = "Tambah Hewan"), this.resetForm();
+      this.dialog = true;
     },
     editHandler(item) {
       this.typeInput = "edit";
-      this.dialogLabel = "Edit Hewan",
-      this.dialog = true
+      (this.dialogLabel = "Edit Hewan"), (this.dialog = true);
       this.dialog = true;
       this.form.nama = item.nama_hewan;
       this.form.id_jenis_hewan = item.id_jenis_hewan;
@@ -363,26 +400,26 @@ export default {
       this.form.tanggal_lahir = item.tanggal_lahir_hewan;
       this.updatedId = item.id_hewan;
     },
-    deleteRow(item){
-      this.deleteId=item.id_hewan;
-      this.deleteDialog=true;
+    deleteRow(item) {
+      this.deleteId = item.id_hewan;
+      this.deleteDialog = true;
     },
     deleteData(deleteId) {
-      //mengahapus data
+      //menghapus data
       this.hewan.append("delete_by", this.form.delete_by);
       var uri = this.$apiUrl + "Hewan" + "/delete/" + deleteId; //data dihapus berdasarkan id
       this.load = true;
       this.$http
         .post(uri, this.hewan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
-          this.deleteId=""
+          this.deleteId = "";
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -402,26 +439,26 @@ export default {
         nama: "",
         id_jenis_hewan: "",
         id_pelanggan: "",
-        nama: "",
         tanggal_lahir: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
     },
-    customFilter (item, queryText) {
-      const textOne = item.nama.toLowerCase()
-      const textTwo = item.nama.toLowerCase()
-      const searchText = queryText.toLowerCase()
-      
-      return textOne.indexOf(searchText) > -1 ||
-        textTwo.indexOf(searchText) > -1
+    customFilter(item, queryText) {
+      const textOne = item.nama.toLowerCase();
+      const textTwo = item.nama.toLowerCase();
+      const searchText = queryText.toLowerCase();
+
+      return (
+        textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
+      );
     },
   },
   mounted() {
     this.getData();
     this.getPelanggan();
     this.getJenisHewan();
-  }
+  },
 };
 </script>

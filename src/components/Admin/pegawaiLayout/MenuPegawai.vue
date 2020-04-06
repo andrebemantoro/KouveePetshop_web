@@ -62,15 +62,13 @@
                 <td>{{ item.modified_by }}</td>
                 <!-- <td>{{ item.delete_by }}</td>
                 <td>{{ item.delete_at }}</td> -->
-                
 
                 <td>
                   <div class="text-center">
-                      <v-btn icon color="blue" light @click="editHandler(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
+                    <v-btn icon color="blue" light @click="editHandler(item)">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
                   </div>
-                  
 
                   <div class="text-center">
                     <v-btn
@@ -208,7 +206,7 @@
                 <v-text-field
                   label="Password*"
                   v-model="form.password"
-                  type=password
+                  type="password"
                   required
                 ></v-text-field>
               </v-col>
@@ -316,7 +314,7 @@
                 <v-text-field
                   label="Password*"
                   v-model="form.password"
-                  type=password
+                  type="password"
                   required
                 ></v-text-field>
               </v-col>
@@ -332,7 +330,9 @@
             @click="resetForm(), (dialogPassword = false)"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setFormPassword()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="setFormPassword()"
+            >Simpan</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -363,51 +363,51 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index"
+          value: "index",
         },
         {
           text: "Id Pegawai",
-          value: "id_pegawai"
+          value: "id_pegawai",
         },
         {
           text: "Nama Pegawai",
-          value: "nama"
+          value: "nama",
         },
         {
           text: "Alamat",
-          value: "alamat"
+          value: "alamat",
         },
         {
           text: "Tanggal Lahir",
-          value: "tanggal_lahir"
+          value: "tanggal_lahir",
         },
         {
           text: "Nomor Telepon",
-          value: "telp"
+          value: "telp",
         },
         {
           text: "Username",
-          value: "username"
+          value: "username",
         },
         {
           text: "Role",
-          value: "role"
+          value: "role",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         //   text: "Delete At",
@@ -423,15 +423,11 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
-        
+          value: null,
+        },
       ],
       pegawais: [],
-<<<<<<< HEAD
-=======
-      
->>>>>>> 80c775d6563f38322488c994e2b2ec84ef663c32
+
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
@@ -455,14 +451,14 @@ export default {
       pegawai: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
 
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    }
+    },
   },
 
   methods: {
@@ -470,8 +466,8 @@ export default {
       this.$refs.menu.save(date);
     },
     getData() {
-      var uri = this.$apiUrl + "Pegawai/"+"all_get" ;
-      this.$http.get(uri).then(response => {
+      var uri = this.$apiUrl + "Pegawai/" + "all_get";
+      this.$http.get(uri).then((response) => {
         this.pegawais = response.data.message;
       });
     },
@@ -489,7 +485,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -498,7 +494,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -518,7 +514,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -528,7 +524,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -544,7 +540,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -554,7 +550,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -575,7 +571,7 @@ export default {
     },
     changePassword(item) {
       this.typeInput = "edit";
-      this.dialogPassword = true;   
+      this.dialogPassword = true;
       this.form.password = "";
       this.updatedId = item.id_pegawai;
     },
@@ -586,19 +582,18 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
           this.color = "red";
-        
         });
     },
     setForm() {
@@ -624,17 +619,17 @@ export default {
         password: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
     },
     resetFormPassword() {
       this.form = {
-        password: ""
+        password: "",
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>

@@ -10,7 +10,7 @@
         <span>Non Aktif</span>
         <v-icon>mdi-delete-empty</v-icon>
       </v-btn>
-    </v-bottom-navigation> -->
+    </v-bottom-navigation>-->
     <v-card>
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Jenis Hewan Kouvee Petshop</h2>
@@ -24,8 +24,8 @@
               color="#f9c99e"
               @click="dialog = true"
             >
-              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
-              Tambah Jenis Hewan
+              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
+              Jenis Hewan
             </v-btn>
           </v-flex>
           <v-flex xs6 class="text-right">
@@ -34,8 +34,7 @@
               append-icon="mdi-search"
               label="Cari"
               hide-details
-            >
-            </v-text-field>
+            ></v-text-field>
           </v-flex>
         </v-layout>
 
@@ -56,51 +55,22 @@
                 <td>{{ item.modified_at }}</td>
                 <td>{{ item.modified_by }}</td>
                 <!-- <td>{{ item.delete_by }}</td>
-                <td>{{ item.delete_at }}</td> -->
+                <td>{{ item.delete_at }}</td>-->
                 <!-- <td>{{ item.aktif }}</td> -->
 
                 <td>
                   <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
-                  <div class="text-center">
-                    <v-dialog  width="500">
-                      <template v-slot:activator="{ on }">
-                        <v-btn icon color="red lighten-2" dark v-on="on">
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </template>
-
-                      <v-card>
-                        <v-card-title
-                          class="headline Red lighten-2"
-                          primary-title
-                        >
-                          Konfirmasi Hapus
-                        </v-card-title>
-
-                        <v-card-text>
-                          Data yang akan dihapus, Lanjutkan ?
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="primary"
-                            text
-                            @click="
-                              deleteData(item.id_jenis_hewan)
-                            "
-                          >
-                            Hapus
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </div>
+                  <v-btn
+                    icon
+                    color="red lighten-2"
+                    dark
+                    v-on="on"
+                    @click="deleteRow(item)"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
 
                   <!-- -------------------------------------------------------- -->
                 </td>
@@ -110,6 +80,27 @@
         </v-data-table>
       </v-container>
     </v-card>
+    <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Konfirmasi Hapus</v-card-title
+          >
+          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDialog = false"
+              >Batal</v-btn
+            >
+            <v-btn color="primary" text @click="deleteData(deleteId)"
+              >Hapus</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
@@ -185,9 +176,7 @@
       :timeout="3000"
     >
       {{ text }}
-      <v-btn dark text @click="snackbar = false">
-        Tutup
-      </v-btn>
+      <v-btn dark text @click="snackbar = false">Tutup</v-btn>
     </v-snackbar>
   </v-container>
 </template>
@@ -199,36 +188,37 @@ export default {
       dialog: false,
       jenishewans: [],
       keyword: "",
+      on: "",
       bottomNav: 1,
       menu: false,
       headers: [
         {
           text: "No",
-          value: "index"
+          value: "index",
         },
         {
           text: "Id Jenis Hewan",
-          value: "id_jenis_hewan"
+          value: "id_jenis_hewan",
         },
         {
           text: "Jenis Hewan",
-          value: "nama"
+          value: "nama",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         //   text: "Delete At",
@@ -244,8 +234,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
+          value: null,
+        },
       ],
       snackbar: false,
       color: null,
@@ -255,13 +245,14 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       jenishewan: new FormData(),
       dialogEdit: "",
+      deleteDialog: false,
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
   // computed: {
@@ -277,7 +268,7 @@ export default {
   methods: {
     getData() {
       var uri = this.$apiUrl + "JenisHewan";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.jenishewans = response.data.message;
       });
     },
@@ -289,7 +280,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.jenishewan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -298,7 +289,7 @@ export default {
           this.getData();
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -313,7 +304,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.jenishewan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -323,7 +314,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -338,21 +329,25 @@ export default {
       this.form.nama = item.nama;
       this.updatedId = item.id_jenis_hewan;
     },
+    deleteRow(item) {
+      this.deleteId = item.id_jenis_hewan;
+      this.deleteDialog = true;
+    },
     deleteData(deleteId) {
-      //mengahapus data
+      //menghapus data
       this.jenishewan.append("delete_by", this.form.delete_by);
       var uri = this.$apiUrl + "JenisHewan" + "/delete/" + deleteId; //data dihapus berdasarkan id
       this.load = true;
       this.$http
         .post(uri, this.jenishewan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -372,17 +367,17 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
     },
     resetFormPassword() {
       this.form = {
-        password: ""
+        password: "",
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>
