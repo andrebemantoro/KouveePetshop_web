@@ -32,7 +32,7 @@
             <v-text-field
               v-model="keyword"
               append-icon="mdi-search"
-              label="Search"
+              label="Cari"
               hide-details
             >
             </v-text-field>
@@ -135,7 +135,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Pegawai</span>
+          <span class="headline">Detail Pegawai</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -214,7 +214,7 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -222,9 +222,9 @@
             color="blue darken-1"
             text
             @click="resetForm(), (dialog = false)"
-            >Close</v-btn
+            >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -234,7 +234,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Pegawai</span>
+          <span class="headline">Detail Pegawai</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -286,7 +286,7 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -294,9 +294,9 @@
             color="blue darken-1"
             text
             @click="resetForm(), (dialogEdit = false)"
-            >Close</v-btn
+            >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -322,7 +322,7 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -330,9 +330,9 @@
             color="blue darken-1"
             text
             @click="resetForm(), (dialogPassword = false)"
-            >Close</v-btn
+            >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setFormPassword()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setFormPassword()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -345,7 +345,7 @@
     >
       {{ text }}
       <v-btn dark text @click="snackbar = false">
-        Close
+        Tutup
       </v-btn>
     </v-snackbar>
   </v-container>
@@ -394,19 +394,19 @@ export default {
           value: "role"
         },
         {
-          text: "Created At",
+          text: "Tanggal Dibuat",
           value: "created_at"
         },
         {
-          text: "Created By",
+          text: "Dibuat Oleh",
           value: "created_by"
         },
         {
-          text: "Modified At",
+          text: "Tanggal Diubah",
           value: "modified_by"
         },
         {
-          text: "Modified By",
+          text: "Diubah Oleh",
           value: "modified_by"
         },
         // {
@@ -422,13 +422,16 @@ export default {
         //   value: "aktif"
         // },
         {
-          text: "Action",
+          text: "Aksi",
           value: null
         }
         
       ],
       pegawais: [],
+<<<<<<< HEAD
+=======
       
+>>>>>>> 80c775d6563f38322488c994e2b2ec84ef663c32
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
@@ -521,7 +524,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialogEdit = false;
-          this.getData(); //mengambil datapegawai
+          this.getData(); //mengambil data pegawai
           this.resetForm();
           this.typeInput = "new";
         })
@@ -602,12 +605,12 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        console.log("data berhasil diubah");
         this.updateData();
       }
     },
     setFormPassword() {
-      console.log("dddd");
+      console.log("data berhasil diubah");
       this.updatePassword();
     },
     resetForm() {

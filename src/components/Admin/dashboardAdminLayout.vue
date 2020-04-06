@@ -17,7 +17,7 @@
             Kouvee Petshop
           </v-list-item-title>
           <v-list-item-subtitle style="margin-left:10px;">
-            for Admin
+            untuk Admin
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -30,7 +30,7 @@
           v-for="item in items"
           :key="item.title"
           link
-          @click="$router.push(item.to)"
+          @click="$router.push(item.to).catch(error=>{})"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -43,7 +43,7 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block @click="logout()">Logout</v-btn>
+          <v-btn block @click="logout()">Keluar</v-btn>
         </div>
       </template>
     </v-navigation-drawer>

@@ -32,7 +32,7 @@
             <v-text-field
               v-model="keyword"
               append-icon="mdi-search"
-              label="Search"
+              label="Cari"
               hide-details
             >
             </v-text-field>
@@ -98,7 +98,7 @@
                             color="primary"
                             text
                             @click="
-                              deleteData(item.id_pelanggan)
+                              deleteData(item.id_pelanggan), (pesan = false)
                             "
                           >
                             Hapus
@@ -176,7 +176,7 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -184,13 +184,67 @@
             color="blue darken-1"
             text
             @click="resetForm(), (dialog = false)"
-            >Close</v-btn
+            >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!-- -------------------------------------------------------- -->
+    <!-- -------------Dialog edit ------------------------------------------- -->
+    <v-dialog v-model="dialogEdit" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <v-spacer />
+          <span class="headline">Detail Pelanggan</span>
+          <v-spacer />
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Nama*"
+                  v-model="form.nama"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Alamat*"
+                  v-model="form.alamat"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Tanggal Lahir*"
+                  v-model="form.tanggal_lahir"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Nomor Telepon*"
+                  v-model="form.telp"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*wajib diisi</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="resetForm(), (dialogEdit = false)"
+            >Tutup</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <!-- -------------------------------------------------------- -->
     <v-snackbar
       v-model="snackbar"
@@ -200,7 +254,7 @@
     >
       {{ text }}
       <v-btn dark text @click="snackbar = false">
-        Close
+        Tutup
       </v-btn>
     </v-snackbar>
   </v-container>
@@ -241,19 +295,19 @@ export default {
           value: "telp"
         },
         {
-          text: "Created At",
+          text: "Tanggal Dibuat",
           value: "created_at"
         },
         {
-          text: "Created By",
+          text: "Dibuat Oleh",
           value: "created_by"
         },
         {
-          text: "Modified At",
+          text: "Tanggal Diubah",
           value: "modified_by"
         },
         {
-          text: "Modified By",
+          text: "Diubah Oleh",
           value: "modified_by"
         },
         // {
@@ -269,7 +323,7 @@ export default {
         //   value: "aktif"
         // },
         {
-          text: "Action",
+          text: "Aksi",
           value: null
         }
       ],
@@ -287,6 +341,7 @@ export default {
         modified_by: sessionStorage.getItem("Nama")
       },
       pelanggan: new FormData(),
+      dialogEdit: "",
       typeInput: "new",
       errors: "",
       updatedId: ""
@@ -362,7 +417,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
-          this.getData(); //mengambil datapegawai
+          this.getData(); //mengambil data pelanggan
           this.resetForm();
           this.typeInput = "new";
         })
@@ -409,13 +464,9 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        console.log("data berhasil diubah");
         this.updateData();
       }
-    },
-    setFormPassword() {
-      console.log("dddd");
-      this.updateData();
     },
     resetForm() {
       this.form = {
@@ -423,9 +474,9 @@ export default {
         alamat: "",
         tanggal_lahir: "",
         telp: "",
-        created_by: "Customer Service",
-        delete_by: "Customer Service",
-        modified_by: "Customer Service"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
     }
   },

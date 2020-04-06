@@ -165,19 +165,19 @@ export default {
           value: "nama"
         },
         {
-          text: "Created At",
+          text: "Tanggal Dibuat",
           value: "created_at"
         },
         {
-          text: "Created By",
+          text: "Dibuat Oleh",
           value: "created_by"
         },
         {
-          text: "Modified At",
+          text: "Tanggal Diubah",
           value: "modified_by"
         },
         {
-          text: "Modified By",
+          text: "Diubah Oleh",
           value: "modified_by"
         },
         // {
@@ -188,12 +188,12 @@ export default {
         //   text: "Delete By",
         //   value: "delete_by"
         // },
+        // {
+        //   text: "Aktif",
+        //   value: "aktif"
+        // },
         {
-          text: "Aktif",
-          value: "aktif"
-        },
-        {
-          text: "Action",
+          text: "Aksi",
           value: null
         }
       ],

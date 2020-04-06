@@ -1,6 +1,6 @@
 <template>
   <div style="margin:20px">
-    <v-bottom-navigation v-model="bottomNav" dark shift>
+    <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-btn>
         <span>Aktif</span>
         <v-icon>mdi-account-multiple</v-icon>
@@ -13,7 +13,7 @@
     </v-bottom-navigation> -->
     <v-card>
       <div class="pt-5">
-        <h2 class="text-md-center">Data Jenis Hewan Kouvee Petshop</h2>
+        <h2 class="text-md-center">Data Hewan Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
             <v-btn depressed dark rounded style="text-transform: none !important;" color="#f9c99e"
@@ -23,7 +23,7 @@
             </v-btn>
           </v-flex>
           <v-flex xs6 class="text-right">
-            <v-text-field v-model="keyword" append-icon="mdi-search" label="Search" hide-details>
+            <v-text-field v-model="keyword" append-icon="mdi-search" label="Cari" hide-details>
             </v-text-field>
           </v-flex>
         </v-layout>
@@ -149,12 +149,12 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="resetForm(), (dialog = false)">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="resetForm(), (dialog = false)">Tutup</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -162,7 +162,7 @@
     <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
       {{ text }}
       <v-btn dark text @click="snackbar = false">
-        Close
+        Tutup
       </v-btn>
     </v-snackbar>
   </div>
@@ -172,6 +172,8 @@
 export default {
   data() {
     return {
+      save: "",
+      on: "",
       dialog: false,
       deleteDialog: false,
       dialogLabel: "Tambah Hewan",
@@ -206,19 +208,19 @@ export default {
           value: "tanggal_lahir_hewan"
         },
         {
-          text: "Created At",
+          text: "Tanggal Dibuat",
           value: "created_at"
         },
         {
-          text: "Created By",
+          text: "Dibuat Oleh",
           value: "created_by"
         },
         {
-          text: "Modified At",
+          text: "Tanggal Diubah",
           value: "modified_by"
         },
         {
-          text: "Modified By",
+          text: "Diubah Oleh",
           value: "modified_by"
         },
         // {
@@ -234,7 +236,7 @@ export default {
         // value: "aktif"
         // },
         {
-          text: "Action",
+          text: "Aksi",
           value: null
         }
       ],
@@ -331,9 +333,9 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
+          this.getData(); //mengambil data hewan
           this.resetForm();
           this.typeInput = "new";
-          this.getData();
         })
         .catch(error => {
           this.errors = error;
@@ -391,7 +393,7 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        console.log("data berhasil diubah");
         this.updateData();
       }
     },
@@ -400,13 +402,14 @@ export default {
         nama: "",
         id_jenis_hewan: "",
         id_pelanggan: "",
+        nama: "",
         tanggal_lahir: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama")
       };
     },
-    customFilter (item, queryText, itemText) {
+    customFilter (item, queryText) {
       const textOne = item.nama.toLowerCase()
       const textTwo = item.nama.toLowerCase()
       const searchText = queryText.toLowerCase()
