@@ -1,65 +1,69 @@
 <template>
-<div>
-  <!-- <v-data-table :headers="headers" :items="desserts" :search="search" sort-by="calories" class="elevation-1"> -->
+  <div>
+    <!-- <v-data-table :headers="headers" :items="desserts" :search="search" sort-by="calories" class="elevation-1"> -->
     <template>
       <v-toolbar flat color="white">
         <v-text-field
-        v-model="search"
-        label="Cari"
-        single-line
-        hide-details
+          v-model="search"
+          label="Cari"
+          single-line
+          hide-details
         ></v-text-field>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="#f9c99e" depressed rounded dark class="mb-2" v-on="on">Tambah Supplier</v-btn>
+            <v-btn color="#f9c99e" depressed rounded dark class="mb-2" v-on="on"
+              >Tambah Supplier</v-btn
+            >
           </template>
           <v-card>
-          <v-card-title>
-            <v-spacer />
-            <span class="headline">Detail Supplier</span>
-            <v-spacer />
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Nama*"
-                    v-model="form.nama"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Alamat*"
-                    v-model="form.alamat"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Nomor Telepon*"
-                    v-model="form.telp"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*wajib diisi</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="resetForm(), (dialog = false)"
-              >Tutup</v-btn
-            >
-            <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
-          </v-card-actions>
-        </v-card>
+            <v-card-title>
+              <v-spacer />
+              <span class="headline">Detail Supplier</span>
+              <v-spacer />
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Nama*"
+                      v-model="form.nama"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Alamat*"
+                      v-model="form.alamat"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Nomor Telepon*"
+                      v-model="form.telp"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <small>*wajib diisi</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="resetForm(), (dialog = false)"
+                >Tutup</v-btn
+              >
+              <v-btn color="blue darken-1" text @click="setForm()"
+                >Simpan</v-btn
+              >
+            </v-card-actions>
+          </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
@@ -67,12 +71,8 @@
       <v-flex>
         <template>
           <v-row>
-             <v-col v-for="(item, i) in suppliers" :key="i" cols="3">
-    
-                <v-card
-                    class="mx-auto"
-                    max-width="344"
-                >
+            <v-col v-for="(item, i) in suppliers" :key="i" cols="3">
+              <v-card class="mx-auto" max-width="344">
                 <!-- <v-img      
                   :src= "$apiUrl2+'produk/'+item.gambar"
                   contain
@@ -81,101 +81,97 @@
                   height="200" 
                 /> -->
                 <v-card-title>
-                {{item.nama}}
+                  {{ item.nama }}
                 </v-card-title>
 
                 <v-card-subtitle>
-                  ID Supplier: {{item.id_supplier}}
+                  ID Supplier: {{ item.id_supplier }}
                 </v-card-subtitle>
-                
 
                 <v-card-actions>
-                <v-btn text @click="editHandler(item)">Ubah</v-btn>
-                <v-spacer></v-spacer>
-
-                    <!-- ----------------------------------Dialog Untuk Konfirmasi Hapus------------------------------------------------------------ -->
-                  
-                    <div >
-                      <v-dialog v-model="pesan" width="500">
-                        <template v-slot:activator="{ on }">
-                          <v-btn icon color="red lighten-2" dark v-on="on" text="">
-                            Hapus
-                          </v-btn>
-                        </template>
-
-                        <v-card>
-                          <v-card-title
-                            class="headline Red lighten-2"
-                            primary-title
-                          >
-                            Konfirmasi Hapus
-                          </v-card-title>
-
-                          <v-card-text>
-                            Data yang akan dihapus, Lanjutkan ?
-                          </v-card-text>
-
-                          <v-divider></v-divider>
-
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                              color="red"
-                              text
-                              @click="
-                                deleteData(item.id_supplier), (pesan = false)
-                              "
-                            >
-                              Hapus
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-                    
-<!-- ---------------------------------------------------------------------------------------------- -->
-
-                    <v-spacer></v-spacer>
-
-                    <v-btn
-                        icon
-                        @click="show = !show"
-                    >
-                        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                    </v-btn>
-                    </v-card-actions>
-
-                    <v-expand-transition>
-                    <div v-show="show">
+                  <v-btn text @click="editHandler(item)">Ubah</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="red lighten-2"
+                    text
+                    v-on="on"
+                    @click="deleteRow(item)"
+                  >
+                    Hapus
+                  </v-btn>
+                  <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+                  <div class="text-center">
+                    <v-dialog width="500" v-model="deleteDialog">
+                      <v-card>
+                        <v-card-title
+                          class="headline Red lighten-2"
+                          primary-title
+                          >Konfirmasi Hapus</v-card-title
+                        >
+                        <v-card-text
+                          >Data yang akan dihapus, Lanjutkan ?</v-card-text
+                        >
                         <v-divider></v-divider>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            text
+                            @click="deleteDialog = false"
+                            >Batal</v-btn
+                          >
+                          <v-btn
+                            color="primary"
+                            text
+                            @click="deleteData(deleteId)"
+                            >Hapus</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                  <v-spacer></v-spacer>
 
-                        <v-card-text>
-                          <v-card-subtitle>
-                            Alamat          : {{item.alamat}}<br>
-                            Nomor Telepon   : {{item.telp}}<br>
-                            Dibuat Oleh     : {{item.created_by}}<br>
-                            Tanggal Dibuat  : {{item.created_at}}<br>
-                            Diubah Oleh     : {{item.modified_by}}<br>
-                            Tanggal Diubah  : {{item.modified_at}}<br>
-                          </v-card-subtitle>
-                          
-                        </v-card-text>
-                    </div>
-                    </v-expand-transition>
-                </v-card>
+                  <v-btn icon @click="show = !show">
+                    <v-icon>{{
+                      show ? "mdi-chevron-up" : "mdi-chevron-down"
+                    }}</v-icon>
+                  </v-btn>
+                </v-card-actions>
 
-          <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000"> {{ text }} <v-btn dark text
-                @click="snackbar = false"> Tutup </v-btn>
-        </v-snackbar>
-        </v-col>
-          </v-row> 
+                <v-expand-transition>
+                  <div v-show="show">
+                    <v-divider></v-divider>
+
+                    <v-card-text>
+                      <v-card-subtitle>
+                        Alamat : {{ item.alamat }}<br />
+                        Nomor Telepon : {{ item.telp }}<br />
+                        Dibuat Oleh : {{ item.created_by }}<br />
+                        Tanggal Dibuat : {{ item.created_at }}<br />
+                        Diubah Oleh : {{ item.modified_by }}<br />
+                        Tanggal Diubah : {{ item.modified_at }}<br />
+                      </v-card-subtitle>
+                    </v-card-text>
+                  </div>
+                </v-expand-transition>
+              </v-card>
+
+              <v-snackbar
+                v-model="snackbar"
+                :color="color"
+                :multi-line="true"
+                :timeout="3000"
+              >
+                {{ text }}
+                <v-btn dark text @click="snackbar = false"> Tutup </v-btn>
+              </v-snackbar>
+            </v-col>
+          </v-row>
         </template>
       </v-flex>
     </v-layout>
- 
-      
-</div>
-
+  </div>
 </template>
 
 <script>
@@ -189,6 +185,8 @@ export default {
       snackbar: false,
       color: null,
       text: "",
+      on: "",
+      deleteDialog: "",
       load: false,
       form: {
         nama: "",
@@ -196,7 +194,7 @@ export default {
         telp: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       supplier: new FormData(),
       pesan: "",
@@ -206,11 +204,11 @@ export default {
       updatedId: "",
     };
   },
-  
+
   methods: {
     getData() {
       var uri = this.$apiUrl + "Supplier/" + "getAll";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.suppliers = response.data.message;
       });
     },
@@ -224,7 +222,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.supplier)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -233,7 +231,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -250,7 +248,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.supplier)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -260,7 +258,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -277,6 +275,10 @@ export default {
       this.form.telp = item.telp;
       this.updatedId = item.id_supplier;
     },
+    deleteRow(item) {
+      this.deleteId = item.id_supplier;
+      this.deleteDialog = true;
+    },
     deleteData(deleteId) {
       //mengahapus data
       this.supplier.append("delete_by", this.form.delete_by);
@@ -284,14 +286,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.supplier)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -313,13 +315,12 @@ export default {
         telp: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>
-

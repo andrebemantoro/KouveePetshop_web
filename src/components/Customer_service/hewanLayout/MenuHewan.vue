@@ -39,12 +39,7 @@
           </v-flex>
         </v-layout>
 
-        <v-data-table
-          :headers="headers"
-          :items="hewans"
-          :search="keyword"
-          :loading="load"
-        >
+        <v-data-table :headers="headers" :items="hewans" :search="keyword">
           <template v-slot:body="{ items }">
             <tbody>
               <tr v-for="(item, index) in items" :key="item.id_hewans">
@@ -62,18 +57,22 @@
                 <td>{{ item.delete_at }}</td> -->
                 <!-- <td>{{ item.aktif }}</td> -->
                 <td>
-                  <v-btn icon color="blue" light @click="editHandler(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn
-                    icon
-                    color="red lighten-2"
-                    dark
-                    v-on="on"
-                    @click="deleteRow(item)"
-                  >
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
+                  <div>
+                    <v-btn icon color="blue" light @click="editHandler(item)">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                  </div>
+                  <div>
+                    <v-btn
+                      icon
+                      color="red lighten-2"
+                      dark
+                      v-on="on"
+                      @click="deleteRow(item)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -105,7 +104,6 @@
       </v-dialog>
     </div>
     <!-- -------------------------------------------------------- -->
-
     <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
@@ -298,6 +296,11 @@ export default {
       updatedId: "",
       deleteId: "",
     };
+  },
+  watch: {
+    menu(val) {
+      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
+    },
   },
   // computed: {
   // color() {

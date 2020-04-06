@@ -1,96 +1,93 @@
 <template>
-<div>
-
+  <div>
     <template>
       <v-toolbar flat color="white">
         <v-text-field
-<<<<<<< HEAD
-        v-model="search"
-        label="Search"
-=======
-        v-model="keyword"
-        label="Cari"
->>>>>>> 628acffedf45b4a22e6918d551f7b7bb8187abf5
-        single-line
-        hide-details
+          v-model="keyword"
+          label="Cari"
+          single-line
+          hide-details
         ></v-text-field>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="#f9c99e" depressed rounded dark class="mb-2" v-on="on">Tambah Produk</v-btn>
+            <v-btn color="#f9c99e" depressed rounded dark class="mb-2" v-on="on"
+              >Tambah Produk</v-btn
+            >
           </template>
           <v-card>
-          <v-card-title>
-            <v-spacer />
-            <span class="headline">Detail Produk</span>
-            <v-spacer />
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Nama*"
-                    v-model="form.nama"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Stok Minimal*"
-                    v-model="form.min_stok"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Jumlah Stok*"
-                    v-model="form.jumlah_stok"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Harga*"
-                    v-model="form.harga"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-select
-                    label="Satuan*"
-                    v-model="form.satuan"
-                    :items="items"
-                    required
-                  >
-                  </v-select>
-                </v-col>
-                <v-col cols="12">
-                 
-                  <template>
-                    <v-file-input
-                      accept="image/*"
-                      label="File input"
-                      v-model="form.gambar"
-                    ></v-file-input>
-                  </template>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*wajib diisi</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="resetForm(), (dialog = false)"
-              >Tutup</v-btn
-            >
-            <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
-          </v-card-actions>
-        </v-card>
+            <v-card-title>
+              <v-spacer />
+              <span class="headline">Detail Produk</span>
+              <v-spacer />
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Nama*"
+                      v-model="form.nama"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Stok Minimal*"
+                      v-model="form.min_stok"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Jumlah Stok*"
+                      v-model="form.jumlah_stok"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Harga*"
+                      v-model="form.harga"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-select
+                      label="Satuan*"
+                      v-model="form.satuan"
+                      :items="items"
+                      required
+                    >
+                    </v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <template>
+                      <v-file-input
+                        accept="image/*"
+                        label="File input"
+                        v-model="form.gambar"
+                      ></v-file-input>
+                    </template>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <small>*wajib diisi</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="resetForm(), (dialog = false)"
+                >Tutup</v-btn
+              >
+              <v-btn color="blue darken-1" text @click="setForm()"
+                >Simpan</v-btn
+              >
+            </v-card-actions>
+          </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
@@ -98,136 +95,126 @@
       <v-flex>
         <template>
           <v-row>
-             <v-col v-for="(item, i) in produks" :key="i" cols="3">
-    
-                <v-card
-                    class="mx-auto"
-                    max-width="344"
-                >
-                <v-img      
-                  :src= "$apiUrl2+'produk/'+item.gambar"
+            <v-col v-for="(item, i) in produks" :key="i" cols="3">
+              <v-card class="mx-auto" max-width="344">
+                <v-img
+                  :src="$apiUrl2 + 'produk/' + item.gambar"
                   contain
                   class="grey lighten-2"
-                 
-                  height="200" 
+                  height="200"
                 />
-                  
 
-                    <v-card-title>
-                   {{item.nama}}
-                    </v-card-title>
+                <v-card-title>
+                  {{ item.nama }}
+                </v-card-title>
 
-                    <v-card-subtitle>
-                    ID Produk: {{item.id_produk}}
-                    
-                    </v-card-subtitle>
-                   
+                <v-card-subtitle>
+                  ID Produk: {{ item.id_produk }}
+                </v-card-subtitle>
 
-                    <v-card-actions>
-                    <v-btn text @click="editHandler(item)">Ubah</v-btn>
-                    <v-spacer></v-spacer>
-<!-- ----------------------------------Dialog Untuk Konfirmasi Hapus------------------------------------------------------------ -->
-                 
-                    <div >
-                      <v-dialog v-model="pesan" width="500">
-                        <template v-slot:activator="{ on }">
-                          <v-btn icon color="red lighten-2" dark v-on="on" text="">
-                            Hapus
-                          </v-btn>
-                        </template>
-
-                        <v-card>
-                          <v-card-title
-                            class="headline Red lighten-2"
-                            primary-title
-                          >
-                            Konfirmasi Hapus
-                          </v-card-title>
-
-                          <v-card-text>
-                            Data yang akan dihapus, Lanjutkan ?
-                          </v-card-text>
-
-                          <v-divider></v-divider>
-
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                              color="red"
-                              text
-                              @click="
-                                deleteData(item.id_produk), (pesan = false)
-                              "
-                            >
-                              Hapus
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-
-                   
-                    
-<!-- ---------------------------------------------------------------------------------------------- -->
-
-                    <v-spacer></v-spacer>
-
-                    <v-btn
-                        icon
-                        @click="show = !show"
-                    >
-                        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                    </v-btn>
-                    </v-card-actions>
-
-                    <v-expand-transition>
-                    <div v-show="show">
+                <v-card-actions>
+                  <v-btn text @click="editHandler(item)">Ubah</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="red lighten-2"
+                    text
+                    v-on="on"
+                    @click="deleteRow(item)"
+                  >
+                    Hapus
+                  </v-btn>
+                  <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+                  <div class="text-center">
+                    <v-dialog width="500" v-model="deleteDialog">
+                      <v-card>
+                        <v-card-title
+                          class="headline Red lighten-2"
+                          primary-title
+                          >Konfirmasi Hapus</v-card-title
+                        >
+                        <v-card-text
+                          >Data yang akan dihapus, Lanjutkan ?</v-card-text
+                        >
                         <v-divider></v-divider>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            text
+                            @click="deleteDialog = false"
+                            >Batal</v-btn
+                          >
+                          <v-btn
+                            color="primary"
+                            text
+                            @click="deleteData(deleteId)"
+                            >Hapus</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                  <v-spacer></v-spacer>
 
-                        <v-card-text>
-                          <v-card-subtitle>
-                            Jumlah Stok     :{{item.jumlah_stok}}<br>
-                            Stok Minimal    : {{item.min_stok}}<br>
-                            Harga           : {{item.harga}}<br>
-                            Satuan          : {{item.satuan}}<br>
-                            Dibuat Oleh     : {{item.created_by}}<br>
-                            Tanggal Dibuat  : {{item.created_at}}<br>
-                            Diubah Oleh     : {{item.modified_by}}<br>
-                            Tanggal Diubah  : {{item.modified_at}}<br>
-                          </v-card-subtitle>
-                          
-                        </v-card-text>
-                    </div>
-                    </v-expand-transition>
-                </v-card>
+                  <v-btn icon @click="show = !show">
+                    <v-icon>{{
+                      show ? "mdi-chevron-up" : "mdi-chevron-down"
+                    }}</v-icon>
+                  </v-btn>
+                </v-card-actions>
 
-          <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000"> {{ text }} <v-btn dark text
-                @click="snackbar = false"> Tutup </v-btn>
-        </v-snackbar>
-        </v-col>
-          </v-row> 
+                <v-expand-transition>
+                  <div v-show="show">
+                    <v-divider></v-divider>
+
+                    <v-card-text>
+                      <v-card-subtitle>
+                        Jumlah Stok :{{ item.jumlah_stok }}<br />
+                        Stok Minimal : {{ item.min_stok }}<br />
+                        Harga : {{ item.harga }}<br />
+                        Satuan : {{ item.satuan }}<br />
+                        Dibuat Oleh : {{ item.created_by }}<br />
+                        Tanggal Dibuat : {{ item.created_at }}<br />
+                        Diubah Oleh : {{ item.modified_by }}<br />
+                        Tanggal Diubah : {{ item.modified_at }}<br />
+                      </v-card-subtitle>
+                    </v-card-text>
+                  </div>
+                </v-expand-transition>
+              </v-card>
+
+              <v-snackbar
+                v-model="snackbar"
+                :color="color"
+                :multi-line="true"
+                :timeout="3000"
+              >
+                {{ text }}
+                <v-btn dark text @click="snackbar = false"> Tutup </v-btn>
+              </v-snackbar>
+            </v-col>
+          </v-row>
         </template>
       </v-flex>
     </v-layout>
- 
-      
-</div>
-
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      search:'',
+      search: "",
       show: false,
-      notShow :[],
+      notShow: [],
       dialog: false,
       items: ["Buah", "Karung", "Lusin"],
       keyword: "",
+      on: "",
+      deleteDialog: "",
       produks: [],
       pesan: "",
-      
+
       snackbar: false,
       color: null,
       text: "",
@@ -241,7 +228,7 @@ export default {
         gambar: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       produk: new FormData(),
       typeInput: "new",
@@ -249,11 +236,11 @@ export default {
       updatedId: "",
     };
   },
-  
+
   methods: {
     getData() {
       var uri = this.$apiUrl + "Produk/" + "getAll";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
       });
     },
@@ -270,7 +257,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.produk)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -279,7 +266,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -299,7 +286,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.produk)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -309,7 +296,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -329,6 +316,10 @@ export default {
       this.form.gambar = item.password;
       this.updatedId = item.id_produk;
     },
+    deleteRow(item) {
+      this.deleteId = item.id_produk;
+      this.deleteDialog = true;
+    },
     deleteData(deleteId) {
       //mengahapus data
       this.produk.append("delete_by", this.form.delete_by);
@@ -336,14 +327,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.produk)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -368,13 +359,12 @@ export default {
         gambar: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>
-

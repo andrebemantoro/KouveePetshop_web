@@ -39,12 +39,7 @@
           </v-flex>
         </v-layout>
 
-        <v-data-table
-          :headers="headers"
-          :items="pegawais"
-          :search="keyword"
-          :loading="load"
-        >
+        <v-data-table :headers="headers" :items="pegawais" :search="keyword">
           <template v-slot:body="{ items }">
             <tbody>
               <tr v-for="(item, index) in items" :key="item.id_pegawai">
@@ -64,13 +59,13 @@
                 <td>{{ item.delete_at }}</td> -->
 
                 <td>
-                  <div class="text-center">
+                  <div>
                     <v-btn icon color="blue" light @click="editHandler(item)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </div>
 
-                  <div class="text-center">
+                  <div>
                     <v-btn
                       icon
                       color="indigo"
@@ -80,47 +75,17 @@
                       <v-icon>mdi-lock</v-icon>
                     </v-btn>
                   </div>
-
-                  <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
-                  <div class="text-center">
-                    <v-dialog v-model="pesan" width="500">
-                      <template v-slot:activator="{ on }">
-                        <v-btn icon color="red lighten-2" dark v-on="on">
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </template>
-
-                      <v-card>
-                        <v-card-title
-                          class="headline Red lighten-2"
-                          primary-title
-                        >
-                          Konfirmasi Hapus
-                        </v-card-title>
-
-                        <v-card-text>
-                          Data yang akan dihapus, Lanjutkan ?
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="primary"
-                            text
-                            @click="
-                              deleteData(item.id_pegawai), (pesan = false)
-                            "
-                          >
-                            Hapus
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
+                  <div>
+                    <v-btn
+                      icon
+                      color="red lighten-2"
+                      dark
+                      v-on="on"
+                      @click="deleteRow(item)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
                   </div>
-
-                  <!-- -------------------------------------------------------- -->
                 </td>
               </tr>
             </tbody>
@@ -128,6 +93,27 @@
         </v-data-table>
       </v-container>
     </v-card>
+    <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Konfirmasi Hapus</v-card-title
+          >
+          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDialog = false"
+              >Batal</v-btn
+            >
+            <v-btn color="primary" text @click="deleteData(deleteId)"
+              >Hapus</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
@@ -360,6 +346,8 @@ export default {
       keyword: "",
       bottomNav: 1,
       menu: false,
+      on: "",
+      deleteDialog: "",
       headers: [
         {
           text: "No",
@@ -427,7 +415,6 @@ export default {
         },
       ],
       pegawais: [],
-
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
@@ -568,6 +555,10 @@ export default {
       this.form.telp = item.telp;
       (this.form.role = item.role), (this.form.username = item.username);
       this.updatedId = item.id_pegawai;
+    },
+    deleteRow(item) {
+      this.deleteId = item.id_pegawai;
+      this.deleteDialog = true;
     },
     changePassword(item) {
       this.typeInput = "edit";

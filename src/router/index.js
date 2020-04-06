@@ -44,9 +44,9 @@ const routes = [
     children: [
       {
         name: "Login",
-        path: "/"
-      }
-    ]
+        path: "/",
+      },
+    ],
   },
   {
     path: "/MenuAdmin",
@@ -54,103 +54,103 @@ const routes = [
     children: [
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
+          if (sessionStorage.getItem("Nama") == "admin") {
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Layanan",
         path: "/MenuLayanan",
-        component: loadLayanan("MenuLayanan")
+        component: loadLayanan("MenuLayanan"),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
+          if (sessionStorage.getItem("Nama") == "admin") {
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Pegawai",
         path: "/MenuPegawai",
-        component: loadPegawai("MenuPegawai")
+        component: loadPegawai("MenuPegawai"),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
+          if (sessionStorage.getItem("Nama") == "admin") {
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Pengadaan",
         path: "/MenuPengadaan",
-        component: loadPengadaan("MenuPengadaan")
+        component: loadPengadaan("MenuPengadaan"),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
+          if (sessionStorage.getItem("Nama") == "admin") {
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Produk",
         path: "/MenuProduk",
-        component: loadProduk("MenuProduk")
+        component: loadProduk("MenuProduk"),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
+          if (sessionStorage.getItem("Nama") == "admin") {
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Supplier",
         path: "/MenuSupplier",
-        component: loadSupplier("MenuSupplier")
+        component: loadSupplier("MenuSupplier"),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
+          if (sessionStorage.getItem("Nama") == "admin") {
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Ukuran",
         path: "/MenuUkuran",
-        component: loadUkuran("MenuUkuran")
+        component: loadUkuran("MenuUkuran"),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama")== "admin") {
-              next()
+          if (sessionStorage.getItem("Nama") == "admin") {
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Jenis",
         path: "/MenuJenis",
-        component: loadJenis("MenuJenisHewan")
-      }
-    ]
+        component: loadJenis("MenuJenisHewan"),
+      },
+    ],
   },
   {
     path: "/MenuCustomerService",
@@ -159,33 +159,33 @@ const routes = [
       {
         beforeEnter(to, from, next) {
           if (sessionStorage.getItem("Nama") != null) {
-              next()
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Pelanggan",
         path: "/MenuPelanggan",
-        component: loadPelanggan("MenuPelanggan")
+        component: loadPelanggan("MenuPelanggan"),
       },
       {
         beforeEnter(to, from, next) {
           if (sessionStorage.getItem("Nama") != null) {
-              next()
+            next();
           } else {
             sessionStorage.removeItem("Nama");
             sessionStorage.removeItem("Id");
-              next({ path: '/' })
+            next({ path: "/" });
           }
-        }, 
+        },
         name: "Hewan",
         path: "/MenuHewan",
-        component: loadHewan("MenuHewan")
-      }
-    ]
-  }
+        component: loadHewan("MenuHewan"),
+      },
+    ],
+  },
 ];
 
 Vue.use(Router);

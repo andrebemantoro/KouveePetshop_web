@@ -39,12 +39,7 @@
           </v-flex>
         </v-layout>
 
-        <v-data-table
-          :headers="headers"
-          :items="pelanggans"
-          :search="keyword"
-          :loading="load"
-        >
+        <v-data-table :headers="headers" :items="pelanggans" :search="keyword">
           <template v-slot:body="{ items }">
             <tbody>
               <tr v-for="(item, index) in items" :key="item.id_pelanggan">
@@ -63,52 +58,22 @@
                 <!-- <td>{{ item.aktif }}</td> -->
 
                 <td>
-                  <div class="text-center">
+                  <div>
                     <v-btn icon color="blue" light @click="editHandler(item)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </div>
-
-                  <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
-                  <div class="text-center">
-                    <v-dialog  width="500">
-                      <template v-slot:activator="{ on }">
-                        <v-btn icon color="red lighten-2" dark v-on="on">
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </template>
-
-                      <v-card>
-                        <v-card-title
-                          class="headline Red lighten-2"
-                          primary-title
-                        >
-                          Konfirmasi Hapus
-                        </v-card-title>
-
-                        <v-card-text>
-                          Data yang akan dihapus, Lanjutkan ?
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="primary"
-                            text
-                            @click="
-                              deleteData(item.id_pelanggan), (pesan = false)
-                            "
-                          >
-                            Hapus
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
+                  <div>
+                    <v-btn
+                      icon
+                      color="red lighten-2"
+                      dark
+                      v-on="on"
+                      @click="deleteRow(item)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
                   </div>
-
-                  <!-- -------------------------------------------------------- -->
                 </td>
               </tr>
             </tbody>
@@ -116,6 +81,30 @@
         </v-data-table>
       </v-container>
     </v-card>
+    <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title>
+            Konfirmasi Hapus
+          </v-card-title>
+          <v-card-text>
+            Data yang akan dihapus, Lanjutkan ?
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDialog = false">
+              Batal
+            </v-btn>
+            <v-btn color="primary" text @click="deleteData(deleteId)">
+              Hapus
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- -------------------------------------------------------- -->
     <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
@@ -268,47 +257,49 @@ export default {
       pelanggans: [],
       keyword: "",
       bottomNav: 1,
+      on: "",
+      deleteDialog: "",
       menu: false,
       headers: [
         {
           text: "No",
-          value: "index"
+          value: "index",
         },
         {
           text: "Id Pelanggan",
-          value: "id_pelanggan"
+          value: "id_pelanggan",
         },
         {
           text: "Nama Pelanggan",
-          value: "nama"
+          value: "nama",
         },
         {
           text: "Alamat",
-          value: "alamat"
+          value: "alamat",
         },
         {
           text: "Tanggal Lahir",
-          value: "tanggal_lahir"
+          value: "tanggal_lahir",
         },
         {
           text: "Nomor Telepon",
-          value: "telp"
+          value: "telp",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         //   text: "Delete At",
@@ -324,8 +315,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
+          value: null,
+        },
       ],
       snackbar: false,
       color: null,
@@ -338,13 +329,13 @@ export default {
         telp: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       pelanggan: new FormData(),
       dialogEdit: "",
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
   // computed: {
@@ -360,7 +351,7 @@ export default {
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    }
+    },
   },
 
   methods: {
@@ -369,7 +360,7 @@ export default {
     },
     getData() {
       var uri = this.$apiUrl + "Pelanggan";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.pelanggans = response.data.message;
       });
     },
@@ -384,7 +375,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pelanggan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -393,7 +384,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -411,7 +402,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pelanggan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -421,7 +412,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -439,6 +430,10 @@ export default {
       this.form.telp = item.telp;
       this.updatedId = item.id_pelanggan;
     },
+    deleteRow(item) {
+      this.deleteId = item.id_pelanggan;
+      this.deleteDialog = true;
+    },
     deleteData(deleteId) {
       //mengahapus data
       this.pelanggan.append("delete_by", this.form.delete_by);
@@ -446,14 +441,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pelanggan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -476,12 +471,12 @@ export default {
         telp: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>
