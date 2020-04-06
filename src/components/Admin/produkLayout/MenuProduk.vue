@@ -125,7 +125,7 @@
                     <v-spacer></v-spacer>
 <!-- ---------------------------------------------------------------------------------------------- -->
                   <!-- -------------------------------------------------------- -->
-                    <div class="text-center">
+                    <!-- <div class="text-center">
                       <v-dialog v-model="pesan" width="500">
                         <template v-slot:activator="{ on }">
                           <v-btn icon color="red lighten-2" dark v-on="on" text="">
@@ -161,7 +161,7 @@
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
-                    </div>
+                    </div> -->
 
                     <!-- -------------------------------------------------------- -->
                     
