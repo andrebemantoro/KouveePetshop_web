@@ -10,7 +10,7 @@
         <span>Non Aktif</span>
         <v-icon>mdi-delete-empty</v-icon>
       </v-btn>
-    </v-bottom-navigation>
+    </v-bottom-navigation> -->
     <v-card>
       <div class="pt-5">
         <h2 class="text-md-center">Data Jenis Hewan Kouvee Petshop</h2>

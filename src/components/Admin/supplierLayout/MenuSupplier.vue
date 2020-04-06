@@ -92,9 +92,10 @@
                 <v-card-actions>
                 <v-btn text @click="editHandler(item)">Edit</v-btn>
                 <v-spacer></v-spacer>
-<!-- ---------------------------------------------------------------------------------------------- -->
-                  <!-- -------------------------------------------------------- -->
-                    <!-- <div class="text-center">
+
+                    <!-- ----------------------------------Dialog Untuk Konfirmasi Hapus------------------------------------------------------------ -->
+                  
+                    <div >
                       <v-dialog v-model="pesan" width="500">
                         <template v-slot:activator="{ on }">
                           <v-btn icon color="red lighten-2" dark v-on="on" text="">
@@ -119,7 +120,7 @@
                           <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn
-                              color="primary"
+                              color="red"
                               text
                               @click="
                                 deleteData(item.id_produk), (pesan = false)
@@ -130,9 +131,7 @@
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
-                    </div> -->
-
-                    <!-- -------------------------------------------------------- -->
+                    </div>
                     
 <!-- ---------------------------------------------------------------------------------------------- -->
 
@@ -154,6 +153,10 @@
                           <v-card-subtitle>
                             Alamat : {{item.alamat}}<br>
                             Nomor Telepon : {{item.telp}}<br>
+                            Created By   : {{item.created_by}}<br>
+                            Created At   : {{item.created_at}}<br>
+                            Modified By  : {{item.modified_by}}<br>
+                            Modified At  : {{item.modified_at}}<br>
                           </v-card-subtitle>
                           
                         </v-card-text>
@@ -196,6 +199,8 @@ export default {
         modified_by: sessionStorage.getItem("Nama")
       },
       supplier: new FormData(),
+      pesan: "",
+      search: "",
       typeInput: "new",
       errors: "",
       updatedId: "",
@@ -270,6 +275,7 @@ export default {
       this.form.nama = item.nama;
       this.form.alamat = item.alamat;
       this.form.telp = item.telp;
+      this.updatedId = item.id_supplier;
     },
     deleteData(deleteId) {
       //mengahapus data

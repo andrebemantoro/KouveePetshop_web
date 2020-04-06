@@ -65,9 +65,12 @@
                 
 
                 <td>
-                  <v-btn icon color="blue" light @click="editHandler(item)">
+                  <div class="text-center">
+                      <v-btn icon color="blue" light @click="editHandler(item)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
+                  </div>
+                  
 
                   <div class="text-center">
                     <v-btn
@@ -293,7 +296,7 @@
             @click="resetForm(), (dialogEdit = false)"
             >Close</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm(),(dialogEdit = false)">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -326,10 +329,10 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetFormPassword(), (dialogPassword = false)"
+            @click="resetForm(), (dialogPassword = false)"
             >Close</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setFormPassword(),(dialogPassword = false)">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setFormPassword()">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -422,8 +425,14 @@ export default {
           text: "Action",
           value: null
         }
+        
       ],
       pegawais: [],
+      dialog:"",
+      dialogEdit: "",
+      dialogPassword: "",
+      pesan: "",
+      search: "",
       snackbar: false,
       color: null,
       text: "",
@@ -436,9 +445,9 @@ export default {
         username: "",
         password: "",
         role: "",
-        created_by: "admin",
-        delete_by: "admin",
-        modified_by: "admin"
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama"),
       },
       pegawai: new FormData(),
       typeInput: "new",
@@ -511,7 +520,7 @@ export default {
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
-          this.dialog = false;
+          this.dialogEdit = false;
           this.getData(); //mengambil datapegawai
           this.resetForm();
           this.typeInput = "new";
@@ -537,7 +546,7 @@ export default {
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
-          this.dialog = false;
+          this.dialogPassword = false;
           this.getData(); //mengambil data pegawi
           this.resetForm();
           this.typeInput = "new";
@@ -563,12 +572,7 @@ export default {
     },
     changePassword(item) {
       this.typeInput = "edit";
-      this.dialogPassword = true;
-      this.form.nama = item.nama;
-      this.form.alamat = item.alamat;
-      this.form.tanggal_lahir = item.tanggal_lahir;
-      this.form.telp = item.telp;
-      (this.form.role = item.role), (this.form.username = item.username);
+      this.dialogPassword = true;   
       this.form.password = item.password;
       this.updatedId = item.id_pegawai;
     },
@@ -591,6 +595,7 @@ export default {
           this.snackbar = true;
           this.text = "Try Again";
           this.color = "red";
+        
         });
     },
     setForm() {
