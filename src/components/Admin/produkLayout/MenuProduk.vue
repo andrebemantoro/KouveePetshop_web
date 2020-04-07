@@ -156,15 +156,17 @@
                   </div>
                   <v-spacer></v-spacer>
 
-                  <v-btn icon @click="show = !show">
+                  <!-- <v-btn icon @click="show = !show"> -->
+                    <v-btn icon @click="updateMunculke(item)">
                     <v-icon>{{
-                      show ? "mdi-chevron-up" : "mdi-chevron-down"
+                     item.id_produk==munculke ? "mdi-chevron-up" : "mdi-chevron-down"
                     }}</v-icon>
                   </v-btn>
                 </v-card-actions>
 
                 <v-expand-transition>
-                  <div v-show="show">
+                  <!-- <div v-show="show"> -->
+                    <div v-if="item.id_produk==munculke">
                     <v-divider></v-divider>
 
                     <v-card-text>
@@ -204,6 +206,7 @@
 export default {
   data() {
     return {
+      munculke: 0,
       search: "",
       show: false,
       notShow: [],
@@ -243,6 +246,15 @@ export default {
       this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
       });
+    },
+    updateMunculke(item) {
+      if(this.munculke==0)
+          this.munculke=item.id_produk;
+      else if(this.munculke==item.id_produk)
+          this.munculke=0;
+        else
+          this.munculke=item.id_produk;
+      // console.log(this.produks[i])
     },
     sendData() {
       this.produk.append("nama", this.form.nama);
