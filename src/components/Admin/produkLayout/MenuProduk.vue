@@ -1,21 +1,25 @@
 <template>
-  <div>
+<v-container>
+     <v-card>
+    <v-container grid-list-md mb-20>
     <template>
+      <h2 class="text-md-center">Data Produk Kouvee Petshop</h2>
+      <v-layout row wrap style="margin:10px">
       <v-toolbar flat color="white">
-        <v-text-field
-          v-model="keyword"
-          label="Cari"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
+         
+     
+        
         <v-dialog v-model="dialog" max-width="500px">
+          
           <template v-slot:activator="{ on }">
             <v-btn color="#f9c99e" depressed rounded dark class="mb-2" v-on="on"
-              >Tambah Produk</v-btn
+              >
+              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah Produk</v-btn
             >
+           
           </template>
+           
+          
           <v-card>
             <v-card-title>
               <v-spacer />
@@ -89,7 +93,19 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-spacer></v-spacer>
+          <v-divider class="mx-4" inset vertical></v-divider>
+        <v-flex xs6 class="text-right">
+        <v-text-field
+          v-model="keyword"
+          label="Cari"
+          append-icon="mdi-search"
+          single-line
+          hide-details
+        ></v-text-field>
+        </v-flex>
       </v-toolbar>
+      </v-layout>
     </template>
     <v-layout class="mx-4">
       <v-flex>
@@ -199,7 +215,10 @@
         </template>
       </v-flex>
     </v-layout>
-  </div>
+        </v-container>
+     </v-card>
+
+  </v-container>
 </template>
 
 <script>
@@ -380,3 +399,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.v-toolbar__content, .v-toolbar__extension{
+    color: white;
+  }
+</style>

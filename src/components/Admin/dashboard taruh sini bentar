@@ -1,4 +1,16 @@
 <template>
+<!-- <v-toolbar>
+    <v-toolbar-side-icon></v-toolbar-side-icon>
+    <v-toolbar-title>Title</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn flat>Link One</v-btn>
+      <v-btn flat>Link Two</v-btn>
+      <v-btn flat>Link Three</v-btn>
+    </v-toolbar-items>
+  </v-toolbar> -->
+
+
   <div>
     <v-navigation-drawer
       v-model="drawer"
@@ -43,44 +55,28 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn text @click="logout()">
-            <v-icon>
-              mdi-logout
-            </v-icon>
-            Keluar</v-btn>
+          <v-btn block @click="logout()">Keluar</v-btn>
         </div>
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar light app fixed clipped-left height="70px" color="#fff4cb">
+    <v-app-bar light app fixed clipped-left height="70px" color="grey darken-3">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Kouvee Petshop</v-toolbar-title>
+
       <VSpacer />
-       <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
     </v-app-bar>
-   
 
     <VContent>
       <router-view />
     </VContent>
   </div>
+
 </template>
 
 <script>
 export default {
   data() {
     return {
-      collapseOnScroll: true,
       drawer: null,
       items: [
         {
@@ -131,3 +127,8 @@ export default {
   }
 };
 </script>
+<style  scoped>
+  .toll{
+    color: #fff4cb;
+  }
+</style>

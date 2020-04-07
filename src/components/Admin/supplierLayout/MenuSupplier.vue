@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <!-- <v-data-table :headers="headers" :items="desserts" :search="search" sort-by="calories" class="elevation-1"> -->
+  <v-container>
+   <v-card>
+     <v-container grid-list-md mb-20>
     <template>
+         <h2 class="text-md-center">Data Supplier Kouvee Petshop</h2>
+         <v-layout row wrap style="margin:10px">
       <v-toolbar flat color="white">
-        <v-text-field
-          v-model="search"
-          label="Cari"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
+         
+        
+       
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn color="#f9c99e" depressed rounded dark class="mb-2" v-on="on"
-              >Tambah Supplier</v-btn
+              ><v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah Supplier</v-btn
             >
           </template>
           <v-card>
@@ -65,7 +63,18 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+         <v-spacer></v-spacer>
+         <v-divider class="mx-4" inset vertical></v-divider>
+         <v-flex xs6 class="text-right">
+        <v-text-field
+          v-model="search"
+          label="Cari"
+          single-line
+          hide-details
+        ></v-text-field>
+         </v-flex>
       </v-toolbar>
+         </v-layout>
     </template>
     <v-layout class="mx-4">
       <v-flex>
@@ -132,15 +141,16 @@
                   </div>
                   <v-spacer></v-spacer>
 
-                  <v-btn icon @click="show = !show">
+                  <v-btn icon @click="updateMunculke(item)">
                     <v-icon>{{
-                      show ? "mdi-chevron-up" : "mdi-chevron-down"
+                      item.id_supplier==munculke ? "mdi-chevron-up" : "mdi-chevron-down"
                     }}</v-icon>
                   </v-btn>
                 </v-card-actions>
 
                 <v-expand-transition>
-                  <div v-show="show">
+                  <!-- <div v-show="show"> -->
+                    <div v-if="item.id_supplier==munculke">
                     <v-divider></v-divider>
 
                     <v-card-text>
@@ -171,13 +181,16 @@
         </template>
       </v-flex>
     </v-layout>
-  </div>
+     </v-container>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      munculke: 0,
       show: false,
       dialog: false,
       keyword: "",
@@ -211,6 +224,15 @@ export default {
       this.$http.get(uri).then((response) => {
         this.suppliers = response.data.message;
       });
+    },
+        updateMunculke(item) {
+      if(this.munculke==0)
+          this.munculke=item.id_supplier;
+      else if(this.munculke==item.id_supplier)
+          this.munculke=0;
+        else
+          this.munculke=item.id_supplier;
+      // console.log(this.produks[i])
     },
     sendData() {
       this.supplier.append("nama", this.form.nama);
