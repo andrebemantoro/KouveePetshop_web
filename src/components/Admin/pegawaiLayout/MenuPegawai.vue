@@ -1,16 +1,6 @@
 <template>
   <v-container>
-    <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
-      <v-btn>
-        <span>Aktif</span>
-        <v-icon>mdi-account-multiple</v-icon>
-      </v-btn>
-
-      <v-btn>
-        <span>Non Aktif</span>
-        <v-icon>mdi-delete-empty</v-icon>
-      </v-btn>
-    </v-bottom-navigation> -->
+   
     <v-card>
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Pegawai Kouvee Petshop</h2>
@@ -22,7 +12,7 @@
               rounded
               style="text-transform: none !important;"
               color="#f9c99e"
-              @click="dialog = true,reset()"
+              @click="dialog = true,resetForm(),reset()"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Pegawai
@@ -113,6 +103,25 @@
             <v-btn color="primary" text @click="deleteData(deleteId)"
               >Hapus</v-btn
             >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="dialogWarning">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Data Harus Diisi Semua !</v-card-title
+          >
+         
+          
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialogWarning = false"
+              >Kembali</v-btn
+            >
+            
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -233,7 +242,11 @@
             @click="resetForm(),reset(), (dialog = false)"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm(),reset(),(dialog = false)">Simpan</v-btn>
+          <v-btn 
+          color="blue darken-1" 
+          text 
+         
+            @click="cekKosong()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -254,6 +267,7 @@
                   label="Nama*"
                   v-model="form.nama"
                   required
+                 outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -261,6 +275,7 @@
                   label="Alamat*"
                   v-model="form.alamat"
                   required
+                 outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -268,6 +283,7 @@
                   label="Tanggal Lahir*"
                   v-model="form.tanggal_lahir"
                   required
+                 outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -275,6 +291,7 @@
                   label="Nomor Telepon*"
                   v-model="form.telp"
                   required
+                  outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -283,6 +300,7 @@
                   v-model="form.role"
                   :items="items"
                   required
+                    outlined=""
                 >
                 </v-select>
               </v-col>
@@ -291,6 +309,7 @@
                   label="Username*"
                   v-model="form.username"
                   required
+                  outlined=""
                   
                 ></v-text-field>
               </v-col>
@@ -332,7 +351,7 @@
                   :rules="rulesPassword"
                   @click:append="show = !show"
                   required
-                  solo-inverted=""
+                  solo
                 ></v-text-field>
               </v-form>
               </v-col>
@@ -463,6 +482,7 @@ export default {
         },
       ],
       pegawais: [],
+      dialogWarning:"",
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
@@ -497,6 +517,18 @@ export default {
   },
 
   methods: {
+       cekKosong(){
+      if(this.form.nama === ''|| this.form.alamat === ''|| this.form.tanggal_lahir=== ''|| this.form.telp === ''|| this.form.role === ''|| this.form.username === ''|| this.form.password === ''){
+        this.dialogWarning= true
+          
+      }else{
+        this.setForm();
+        this.resetForm();
+        this.reset();
+        this.dialog = false;
+      }
+
+    },
     save(date) {
       this.$refs.menu.save(date);
     },
@@ -653,13 +685,13 @@ export default {
     },
     resetForm() {
       this.form = {
-        nama: "",
-        alamat: "",
-        tanggal_lahir: "",
-        telp: "",
-        role: "",
-        username: "",
-        password: "",
+        nama: '',
+        alamat: '',
+        tanggal_lahir: '',
+        telp: '',
+        role: '',
+        username: '',
+        password: '',
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
