@@ -11,7 +11,10 @@
       temporary
     >
       <v-list-item>
-        <img src="../../assets/kouveepetshoplogo.png" style="height:45px;width:80px" />
+        <img
+          src="../../assets/kouveepetshoplogo.png"
+          style="height:45px;width:80px"
+        />
         <v-list-item-content>
           <v-list-item-title class="title" style="margin-left:10px;">
             Kouvee Petshop
@@ -23,14 +26,12 @@
       </v-list-item>
 
       <v-divider></v-divider>
-      <v-list
-      rounded
-      >
+      <v-list rounded>
         <v-list-item
           v-for="item in items"
           :key="item.title"
           link
-          @click="$router.push(item.to).catch(error=>{})"
+          @click="$router.push(item.to).catch((error) => {})"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -47,16 +48,17 @@
             <v-icon>
               mdi-logout
             </v-icon>
-            Keluar</v-btn>
+            Keluar</v-btn
+          >
         </div>
       </template>
     </v-navigation-drawer>
 
     <v-app-bar light app fixed clipped-left height="70px" color="#fff4cb">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Kouvee Petshop</v-toolbar-title>
+      <v-toolbar-title bold>KOUVEE PETSHOP</v-toolbar-title>
       <VSpacer />
-       <v-btn icon>
+      <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
@@ -68,7 +70,6 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-   
 
     <VContent>
       <router-view />
@@ -86,40 +87,39 @@ export default {
         {
           title: "Pegawai",
           icon: "mdi-account",
-          to: "/menuPegawai"
+          to: "/menuPegawai",
         },
         {
           title: "Produk",
           icon: "mdi-paw",
-          to: "/menuProduk"
+          to: "/menuProduk",
         },
         {
           title: "Layanan",
           icon: "mdi-dog-service",
-          to: "/menuLayanan"
+          to: "/menuLayanan",
         },
         {
           title: "Supplier",
           icon: "mdi-package-variant-closed",
-          to: "/menuSupplier"
+          to: "/menuSupplier",
         },
         {
           title: "Ukuran Hewan",
           icon: "mdi-ruler",
-          to: "/menuUkuran"
+          to: "/menuUkuran",
         },
         {
           title: "Jenis Hewan",
           icon: "mdi-dog",
-          to: "/menuJenis"
+          to: "/menuJenis",
         },
         {
           title: "Pengadaan",
           icon: "mdi-plus-circle-multiple-outline",
-          to: "/menuPengadaan"
+          to: "/menuPengadaan",
         },
-       
-      ]
+      ],
     };
   },
   methods: {
@@ -127,7 +127,7 @@ export default {
       sessionStorage.removeItem("Nama");
       sessionStorage.removeItem("Id");
       this.$router.push({ name: "Login" });
-    }
-  }
+    },
+  },
 };
 </script>

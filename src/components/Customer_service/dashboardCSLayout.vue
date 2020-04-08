@@ -4,13 +4,17 @@
       v-model="drawer"
       width="300px"
       class="greydarken-3"
+      grey
       app
       clipped
       fixed
       temporary
     >
       <v-list-item>
-        <img src="../../assets/kouveepetshoplogo.png" style="height:45px;width:80px" />
+        <img
+          src="../../assets/kouveepetshoplogo.png"
+          style="height:45px;width:80px"
+        />
         <v-list-item-content>
           <v-list-item-title class="title" style="margin-left:10px;">
             Kouvee Petshop
@@ -22,14 +26,12 @@
       </v-list-item>
 
       <v-divider></v-divider>
-      <v-list
-      rounded
-      >
+      <v-list rounded>
         <v-list-item
           v-for="item in items"
           :key="item.title"
           link
-          @click="$router.push(item.to).catch(err=>{})"
+          @click="$router.push(item.to).catch((error) => {})"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -47,10 +49,21 @@
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar light app fixed clipped-left height="70px" color="grey darken-3">
+    <v-app-bar light app fixed clipped-left height="70px" color="#fff4cb">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      
+      <v-toolbar-title bold>KOUVEE PETSHOP</v-toolbar-title>
       <VSpacer />
+      <v-btn icon>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-bell</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <VContent>
@@ -63,19 +76,20 @@
 export default {
   data() {
     return {
+      collapseOnScroll: true,
       drawer: null,
       items: [
         {
           title: "Pelanggan",
           icon: "mdi-account",
-          to: "/menuPelanggan"
+          to: "/menuPelanggan",
         },
         {
           title: "Hewan",
           icon: "mdi-dog",
-          to: "/menuHewan"
-        }
-      ]
+          to: "/menuHewan",
+        },
+      ],
     };
   },
   methods: {
@@ -83,7 +97,7 @@ export default {
       sessionStorage.removeItem("Nama");
       sessionStorage.removeItem("Id");
       this.$router.push({ name: "Login" });
-    }
-  }
+    },
+  },
 };
 </script>
