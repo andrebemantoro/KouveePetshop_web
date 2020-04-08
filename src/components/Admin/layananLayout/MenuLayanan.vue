@@ -30,75 +30,85 @@
         </v-layout>
         <v-data-table
           :headers="headers"
-          :items="layanans"
+          :items="hargalayanans"
+          :search="keyword"
           :single-expand="singleExpand"
           :expanded.sync="expanded"
+          item-key="item.id_harga_layanan"
           show-expand
-          :loading="load"
           class="elevation-1"
         >
-          <template v-slot:expanded-item="{ headers, items }">
-            <tbody>
-              <tr
-                v-for="(item, index) in items"
-                :key="item.id_produk"
-                class="NamaKolom"
-              >
-                <td>{{ index + 1 }}</td>
-                <td>{{ item.id_layanan }}</td>
-                <td>{{ item.nama }}</td>
-                <td>{{ item.created_at }}</td>
-                <td>{{ item.created_by }}</td>
-                <td>{{ item.modified_at }}</td>
-                <td>{{ item.modified_by }}</td>
-                <td>{{ item.delete_by }}</td>
-                <td>{{ item.delete_at }}</td>
-                <td>{{ item.aktif }}</td>
-              </tr>
-            </tbody>
+          <template v-slot:expanded-item="{ headers }">
+            <td :colspan="headers.length">
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th>Ukuran Hewan</th>
+                      <th>Harga Layanan</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="hargalayanan in hargalayanans"
+                      :key="hargalayanan.id_harga_layanan"
+                    >
+                      <td>{{ hargalayanan.nama_ukuran_hewan }}</td>
+                      <td>{{ hargalayanan.harga }}</td>
+                      <td>
+                        <div>
+                          <v-btn
+                            icon
+                            color="blue"
+                            light
+                            @click="editHandler(item)"
+                          >
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>
+                        </div>
+                        <div>
+                          <v-btn
+                            icon
+                            color="red lighten-2"
+                            dark
+                            v-on="on"
+                            @click="deleteRow(item)"
+                          >
+                            <v-icon>mdi-delete</v-icon>
+                          </v-btn>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </td>
           </template>
         </v-data-table>
-        <tr>
-          <div class="text-center">
-            <v-btn icon color="indigo" light @click="editHandler(item)">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </div>
-          <div class="text-center">
-            <v-dialog v-model="pesan" width="500">
-              <template v-slot:activator="{ on }">
-                <v-btn icon color="red lighten-2" dark v-on="on">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title class="headline Red lighten-2" primary-title>
-                  Konfirmasi Hapus
-                </v-card-title>
-
-                <v-card-text>
-                  Data yang akan dihapus, Lanjutkan ?
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="primary"
-                    text
-                    @click="deleteData(item.id_layanan), (pesan = false)"
-                  >
-                    Hapus
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </div>
-        </tr>
       </v-container>
     </v-card>
+    <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Konfirmasi Hapus</v-card-title
+          >
+          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDialog = false"
+              >Batal</v-btn
+            >
+            <v-btn color="primary" text @click="deleteData(deleteId)"
+              >Hapus</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -118,14 +128,14 @@
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <small>*wajib diisi</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="dialog = false"
-            >Close</v-btn
+            >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -151,34 +161,32 @@ export default {
       dialog: false,
       // items: ["Buah", "Lusin", "Box"],
       keyword: "",
+      deleteDialog: "",
+      on: "",
       headers: [
         {
-          text: "No",
-          value: "index"
-        },
-        {
           text: "Id Layanan",
-          value: "id_layanan"
+          value: "id_layanan",
         },
         {
           text: "Nama Layanan",
-          value: "nama"
+          value: "nama_layanan",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         //   text: "Delete At",
@@ -194,15 +202,17 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
+          value: null,
+        },
       ],
       layanans: [],
       hargalayanans: [],
+      ukurans: [],
       snackbar: false,
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
+      item: "",
       search: "",
       color: null,
       text: "",
@@ -211,34 +221,43 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       layanan: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
   methods: {
     getData() {
-      var uri = this.$apiUrl + "Layanan";
-      var uri2 = this.$apiUrl + "HargaLayanan";
-      this.$http.get(uri).then(response => {
-        this.layanans = response.data.message;
-      });
-      this.$http.get(uri2).then(response => {
+      var uri = this.$apiUrl + "HargaLayanan/getWithJoin";
+      this.$http.get(uri).then((response) => {
         this.hargalayanans = response.data.message;
       });
     },
+    getLayanan() {
+      var uri = this.$apiUrl + "Layanan";
+      this.$http.get(uri).then((response) => {
+        this.layanans = response.data.message;
+      });
+    },
+    getUkuran() {
+      var uri = this.$apiUrl + "UkuranHewan";
+      this.$http.get(uri).then((response) => {
+        this.ukurans = response.data.message;
+      });
+    },
     sendData() {
-      this.layanan.append("nama", this.form.nama);
-      this.layanan.append("created_by", this.form.created_by);
+      this.hargalayanan.append("nama", this.form.nama);
+      this.hargalayanan.append("");
+      this.hargalayanan.append("created_by", this.form.created_by);
 
       var uri = this.$apiUrl + "Layanan";
       this.load = true;
       this.$http
-        .post(uri, this.layanan)
-        .then(response => {
+        .post(uri, this.hargalayanan)
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -247,7 +266,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -258,11 +277,11 @@ export default {
     updateData() {
       this.layanan.append("nama", this.form.nama);
       this.layanan.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Layanan/" + this.updatedId;
+      var uri = this.$apiUrl + "Layanan/" + "update/" + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.layanan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -272,7 +291,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -294,14 +313,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.layanan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -312,18 +331,21 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        console.log("data berhasil diubah");
         this.updateData();
       }
     },
     resetForm() {
       this.form = {
-        nama: ""
+        nama: "",
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama"),
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>
