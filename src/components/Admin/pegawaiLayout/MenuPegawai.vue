@@ -1,6 +1,5 @@
 <template>
   <v-container>
-   
     <v-card>
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Data Pegawai Kouvee Petshop</h2>
@@ -12,7 +11,7 @@
               rounded
               style="text-transform: none !important;"
               color="#f9c99e"
-              @click="dialog = true,resetForm(),reset()"
+              @click="(dialog = true), resetForm(), reset()"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Pegawai
@@ -26,7 +25,6 @@
               hide-details="auto"
               outlined
               clearable
-             
             >
             </v-text-field>
           </v-flex>
@@ -63,7 +61,7 @@
                       icon
                       color="indigo"
                       light
-                      @click="changePassword(item),reset()"
+                      @click="changePassword(item), reset()"
                     >
                       <v-icon>mdi-lock</v-icon>
                     </v-btn>
@@ -114,14 +112,12 @@
           <v-card-title class="headline Red lighten-2" primary-title
             >Data Harus Diisi Semua !</v-card-title
           >
-         
-          
+
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="dialogWarning = false"
               >Kembali</v-btn
             >
-            
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -135,101 +131,99 @@
           <v-spacer />
         </v-card-title>
         <v-card-text>
-          <v-container >
-            <v-form
-            ref="form">
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Nama*"
-                  v-model="form.nama"
-                  required
-                  outlined
-                  :rules="rules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Alamat*"
-                  v-model="form.alamat"
+          <v-container>
+            <v-form ref="form">
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Nama*"
+                    v-model="form.nama"
+                    required
                     outlined
-                  required
-                  
-                  :rules="rules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="20">
-                <v-menu
-                  ref="menu"
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      v-model="form.tanggal_lahir"
-                      label="Tanggal Lahir*"
-                      readonly
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Alamat*"
+                    v-model="form.alamat"
+                    outlined
+                    required
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="20">
+                  <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="form.tanggal_lahir"
+                        label="Tanggal Lahir*"
+                        readonly
                         outlined
                         :rules="rules"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    ref="picker"
-                    v-model="form.tanggal_lahir"
-                    :max="new Date().toISOString().substr(0, 10)"
-                    min="1950-01-01"
-                    @change="save"
-                  ></v-date-picker>
-                </v-menu>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Nomor Telepon*"
-                  v-model="form.telp"
-                  required
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      ref="picker"
+                      v-model="form.tanggal_lahir"
+                      :max="new Date().toISOString().substr(0, 10)"
+                      min="1950-01-01"
+                      @change="save"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Nomor Telepon*"
+                    v-model="form.telp"
+                    required
                     outlined
                     prefix="+62"
                     :rules="rules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  label="Role*"
-                  v-model="form.role"
-                  :items="items"
-                  required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-select
+                    label="Role*"
+                    v-model="form.role"
+                    :items="items"
+                    required
                     outlined
                     :rules="rules"
-                >
-                </v-select>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Username*"
-                  v-model="form.username"
-                  required
+                  >
+                  </v-select>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Username*"
+                    v-model="form.username"
+                    required
                     outlined
                     :rules="rulesUsername"
                     hint="Minimal 6 karakter"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Password*"
-                  v-model="form.password"
-                  :type="show ? 'text' : 'password'"
-                  required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Password*"
+                    v-model="form.password"
+                    :type="show ? 'text' : 'password'"
+                    required
                     outlined
                     :rules="rulesPassword"
                     :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="show = !show"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+                  ></v-text-field>
+                </v-col>
+              </v-row>
             </v-form>
           </v-container>
           <small>*wajib diisi</small>
@@ -239,14 +233,10 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(),reset(), (dialog = false)"
+            @click="resetForm(), reset(), (dialog = false)"
             >Tutup</v-btn
           >
-          <v-btn 
-          color="blue darken-1" 
-          text 
-         
-            @click="cekKosong()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -267,7 +257,7 @@
                   label="Nama*"
                   v-model="form.nama"
                   required
-                 outlined=""
+                  outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -275,7 +265,7 @@
                   label="Alamat*"
                   v-model="form.alamat"
                   required
-                 outlined=""
+                  outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -283,7 +273,7 @@
                   label="Tanggal Lahir*"
                   v-model="form.tanggal_lahir"
                   required
-                 outlined=""
+                  outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -300,7 +290,7 @@
                   v-model="form.role"
                   :items="items"
                   required
-                    outlined=""
+                  outlined=""
                 >
                 </v-select>
               </v-col>
@@ -310,7 +300,6 @@
                   v-model="form.username"
                   required
                   outlined=""
-                  
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -343,17 +332,17 @@
             <v-row>
               <v-col cols="12">
                 <v-form ref="form">
-                <v-text-field
-                  label="Password*"
-                  v-model="form.password"
-                 :type="show ? 'text' : 'password'"
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="rulesPassword"
-                  @click:append="show = !show"
-                  required
-                  solo
-                ></v-text-field>
-              </v-form>
+                  <v-text-field
+                    label="Password*"
+                    v-model="form.password"
+                    :type="show ? 'text' : 'password'"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="rulesPassword"
+                    @click:append="show = !show"
+                    required
+                    solo
+                  ></v-text-field>
+                </v-form>
               </v-col>
             </v-row>
           </v-container>
@@ -364,10 +353,10 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogPassword = false),reset()"
+            @click="resetForm(), (dialogPassword = false), reset()"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setFormPassword(),reset()"
+          <v-btn color="blue darken-1" text @click="setFormPassword(), reset()"
             >Simpan</v-btn
           >
         </v-card-actions>
@@ -392,22 +381,12 @@
 export default {
   data() {
     return {
-      rules: [
-        value => !!value || 'Wajib di isi.',
-        
-      ],
-      rulesPassword: [
-        value => !!value || 'Password wajib diisi.',
-        
-      ],
-      rulesUsername: [
-        value => !!value || 'Username wajib diisi.',
-        
-        
-      ],
-      password: 'Password',
+      rules: [(value) => !!value || "Wajib di isi."],
+      rulesPassword: [(value) => !!value || "Password wajib diisi."],
+      rulesUsername: [(value) => !!value || "Username wajib diisi."],
+      password: "Password",
       show: false,
-     
+
       dialog: false,
       items: ["Cashier", "Customer Service"],
       keyword: "",
@@ -482,7 +461,7 @@ export default {
         },
       ],
       pegawais: [],
-      dialogWarning:"",
+      dialogWarning: "",
       dialogEdit: "",
       dialogPassword: "",
       pesan: "",
@@ -517,25 +496,31 @@ export default {
   },
 
   methods: {
-       cekKosong(){
-      if(this.form.nama === ''|| this.form.alamat === ''|| this.form.tanggal_lahir=== ''|| this.form.telp === ''|| this.form.role === ''|| this.form.username === ''|| this.form.password === ''){
-        this.dialogWarning= true
-          
-      }else{
+    cekKosong() {
+      if (
+        this.form.nama === "" ||
+        this.form.alamat === "" ||
+        this.form.tanggal_lahir === "" ||
+        this.form.telp === "" ||
+        this.form.role === "" ||
+        this.form.username === "" ||
+        this.form.password === ""
+      ) {
+        this.dialogWarning = true;
+      } else {
         this.setForm();
         this.resetForm();
         this.reset();
         this.dialog = false;
       }
-
     },
     save(date) {
       this.$refs.menu.save(date);
     },
-    reset () {
-        this.$refs.form.resetValidation()
-        this.show = false;
-      },
+    reset() {
+      this.$refs.form.resetValidation();
+      this.show = false;
+    },
     getData() {
       var uri = this.$apiUrl + "Pegawai/" + "all_get";
       this.$http.get(uri).then((response) => {
@@ -601,7 +586,6 @@ export default {
           this.text = "Try Again";
           this.color = "red";
           this.load = false;
-          
         });
     },
     updatePassword() {
@@ -685,13 +669,13 @@ export default {
     },
     resetForm() {
       this.form = {
-        nama: '',
-        alamat: '',
-        tanggal_lahir: '',
-        telp: '',
-        role: '',
-        username: '',
-        password: '',
+        nama: "",
+        alamat: "",
+        tanggal_lahir: "",
+        telp: "",
+        role: "",
+        username: "",
+        password: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),

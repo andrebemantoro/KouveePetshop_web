@@ -32,13 +32,14 @@
           :headers="headers"
           :items="hargalayanans"
           :search="keyword"
-          :single-expand="singleExpand"
+          :single-expand="true"
           :expanded.sync="expanded"
-          item-key="item.id_harga_layanan"
+          item-key="id_harga_layanan"
           show-expand
           class="elevation-1"
         >
-          <template v-slot:expanded-item="{ headers }">
+          <template v-slot:expanded-item="{ headers, item }">
+            <td>{{ item.nama_ukuran_hewan }}</td>
             <td :colspan="headers.length">
               <v-simple-table>
                 <template v-slot:default>
@@ -234,6 +235,13 @@ export default {
       var uri = this.$apiUrl + "HargaLayanan/getWithJoin";
       this.$http.get(uri).then((response) => {
         this.hargalayanans = response.data.message;
+
+        // array.forEach(hargalayanans => {
+        //   forEach(filtered) {
+        //     this.hargalayananfiltered
+        //   }
+
+        // });
       });
     },
     getLayanan() {

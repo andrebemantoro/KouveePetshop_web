@@ -44,7 +44,7 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn text @click="logout()">
+          <v-btn color="#f9c99e" block @click="logout()">
             <v-icon>
               mdi-logout
             </v-icon>

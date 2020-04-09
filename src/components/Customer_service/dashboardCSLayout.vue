@@ -44,7 +44,12 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn block @click="logout()">Keluar</v-btn>
+          <v-btn color="#f9c99e" block @click="logout()">
+            <v-icon>
+              mdi-logout
+            </v-icon>
+            Keluar</v-btn
+          >
         </div>
       </template>
     </v-navigation-drawer>

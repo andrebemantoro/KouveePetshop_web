@@ -33,7 +33,9 @@
               v-model="keyword"
               append-icon="mdi-search"
               label="Cari"
-              hide-details
+              hide-details="auto"
+              outlined
+              clearable
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -98,25 +100,46 @@
         </v-card>
       </v-dialog>
     </div>
+    <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="dialogWarning">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Data Harus Diisi Semua !</v-card-title
+          >
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialogWarning = false"
+              >Kembali</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Jenis Hewan</span>
+          <span class="headline">Detail Jenis Hewan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Jenis Hewan*"
-                  v-model="form.nama"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
+            <v-form ref="form">
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Jenis Hewan*"
+                    v-model="form.nama"
+                    required
+                    outlined
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-container>
           <small>*wajib diisi</small>
         </v-card-text>
@@ -125,10 +148,10 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialog = false)"
+            @click="resetForm(), reset(), (dialog = false)"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -136,7 +159,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Profil Jenis Hewan</span>
+          <span class="headline">Detail Jenis Hewan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -147,6 +170,7 @@
                   label="Jenis Hewan*"
                   v-model="form.nama"
                   required
+                  outlined=""
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -182,6 +206,7 @@
 export default {
   data() {
     return {
+      rules: [(value) => !!value || "Wajib di isi."],
       dialog: false,
       jenishewans: [],
       keyword: "",
@@ -245,6 +270,7 @@ export default {
         modified_by: sessionStorage.getItem("Nama"),
       },
       jenishewan: new FormData(),
+      dialogWarning: "",
       dialogEdit: "",
       deleteDialog: false,
       typeInput: "new",
@@ -263,6 +289,20 @@ export default {
   //   }
   // },
   methods: {
+    cekKosong() {
+      if (this.form.nama === "") {
+        this.dialogWarning = true;
+      } else {
+        this.setForm();
+        this.resetForm();
+        this.reset();
+        this.dialog = false;
+      }
+    },
+    reset() {
+      this.$refs.form.resetValidation();
+      this.show = false;
+    },
     getData() {
       var uri = this.$apiUrl + "JenisHewan";
       this.$http.get(uri).then((response) => {
