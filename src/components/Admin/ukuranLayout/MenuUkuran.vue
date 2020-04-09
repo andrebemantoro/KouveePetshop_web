@@ -24,6 +24,8 @@
                 append-icon="mdi-search"
                 label="Cari"
                 hide-details
+                outlined=""
+                clearable=""
               >
               </v-text-field>
             </v-flex>
@@ -105,15 +107,19 @@
           </v-card-title>
           <v-card-text>
             <v-container>
+              <v-form ref="form">
               <v-row>
                 <v-col cols="12">
                   <v-text-field
                     label="Nama*"
                     v-model="form.nama"
                     required
+                    outlined=""
+                    :rules="rules"
                   ></v-text-field>
                 </v-col>
               </v-row>
+              </v-form>
             </v-container>
             <small>*wajib diisi</small>
           </v-card-text>
@@ -122,10 +128,10 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="resetForm(), (dialog = false)"
+              @click="resetForm(), (dialog = false),reset()"
               >Tutup</v-btn
             >
-            <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+            <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -140,6 +146,25 @@
           Tutup
         </v-btn>
       </v-snackbar>
+      <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
+                      <div class="text-center">
+                        <v-dialog width="500" v-model="dialogWarning">
+                          <v-card>
+                            <v-card-title class="headline Red lighten-2" primary-title
+                              >Data Harus Diisi Semua !</v-card-title
+                            >
+                          
+                            
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn color="primary" text @click="dialogWarning = false"
+                                >Kembali</v-btn
+                              >
+                              
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </div>
     </v-container>
   </div>
 </template>
@@ -147,6 +172,11 @@
 export default {
   data() {
     return {
+        rules: [
+        value => !!value || 'Wajib di isi.',
+        
+      ],
+       dialogWarning:'',
       dialog: false,
       on: "",
       deleteDialog: "",
@@ -215,6 +245,21 @@ export default {
     };
   },
   methods: {
+    cekKosong(){
+      if(this.form.nama === ''){
+        this.dialogWarning= true
+          
+      }else{
+        this.setForm();
+        this.resetForm();
+        this.reset();
+        this.dialog = false;
+      }
+     },
+     reset () {
+        this.$refs.form.resetValidation()
+        
+      },
     getData() {
       var uri = this.$apiUrl + "UkuranHewan/" + "getAll";
       this.$http.get(uri).then((response) => {
