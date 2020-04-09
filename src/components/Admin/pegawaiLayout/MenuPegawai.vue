@@ -533,8 +533,8 @@ export default {
       this.$refs.menu.save(date);
     },
     reset () {
-        this.$refs.form.reset()
-       this.show = false;
+        this.$refs.form.resetValidation()
+        this.show = false;
       },
     getData() {
       var uri = this.$apiUrl + "Pegawai/" + "all_get";
