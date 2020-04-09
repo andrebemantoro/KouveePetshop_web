@@ -28,12 +28,15 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <v-row>
+                  <v-form ref="form">
+                <v-row >
                   <v-col cols="12">
                     <v-text-field
                       label="Nama*"
                       v-model="form.nama"
                       required
+                      outlined=""
+                      :rules="rules"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12">
@@ -41,6 +44,8 @@
                       label="Stok Minimal*"
                       v-model="form.min_stok"
                       required
+                      outlined=""
+                      :rules="rules"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12">
@@ -48,6 +53,8 @@
                       label="Jumlah Stok*"
                       v-model="form.jumlah_stok"
                       required
+                      outlined=""
+                      :rules="rules"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12">
@@ -55,6 +62,9 @@
                       label="Harga*"
                       v-model="form.harga"
                       required
+                      outlined=""
+                      prefix="Rp. "
+                      :rules="rules"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12">
@@ -63,6 +73,8 @@
                       v-model="form.satuan"
                       :items="items"
                       required
+                      outlined=""
+                      :rules="rules"
                     >
                     </v-select>
                   </v-col>
@@ -76,6 +88,7 @@
                     </template>
                   </v-col>
                 </v-row>
+                  </v-form>
               </v-container>
               <small>*wajib diisi</small>
             </v-card-text>
@@ -84,10 +97,10 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="resetForm(), (dialog = false)"
+                @click="resetForm(), (dialog = false),reset()"
                 >Tutup</v-btn
               >
-              <v-btn color="blue darken-1" text @click="setForm()"
+              <v-btn color="blue darken-1" text @click="cekKosong()"
                 >Simpan</v-btn
               >
             </v-card-actions>
@@ -102,6 +115,8 @@
           append-icon="mdi-search"
           single-line
           hide-details
+          outlined=""
+          clearable=""
         ></v-text-field>
         </v-flex>
       </v-toolbar>
@@ -139,6 +154,7 @@
                   >
                     Hapus
                   </v-btn>
+                  
                   <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
                   <div class="text-center">
                     <v-dialog width="500" v-model="deleteDialog">
@@ -217,16 +233,40 @@
     </v-layout>
         </v-container>
      </v-card>
-
+ <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
+                      <div class="text-center">
+                        <v-dialog width="500" v-model="dialogWarning">
+                          <v-card>
+                            <v-card-title class="headline Red lighten-2" primary-title
+                              >Data Harus Diisi Semua !</v-card-title
+                            >
+                          
+                            
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn color="primary" text @click="dialogWarning = false"
+                                >Kembali</v-btn
+                              >
+                              
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </div>
   </v-container>
+  
 </template>
 
 <script>
 export default {
   data() {
     return {
+       rules: [
+        value => !!value || 'Wajib di isi.',
+        
+      ],
       munculke: 0,
       search: "",
+      dialogWarning:'',
       show: false,
       notShow: [],
       dialog: false,
@@ -260,6 +300,21 @@ export default {
   },
 
   methods: {
+     cekKosong(){
+      if(this.form.nama === ''|| this.form.satuan === ''|| this.form.jumlah_stok=== ''|| this.form.min_stok === ''|| this.form.satuan === ''|| this.form.harga === ''){
+        this.dialogWarning= true
+          
+      }else{
+        this.setForm();
+        this.resetForm();
+        this.reset();
+        this.dialog = false;
+      }
+     },
+     reset () {
+        this.$refs.form.resetValidation()
+        
+      },
     getData() {
       var uri = this.$apiUrl + "Produk/" + "getAll";
       this.$http.get(uri).then((response) => {
