@@ -1,353 +1,156 @@
 <template>
-<div>
-  <!-- <v-data-table :headers="headers" :items="desserts" :search="search" sort-by="calories" class="elevation-1"> -->
-    <template>
-      <v-toolbar flat color="white">
-        <v-text-field
-        v-model="search"
-        label="Search"
-        single-line
-        hide-details
-        ></v-text-field>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Tambah Produk</v-btn>
-          </template>
-          <v-card>
-          <v-card-title>
-            <v-spacer />
-            <span class="headline">Detail Produk</span>
-            <v-spacer />
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Nama*"
-                    v-model="form.nama"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Stok Minimal*"
-                    v-model="form.min_stok"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Jumlah Stok*"
-                    v-model="form.jumlah_stok"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Harga*"
-                    v-model="form.harga"
-                    required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-select
-                    label="Satuan*"
-                    v-model="form.satuan"
-                    :items="items"
-                    required
-                  >
-                  </v-select>
-                </v-col>
-                <v-col cols="12">
-                 
-                  <template>
-                    <v-file-input
-                      accept="image/*"
-                      label="File input"
-                      v-model="form.gambar"
-                    ></v-file-input>
+  <v-app id="inspire">
+    <v-content>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card class="elevation-12">
+              <v-toolbar color="#fff4cb"  flat>
+                <v-toolbar-title
+                  >Masuk Kouvee Petshop</v-toolbar-title
+                >
+                <v-spacer />
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn :href="source" icon large target="_blank" v-on="on">
+                    </v-btn>
                   </template>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="resetForm(), (dialog = false)"
-              >Close</v-btn
-            >
-            <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <v-layout class="mx-4">
-      <v-flex>
-        <template>
-          <v-row>
-             <v-col v-for="(item, i) in produks" :key="i" cols="3">
-          <v-card class="mx-auto" max-width="250" elevation="5" outlined>
-            <v-list-item three-line>
-              <v-list-item-content>
-                <img :src="item.gambar" height="250" >
-                <v-list-item-title class="headline text-center" v-text="item.nama"></v-list-item-title>
-                <v-row>
-                  <v-col>
-                    <div>Merk : {{item.satuan}}</div>
-                    <div>Type : {{item.harga}}</div>
-                    <div>Price : {{item.jumlah_stok}}</div>
-                  </v-col>
-                </v-row>
-              </v-list-item-content>
-            </v-list-item>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn color="danger" @click="deleteData(item.id_produk)">Delete</v-btn>
-              <v-spacer />
-            </v-card-actions>
-          </v-card>
-          <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000"> {{ text }} <v-btn dark text
-                @click="snackbar = false"> Close </v-btn>
-        </v-snackbar>
-        </v-col>
-          </v-row>
-          
-          
-        </template>
-      </v-flex>
-    </v-layout>
+                </v-tooltip>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="Username"
+                    name="username"
+                    prepend-icon="mdi mdi-account"
+                    type="text"
+                    required
+                    v-model="form.username"
+                  />
 
-</div>
+                  <v-text-field
+                    label="Password"
+                    name="password"
+                    prepend-icon="mdi mdi-lock"
+                    type="password"
+                    required
+                    v-model="form.password"
+
+                  />
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <!-- <router-link :to="'/MenuCustomerService'">
+                  <v-btn text router to="/menuPelanggan" color="#6c573c"
+                    >Login CS Temp</v-btn
+                  >
+                </router-link> -->
+                <v-spacer />
+                <!-- <router-link :to="'/MenuAdmin'">
+                  <v-btn text router to="/menuPegawai" color="#6c573c"
+                    >Login</v-btn
+                  >
+                </router-link> -->
+                <v-btn  
+                style="text-transform: none !important;" 
+                color="#6c573c" 
+                @click="login()">Masuk</v-btn>
+              </v-card-actions>
+              <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
+                {{ text }}
+                <v-btn dark text @click="snackbar = false">
+                  Close
+                </v-btn>
+              </v-snackbar>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      dialog: false,
-      items: ["Buah", "Karung", "Lusin"],
-      keyword: "",
-      headers: [
-        {
-          text: "No",
-          value: "index"
-        },
-        {
-          text: "Id Produk",
-          value: "id_produk"
-        },
-        {
-          text: "Nama Produk",
-          value: "nama"
-        },
-        {
-          text: "Satuan",
-          value: "satuan"
-        },
-        {
-          text: "Jumlah Stok",
-          value: "jumlah_stok"
-        },
-        {
-          text: "Harga",
-          value: "harga"
-        },
-        {
-          text: "Stok Minimal",
-          value: "min_stok"
-        },
-        {
-          text: "Gambar",
-          value: ""
-        },
-        {
-          text: "Created At",
-          value: "created_at"
-        },
-        {
-          text: "Created By",
-          value: "created_by"
-        },
-        {
-          text: "Modified At",
-          value: "modified_by"
-        },
-        {
-          text: "Modified By",
-          value: "modified_by"
-        },
-        {
-          text: "Delete At",
-          value: "delete_at"
-        },
-        {
-          text: "Delete By",
-          value: "delete_by"
-        },
-        {
-          text: "Aktif",
-          value: "aktif"
-        },
-        {
-          text: "Action",
-          value: null
+    data () { 
+          return { 
+              dialog: false, 
+              snackbar: false, 
+              color: null, 
+              text: '', 
+              load: false,
+              form: { 
+                  username : null, 
+                  password : null 
+              }, 
+              user : new FormData(), 
+              pegawai : [],
+              typeInput: 'new', 
+              errors : ''
+          } 
+      }, 
+  props: {
+    source: String
+  },
+  methods:{ 
+    login() {
+        if(this.form.username == "admin") {
+          if(this.form.password == "admin123"){
+            sessionStorage.setItem("Nama", "admin");
+            this.snackbar = true;
+            this.text = "Login Berhasil";
+            this.color = "green";
+            this.$router.push({ name: "Pegawai" }); 
+            console.log("admin");
+            
+          }else{
+            this.snackbar = true;
+            this.text = "Login Gagal";
+            this.color = "red";
+          }
         }
-      ],
-      produks: [],
-      snackbar: false,
-      color: null,
-      text: "",
-      load: false,
-      form: {
-        nama: "",
-        satuan: "",
-        jumlah_stok: "",
-        harga: "",
-        min_stok: "",
-        gambar: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
-      },
-      produk: new FormData(),
-      typeInput: "new",
-      errors: "",
-      updatedId: ""
-    };
-  },
-  methods: {
-    getData() {
-      var uri = this.$apiUrl + "Produk/" + "getAll";
-      this.$http.get(uri).then(response => {
-        this.produks = response.data.message;
-      });
+        else {
+          this.user.append("username", this.form.username);
+          this.user.append("password", this.form.password);
+          var url = this.$apiUrl +  "Pegawai/" + "auth" ;
+          this.load = true;
+          this.$http
+          .post(url, this.user)
+          .then(response => {
+            this.pegawai = response.data.message;
+            if(this.pegawai.id_pegawai!=null) {
+              if(this.pegawai.role.toLowerCase()=="customer service"){ //login ke menu customer 
+                  sessionStorage.setItem("Id", response.data.message.id_pegawai);
+                  sessionStorage.setItem("Nama", response.data.message.username);
+                  this.snackbar = true;
+                  this.text = "Login Berhasil";
+                  this.color = "green";
+                  this.$router.push({ name: "Pelanggan" });
+                  console.log("customer service");
+              }else if(this.pegawai.role.toLowerCase()=="kasir"){
+                //code untuk login ke kasir 
+              }else{
+                this.snackbar = true;
+                this.text = "Login Gagal";
+                this.color = "red";
+              }
+            }
+            else {
+              this.snackbar = true;
+              this.text = "Login Gagal";
+              this.color = "red";
+            }
+          })
+          .catch(error => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = "Try Again";
+            this.color = "red";
+            
+          });
+        }
     },
-    sendData() {
-      this.produk.append("nama", this.form.nama);
-      this.produk.append("satuan", this.form.satuan);
-      this.produk.append("jumlah_stok", this.form.jumlah_stok);
-      this.produk.append("harga", this.form.harga);
-      this.produk.append("min_stok", this.form.min_stok);
-      this.produk.append("gambar", this.form.gambar);
-      this.produk.append("created_by", this.form.created_by);
-
-      var uri = this.$apiUrl + "Produk";
-      this.load = true;
-      this.$http
-        .post(uri, this.produk)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil [pegawai]
-          this.resetForm();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-          this.load = false;
-        });
-    },
-    updateData() {
-      this.produk.append("nama", this.form.nama);
-      this.produk.append("satuan", this.form.satuan);
-      this.produk.append("jumlah_stok", this.form.jumlah_stok);
-      this.produk.append("harga", this.form.harga);
-      this.produk.append("min_stok", this.form.min_stok);
-      this.produk.append("gambar", this.form.gambar);
-      this.produk.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Produk/" + "update/" + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.produk)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil databong
-          this.resetForm();
-          this.typeInput = "new";
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-          this.load = false;
-          this.typeInput = "new";
-        });
-    },
-    editHandler(item) {
-      this.typeInput = "edit";
-      this.dialog = true;
-      this.form.nama = item.nama;
-      this.form.satuan = item.satuan;
-      this.form.jumlah_stok = item.jumlah_stok;
-      this.form.harga = item.harga;
-      this.form.min_stok = item.min_stok;
-      this.form.gambar = item.password;
-      this.updatedId = item.id_produk;
-    },
-    deleteData(deleteId) {
-      //mengahapus data
-      this.produk.append("delete_by", this.form.delete_by);
-      var uri = this.$apiUrl + "Produk" + "/delete/" + deleteId; //data dihapus berdasarkan id
-      this.load = true;
-      this.$http
-        .post(uri, this.produk)
-        .then(response => {
-          this.snackbar = true;
-          this.text = response.data.message;
-          this.color = "green";
-          this.deleteDialog = false;
-          this.getData();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-        });
-    },
-    setForm() {
-      if (this.typeInput === "new") {
-        this.sendData();
-      } else {
-        console.log("dddd");
-        this.updateData();
-      }
-    },
-    resetForm() {
-      this.form = {
-        nama: "",
-        satuan: "",
-        jumlah_stok: "",
-        harga: "",
-        min_stok: "",
-        gambar: "",
-        created_by: "admin",
-        delete_by: "admin",
-        modified_by: "admin"
-      };
-    }
-  },
-  mounted() {
-    this.getData();
-  }
+  } 
 };
 </script>
 

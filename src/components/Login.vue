@@ -1,99 +1,87 @@
 <template>
   <v-app id="inspire">
     <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12">
-              <v-toolbar color="#fff4cb"  flat>
-                <v-toolbar-title
-                  >Masuk Kouvee Petshop</v-toolbar-title
-                >
-                <v-spacer />
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn :href="source" icon large target="_blank" v-on="on">
-                    </v-btn>
-                  </template>
-                </v-tooltip>
-              </v-toolbar>
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4 lg4>
+            <v-card class="elevation-5 pa-3">
               <v-card-text>
+                <div class="layout column align-center">
+                  <img src="../assets/kouveepetshoplogo.png"  width="100%" height="100%">
+                  <h1 class="flex my-4 primary--text">Kouvee Petshop Administration</h1>
+                </div>
                 <v-form>
                   <v-text-field
-                    label="Username"
+                   label="Username"
                     name="username"
                     prepend-icon="mdi mdi-account"
                     type="text"
                     required
                     v-model="form.username"
-                  />
-
+                    :error="error"
+                    :rules="[rules.required]"/>
                   <v-text-field
-                    label="Password"
+                    :type="hidePassword ? 'password' : 'text'"
+                    :append-icon="hidePassword ? 'mdi-eye' : 'mdi-eye-off'"
+                     label="Password"
                     name="password"
                     prepend-icon="mdi mdi-lock"
-                    type="password"
+                   
                     required
                     v-model="form.password"
-
-                  />
+                    :rules="[rules.required]"
+                    :error="error"
+                    @click:append="hidePassword = !hidePassword"/>
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <!-- <router-link :to="'/MenuCustomerService'">
-                  <v-btn text router to="/menuPelanggan" color="#6c573c"
-                    >Login CS Temp</v-btn
-                  >
-                </router-link> -->
-                <v-spacer />
-                <!-- <router-link :to="'/MenuAdmin'">
-                  <v-btn text router to="/menuPegawai" color="#6c573c"
-                    >Login</v-btn
-                  >
-                </router-link> -->
-                <v-btn  
-                style="text-transform: none !important;" 
-                color="#6c573c" 
-                @click="login()">Masuk</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn block color="primary" @click="login()" :loading="loading">Login</v-btn>
               </v-card-actions>
-              <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
                 {{ text }}
                 <v-btn dark text @click="snackbar = false">
                   Close
                 </v-btn>
               </v-snackbar>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
 export default {
-    data () { 
-          return { 
-              dialog: false, 
-              snackbar: false, 
-              color: null, 
-              text: '', 
-              load: false,
-              form: { 
-                  username : null, 
-                  password : null 
-              }, 
-              user : new FormData(), 
-              pegawai : [],
-              typeInput: 'new', 
-              errors : ''
-          } 
-      }, 
-  props: {
-    source: String
+  data() {
+    return {
+      loading: false,
+       load: false,
+       snackbar: false, 
+      hidePassword: true,
+      error: false,
+      color: null,
+       text: '', 
+      
+      rules: {
+        required: value => !!value || 'Required.'
+      },
+      form: { 
+              username : null, 
+              password : null 
+            }, 
+        user : new FormData(), 
+        pegawai : [],
+        typeInput: 'new', 
+      errors : ''
+    }
   },
-  methods:{ 
-    login() {
+   props: {
+    source: String
+   },
+  methods: {
+   login() {
         if(this.form.username == "admin") {
           if(this.form.password == "admin123"){
             sessionStorage.setItem("Nama", "admin");
@@ -154,3 +142,14 @@ export default {
 };
 </script>
 
+<style scoped lang="css">
+  #login {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    z-index: 0;
+  }
+</style>
