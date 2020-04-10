@@ -12,7 +12,7 @@
               rounded
               style="text-transform: none !important;"
               color="#f9c99e"
-              @click="dialog = true"
+              @click="createMultiform()"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Layanan
@@ -43,7 +43,7 @@
                 <td>{{ item.delete_at }}</td> -->
                 <td>
                   <div>
-                    <v-btn icon color="blue" light @click="editHandler(item)">
+                    <v-btn icon color="blue" light @click="editHandlerLayanan(item)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </div>
@@ -92,7 +92,7 @@
                         <td>{{ item.harga }}</td>
                         <td>
                           <div>
-                            <v-btn icon color="blue" light @click="editHandler(item)">
+                            <v-btn icon color="blue" light @click="editHandlerHargaLayanan(item)">
                               <v-icon>mdi-pencil</v-icon>
                             </v-btn>
                           </div>
@@ -125,18 +125,62 @@
             <v-btn color="primary" text @click="deleteDialog = false"
               >Batal</v-btn
             >
-            <v-btn color="primary" text @click="deleteData(deleteId)"
+            <v-btn color="primary" text @click="deleteDataLayanan(deleteId)"
               >Hapus</v-btn
             >
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <!------------------Dialog untuk Tambah Layanan------------------>
+    <v-dialog v-model="dialogAddLayanan" persistent max-width="500px">
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Layanan</span>
+          <span class="headline">Tambah Layanan</span>
+          <v-spacer />
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Nama*"
+                  v-model="form.nama"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row v-for="row in hargalayananrows" :key="row.id_harga_layanan">
+              <v-col cols="8">
+              <div><p class="title">{{searchUkuranHewan(row.id_ukuran_hewan).nama}}</p></div>
+              </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  label="Harga"
+                  v-model="row.harga"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*wajib diisi</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeForm()"
+            >Tutup</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="sendDataLayanan()">Simpan</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-----------------------Dialog untuk ubah Layanan----------------------->
+    <v-dialog v-model="dialogUbahLayanan" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <v-spacer />
+          <span class="headline">Ubah Layanan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -155,7 +199,38 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false"
+          <v-btn color="blue darken-1" text @click="closeForm()"
+            >Tutup</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="updateDataLayanan()">Simpan</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-----------------------Dialog untuk edit Harga Layanan----------------------->
+    <v-dialog v-model="dialogUbahHargaLayanan" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <v-spacer />
+          <span class="headline">Ubah Harga {{detailItem.nama+" "+searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan).nama}}</span>
+          <v-spacer />
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Harga*"
+                  v-model="formHargaLayanan.harga"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*wajib diisi</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeFormUbahHarga()"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
@@ -183,11 +258,15 @@ export default {
   data() {
     return {
       dialog: false,
+      dialogAddLayanan: false,
       // items: ["Buah", "Lusin", "Box"],
       keyword: "",
       deleteDialog: "",
       dialogDetailLayanan: false,
+      dialogUbahLayanan: false,
+      dialogUbahHargaLayanan: false,
       detailItem: "",
+      editHargaLayananItem: "",
       nama_ukuran:"",
       on: "",
       headers: [
@@ -237,7 +316,12 @@ export default {
       ],
       layanans: [],
       hargalayanans: [],
-      ukurans: [],
+      ukurans: [
+        {
+          nama:""
+          }
+          ],
+      ukuransAktif: [],
       snackbar: false,
       dialogEdit: "",
       dialogPassword: "",
@@ -253,13 +337,41 @@ export default {
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama")
       },
+      formHargaLayanan: {
+        harga: "",
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
+      },
       layanan: new FormData(),
+      hargalayanan: new FormData(),
+      hargalayananrows:[],
+      ukuranrows:[],
       typeInput: "new",
       errors: "",
       updatedId: ""
     };
   },
   methods: {
+    closeForm(){
+      this.resetForm()
+      this.hargalayananrows =[];
+      this.dialogAddLayanan = false;
+      this.dialogUbahLayanan = false;
+    },
+    closeFormUbahHarga(){
+      this.resetForm()
+      this.dialogUbahHargaLayanan = false;
+    },
+    createMultiform(){
+      this.getUkuran();
+      this.ukuransAktif.forEach(e => {
+        this.hargalayananrows.push({'id_harga_layanan': '', 'id_layanan': '', 'id_ukuran_hewan': e.id_ukuran_hewan, 'harga': '', 
+        'created_at': '', 'created_by': sessionStorage.getItem("Nama"), 'modified_at': '', 'modified_by': '', 'delete_at': '', 'delete_by': '', 'aktif': 0})
+      });
+      console.log(this.hargalayananrows);
+      this.dialogAddLayanan = true;
+    },
     filteredItems(value) {
         return this.hargalayanans.filter((i) => {
             return !value.id_layanan || (i.id_layanan === value.id_layanan);
@@ -269,13 +381,6 @@ export default {
       var uri = this.$apiUrl + "HargaLayanan/getWithJoin";
       this.$http.get(uri).then(response => {
         this.hargalayanans = response.data.message;
-
-        // array.forEach(hargalayanans => {
-        //   forEach(filtered) {
-        //     this.hargalayananfiltered
-        //   }
-
-        // });
       });
     },
     getLayanan() {
@@ -284,29 +389,28 @@ export default {
         this.layanans = response.data.message;
       });
     },
-    getUkuran() {
+    getAllUkuran() {
       var uri = this.$apiUrl + "UkuranHewan/all";
       this.$http.get(uri).then((response) => {
         this.ukurans = response.data.message;
       });
     },
-    sendData() {
-      this.hargalayanan.append("nama", this.form.nama);
-      this.hargalayanan.append("");
-      this.hargalayanan.append("created_by", this.form.created_by);
+    getUkuran() {
+      var uri = this.$apiUrl + "UkuranHewan";
+      this.$http.get(uri).then((response) => {
+        this.ukuransAktif = response.data.message;
+      });
+    },
+    sendDataLayanan() {
+      this.layanan.append("nama", this.form.nama);
+      this.layanan.append("created_by", this.form.created_by);
 
       var uri = this.$apiUrl + "Layanan";
       this.load = true;
       this.$http
-        .post(uri, this.hargalayanan)
+        .post(uri, this.layanan)
         .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil [pegawai]
-          this.resetForm();
+          this.sendDataHargaLayanan(response.data.message)
         })
         .catch(error => {
           this.errors = error;
@@ -316,7 +420,36 @@ export default {
           this.load = false;
         });
     },
-    updateData() {
+    sendDataHargaLayanan(id_layanan) {
+      for (let index = 0; index < this.hargalayananrows.length; index++) {
+        this.hargalayananrows[index].id_layanan = id_layanan;
+      }
+      this.hargalayanan.append("harga_layanan", JSON.stringify(this.hargalayananrows));
+    
+      var uri = this.$apiUrl + "HargaLayanan/insertMultiple";
+      this.load = true;
+      this.$http
+        .post(uri, this.hargalayanan)
+        .then(response => {
+          this.snackbar = true; //mengaktifkan snackbar
+          this.color = "green"; //memberi warna snackbar
+          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.load = false;
+          this.dialog = false;
+          this.getLayanan()
+          this.getData(); //mengambil [harga layanan]
+          this.closeMultiform()
+        })
+        .catch(error => {
+          this.deleteLayananPermanent(id_layanan)
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+          this.load = false;
+        });
+    },
+    updateDataLayanan() {
       this.layanan.append("nama", this.form.nama);
       this.layanan.append("modified_by", this.form.modified_by);
       var uri = this.$apiUrl + "Layanan/" + "update/" + this.updatedId;
@@ -328,10 +461,34 @@ export default {
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil databong
-          this.resetForm();
+          this.getLayanan();
+          this.closeForm()
+        })
+        .catch(error => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Try Again";
+          this.color = "red";
+          this.load = false;
           this.typeInput = "new";
+        });
+    },
+    updateDataHargaLayanan() {
+      this.hargalayanan.append("id_layanan", this.editHargaLayananItem.id_layanan);
+      this.hargalayanan.append("id_ukuran_hewan", this.editHargaLayananItem.id_ukuran_hewan)
+      this.hargalayanan.append("harga", this.formHargaLayanan.harga);
+      this.hargalayanan.append("modified_by", this.form.modified_by);
+      var uri = this.$apiUrl + "HargaLayanan/" + "update/" + this.updatedId;
+      this.load = true;
+      this.$http
+        .post(uri, this.hargalayanan)
+        .then(response => {
+          this.snackbar = true; //mengaktifkan snackbar
+          this.color = "green"; //memberi warna snackbar
+          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.load = false;
+          this.getData();
+          this.closeForm()
         })
         .catch(error => {
           this.errors = error;
@@ -346,13 +503,21 @@ export default {
       this.detailItem = item;
       this.dialogDetailLayanan = true;
     },
-    editHandler(item) {
-      this.typeInput = "edit";
-      this.dialog = true;
+    editHandlerLayanan(item) {
       this.form.nama = item.nama;
       this.updatedId = item.id_layanan;
+      this.dialogUbahLayanan = true;
     },
-    deleteData(deleteId) {
+    editHandlerHargaLayanan(item) {
+      this.formHargaLayanan = item.harga;
+      this.updatedId = item.id_harga_layanan;
+      this.dialogUbahHargaLayanan = true;
+    },
+    deleteRow(item){
+      this.deleteId = item.id_layanan;
+      this.deleteDialog = true;
+    },
+    deleteDataLayanan(deleteId) {
       //mengahapus data
       this.layanan.append("delete_by", this.form.delete_by);
       var uri = this.$apiUrl + "Layanan" + "/delete/" + deleteId; //data dihapus berdasarkan id
@@ -364,7 +529,7 @@ export default {
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
-          this.getData();
+          this.getLayanan();
         })
         .catch(error => {
           this.errors = error;
@@ -373,17 +538,31 @@ export default {
           this.color = "red";
         });
     },
-    setForm() {
-      if (this.typeInput === "new") {
-        this.sendData();
-      } else {
-        console.log("data berhasil diubah");
-        this.updateData();
-      }
+    deleteLayananPermanent(deleteId) {
+      //mengahapus data
+      var uri = this.$apiUrl + "Layanan" + deleteId; //data dihapus berdasarkan id
+      this.load = true;
+      this.$http
+        .delete(uri)
+        .then(response => {
+          console.log(response.data.message)
+          console.log("berhasil menghapus layanan ber id: "+deleteId);
+        })
+        .catch(error => {
+          console.log(error)
+          console.log("gagal menghapus layanan ber id: "+deleteId);
+        });
     },
     resetForm() {
       this.form = {
         nama: "",
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
+      };
+      this.updatedId = "";
+      this.formHargaLayanan = {
+        harga: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama")
@@ -396,6 +575,7 @@ export default {
   mounted() {
     this.getData();
     this.getLayanan();
+    this.getAllUkuran();
     this.getUkuran();
   },
 };
