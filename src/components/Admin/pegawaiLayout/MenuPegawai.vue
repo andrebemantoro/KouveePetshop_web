@@ -381,9 +381,9 @@
 export default {
   data() {
     return {
-      rules: [(value) => !!value || "Wajib di isi."],
-      rulesPassword: [(value) => !!value || "Password wajib diisi."],
-      rulesUsername: [(value) => !!value || "Username wajib diisi."],
+      rules: [value => !!value || "Wajib di isi."],
+      rulesPassword: [value => !!value || "Password wajib diisi."],
+      rulesUsername: [value => !!value || "Username wajib diisi."],
       password: "Password",
       show: false,
 
@@ -397,51 +397,51 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index",
+          value: "index"
         },
         {
           text: "Id Pegawai",
-          value: "id_pegawai",
+          value: "id_pegawai"
         },
         {
           text: "Nama Pegawai",
-          value: "nama",
+          value: "nama"
         },
         {
           text: "Alamat",
-          value: "alamat",
+          value: "alamat"
         },
         {
           text: "Tanggal Lahir",
-          value: "tanggal_lahir",
+          value: "tanggal_lahir"
         },
         {
           text: "Nomor Telepon",
-          value: "telp",
+          value: "telp"
         },
         {
           text: "Username",
-          value: "username",
+          value: "username"
         },
         {
           text: "Role",
-          value: "role",
+          value: "role"
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at",
+          value: "created_at"
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by",
+          value: "created_by"
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by",
+          value: "modified_by"
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by",
+          value: "modified_by"
         },
         // {
         //   text: "Delete At",
@@ -457,8 +457,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null,
-        },
+          value: null
+        }
       ],
       pegawais: [],
       dialogWarning: "",
@@ -480,19 +480,19 @@ export default {
         role: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       pegawai: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: "",
+      updatedId: ""
     };
   },
 
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    },
+    }
   },
 
   methods: {
@@ -523,7 +523,7 @@ export default {
     },
     getData() {
       var uri = this.$apiUrl + "Pegawai/" + "all_get";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.pegawais = response.data.message;
       });
     },
@@ -541,7 +541,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -550,7 +550,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -570,7 +570,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -580,7 +580,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -595,7 +595,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -605,7 +605,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -641,14 +641,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -678,17 +678,17 @@ export default {
         password: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
     },
     resetFormPassword() {
       this.form = {
-        password: "",
+        password: ""
       };
-    },
+    }
   },
   mounted() {
     this.getData();
-  },
+  }
 };
 </script>
