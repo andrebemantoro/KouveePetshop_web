@@ -28,67 +28,89 @@
             </v-text-field>
           </v-flex>
         </v-layout>
-        <v-data-table
-          :headers="headers"
-          :items="hargalayanans"
-          :search="keyword"
-          :single-expand="true"
-          :expanded.sync="expanded"
-          item-key="id_harga_layanan"
-          show-expand
-          class="elevation-1"
-        >
-          <template v-slot:expanded-item="{ headers, item }">
-            <td>{{ item.nama_ukuran_hewan }}</td>
-            <td :colspan="headers.length">
-              <v-simple-table>
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th>Ukuran Hewan</th>
-                      <th>Harga Layanan</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="hargalayanan in hargalayanans"
-                      :key="hargalayanan.id_harga_layanan"
+        <v-data-table :headers="headers" :items="layanans" :search="keyword">
+          <template v-slot:body="{ items }">
+            <tbody>
+              <tr v-for="(item, index) in items" :key="item.id_layanan">
+                <td>{{ index + 1 }}</td>
+                <td>{{ item.id_layanan }}</td>
+                <td class="underlinetext" @click="showDetail(item)" style="cursor:pointer">{{ item.nama }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>{{ item.created_by }}</td>
+                <td>{{ item.modified_at }}</td>
+                <td>{{ item.modified_by }}</td>
+                <!-- <td>{{ item.delete_by }}</td>
+                <td>{{ item.delete_at }}</td> -->
+                <td>
+                  <div>
+                    <v-btn icon color="blue" light @click="editHandler(item)">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                  </div>
+                  <div>
+                    <v-btn
+                      icon
+                      color="red lighten-2"
+                      dark
+                      v-on="on"
+                      @click="deleteRow(item)"
                     >
-                      <td>{{ hargalayanan.nama_ukuran_hewan }}</td>
-                      <td>{{ hargalayanan.harga }}</td>
-                      <td>
-                        <div>
-                          <v-btn
-                            icon
-                            color="blue"
-                            light
-                            @click="editHandler(item)"
-                          >
-                            <v-icon>mdi-pencil</v-icon>
-                          </v-btn>
-                        </div>
-                        <div>
-                          <v-btn
-                            icon
-                            color="red lighten-2"
-                            dark
-                            v-on="on"
-                            @click="deleteRow(item)"
-                          >
-                            <v-icon>mdi-delete</v-icon>
-                          </v-btn>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </td>
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
           </template>
         </v-data-table>
       </v-container>
     </v-card>
+    <!------------------------ Detail Layanan Dialog ------------------------>
+    <template>
+      <v-dialog v-model="dialogDetailLayanan" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <v-spacer />
+            <span class="headline">{{ detailItem.nama }}</span>
+            <v-spacer />
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+                <v-simple-table height="300px">
+                    <thead>
+                      <tr>
+                        <th class="text-left">Id Harga Layanan</th>
+                        <th class="text-left">Ukuran Hewan</th>
+                        <th class="text-left">Harga</th>
+                        <th class="text-left">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="item in filteredItems(detailItem)" :key="item.id_harga_layanan">
+                        <td>{{ item.id_harga_layanan }}</td>
+                        <td>{{ searchUkuranHewan(item.id_ukuran_hewan).nama }}</td>
+                        <td>{{ item.harga }}</td>
+                        <td>
+                          <div>
+                            <v-btn icon color="blue" light @click="editHandler(item)">
+                              <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                </v-simple-table>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialogDetailLayanan = false"
+              >Tutup</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </template>
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
     <div class="text-center">
       <v-dialog width="500" v-model="deleteDialog">
@@ -153,25 +175,32 @@
     </v-snackbar>
   </v-container>
 </template>
+<style>
+.underlinetext { text-decoration: underline; }
+</style>
 <script>
 export default {
   data() {
     return {
-      expanded: [],
-      singleExpand: true,
       dialog: false,
       // items: ["Buah", "Lusin", "Box"],
       keyword: "",
       deleteDialog: "",
+      dialogDetailLayanan: false,
+      detailItem: "",
+      nama_ukuran:"",
       on: "",
       headers: [
+        {
+          text: "No"
+        },
         {
           text: "Id Layanan",
           value: "id_layanan",
         },
         {
           text: "Nama Layanan",
-          value: "nama_layanan",
+          value: "nama",
         },
         {
           text: "Tanggal Dibuat",
@@ -231,6 +260,11 @@ export default {
     };
   },
   methods: {
+    filteredItems(value) {
+        return this.hargalayanans.filter((i) => {
+            return !value.id_layanan || (i.id_layanan === value.id_layanan);
+        })
+    },
     getData() {
       var uri = this.$apiUrl + "HargaLayanan/getWithJoin";
       this.$http.get(uri).then((response) => {
@@ -251,7 +285,7 @@ export default {
       });
     },
     getUkuran() {
-      var uri = this.$apiUrl + "UkuranHewan";
+      var uri = this.$apiUrl + "UkuranHewan/all";
       this.$http.get(uri).then((response) => {
         this.ukurans = response.data.message;
       });
@@ -308,6 +342,10 @@ export default {
           this.typeInput = "new";
         });
     },
+    showDetail(item){
+      this.detailItem = item;
+      this.dialogDetailLayanan = true;
+    },
     editHandler(item) {
       this.typeInput = "edit";
       this.dialog = true;
@@ -351,9 +389,14 @@ export default {
         modified_by: sessionStorage.getItem("Nama"),
       };
     },
+    searchUkuranHewan(id_ukuran_hewan){
+      return this.ukurans.find(x => x.id_ukuran_hewan === id_ukuran_hewan);
+    },
   },
   mounted() {
     this.getData();
+    this.getLayanan();
+    this.getUkuran();
   },
 };
 </script>
