@@ -196,7 +196,7 @@ export default {
         },
         {
           text: "Id Layanan",
-          value: "id_layanan",
+          value: "id_layanan"
         },
         {
           text: "Nama Layanan",
@@ -204,19 +204,19 @@ export default {
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at",
+          value: "created_at"
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by",
+          value: "created_by"
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by",
+          value: "modified_by"
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by",
+          value: "modified_by"
         },
         // {
         //   text: "Delete At",
@@ -232,8 +232,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null,
-        },
+          value: null
+        }
       ],
       layanans: [],
       hargalayanans: [],
@@ -251,12 +251,12 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       layanan: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: "",
+      updatedId: ""
     };
   },
   methods: {
@@ -267,7 +267,7 @@ export default {
     },
     getData() {
       var uri = this.$apiUrl + "HargaLayanan/getWithJoin";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.hargalayanans = response.data.message;
 
         // array.forEach(hargalayanans => {
@@ -280,7 +280,7 @@ export default {
     },
     getLayanan() {
       var uri = this.$apiUrl + "Layanan";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.layanans = response.data.message;
       });
     },
@@ -299,7 +299,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.hargalayanan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -308,7 +308,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -323,7 +323,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.layanan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -333,7 +333,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -359,14 +359,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.layanan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -386,7 +386,7 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
     },
     searchUkuranHewan(id_ukuran_hewan){
