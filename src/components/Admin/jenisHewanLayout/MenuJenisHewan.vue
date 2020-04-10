@@ -148,7 +148,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), reset(), (dialog = false)"
+            @click="resetForm(), (dialog = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
@@ -206,7 +206,7 @@
 export default {
   data() {
     return {
-      rules: [(value) => !!value || "Wajib di isi."],
+      rules: [value => !!value || "Wajib diisi."],
       dialog: false,
       jenishewans: [],
       keyword: "",
@@ -216,31 +216,31 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index",
+          value: "index"
         },
         {
           text: "Id Jenis Hewan",
-          value: "id_jenis_hewan",
+          value: "id_jenis_hewan"
         },
         {
           text: "Jenis Hewan",
-          value: "nama",
+          value: "nama"
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at",
+          value: "created_at"
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by",
+          value: "created_by"
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by",
+          value: "modified_by"
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by",
+          value: "modified_by"
         },
         // {
         //   text: "Delete At",
@@ -256,8 +256,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null,
-        },
+          value: null
+        }
       ],
       snackbar: false,
       color: null,
@@ -267,7 +267,7 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       jenishewan: new FormData(),
       dialogWarning: "",
@@ -275,7 +275,7 @@ export default {
       deleteDialog: false,
       typeInput: "new",
       errors: "",
-      updatedId: "",
+      updatedId: ""
     };
   },
   // computed: {
@@ -301,11 +301,10 @@ export default {
     },
     reset() {
       this.$refs.form.resetValidation();
-      this.show = false;
     },
     getData() {
       var uri = this.$apiUrl + "JenisHewan";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.jenishewans = response.data.message;
       });
     },
@@ -317,7 +316,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.jenishewan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -326,7 +325,7 @@ export default {
           this.getData();
           this.resetForm();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -341,7 +340,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.jenishewan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -351,7 +350,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -377,14 +376,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.jenishewan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -404,17 +403,17 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
     },
     resetFormPassword() {
       this.form = {
-        password: "",
+        password: ""
       };
-    },
+    }
   },
   mounted() {
     this.getData();
-  },
+  }
 };
 </script>

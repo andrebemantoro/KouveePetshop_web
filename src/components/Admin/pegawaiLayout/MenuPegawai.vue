@@ -233,7 +233,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), reset(), (dialog = false)"
+            @click="resetForm(), (dialog = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
@@ -381,12 +381,11 @@
 export default {
   data() {
     return {
-      rules: [value => !!value || "Wajib di isi."],
+      rules: [value => !!value || "Wajib diisi."],
       rulesPassword: [value => !!value || "Password wajib diisi."],
       rulesUsername: [value => !!value || "Username wajib diisi."],
       password: "Password",
       show: false,
-
       dialog: false,
       items: ["Cashier", "Customer Service"],
       keyword: "",

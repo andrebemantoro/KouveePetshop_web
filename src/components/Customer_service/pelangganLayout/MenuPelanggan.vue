@@ -33,7 +33,9 @@
               v-model="keyword"
               append-icon="mdi-search"
               label="Cari"
-              hide-details
+              hide-details="auto"
+              outlined
+              clearable
             >
             </v-text-field>
           </v-flex>
@@ -104,7 +106,23 @@
         </v-card>
       </v-dialog>
     </div>
-    <!-- -------------------------------------------------------- -->
+    <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="dialogWarning">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Data Harus Diisi Semua !</v-card-title
+          >
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialogWarning = false"
+              >Kembali</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <!-- ---------------------Dialog----------------------------------- -->
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
@@ -121,6 +139,8 @@
                   label="Nama*"
                   v-model="form.nama"
                   required
+                  outlined
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -128,6 +148,8 @@
                   label="Alamat*"
                   v-model="form.alamat"
                   required
+                  outlined
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
               <v-col cols="20">
@@ -145,6 +167,8 @@
                       label="Tanggal Lahir*"
                       readonly
                       v-on="on"
+                      outlined
+                      :rules="rules"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -161,6 +185,8 @@
                   label="Nomor Telepon*"
                   v-model="form.telp"
                   required
+                  outlined
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -175,7 +201,7 @@
             @click="resetForm(), (dialog = false)"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -195,6 +221,7 @@
                   label="Nama*"
                   v-model="form.nama"
                   required
+                  outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -202,6 +229,7 @@
                   label="Alamat*"
                   v-model="form.alamat"
                   required
+                  outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -209,6 +237,7 @@
                   label="Tanggal Lahir*"
                   v-model="form.tanggal_lahir"
                   required
+                  outlined=""
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -216,6 +245,7 @@
                   label="Nomor Telepon*"
                   v-model="form.telp"
                   required
+                  outlined=""
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -253,6 +283,8 @@
 export default {
   data() {
     return {
+      rules: [value => !!value || "Wajib diisi."],
+      dialogWarning: "",
       dialog: false,
       pelanggans: [],
       keyword: "",
@@ -263,43 +295,43 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index",
+          value: "index"
         },
         {
           text: "Id Pelanggan",
-          value: "id_pelanggan",
+          value: "id_pelanggan"
         },
         {
           text: "Nama Pelanggan",
-          value: "nama",
+          value: "nama"
         },
         {
           text: "Alamat",
-          value: "alamat",
+          value: "alamat"
         },
         {
           text: "Tanggal Lahir",
-          value: "tanggal_lahir",
+          value: "tanggal_lahir"
         },
         {
           text: "Nomor Telepon",
-          value: "telp",
+          value: "telp"
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at",
+          value: "created_at"
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by",
+          value: "created_by"
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by",
+          value: "modified_by"
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by",
+          value: "modified_by"
         },
         // {
         //   text: "Delete At",
@@ -315,8 +347,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null,
-        },
+          value: null
+        }
       ],
       snackbar: false,
       color: null,
@@ -329,13 +361,13 @@ export default {
         telp: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       pelanggan: new FormData(),
       dialogEdit: "",
       typeInput: "new",
       errors: "",
-      updatedId: "",
+      updatedId: ""
     };
   },
   // computed: {
@@ -351,16 +383,35 @@ export default {
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    },
+    }
   },
 
   methods: {
+    cekKosong() {
+      if (
+        this.form.nama === "" ||
+        this.form.alamat === "" ||
+        this.form.tanggal_lahir === "" ||
+        this.form.telp === ""
+      ) {
+        this.dialogWarning = true;
+      } else {
+        this.setForm();
+        this.resetForm();
+        this.reset();
+        this.dialog = false;
+      }
+    },
     save(date) {
       this.$refs.menu.save(date);
     },
+    reset() {
+      this.$refs.form.resetValidation();
+      this.show = false;
+    },
     getData() {
       var uri = this.$apiUrl + "Pelanggan";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.pelanggans = response.data.message;
       });
     },
@@ -375,7 +426,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pelanggan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -384,7 +435,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -402,7 +453,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pelanggan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -412,7 +463,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -441,14 +492,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pelanggan)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -471,12 +522,12 @@ export default {
         telp: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
-    },
+    }
   },
   mounted() {
     this.getData();
-  },
+  }
 };
 </script>

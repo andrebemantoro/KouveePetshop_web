@@ -34,7 +34,13 @@
               <tr v-for="(item, index) in items" :key="item.id_layanan">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_layanan }}</td>
-                <td class="underlinetext" @click="showDetail(item)" style="cursor:pointer">{{ item.nama }}</td>
+                <td
+                  class="underlinetext"
+                  @click="showDetail(item)"
+                  style="cursor:pointer"
+                >
+                  {{ item.nama }}
+                </td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -43,7 +49,12 @@
                 <td>{{ item.delete_at }}</td> -->
                 <td>
                   <div>
-                    <v-btn icon color="blue" light @click="editHandlerLayanan(item)">
+                    <v-btn
+                      icon
+                      color="blue"
+                      light
+                      @click="editHandlerLayanan(item)"
+                    >
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </div>
@@ -76,35 +87,46 @@
           </v-card-title>
           <v-card-text>
             <v-container>
-                <v-simple-table height="300px">
-                    <thead>
-                      <tr>
-                        <th class="text-left">Id Harga Layanan</th>
-                        <th class="text-left">Ukuran Hewan</th>
-                        <th class="text-left">Harga</th>
-                        <th class="text-left">Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="item in filteredItems(detailItem)" :key="item.id_harga_layanan">
-                        <td>{{ item.id_harga_layanan }}</td>
-                        <td>{{ searchUkuranHewan(item.id_ukuran_hewan).nama }}</td>
-                        <td>{{ item.harga }}</td>
-                        <td>
-                          <div>
-                            <v-btn icon color="blue" light @click="editHandlerHargaLayanan(item)">
-                              <v-icon>mdi-pencil</v-icon>
-                            </v-btn>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                </v-simple-table>
+              <v-simple-table height="300px">
+                <thead>
+                  <tr>
+                    <th class="text-left">Id Harga Layanan</th>
+                    <th class="text-left">Ukuran Hewan</th>
+                    <th class="text-left">Harga</th>
+                    <th class="text-left">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="item in filteredItems(detailItem)"
+                    :key="item.id_harga_layanan"
+                  >
+                    <td>{{ item.id_harga_layanan }}</td>
+                    <td>{{ searchUkuranHewan(item.id_ukuran_hewan).nama }}</td>
+                    <td>{{ item.harga }}</td>
+                    <td>
+                      <div>
+                        <v-btn
+                          icon
+                          color="blue"
+                          light
+                          @click="editHandlerHargaLayanan(item)"
+                        >
+                          <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </v-simple-table>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialogDetailLayanan = false"
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="dialogDetailLayanan = false"
               >Tutup</v-btn
             >
           </v-card-actions>
@@ -153,7 +175,11 @@
             </v-row>
             <v-row v-for="row in hargalayananrows" :key="row.id_harga_layanan">
               <v-col cols="8">
-              <div><p class="title">{{searchUkuranHewan(row.id_ukuran_hewan).nama}}</p></div>
+                <div>
+                  <p class="title">
+                    {{ searchUkuranHewan(row.id_ukuran_hewan).nama }}
+                  </p>
+                </div>
               </v-col>
               <v-col cols="4">
                 <v-text-field
@@ -168,10 +194,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeForm()"
-            >Tutup</v-btn
+          <v-btn color="blue darken-1" text @click="closeForm()">Tutup</v-btn>
+          <v-btn color="blue darken-1" text @click="sendDataLayanan()"
+            >Simpan</v-btn
           >
-          <v-btn color="blue darken-1" text @click="sendDataLayanan()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -199,10 +225,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeForm()"
-            >Tutup</v-btn
+          <v-btn color="blue darken-1" text @click="closeForm()">Tutup</v-btn>
+          <v-btn color="blue darken-1" text @click="updateDataLayanan()"
+            >Simpan</v-btn
           >
-          <v-btn color="blue darken-1" text @click="updateDataLayanan()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -211,7 +237,14 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Ubah Harga {{detailItem.nama+" "+searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan).nama}}</span>
+          <span class="headline"
+            >Ubah Harga
+            {{
+              detailItem.nama +
+                " " +
+                searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan).nama
+            }}</span
+          >
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -251,7 +284,9 @@
   </v-container>
 </template>
 <style>
-.underlinetext { text-decoration: underline; }
+.underlinetext {
+  text-decoration: underline;
+}
 </style>
 <script>
 export default {
@@ -267,7 +302,7 @@ export default {
       dialogUbahHargaLayanan: false,
       detailItem: "",
       editHargaLayananItem: "",
-      nama_ukuran:"",
+      nama_ukuran: "",
       on: "",
       headers: [
         {
@@ -279,7 +314,7 @@ export default {
         },
         {
           text: "Nama Layanan",
-          value: "nama",
+          value: "nama"
         },
         {
           text: "Tanggal Dibuat",
@@ -318,9 +353,9 @@ export default {
       hargalayanans: [],
       ukurans: [
         {
-          nama:""
-          }
-          ],
+          nama: ""
+        }
+      ],
       ukuransAktif: [],
       snackbar: false,
       dialogEdit: "",
@@ -345,37 +380,48 @@ export default {
       },
       layanan: new FormData(),
       hargalayanan: new FormData(),
-      hargalayananrows:[],
-      ukuranrows:[],
+      hargalayananrows: [],
+      ukuranrows: [],
       typeInput: "new",
       errors: "",
       updatedId: ""
     };
   },
   methods: {
-    closeForm(){
-      this.resetForm()
-      this.hargalayananrows =[];
+    closeForm() {
+      this.resetForm();
+      this.hargalayananrows = [];
       this.dialogAddLayanan = false;
       this.dialogUbahLayanan = false;
     },
-    closeFormUbahHarga(){
-      this.resetForm()
+    closeFormUbahHarga() {
+      this.resetForm();
       this.dialogUbahHargaLayanan = false;
     },
-    createMultiform(){
+    createMultiform() {
       this.getUkuran();
       this.ukuransAktif.forEach(e => {
-        this.hargalayananrows.push({'id_harga_layanan': '', 'id_layanan': '', 'id_ukuran_hewan': e.id_ukuran_hewan, 'harga': '', 
-        'created_at': '', 'created_by': sessionStorage.getItem("Nama"), 'modified_at': '', 'modified_by': '', 'delete_at': '', 'delete_by': '', 'aktif': 0})
+        this.hargalayananrows.push({
+          id_harga_layanan: "",
+          id_layanan: "",
+          id_ukuran_hewan: e.id_ukuran_hewan,
+          harga: "",
+          created_at: "",
+          created_by: sessionStorage.getItem("Nama"),
+          modified_at: "",
+          modified_by: "",
+          delete_at: "",
+          delete_by: "",
+          aktif: 0
+        });
       });
       console.log(this.hargalayananrows);
       this.dialogAddLayanan = true;
     },
     filteredItems(value) {
-        return this.hargalayanans.filter((i) => {
-            return !value.id_layanan || (i.id_layanan === value.id_layanan);
-        })
+      return this.hargalayanans.filter(i => {
+        return !value.id_layanan || i.id_layanan === value.id_layanan;
+      });
     },
     getData() {
       var uri = this.$apiUrl + "HargaLayanan/getWithJoin";
@@ -391,13 +437,13 @@ export default {
     },
     getAllUkuran() {
       var uri = this.$apiUrl + "UkuranHewan/all";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.ukurans = response.data.message;
       });
     },
     getUkuran() {
       var uri = this.$apiUrl + "UkuranHewan";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.ukuransAktif = response.data.message;
       });
     },
@@ -410,7 +456,7 @@ export default {
       this.$http
         .post(uri, this.layanan)
         .then(response => {
-          this.sendDataHargaLayanan(response.data.message)
+          this.sendDataHargaLayanan(response.data.message);
         })
         .catch(error => {
           this.errors = error;
@@ -424,8 +470,11 @@ export default {
       for (let index = 0; index < this.hargalayananrows.length; index++) {
         this.hargalayananrows[index].id_layanan = id_layanan;
       }
-      this.hargalayanan.append("harga_layanan", JSON.stringify(this.hargalayananrows));
-    
+      this.hargalayanan.append(
+        "harga_layanan",
+        JSON.stringify(this.hargalayananrows)
+      );
+
       var uri = this.$apiUrl + "HargaLayanan/insertMultiple";
       this.load = true;
       this.$http
@@ -436,12 +485,12 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialog = false;
-          this.getLayanan()
+          this.getLayanan();
           this.getData(); //mengambil [harga layanan]
-          this.closeMultiform()
+          this.closeMultiform();
         })
         .catch(error => {
-          this.deleteLayananPermanent(id_layanan)
+          this.deleteLayananPermanent(id_layanan);
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -462,7 +511,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.getLayanan();
-          this.closeForm()
+          this.closeForm();
         })
         .catch(error => {
           this.errors = error;
@@ -474,8 +523,14 @@ export default {
         });
     },
     updateDataHargaLayanan() {
-      this.hargalayanan.append("id_layanan", this.editHargaLayananItem.id_layanan);
-      this.hargalayanan.append("id_ukuran_hewan", this.editHargaLayananItem.id_ukuran_hewan)
+      this.hargalayanan.append(
+        "id_layanan",
+        this.editHargaLayananItem.id_layanan
+      );
+      this.hargalayanan.append(
+        "id_ukuran_hewan",
+        this.editHargaLayananItem.id_ukuran_hewan
+      );
       this.hargalayanan.append("harga", this.formHargaLayanan.harga);
       this.hargalayanan.append("modified_by", this.form.modified_by);
       var uri = this.$apiUrl + "HargaLayanan/" + "update/" + this.updatedId;
@@ -488,7 +543,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.getData();
-          this.closeForm()
+          this.closeForm();
         })
         .catch(error => {
           this.errors = error;
@@ -499,7 +554,7 @@ export default {
           this.typeInput = "new";
         });
     },
-    showDetail(item){
+    showDetail(item) {
       this.detailItem = item;
       this.dialogDetailLayanan = true;
     },
@@ -513,7 +568,7 @@ export default {
       this.updatedId = item.id_harga_layanan;
       this.dialogUbahHargaLayanan = true;
     },
-    deleteRow(item){
+    deleteRow(item) {
       this.deleteId = item.id_layanan;
       this.deleteDialog = true;
     },
@@ -545,12 +600,12 @@ export default {
       this.$http
         .delete(uri)
         .then(response => {
-          console.log(response.data.message)
-          console.log("berhasil menghapus layanan ber id: "+deleteId);
+          console.log(response.data.message);
+          console.log("berhasil menghapus layanan ber id: " + deleteId);
         })
         .catch(error => {
-          console.log(error)
-          console.log("gagal menghapus layanan ber id: "+deleteId);
+          console.log(error);
+          console.log("gagal menghapus layanan ber id: " + deleteId);
         });
     },
     resetForm() {
@@ -568,15 +623,15 @@ export default {
         modified_by: sessionStorage.getItem("Nama")
       };
     },
-    searchUkuranHewan(id_ukuran_hewan){
+    searchUkuranHewan(id_ukuran_hewan) {
       return this.ukurans.find(x => x.id_ukuran_hewan === id_ukuran_hewan);
-    },
+    }
   },
   mounted() {
     this.getData();
     this.getLayanan();
     this.getAllUkuran();
     this.getUkuran();
-  },
+  }
 };
 </script>

@@ -108,17 +108,17 @@
           <v-card-text>
             <v-container>
               <v-form ref="form">
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Nama*"
-                    v-model="form.nama"
-                    required
-                    outlined=""
-                    :rules="rules"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Nama*"
+                      v-model="form.nama"
+                      required
+                      outlined=""
+                      :rules="rules"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
               </v-form>
             </v-container>
             <small>*wajib diisi</small>
@@ -128,10 +128,12 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="resetForm(), (dialog = false),reset()"
+              @click="resetForm(), (dialog = false)"
               >Tutup</v-btn
             >
-            <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
+            <v-btn color="blue darken-1" text @click="cekKosong()"
+              >Simpan</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -147,24 +149,22 @@
         </v-btn>
       </v-snackbar>
       <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
-                      <div class="text-center">
-                        <v-dialog width="500" v-model="dialogWarning">
-                          <v-card>
-                            <v-card-title class="headline Red lighten-2" primary-title
-                              >Data Harus Diisi Semua !</v-card-title
-                            >
-                          
-                            
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn color="primary" text @click="dialogWarning = false"
-                                >Kembali</v-btn
-                              >
-                              
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
-                      </div>
+      <div class="text-center">
+        <v-dialog width="500" v-model="dialogWarning">
+          <v-card>
+            <v-card-title class="headline Red lighten-2" primary-title
+              >Data Harus Diisi Semua !</v-card-title
+            >
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialogWarning = false"
+                >Kembali</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
     </v-container>
   </div>
 </template>
@@ -172,11 +172,8 @@
 export default {
   data() {
     return {
-        rules: [
-        value => !!value || 'Wajib di isi.',
-        
-      ],
-       dialogWarning:'',
+      rules: [value => !!value || "Wajib diisi."],
+      dialogWarning: "",
       dialog: false,
       on: "",
       deleteDialog: "",
@@ -184,31 +181,31 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index",
+          value: "index"
         },
         {
           text: "Id Ukuran",
-          value: "id_ukuran_hewan",
+          value: "id_ukuran_hewan"
         },
         {
           text: "Nama",
-          value: "nama",
+          value: "nama"
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at",
+          value: "created_at"
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by",
+          value: "created_by"
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by",
+          value: "modified_by"
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by",
+          value: "modified_by"
         },
         // {
         //   text: "Delete At",
@@ -224,8 +221,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null,
-        },
+          value: null
+        }
       ],
       ukurans: [],
       snackbar: false,
@@ -236,33 +233,31 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       ukuran: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: "",
+      updatedId: ""
     };
   },
   methods: {
-    cekKosong(){
-      if(this.form.nama === ''){
-        this.dialogWarning= true
-          
-      }else{
+    cekKosong() {
+      if (this.form.nama === "") {
+        this.dialogWarning = true;
+      } else {
         this.setForm();
         this.resetForm();
         this.reset();
         this.dialog = false;
       }
-     },
-     reset () {
-        this.$refs.form.resetValidation()
-        
-      },
+    },
+    reset() {
+      this.$refs.form.resetValidation();
+    },
     getData() {
       var uri = this.$apiUrl + "UkuranHewan/" + "getAll";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.ukurans = response.data.message;
       });
     },
@@ -274,7 +269,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.ukuran)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -283,7 +278,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -298,7 +293,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.ukuran)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -308,7 +303,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -335,14 +330,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.ukuran)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -362,12 +357,12 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
-    },
+    }
   },
   mounted() {
     this.getData();
-  },
+  }
 };
 </script>
