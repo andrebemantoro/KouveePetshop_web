@@ -102,7 +102,7 @@
         <v-card>
           <v-card-title>
             <v-spacer />
-            <span class="headline">Detail Ukuran Hewan</span>
+            <span class="headline">Tambah Ukuran Hewan</span>
             <v-spacer />
           </v-card-title>
           <v-card-text>
@@ -134,6 +134,43 @@
             <v-btn color="blue darken-1" text @click="cekKosong()"
               >Simpan</v-btn
             >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <!-- -------------------------------------------------------- -->
+      <v-dialog v-model="dialogEdit" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <v-spacer />
+            <span class="headline">Ubah Ukuran Hewan</span>
+            <v-spacer />
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-form ref="form">
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Nama*"
+                      v-model="form.nama"
+                      required
+                      outlined=""
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-container>
+            <small>*wajib diisi</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="resetForm(), (dialogEdit = false)"
+              >Tutup</v-btn
+            >
+            <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -238,7 +275,8 @@ export default {
       ukuran: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
+      dialogEdit: ""
     };
   },
   methods: {
@@ -281,7 +319,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -298,7 +336,7 @@ export default {
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
-          this.dialog = false;
+          this.dialogEdit = false;
           this.getData(); //mengambil databong
           this.resetForm();
           this.typeInput = "new";
@@ -306,7 +344,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
           this.typeInput = "new";
@@ -314,7 +352,7 @@ export default {
     },
     editHandler(item) {
       this.typeInput = "edit";
-      this.dialog = true;
+      this.dialogEdit = true;
       this.form.nama = item.nama;
 
       this.updatedId = item.id_ukuran_hewan;
@@ -340,7 +378,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
         });
     },

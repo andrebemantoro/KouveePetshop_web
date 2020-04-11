@@ -22,8 +22,10 @@
             <v-text-field
               v-model="keyword"
               append-icon="mdi-search"
-              label="Search"
-              hide-details
+              label="Cari"
+              hide-details="auto"
+              outlined
+              clearable
             >
             </v-text-field>
           </v-flex>
@@ -106,7 +108,13 @@
                     :key="item.id_harga_layanan"
                   >
                     <td>{{ item.id_harga_layanan }}</td>
-                    <td v-if="searchUkuranHewan(item.id_ukuran_hewan)!=undefined">{{ searchUkuranHewan(item.id_ukuran_hewan).nama }}</td>
+                    <td
+                      v-if="
+                        searchUkuranHewan(item.id_ukuran_hewan) != undefined
+                      "
+                    >
+                      {{ searchUkuranHewan(item.id_ukuran_hewan).nama }}
+                    </td>
                     <td>{{ item.harga }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>{{ item.created_by }}</td>
@@ -184,7 +192,10 @@
             <v-row v-for="row in hargalayananrows" :key="row.id_harga_layanan">
               <v-col cols="8">
                 <div>
-                  <p class="title" v-if="searchUkuranHewan(row.id_ukuran_hewan)!=undefined">
+                  <p
+                    class="title"
+                    v-if="searchUkuranHewan(row.id_ukuran_hewan) != undefined"
+                  >
                     {{ searchUkuranHewan(row.id_ukuran_hewan).nama }}
                   </p>
                 </div>
@@ -199,7 +210,7 @@
             </v-row>
           </v-container>
           <small>*wajib diisi</small>
-          <br>
+          <br />
           <small>**isikan dengan 0 jika layanan tidak tersedia</small>
         </v-card-text>
         <v-card-actions>
@@ -247,17 +258,24 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-            <span class="headline">Ubah Harga</span>
+          <span class="headline">Ubah Harga Layanan</span>
           <v-spacer />
         </v-card-title>
         <v-card-title>
           <v-spacer />
-            <span class="title" v-if="searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan)!=undefined">{{
+          <span
+            class="title"
+            v-if="
+              searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan) !=
+                undefined
+            "
+            >{{
               detailItem.nama +
                 " " +
                 searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan).nama
-            }}</span>
-            <v-spacer />
+            }}</span
+          >
+          <v-spacer />
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -278,7 +296,9 @@
           <v-btn color="blue darken-1" text @click="closeFormUbahHarga()"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="updateDataHargaLayanan()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="updateDataHargaLayanan()"
+            >Simpan</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -412,7 +432,7 @@ export default {
     },
     createMultiform() {
       this.getUkuran();
-      var count=0;
+      var count = 0;
       this.ukuransAktif.forEach(e => {
         this.hargalayananrows.push({
           id_harga_layanan: count,
@@ -476,7 +496,7 @@ export default {
           console.log("masuk error data layanan");
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -501,14 +521,14 @@ export default {
           this.load = false;
           this.dialog = false;
           this.getLayanan();
-          this.getData(); //mengambil [harga layanan]
-          this.closeMultiform();
+          this.getData();
+          this.closeForm(); //mengambil [harga layanan]
         })
         .catch(error => {
           console.log("masuk error data harga layanan");
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -531,7 +551,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
           this.typeInput = "new";
@@ -563,7 +583,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -604,7 +624,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
         });
     },

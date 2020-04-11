@@ -127,7 +127,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Pegawai</span>
+          <span class="headline">Tambah Pegawai</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -246,7 +246,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Pegawai</span>
+          <span class="headline">Ubah Pegawai</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -552,7 +552,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -582,7 +582,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -607,7 +607,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
           this.typeInput = "new";
@@ -650,7 +650,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
         });
     },

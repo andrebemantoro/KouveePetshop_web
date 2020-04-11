@@ -473,7 +473,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -493,7 +493,7 @@ export default {
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
-          this.dialog = false;
+          this.dialogEdit = false;
           this.getData(); //mengambil data hewan
           this.resetForm();
           this.typeInput = "new";
@@ -501,7 +501,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
           this.typeInput = "new";
@@ -543,7 +543,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
         });
     },

@@ -122,7 +122,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Jenis Hewan</span>
+          <span class="headline">Tambah Jenis Hewan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -159,7 +159,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Jenis Hewan</span>
+          <span class="headline">Ubah Jenis Hewan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -328,7 +328,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -345,7 +345,7 @@ export default {
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
-          this.dialog = false;
+          this.dialogEdit = false;
           this.getData(); //mengambil data jenis hewan
           this.resetForm();
           this.typeInput = "new";
@@ -353,7 +353,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
           this.typeInput = "new";
@@ -386,7 +386,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
         });
     },

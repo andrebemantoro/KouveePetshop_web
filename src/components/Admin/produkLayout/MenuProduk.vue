@@ -24,7 +24,7 @@
                 <v-card>
                   <v-card-title>
                     <v-spacer />
-                    <span class="headline">Detail Produk</span>
+                    <span class="headline">Tambah Produk</span>
                     <v-spacer />
                   </v-card-title>
                   <v-card-text>
@@ -145,7 +145,7 @@
                     </v-card-subtitle>
 
                     <v-card-actions>
-                      <v-btn text @click="editHandler(item)">Ubah</v-btn>
+                      <v-btn text @click="editHandler(item)">Ubah Produk</v-btn>
                       <v-spacer></v-spacer>
                       <v-btn
                         color="red lighten-2"
@@ -354,7 +354,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
         });
@@ -384,7 +384,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
           this.load = false;
           this.typeInput = "new";
@@ -422,7 +422,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Try Again";
+          this.text = "Coba Lagi";
           this.color = "red";
         });
     },
