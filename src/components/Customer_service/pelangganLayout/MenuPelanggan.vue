@@ -128,68 +128,70 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Pelanggan</span>
+          <span class="headline">Tambah Pelanggan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Nama*"
-                  v-model="form.nama"
-                  required
-                  outlined
-                  :rules="rules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Alamat*"
-                  v-model="form.alamat"
-                  required
-                  outlined
-                  :rules="rules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="20">
-                <v-menu
-                  ref="menu"
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
+            <v-form ref="form">
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Nama*"
+                    v-model="form.nama"
+                    required
+                    outlined
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Alamat*"
+                    v-model="form.alamat"
+                    required
+                    outlined
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="20">
+                  <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="form.tanggal_lahir"
+                        label="Tanggal Lahir*"
+                        readonly
+                        v-on="on"
+                        outlined
+                        :rules="rules"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      ref="picker"
                       v-model="form.tanggal_lahir"
-                      label="Tanggal Lahir*"
-                      readonly
-                      v-on="on"
-                      outlined
-                      :rules="rules"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    ref="picker"
-                    v-model="form.tanggal_lahir"
-                    :max="new Date().toISOString().substr(0, 10)"
-                    min="1950-01-01"
-                    @change="save"
-                  ></v-date-picker>
-                </v-menu>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Nomor Telepon*"
-                  v-model="form.telp"
-                  required
-                  outlined
-                  :rules="rules"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+                      :max="new Date().toISOString().substr(0, 10)"
+                      min="1950-01-01"
+                      @change="save"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Nomor Telepon*"
+                    v-model="form.telp"
+                    required
+                    outlined
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-container>
           <small>*wajib diisi</small>
         </v-card-text>
@@ -210,7 +212,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Pelanggan</span>
+          <span class="headline">Ubah Pelanggan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
@@ -407,6 +409,7 @@ export default {
     },
     reset() {
       this.$refs.form.resetValidation();
+      this.show = false;
     },
     getData() {
       var uri = this.$apiUrl + "Pelanggan";

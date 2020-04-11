@@ -180,34 +180,44 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Nama*"
-                  v-model="form.nama"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row v-for="row in hargalayananrows" :key="row.id_harga_layanan">
-              <v-col cols="8">
-                <div>
-                  <p
-                    class="title"
-                    v-if="searchUkuranHewan(row.id_ukuran_hewan) != undefined"
-                  >
-                    {{ searchUkuranHewan(row.id_ukuran_hewan).nama }}
-                  </p>
-                </div>
-              </v-col>
-              <v-col cols="4">
-                <v-text-field
-                  label="Harga**"
-                  v-model="row.harga"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
+            <v-form ref="form">
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Nama*"
+                    v-model="form.nama"
+                    required
+                    outlined
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row
+                v-for="row in hargalayananrows"
+                :key="row.id_harga_layanan"
+                required
+              >
+                <v-col cols="8">
+                  <div>
+                    <p
+                      class="title"
+                      v-if="searchUkuranHewan(row.id_ukuran_hewan) != undefined"
+                    >
+                      {{ searchUkuranHewan(row.id_ukuran_hewan).nama }}
+                    </p>
+                  </div>
+                </v-col>
+                <v-col cols="4">
+                  <v-text-field
+                    label="Harga**"
+                    v-model="row.harga"
+                    required
+                    outlined
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-container>
           <small>*wajib diisi</small>
           <br />
@@ -216,9 +226,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="closeForm()">Tutup</v-btn>
-          <v-btn color="blue darken-1" text @click="sendDataLayanan()"
-            >Simpan</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -324,6 +332,7 @@
 export default {
   data() {
     return {
+      rules: [value => !!value || "Wajib diisi."],
       dialog: false,
       dialogAddLayanan: false,
       // items: ["Buah", "Lusin", "Box"],
@@ -420,6 +429,19 @@ export default {
     };
   },
   methods: {
+    cekKosong() {
+      if (this.form.nama === "") {
+        this.dialogWarning = true;
+      } else {
+        this.sendDataLayanan();
+        this.resetForm();
+        this.reset();
+        this.dialog = false;
+      }
+    },
+    reset() {
+      this.$refs.form.resetValidation();
+    },
     closeForm() {
       this.resetForm();
       this.hargalayananrows = [];
@@ -643,6 +665,7 @@ export default {
           console.log("gagal menghapus layanan ber id: " + deleteId);
         });
     },
+
     resetForm() {
       this.form = {
         nama: "",

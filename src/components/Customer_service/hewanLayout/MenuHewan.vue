@@ -127,76 +127,78 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Hewan</span>
+          <span class="headline">Tambah Hewan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Nama Hewan*"
-                  v-model="form.nama"
-                  required
-                  outlined
-                  :rules="rules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-autocomplete
-                  v-model="form.id_jenis_hewan"
-                  required
-                  :items="jenishewans"
-                  :filter="customFilter"
-                  item-value="id_jenis_hewan"
-                  color="white"
-                  item-text="nama"
-                  label="Jenis Hewan*"
-                  outlined
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="12">
-                <v-autocomplete
-                  v-model="form.id_pelanggan"
-                  required
-                  auto-select-first
-                  :items="pelanggans"
-                  :filter="customFilter"
-                  item-value="id_pelanggan"
-                  color="white"
-                  item-text="nama"
-                  label="Nama Pemilik*"
-                  outlined
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="20">
-                <v-menu
-                  ref="menu"
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
+            <v-form ref="form">
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Nama Hewan*"
+                    v-model="form.nama"
+                    required
+                    outlined
+                    :rules="rules"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-autocomplete
+                    v-model="form.id_jenis_hewan"
+                    required
+                    :items="jenishewans"
+                    :filter="customFilter"
+                    item-value="id_jenis_hewan"
+                    color="white"
+                    item-text="nama"
+                    label="Jenis Hewan*"
+                    outlined
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="12">
+                  <v-autocomplete
+                    v-model="form.id_pelanggan"
+                    required
+                    auto-select-first
+                    :items="pelanggans"
+                    :filter="customFilter"
+                    item-value="id_pelanggan"
+                    color="white"
+                    item-text="nama"
+                    label="Nama Pemilik*"
+                    outlined
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="20">
+                  <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="form.tanggal_lahir"
+                        label="Tanggal Lahir*"
+                        readonly
+                        v-on="on"
+                        outlined
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      ref="picker"
                       v-model="form.tanggal_lahir"
-                      label="Tanggal Lahir*"
-                      readonly
-                      v-on="on"
-                      outlined
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    ref="picker"
-                    v-model="form.tanggal_lahir"
-                    :max="new Date().toISOString().substr(0, 10)"
-                    min="1950-01-01"
-                    @change="save"
-                  ></v-date-picker>
-                </v-menu>
-              </v-col>
-            </v-row>
+                      :max="new Date().toISOString().substr(0, 10)"
+                      min="1950-01-01"
+                      @change="save"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-container>
           <small>*wajib diisi</small>
         </v-card-text>
@@ -217,7 +219,7 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline">Detail Hewan</span>
+          <span class="headline">Ubah Hewan</span>
           <v-spacer />
         </v-card-title>
         <v-card-text>
