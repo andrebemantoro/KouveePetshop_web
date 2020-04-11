@@ -31,12 +31,7 @@
             </v-flex>
           </v-layout>
 
-          <v-data-table
-            :headers="headers"
-            :items="ukurans"
-            :search="keyword"
-            :loading="load"
-          >
+          <v-data-table :headers="headers" :items="ukurans" :search="keyword">
             <template v-slot:body="{ items }">
               <tbody>
                 <tr v-for="(item, index) in items" :key="item.id_ukuran_hewan">

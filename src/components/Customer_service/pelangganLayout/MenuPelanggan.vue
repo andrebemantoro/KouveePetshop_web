@@ -407,7 +407,6 @@ export default {
     },
     reset() {
       this.$refs.form.resetValidation();
-      this.show = false;
     },
     getData() {
       var uri = this.$apiUrl + "Pelanggan";
@@ -438,7 +437,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Coba Lagi";
+          this.text = "Try Again";
           this.color = "red";
           this.load = false;
         });
@@ -458,7 +457,7 @@ export default {
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
-          this.dialogEdit = false;
+          this.dialog = false;
           this.getData(); //mengambil data pelanggan
           this.resetForm();
           this.typeInput = "new";
@@ -466,7 +465,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Coba Lagi";
+          this.text = "Try Again";
           this.color = "red";
           this.load = false;
           this.typeInput = "new";
@@ -502,7 +501,7 @@ export default {
         .catch(error => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Coba Lagi";
+          this.text = "Try Again";
           this.color = "red";
         });
     },
