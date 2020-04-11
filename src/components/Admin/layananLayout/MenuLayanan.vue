@@ -412,9 +412,10 @@ export default {
     },
     createMultiform() {
       this.getUkuran();
+      var count=0;
       this.ukuransAktif.forEach(e => {
         this.hargalayananrows.push({
-          id_harga_layanan: "",
+          id_harga_layanan: count,
           id_layanan: "",
           id_ukuran_hewan: e.id_ukuran_hewan,
           harga: "",
@@ -426,6 +427,7 @@ export default {
           delete_by: "",
           aktif: 0
         });
+        count++;
       });
       console.log(this.hargalayananrows);
       this.dialogAddLayanan = true;
@@ -471,6 +473,7 @@ export default {
           this.sendDataHargaLayanan(response.data.message);
         })
         .catch(error => {
+          console.log("masuk error data layanan");
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -502,7 +505,7 @@ export default {
           this.closeMultiform();
         })
         .catch(error => {
-          this.deleteLayananPermanent(id_layanan);
+          console.log("masuk error data harga layanan");
           this.errors = error;
           this.snackbar = true;
           this.text = "Try Again";
@@ -607,7 +610,7 @@ export default {
     },
     deleteLayananPermanent(deleteId) {
       //mengahapus data
-      var uri = this.$apiUrl + "Layanan" + deleteId; //data dihapus berdasarkan id
+      var uri = this.$apiUrl + "Layanan/" + deleteId; //data dihapus berdasarkan id
       this.load = true;
       this.$http
         .delete(uri)
