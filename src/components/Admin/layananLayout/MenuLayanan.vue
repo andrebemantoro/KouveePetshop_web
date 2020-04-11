@@ -78,7 +78,7 @@
     </v-card>
     <!------------------------ Detail Layanan Dialog ------------------------>
     <template>
-      <v-dialog v-model="dialogDetailLayanan" persistent max-width="600px">
+      <v-dialog v-model="dialogDetailLayanan" persistent max-width="1100px">
         <v-card>
           <v-card-title>
             <v-spacer />
@@ -93,6 +93,10 @@
                     <th class="text-left">Id Harga Layanan</th>
                     <th class="text-left">Ukuran Hewan</th>
                     <th class="text-left">Harga</th>
+                    <th class="text-left">Tanggal Dibuat</th>
+                    <th class="text-left">Dibuat Oleh</th>
+                    <th class="text-left">Tanggal Diubah</th>
+                    <th class="text-left">Diubah Oleh</th>
                     <th class="text-left">Aksi</th>
                   </tr>
                 </thead>
@@ -102,8 +106,12 @@
                     :key="item.id_harga_layanan"
                   >
                     <td>{{ item.id_harga_layanan }}</td>
-                    <td>{{ searchUkuranHewan(item.id_ukuran_hewan).nama }}</td>
+                    <td v-if="searchUkuranHewan(item.id_ukuran_hewan)!=undefined">{{ searchUkuranHewan(item.id_ukuran_hewan).nama }}</td>
                     <td>{{ item.harga }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.created_by }}</td>
+                    <td>{{ item.modified_at }}</td>
+                    <td>{{ item.modified_by }}</td>
                     <td>
                       <div>
                         <v-btn
@@ -176,14 +184,14 @@
             <v-row v-for="row in hargalayananrows" :key="row.id_harga_layanan">
               <v-col cols="8">
                 <div>
-                  <p class="title">
+                  <p class="title" v-if="searchUkuranHewan(row.id_ukuran_hewan)!=undefined">
                     {{ searchUkuranHewan(row.id_ukuran_hewan).nama }}
                   </p>
                 </div>
               </v-col>
               <v-col cols="4">
                 <v-text-field
-                  label="Harga"
+                  label="Harga**"
                   v-model="row.harga"
                   required
                 ></v-text-field>
@@ -191,6 +199,8 @@
             </v-row>
           </v-container>
           <small>*wajib diisi</small>
+          <br>
+          <small>**isikan dengan 0 jika layanan tidak tersedia</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -237,15 +247,17 @@
       <v-card>
         <v-card-title>
           <v-spacer />
-          <span class="headline"
-            >Ubah Harga
-            {{
+            <span class="headline">Ubah Harga</span>
+          <v-spacer />
+        </v-card-title>
+        <v-card-title>
+          <v-spacer />
+            <span class="title" v-if="searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan)!=undefined">{{
               detailItem.nama +
                 " " +
                 searchUkuranHewan(editHargaLayananItem.id_ukuran_hewan).nama
-            }}</span
-          >
-          <v-spacer />
+            }}</span>
+            <v-spacer />
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -266,7 +278,7 @@
           <v-btn color="blue darken-1" text @click="closeFormUbahHarga()"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="updateDataHargaLayanan()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -543,7 +555,7 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.getData();
-          this.closeForm();
+          this.closeFormUbahHarga();
         })
         .catch(error => {
           this.errors = error;
@@ -551,7 +563,6 @@ export default {
           this.text = "Try Again";
           this.color = "red";
           this.load = false;
-          this.typeInput = "new";
         });
     },
     showDetail(item) {
@@ -564,7 +575,8 @@ export default {
       this.dialogUbahLayanan = true;
     },
     editHandlerHargaLayanan(item) {
-      this.formHargaLayanan = item.harga;
+      this.editHargaLayananItem = item;
+      this.formHargaLayanan.harga = item.harga;
       this.updatedId = item.id_harga_layanan;
       this.dialogUbahHargaLayanan = true;
     },
