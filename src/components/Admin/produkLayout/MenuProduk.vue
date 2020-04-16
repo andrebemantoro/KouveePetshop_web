@@ -267,7 +267,7 @@ export default {
       show: false,
       notShow: [],
       dialog: false,
-      items: ["Buah", "Karung", "Lusin"],
+      items: ["Buah", "Karung", "Lusin","Kaleng","Sachet","Kardus"],
       keyword: "",
       on: "",
       deleteDialog: "",
