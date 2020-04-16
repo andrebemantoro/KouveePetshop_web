@@ -186,7 +186,7 @@
                     v-model="form.telp"
                     required
                     outlined
-                    prefix="+62"
+                    
                     :rules="rules"
                   ></v-text-field>
                 </v-col>
@@ -258,6 +258,7 @@
                   v-model="form.nama"
                   required
                   outlined=""
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -266,22 +267,44 @@
                   v-model="form.alamat"
                   required
                   outlined=""
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Tanggal Lahir*"
-                  v-model="form.tanggal_lahir"
-                  required
-                  outlined=""
-                ></v-text-field>
-              </v-col>
+               <v-col cols="20">
+                  <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="form.tanggal_lahir"
+                        label="Tanggal Lahir*"
+                        readonly
+                        outlined
+                        :rules="rules"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      ref="picker"
+                      v-model="form.tanggal_lahir"
+                      :max="new Date().toISOString().substr(0, 10)"
+                      min="1950-01-01"
+                      @change="save"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Nomor Telepon*"
                   v-model="form.telp"
                   required
                   outlined=""
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -291,6 +314,7 @@
                   :items="items"
                   required
                   outlined=""
+                  :rules="rules"
                 >
                 </v-select>
               </v-col>
@@ -300,6 +324,7 @@
                   v-model="form.username"
                   required
                   outlined=""
+                  :rules="rules"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -314,7 +339,7 @@
             @click="resetForm(), (dialogEdit = false)"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="cekKosongEdit()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -356,7 +381,7 @@
             @click="resetForm(), (dialogPassword = false), reset()"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setFormPassword(), reset()"
+          <v-btn color="blue darken-1" text @click="cekKosongPassword(), reset()"
             >Simpan</v-btn
           >
         </v-card-actions>
@@ -511,6 +536,38 @@ export default {
         this.resetForm();
         this.reset();
         this.dialog = false;
+      }
+    },
+    cekKosongEdit() {
+      if (
+        this.form.nama === "" ||
+        this.form.alamat === "" ||
+        this.form.tanggal_lahir === "" ||
+        this.form.telp === "" ||
+        this.form.role === "" ||
+        this.form.username === ""
+      
+      ) {
+        this.dialogWarning = true;
+      } else {
+        this.setForm();
+        this.resetForm();
+        this.reset();
+        this.dialogEdit = false;
+      }
+    },
+    cekKosongPassword() {
+      if (
+       
+        this.form.password === ""
+      
+      ) {
+        this.dialogWarning = true;
+      } else {
+        this.setFormPassword();
+        this.resetForm();
+        this.reset();
+        this.dialogPassword = false;
       }
     },
     save(date) {

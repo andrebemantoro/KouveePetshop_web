@@ -36,6 +36,10 @@ function loadPelanggan(view) {
   return () =>
     import(`../components/Customer_service/pelangganLayout/${view}.vue`);
 }
+function loadTransaksi(view) {
+  return () =>
+    import(`../components/Customer_service/transaksiLayout/${view}.vue`);
+}
 
 const routes = [
   {
@@ -183,6 +187,20 @@ const routes = [
         name: "Hewan",
         path: "/MenuHewan",
         component: loadHewan("MenuHewan"),
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem("Nama") != null) {
+            next();
+          } else {
+            sessionStorage.removeItem("Nama");
+            sessionStorage.removeItem("Id");
+            next({ path: "/" });
+          }
+        },
+        name: "Transkasi",
+        path: "/MenuTransaksi",
+        component: loadTransaksi("MenuTransaksi"),
       },
     ],
   },

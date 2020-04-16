@@ -74,7 +74,9 @@
     <VContent>
       <router-view />
     </VContent>
+     
   </div>
+  
 </template>
 
 <script>
@@ -93,6 +95,11 @@ export default {
           title: "Hewan",
           icon: "mdi-dog",
           to: "/menuHewan",
+        },
+        {
+          title: "Transaksi",
+          icon: "mdi-cash-multiple",
+          to: "/menuTransaksi",
         },
       ],
     };

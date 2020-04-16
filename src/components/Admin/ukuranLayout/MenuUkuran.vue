@@ -150,6 +150,7 @@
                       v-model="form.nama"
                       required
                       outlined=""
+                      :rules="rules"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -165,7 +166,7 @@
               @click="resetForm(), (dialogEdit = false)"
               >Tutup</v-btn
             >
-            <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+            <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
