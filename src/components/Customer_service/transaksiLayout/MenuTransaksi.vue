@@ -119,15 +119,15 @@
     <!-- ---------------------Dialog----------------------------------- -->
      <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn icon dark @click="dialog = false">
+      <v-card >
+        <v-toolbar  color=#fff4cb>
+          <v-btn icon  @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Menu Tambah Transaksi Produk</v-toolbar-title>
+          <v-toolbar-title >Menu Tambah Transaksi Produk</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="dialog = false">Save</v-btn>
+            <v-btn text @click="dialog = false">Save</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
@@ -136,7 +136,7 @@
             <v-list-item-content>
               <v-card>
                 <v-row >  
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="9" sm="6" md="4">
                <v-autocomplete
                     v-model="form.id_hewan"
                     required
@@ -147,25 +147,35 @@
                     item-text="nama"
                     label="Nama Hewan*"
                     outlined
+                    rounded=""
+                   
                   ></v-autocomplete>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="9" sm="2" md="4">
               
                 <v-text-field
                 value="John Doe"
                 label="Customer Service"
-                disabled
+                readonly=""
+                filled=""
+                rounded=""
+              
                  ></v-text-field>
                   </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-row>
+                <v-col cols="9" sm="2" md="4" >
+                  
                   <v-text-field
-                value="69"
-                label="ID Customer Service"
-                disabled
-              ></v-text-field>
-                  </v-row>
+                  value="69"
+                  label="ID Customer Service"
+                  readonly=""
+                  rounded=""
+                  filled=""
+                  
+                  ></v-text-field>
+              
+                 
                   </v-col>
+               
                 </v-row>
               </v-card>
             </v-list-item-content>
@@ -174,36 +184,76 @@
             <v-list-item-content>
               <v-list-item-title>Data Produk</v-list-item-title>
               <v-card>
-                 <v-row >  
-                  <v-col cols="12" sm="6" md="4">
-                <v-autocomplete
-                  v-model="form.id_produk"
-                    required
-                    :items="produks"
-                    :filter="customFilter"
-                    item-value="id_produk"
-                    color="white"
-                    item-text="nama"
-                    label="Nama Produk*"
-                    outlined         
-                ></v-autocomplete>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-              
-                <v-text-field
-                  label="Jumlah*"
-                  v-model="form.jumlah"
-                  outlined=""  
-                  clearable=""             
-                ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-btn  color="red lighten-2">
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </v-col>
+                <div class="form-row" v-for="(experience, index) in workExperiences" :key="index">
+                   <v-row >  
+                      <v-col cols="3">
+                          <v-autocomplete
+                          v-model="experience.nama" :name="`workExperiences[${index}][company]`"
+                            required
+                            width=''
+                            :items="produks"
+                            :filter="customFilter"
+                            item-value="id_produk"
+                            color="white"
+                            item-text="nama"
+                            label="Nama Produk*"
+                            outlined         
+                        ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="2" >
+                      
+                        <v-text-field
+                          label="Jumlah*"
+                           v-model="experience.jumlah" :name="`workExperiences[${index}][title]`"
+                          type="number"
+                          outlined="" 
+                          single-line="" 
+                          
+                          clearable=""             
+                        ></v-text-field>
+                      </v-col>
+                          <v-col cols="2" >
+                      
+                        <v-text-field
+                          label="Subtotal*"
+                           v-model="experience.subtotal" :name="`workExperiences[${index}][title]`"
+                        
+                          filled=""
+                          outlined=""
+                          readonly=""
+                                      
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="1" >
+                        <v-btn outlined="" color="red lighten-2" x-large="" @click="deleteRow(index)">
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </v-col>
+                      <v-col cols="12">
+                      <v-divider light="" ></v-divider>
+                      </v-col>
+
                  </v-row>
+                </div>
               
+              <v-row>
+
+                <v-col class="text-right">
+                  
+                 <v-btn outlined="" color="green" x-large="" fab="" @click="addExperience" class="tombol">
+                <v-icon>
+                  mdi-plus
+                </v-icon>
+              </v-btn>
+              
+                 <v-btn outlined="" color="green" x-large="" fab="" @click="submit" class="tombol"> 
+                <v-icon>
+                  mdi-content-save
+                </v-icon>
+              </v-btn>
+               </v-col>
+                
+              </v-row>
               </v-card>
             </v-list-item-content>
           </v-list-item>
@@ -213,9 +263,7 @@
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-    <!-- -------------Dialog edit khusus agar passwordnya gak ikut------------------------------------------- -->
-    
-    <!-- -------------------------------------------------------- -->
+   
     
     <v-snackbar
       v-model="snackbar"
@@ -239,7 +287,14 @@ export default {
       password: "Password",
      
       dialog: false,
+      workExperiences: [
      
+      {
+        nama: "",
+        jumlah: "",
+        subtotal: ""
+      }
+    ],
       keyword: "",
       hewans:[],
       produks:[],
@@ -334,12 +389,7 @@ export default {
       load: false,
       form: {
         nama: "",
-        alamat: "",
-        tanggal_lahir: "",
-        telp: "",
-        username: "",
-        password: "",
-        role: "",
+        jumlah: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama")
@@ -358,6 +408,15 @@ export default {
   },
 
   methods: {
+    deleteRow(index){
+      this.workExperiences.$remove(index)
+    },
+    addExperience () {
+      this.workExperiences.push({
+        nama: '',
+        jumlah: ''
+      })
+    },
     cekKosong() {
       if (
         this.form.nama === "" ||
@@ -494,32 +553,7 @@ export default {
           this.load = false;
         });
     },
-    updatePassword() {
-      this.pegawai.append("password", this.form.password);
-      this.pegawai.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Pegawai/" + "updatepass/" + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.pegawai)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialogPassword = false;
-          this.getData(); //mengambil data pegawi
-          this.resetForm();
-          this.typeInput = "new";
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
-          this.load = false;
-          this.typeInput = "new";
-        });
-    },
+
     editHandler(item) {
       this.typeInput = "edit";
       this.dialogEdit = true;
@@ -530,10 +564,7 @@ export default {
       (this.form.role = item.role), (this.form.username = item.username);
       this.updatedId = item.id_pegawai;
     },
-    deleteRow(item) {
-      this.deleteId = item.id_pegawai;
-      this.deleteDialog = true;
-    },
+  
   
     deleteData(deleteId) {
       //mengahapus data
@@ -598,3 +629,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.tombol{
+  margin: 2px;
+}
+</style>
