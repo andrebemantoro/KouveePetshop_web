@@ -184,49 +184,21 @@
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="9" sm="2" md="4">
-<<<<<<< HEAD
                     <v-text-field
                       value="John Doe"
                       label="Customer Service"
                       readonly=""
-                      filled=""
                       rounded=""
+                      outlined=""
                     ></v-text-field>
                   </v-col>
                   <v-col cols="9" sm="2" md="4">
                     <v-text-field
                       value="69"
                       label="ID Customer Service"
+                      outlined=""
                       readonly=""
-                      rounded=""
-                      filled=""
                     ></v-text-field>
-=======
-              
-                <v-text-field
-                value="John Doe"
-                label="Customer Service"
-                readonly=""
-                
-                rounded=""
-                outlined=""
-              
-                 ></v-text-field>
-                  </v-col>
-                <v-col cols="9" sm="2" md="4" >
-                  
-                  <v-text-field
-                  value="69"
-                  label="ID Customer Service"
-                 
-                  outlined=""
-                  readonly=""
-                  
-                  
-                  ></v-text-field>
-              
-                 
->>>>>>> 88450be17cb92798e4cbd20861b383a38df7e8bc
                   </v-col>
                 </v-row>
               </v-card>
@@ -491,7 +463,7 @@ export default {
         jumlah: "",
       });
     },
-   
+
     cekKosongEdit() {
       if (
         this.form.nama === "" ||
