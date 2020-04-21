@@ -184,6 +184,7 @@
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="9" sm="2" md="4">
+<<<<<<< HEAD
                     <v-text-field
                       value="John Doe"
                       label="Customer Service"
@@ -200,6 +201,32 @@
                       rounded=""
                       filled=""
                     ></v-text-field>
+=======
+              
+                <v-text-field
+                value="John Doe"
+                label="Customer Service"
+                readonly=""
+                
+                rounded=""
+                outlined=""
+              
+                 ></v-text-field>
+                  </v-col>
+                <v-col cols="9" sm="2" md="4" >
+                  
+                  <v-text-field
+                  value="69"
+                  label="ID Customer Service"
+                 
+                  outlined=""
+                  readonly=""
+                  
+                  
+                  ></v-text-field>
+              
+                 
+>>>>>>> 88450be17cb92798e4cbd20861b383a38df7e8bc
                   </v-col>
                 </v-row>
               </v-card>
@@ -447,11 +474,16 @@ export default {
   },
 
   methods: {
+<<<<<<< HEAD
     selectTabs(selectedTabs) {
       this.tabs = selectedTabs;
     },
     deleteRow(index) {
       this.workExperiences.$remove(index);
+=======
+    deleteRow(index){
+      this.workExperiences.remove(index)
+>>>>>>> 88450be17cb92798e4cbd20861b383a38df7e8bc
     },
     addExperience() {
       this.workExperiences.push({
@@ -459,24 +491,7 @@ export default {
         jumlah: "",
       });
     },
-    cekKosong() {
-      if (
-        this.form.nama === "" ||
-        this.form.alamat === "" ||
-        this.form.tanggal_lahir === "" ||
-        this.form.telp === "" ||
-        this.form.role === "" ||
-        this.form.username === "" ||
-        this.form.password === ""
-      ) {
-        this.dialogWarning = true;
-      } else {
-        this.setForm();
-        this.resetForm();
-        this.reset();
-        this.dialog = false;
-      }
-    },
+   
     cekKosongEdit() {
       if (
         this.form.nama === "" ||
