@@ -37,6 +37,7 @@
                               v-model="form.nama"
                               required
                               outlined=""
+                              value="nama"
                               :rules="rules"
                             ></v-text-field>
                           </v-col>
@@ -46,6 +47,7 @@
                               v-model="form.min_stok"
                               required
                               outlined=""
+                              value="min_stok"
                               :rules="rules"
                             ></v-text-field>
                           </v-col>
@@ -55,6 +57,7 @@
                               v-model="form.jumlah_stok"
                               required
                               outlined=""
+                              value="jumlah_stok"
                               :rules="rules"
                             ></v-text-field>
                           </v-col>
@@ -63,6 +66,7 @@
                               label="Harga*"
                               v-model="form.harga"
                               required
+                              value="harga"
                               outlined=""
                               prefix="Rp. "
                               :rules="rules"
@@ -72,6 +76,7 @@
                             <v-select
                               label="Satuan*"
                               v-model="form.satuan"
+                              value="satuan"
                               :items="items"
                               required
                               outlined=""
@@ -84,6 +89,7 @@
                               <v-file-input
                                 accept="image/*"
                                 label="File input"
+                                show-size
                                 v-model="form.gambar"
                               ></v-file-input>
                             </template>
@@ -258,16 +264,21 @@
 
 <script>
 export default {
+  props: {
+    value: {
+      type: File,
+    },
+  },
   data() {
     return {
-      rules: [value => !!value || "Wajib diisi."],
+      rules: [(value) => !!value || "Wajib diisi."],
       munculke: 0,
       search: "",
       dialogWarning: "",
       show: false,
       notShow: [],
       dialog: false,
-      items: ["Buah", "Karung", "Lusin","Kaleng","Sachet","Kardus"],
+      items: ["Buah", "Karung", "Lusin", "Kaleng", "Sachet", "Kardus"],
       keyword: "",
       on: "",
       deleteDialog: "",
@@ -287,12 +298,12 @@ export default {
         gambar: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       produk: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
 
@@ -319,7 +330,7 @@ export default {
     },
     getData() {
       var uri = this.$apiUrl + "Produk/" + "getAll";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
       });
     },
@@ -342,7 +353,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.produk)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -351,7 +362,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -371,7 +382,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.produk)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -381,7 +392,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -412,14 +423,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.produk)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -444,13 +455,13 @@ export default {
         gambar: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>
 <style scoped>

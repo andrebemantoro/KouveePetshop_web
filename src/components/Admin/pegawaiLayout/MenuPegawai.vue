@@ -186,7 +186,6 @@
                     v-model="form.telp"
                     required
                     outlined
-                    
                     :rules="rules"
                   ></v-text-field>
                 </v-col>
@@ -270,34 +269,34 @@
                   :rules="rules"
                 ></v-text-field>
               </v-col>
-               <v-col cols="20">
-                  <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-text-field
-                        v-model="form.tanggal_lahir"
-                        label="Tanggal Lahir*"
-                        readonly
-                        outlined
-                        :rules="rules"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      ref="picker"
+              <v-col cols="20">
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
                       v-model="form.tanggal_lahir"
-                      :max="new Date().toISOString().substr(0, 10)"
-                      min="1950-01-01"
-                      @change="save"
-                    ></v-date-picker>
-                  </v-menu>
-                </v-col>
+                      label="Tanggal Lahir*"
+                      readonly
+                      outlined
+                      :rules="rules"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    ref="picker"
+                    v-model="form.tanggal_lahir"
+                    :max="new Date().toISOString().substr(0, 10)"
+                    min="1950-01-01"
+                    @change="save"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Nomor Telepon*"
@@ -339,7 +338,9 @@
             @click="resetForm(), (dialogEdit = false)"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="cekKosongEdit()">Simpan</v-btn>
+          <v-btn color="blue darken-1" text @click="cekKosongEdit()"
+            >Simpan</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -381,7 +382,10 @@
             @click="resetForm(), (dialogPassword = false), reset()"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="cekKosongPassword(), reset()"
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="cekKosongPassword(), reset()"
             >Simpan</v-btn
           >
         </v-card-actions>
@@ -406,9 +410,9 @@
 export default {
   data() {
     return {
-      rules: [value => !!value || "Wajib diisi."],
-      rulesPassword: [value => !!value || "Password wajib diisi."],
-      rulesUsername: [value => !!value || "Username wajib diisi."],
+      rules: [(value) => !!value || "Wajib diisi."],
+      rulesPassword: [(value) => !!value || "Password wajib diisi."],
+      rulesUsername: [(value) => !!value || "Username wajib diisi."],
       password: "Password",
       show: false,
       dialog: false,
@@ -421,51 +425,51 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index"
+          value: "index",
         },
         {
           text: "Id Pegawai",
-          value: "id_pegawai"
+          value: "id_pegawai",
         },
         {
           text: "Nama Pegawai",
-          value: "nama"
+          value: "nama",
         },
         {
           text: "Alamat",
-          value: "alamat"
+          value: "alamat",
         },
         {
           text: "Tanggal Lahir",
-          value: "tanggal_lahir"
+          value: "tanggal_lahir",
         },
         {
           text: "Nomor Telepon",
-          value: "telp"
+          value: "telp",
         },
         {
           text: "Username",
-          value: "username"
+          value: "username",
         },
         {
           text: "Role",
-          value: "role"
+          value: "role",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         //   text: "Delete At",
@@ -481,8 +485,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
+          value: null,
+        },
       ],
       pegawais: [],
       dialogWarning: "",
@@ -504,19 +508,19 @@ export default {
         role: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       pegawai: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
 
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    }
+    },
   },
 
   methods: {
@@ -546,7 +550,6 @@ export default {
         this.form.telp === "" ||
         this.form.role === "" ||
         this.form.username === ""
-      
       ) {
         this.dialogWarning = true;
       } else {
@@ -557,11 +560,7 @@ export default {
       }
     },
     cekKosongPassword() {
-      if (
-       
-        this.form.password === ""
-      
-      ) {
+      if (this.form.password === "") {
         this.dialogWarning = true;
       } else {
         this.setFormPassword();
@@ -579,7 +578,7 @@ export default {
     },
     getData() {
       var uri = this.$apiUrl + "Pegawai/" + "all_get";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.pegawais = response.data.message;
       });
     },
@@ -597,7 +596,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -606,7 +605,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -626,7 +625,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -636,7 +635,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -651,7 +650,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -661,7 +660,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -697,14 +696,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -734,17 +733,17 @@ export default {
         password: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
     },
     resetFormPassword() {
       this.form = {
-        password: ""
+        password: "",
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 };
 </script>

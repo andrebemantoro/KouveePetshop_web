@@ -1,11 +1,29 @@
 <template>
   <v-container>
-    <v-card>
+    <div class="text-md-center">
+      <v-btn
+        class="tab"
+        color="#f9c99e"
+        style="text-transform: none !important;"
+        :class="tabs ? 'btn-unclicked' : 'btn-clicked'"
+        @click="selectTabs(0)"
+        >Produk</v-btn
+      >
+      <v-btn
+        class="tab"
+        color="#f9c99e"
+        style="text-transform: none !important;"
+        :class="tabs ? 'btn-clicked' : 'btn-unclicked'"
+        @click="selectTabs(1)"
+        >Layanan</v-btn
+      >
+    </div>
+    <!-- ------------------Menu Transaksi Produk-------------------------------------- -->
+    <v-card v-if="this.tabs == 0">
       <v-container grid-list-md mb-20>
-        <h2 class="text-md-center">Data Pegawai Kouvee Petshop</h2>
+        <h2 class="text-md-center">Data Transaksi Produk Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
-            
             <v-btn
               depressed
               dark
@@ -32,10 +50,17 @@
           </v-flex>
         </v-layout>
 
-        <v-data-table :headers="headers" :items="transaksiProduks" :search="keyword">
+        <v-data-table
+          :headers="headers"
+          :items="transaksiProduks"
+          :search="keyword"
+        >
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id_transaksi_produk">
+              <tr
+                v-for="(item, index) in items"
+                :key="item.id_transaksi_produk"
+              >
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_transaksi_produk }}</td>
                 <td>{{ item.id_customer_service }}</td>
@@ -59,7 +84,7 @@
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </div>
-            
+
                   <div>
                     <v-btn
                       icon
@@ -77,6 +102,10 @@
           </template>
         </v-data-table>
       </v-container>
+    </v-card>
+    <!-- ------------------Menu Transaksi Layanan-------------------------------------- -->
+    <v-card v-if="this.tabs == 1">
+      Hello
     </v-card>
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
     <div class="text-center">
@@ -117,14 +146,18 @@
       </v-dialog>
     </div>
     <!-- ---------------------Dialog----------------------------------- -->
-     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-    
-      <v-card >
-        <v-toolbar  color=#fff4cb>
-          <v-btn icon  @click="dialog = false">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar color="#fff4cb">
+          <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title >Menu Tambah Transaksi Produk</v-toolbar-title>
+          <v-toolbar-title>Menu Tambah Transaksi Produk</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn text @click="dialog = false">Save</v-btn>
@@ -135,47 +168,39 @@
           <v-list-item>
             <v-list-item-content>
               <v-card>
-                <v-row >  
+                <v-row>
                   <v-col cols="9" sm="6" md="4">
-               <v-autocomplete
-                    v-model="form.id_hewan"
-                    required
-                    :items="hewans"
-                    :filter="customFilter"
-                    item-value="id_jenis_hewan"
-                    color="white"
-                    item-text="nama"
-                    label="Nama Hewan*"
-                    outlined
-                    rounded=""
-                   
-                  ></v-autocomplete>
+                    <v-autocomplete
+                      v-model="form.id_hewan"
+                      required
+                      :items="hewans"
+                      :filter="customFilter"
+                      item-value="id_jenis_hewan"
+                      color="white"
+                      item-text="nama"
+                      label="Nama Hewan*"
+                      outlined
+                      rounded=""
+                    ></v-autocomplete>
                   </v-col>
                   <v-col cols="9" sm="2" md="4">
-              
-                <v-text-field
-                value="John Doe"
-                label="Customer Service"
-                readonly=""
-                filled=""
-                rounded=""
-              
-                 ></v-text-field>
+                    <v-text-field
+                      value="John Doe"
+                      label="Customer Service"
+                      readonly=""
+                      filled=""
+                      rounded=""
+                    ></v-text-field>
                   </v-col>
-                <v-col cols="9" sm="2" md="4" >
-                  
-                  <v-text-field
-                  value="69"
-                  label="ID Customer Service"
-                  readonly=""
-                  rounded=""
-                  filled=""
-                  
-                  ></v-text-field>
-              
-                 
+                  <v-col cols="9" sm="2" md="4">
+                    <v-text-field
+                      value="69"
+                      label="ID Customer Service"
+                      readonly=""
+                      rounded=""
+                      filled=""
+                    ></v-text-field>
                   </v-col>
-               
                 </v-row>
               </v-card>
             </v-list-item-content>
@@ -184,87 +209,102 @@
             <v-list-item-content>
               <v-list-item-title>Data Produk</v-list-item-title>
               <v-card>
-                <div class="form-row" v-for="(experience, index) in workExperiences" :key="index">
-                   <v-row >  
-                      <v-col cols="3">
-                          <v-autocomplete
-                          v-model="experience.nama" :name="`workExperiences[${index}][company]`"
-                            required
-                            width=''
-                            :items="produks"
-                            :filter="customFilter"
-                            item-value="id_produk"
-                            color="white"
-                            item-text="nama"
-                            label="Nama Produk*"
-                            outlined         
-                        ></v-autocomplete>
-                          </v-col>
-                          <v-col cols="2" >
-                      
-                        <v-text-field
-                          label="Jumlah*"
-                           v-model="experience.jumlah" :name="`workExperiences[${index}][title]`"
-                          type="number"
-                          outlined="" 
-                          single-line="" 
-                          
-                          clearable=""             
-                        ></v-text-field>
-                      </v-col>
-                          <v-col cols="2" >
-                      
-                        <v-text-field
-                          label="Subtotal*"
-                           v-model="experience.subtotal" :name="`workExperiences[${index}][title]`"
-                        
-                          filled=""
-                          outlined=""
-                          readonly=""
-                                      
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="1" >
-                        <v-btn outlined="" color="red lighten-2" x-large="" @click="deleteRow(index)">
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </v-col>
-                      <v-col cols="12">
-                      <v-divider light="" ></v-divider>
-                      </v-col>
-
-                 </v-row>
+                <div
+                  class="form-row"
+                  v-for="(experience, index) in workExperiences"
+                  :key="index"
+                >
+                  <v-row>
+                    <v-col cols="3">
+                      <v-autocomplete
+                        v-model="experience.nama"
+                        :name="`workExperiences[${index}][company]`"
+                        required
+                        width=""
+                        :items="produks"
+                        :filter="customFilter"
+                        item-value="id_produk"
+                        color="white"
+                        item-text="nama"
+                        label="Nama Produk*"
+                        outlined
+                      ></v-autocomplete>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Jumlah*"
+                        v-model="experience.jumlah"
+                        :name="`workExperiences[${index}][title]`"
+                        type="number"
+                        outlined=""
+                        single-line=""
+                        clearable=""
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Subtotal*"
+                        v-model="experience.subtotal"
+                        :name="`workExperiences[${index}][title]`"
+                        filled=""
+                        outlined=""
+                        readonly=""
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="1">
+                      <v-btn
+                        outlined=""
+                        color="red lighten-2"
+                        x-large=""
+                        @click="deleteRow(index)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-divider light=""></v-divider>
+                    </v-col>
+                  </v-row>
                 </div>
-              
-              <v-row>
 
-                <v-col class="text-right">
-                  
-                 <v-btn outlined="" color="green" x-large="" fab="" @click="addExperience" class="tombol">
-                <v-icon>
-                  mdi-plus
-                </v-icon>
-              </v-btn>
-              
-                 <v-btn outlined="" color="green" x-large="" fab="" @click="submit" class="tombol"> 
-                <v-icon>
-                  mdi-content-save
-                </v-icon>
-              </v-btn>
-               </v-col>
-                
-              </v-row>
+                <v-row>
+                  <v-col class="text-right">
+                    <v-btn
+                      outlined=""
+                      color="green"
+                      x-large=""
+                      fab=""
+                      @click="addExperience"
+                      class="tombol"
+                    >
+                      <v-icon>
+                        mdi-plus
+                      </v-icon>
+                    </v-btn>
+
+                    <v-btn
+                      outlined=""
+                      color="green"
+                      x-large=""
+                      fab=""
+                      @click="submit"
+                      class="tombol"
+                    >
+                      <v-icon>
+                        mdi-content-save
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-list-item-content>
           </v-list-item>
         </v-list>
         <v-divider></v-divider>
-        
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-   
-    
+
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -283,21 +323,20 @@
 export default {
   data() {
     return {
-     
+      tabs: 0,
       password: "Password",
-     
+
       dialog: false,
       workExperiences: [
-     
-      {
-        nama: "",
-        jumlah: "",
-        subtotal: ""
-      }
-    ],
+        {
+          nama: "",
+          jumlah: "",
+          subtotal: "",
+        },
+      ],
       keyword: "",
-      hewans:[],
-      produks:[],
+      hewans: [],
+      produks: [],
       bottomNav: 1,
       menu: false,
       on: "",
@@ -305,60 +344,60 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index"
+          value: "index",
         },
         {
           text: "Id Transaksi Produk",
-          value: "id_transaksi_produk"
+          value: "id_transaksi_produk",
         },
         {
           text: "Id CS",
-          value: "id_customer_service"
+          value: "id_customer_service",
         },
         {
           text: "Id Kasir",
-          value: "id_kasir"
+          value: "id_kasir",
         },
         {
           text: "Id Hewans",
-          value: "id_hewan"
+          value: "id_hewan",
         },
         {
           text: "Subtotal",
-          value: "Subtotal"
+          value: "Subtotal",
         },
         {
           text: "Diskon",
-          value: "diskon"
+          value: "diskon",
         },
         {
           text: "Total",
-          value: "total"
+          value: "total",
         },
         {
           text: "Status",
-          value: "status"
+          value: "status",
         },
-  
+
         {
           text: "Tanggal Lunas",
-          value: "tanggal_lunas"
+          value: "tanggal_lunas",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         //   text: "Delete At",
@@ -374,8 +413,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
+          value: null,
+        },
       ],
       transaksiProduks: [],
       dialogWarning: "",
@@ -392,30 +431,33 @@ export default {
         jumlah: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       pegawai: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
 
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    }
+    },
   },
 
   methods: {
-    deleteRow(index){
-      this.workExperiences.$remove(index)
+    selectTabs(selectedTabs) {
+      this.tabs = selectedTabs;
     },
-    addExperience () {
+    deleteRow(index) {
+      this.workExperiences.$remove(index);
+    },
+    addExperience() {
       this.workExperiences.push({
-        nama: '',
-        jumlah: ''
-      })
+        nama: "",
+        jumlah: "",
+      });
     },
     cekKosong() {
       if (
@@ -443,7 +485,6 @@ export default {
         this.form.telp === "" ||
         this.form.role === "" ||
         this.form.username === ""
-      
       ) {
         this.dialogWarning = true;
       } else {
@@ -454,11 +495,7 @@ export default {
       }
     },
     cekKosongPassword() {
-      if (
-       
-        this.form.password === ""
-      
-      ) {
+      if (this.form.password === "") {
         this.dialogWarning = true;
       } else {
         this.setFormPassword();
@@ -476,19 +513,19 @@ export default {
     },
     getData() {
       var uri = this.$apiUrl + "TransaksiProduk/" + "all_get";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.transaksiProduks = response.data.message;
       });
     },
     getHewan() {
       var uri = this.$apiUrl + "Hewan/" + "all_get";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
       });
     },
     getProduk() {
       var uri = this.$apiUrl + "Produk/" + "all_get";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
       });
     },
@@ -506,7 +543,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -515,7 +552,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -535,7 +572,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -545,7 +582,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -564,8 +601,7 @@ export default {
       (this.form.role = item.role), (this.form.username = item.username);
       this.updatedId = item.id_pegawai;
     },
-  
-  
+
     deleteData(deleteId) {
       //mengahapus data
       this.pegawai.append("delete_by", this.form.delete_by);
@@ -573,14 +609,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -595,7 +631,7 @@ export default {
         this.updateData();
       }
     },
- 
+
     resetForm() {
       this.form = {
         nama: "",
@@ -607,12 +643,11 @@ export default {
         password: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
     },
 
- 
-   customFilter(item, queryText) {
+    customFilter(item, queryText) {
       const textOne = item.nama.toLowerCase();
       const textTwo = item.nama.toLowerCase();
       const searchText = queryText.toLowerCase();
@@ -620,17 +655,26 @@ export default {
       return (
         textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
       );
-    }
+    },
   },
   mounted() {
     this.getData();
     this.getHewan();
     this.getProduk();
-  }
+  },
 };
 </script>
 <style scoped>
-.tombol{
+.tombol {
   margin: 2px;
+}
+.tab {
+  margin: 10px;
+}
+.btn-clicked {
+  color: #ffffff;
+}
+.btn-unclicked {
+  color: #000000;
 }
 </style>

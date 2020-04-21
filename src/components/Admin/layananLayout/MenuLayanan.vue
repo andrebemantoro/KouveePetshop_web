@@ -261,6 +261,23 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="dialogWarning">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Data Harus Diisi Semua !</v-card-title
+          >
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialogWarning = false"
+              >Kembali</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <!-----------------------Dialog untuk edit Harga Layanan----------------------->
     <v-dialog v-model="dialogUbahHargaLayanan" persistent max-width="600px">
       <v-card>
@@ -335,6 +352,7 @@ export default {
       rules: [value => !!value || "Wajib diisi."],
       dialog: false,
       dialogAddLayanan: false,
+      dialogWarning: "",
       // items: ["Buah", "Lusin", "Box"],
       keyword: "",
       deleteDialog: "",
