@@ -44,8 +44,8 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn block color="#f9c99e" @click="login()" :loading="loading"
-                  >Login</v-btn
-                >
+                  >Login
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -149,6 +149,13 @@ export default {
           });
       }
     },
+  },
+  mounted() {
+    window.addEventListener("keyup", (event) => {
+      if (event.keyCode === 13) {
+        this.login();
+      }
+    });
   },
 };
 </script>

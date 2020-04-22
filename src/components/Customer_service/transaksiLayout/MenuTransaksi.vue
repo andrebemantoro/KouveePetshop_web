@@ -105,7 +105,88 @@
     </v-card>
     <!-- ------------------Menu Transaksi Layanan-------------------------------------- -->
     <v-card v-if="this.tabs == 1">
-      Hello
+      <v-container grid-list-md mb-20>
+        <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
+        <v-layout row wrap style="margin:10px">
+          <v-flex xs6>
+            <v-btn
+              depressed
+              dark
+              class="elevation-2"
+              x-large=""
+              style="text-transform: none !important;"
+              color="#f9c99e"
+              @click="(dialog = true), resetForm(), reset()"
+            >
+              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
+              Tambah Transaksi
+            </v-btn>
+          </v-flex>
+          <v-flex xs6 class="text-right">
+            <v-text-field
+              v-model="keyword"
+              append-icon="mdi-search"
+              label="Cari"
+              hide-details="auto"
+              outlined
+              clearable
+            >
+            </v-text-field>
+          </v-flex>
+        </v-layout>
+
+        <v-data-table
+          :headers="headers"
+          :items="transaksiProduks"
+          :search="keyword"
+        >
+          <template v-slot:body="{ items }">
+            <tbody>
+              <tr
+                v-for="(item, index) in items"
+                :key="item.id_transaksi_produk"
+              >
+                <td>{{ index + 1 }}</td>
+                <td>{{ item.id_transaksi_produk }}</td>
+                <td>{{ item.id_customer_service }}</td>
+                <td>{{ item.id_kasir }}</td>
+                <td>{{ item.id_hewan }}</td>
+                <td>{{ item.subtotal }}</td>
+                <td>{{ item.diskon }}</td>
+                <td>{{ item.total }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.tanggal_lunas }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>{{ item.created_by }}</td>
+                <td>{{ item.modified_at }}</td>
+                <td>{{ item.modified_by }}</td>
+                <!-- <td>{{ item.delete_by }}</td>
+                <td>{{ item.delete_at }}</td> -->
+
+                <td>
+                  <div>
+                    <v-btn icon color="blue" light @click="editHandler(item)">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                  </div>
+
+                  <div>
+                    <v-btn
+                      icon
+                      color="red lighten-2"
+                      dark
+                      v-on="on"
+                      @click="deleteRow(item)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-data-table>
+      </v-container>
     </v-card>
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
     <div class="text-center">
@@ -336,6 +417,7 @@ export default {
       keyword: "",
       hewans: [],
       produks: [],
+      layanans: [],
       bottomNav: 1,
       menu: false,
       on: "",
@@ -416,6 +498,7 @@ export default {
         },
       ],
       transaksiProduks: [],
+      transaksiLayanans: [],
       dialogWarning: "",
       dialogEdit: "",
       dialogPassword: "",
@@ -446,16 +529,11 @@ export default {
   },
 
   methods: {
-<<<<<<< HEAD
     selectTabs(selectedTabs) {
       this.tabs = selectedTabs;
     },
     deleteRow(index) {
       this.workExperiences.$remove(index);
-=======
-    deleteRow(index){
-      this.workExperiences.remove(index)
->>>>>>> 88450be17cb92798e4cbd20861b383a38df7e8bc
     },
     addExperience() {
       this.workExperiences.push({
@@ -514,6 +592,18 @@ export default {
       var uri = this.$apiUrl + "Produk/" + "all_get";
       this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
+      });
+    },
+    getDataLayanan() {
+      var uri = this.$apiUrl + "TransaksiLayanan/" + "all_get";
+      this.$http.get(uri).then((response) => {
+        this.transaksiLayanans = response.data.message;
+      });
+    },
+    getLayanan() {
+      var uri = this.$apiUrl + "Layanan/" + "all_get";
+      this.$http.get(uri).then((response) => {
+        this.layanans = response.data.message;
       });
     },
     sendData() {
