@@ -532,8 +532,13 @@ export default {
     selectTabs(selectedTabs) {
       this.tabs = selectedTabs;
     },
+<<<<<<< HEAD
     deleteRow(index) {
       this.workExperiences.$remove(index);
+=======
+    deleteRow(index){
+      this.workExperiences.remove(index)
+>>>>>>> 61d063b9d3dcdf9a0f72cf01a6eab892531a5dab
     },
     addExperience() {
       this.workExperiences.push({
