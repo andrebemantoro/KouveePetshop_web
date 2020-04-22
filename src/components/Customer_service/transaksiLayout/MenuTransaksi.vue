@@ -210,14 +210,14 @@
               <v-card>
                 <div
                   class="form-row"
-                  v-for="(experience, index) in workExperiences"
+                  v-for="(detilTransaksi, index) in detilTransaksis"
                   :key="index"
                 >
                   <v-row>
                     <v-col cols="3">
                       <v-autocomplete
-                        v-model="experience.nama"
-                        :name="`workExperiences[${index}][company]`"
+                        v-model="detilTransaksi.nama"
+                        
                         required
                         width=""
                         :items="produks"
@@ -227,13 +227,14 @@
                         item-text="nama"
                         label="Nama Produk*"
                         outlined
+                        @change="setHarga(index)"
                       ></v-autocomplete>
                     </v-col>
                     <v-col cols="2">
                       <v-text-field
                         label="Jumlah*"
-                        v-model="experience.jumlah"
-                        :name="`workExperiences[${index}][title]`"
+                        v-model="detilTransaksi.jumlah"
+                       
                         type="number"
                         outlined=""
                         single-line=""
@@ -243,8 +244,8 @@
                     <v-col cols="2">
                       <v-text-field
                         label="Subtotal*"
-                        v-model="experience.subtotal"
-                        :name="`workExperiences[${index}][title]`"
+                        v-model="detilTransaksi.subtotal"
+                        
                         filled=""
                         outlined=""
                         readonly=""
@@ -273,7 +274,7 @@
                       color="green"
                       x-large=""
                       fab=""
-                      @click="addExperience"
+                      @click="addTransaksi"
                       class="tombol"
                     >
                       <v-icon>
@@ -323,16 +324,15 @@ export default {
   data() {
     return {
       tabs: 0,
-      password: "Password",
-
       dialog: false,
-      workExperiences: [
+      detilTransaksis: [
         {
           nama: "",
           jumlah: "",
           subtotal: "",
         },
       ],
+      transaksiProduks: [],
       keyword: "",
       hewans: [],
       produks: [],
@@ -398,24 +398,13 @@ export default {
           text: "Diubah Oleh",
           value: "modified_by",
         },
-        // {
-        //   text: "Delete At",
-        //   value: "delete_at"
-        // },
-        // {
-        //   text: "Delete By",
-        //   value: "delete_by"
-        // },
-        // {
-        //   text: "Aktif",
-        //   value: "aktif"
-        // },
+ 
         {
           text: "Aksi",
           value: null,
         },
       ],
-      transaksiProduks: [],
+    
       dialogWarning: "",
       dialogEdit: "",
       dialogPassword: "",
@@ -439,60 +428,29 @@ export default {
     };
   },
 
-  watch: {
-    menu(val) {
-      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    },
-  },
+
 
   methods: {
+    setHarga(index){
+      var uri = this.$apiUrl+'/produk/'+this.tabs[index].id_produk
+      this.$http.get(uri).then((response)=>{
+        this.tabs[index].subtotal = response.data.harga
+      })
+    },
     selectTabs(selectedTabs) {
       this.tabs = selectedTabs;
     },
     deleteRow(index){
       this.workExperiences.remove(index)
     },
-    addExperience() {
-      this.workExperiences.push({
+    addTransaksi() {
+      this.detilTransaksis.push({
         nama: "",
         jumlah: "",
+        subtotal:""
       });
     },
 
-    cekKosongEdit() {
-      if (
-        this.form.nama === "" ||
-        this.form.alamat === "" ||
-        this.form.tanggal_lahir === "" ||
-        this.form.telp === "" ||
-        this.form.role === "" ||
-        this.form.username === ""
-      ) {
-        this.dialogWarning = true;
-      } else {
-        this.setForm();
-        this.resetForm();
-        this.reset();
-        this.dialogEdit = false;
-      }
-    },
-    cekKosongPassword() {
-      if (this.form.password === "") {
-        this.dialogWarning = true;
-      } else {
-        this.setFormPassword();
-        this.resetForm();
-        this.reset();
-        this.dialogPassword = false;
-      }
-    },
-    save(date) {
-      this.$refs.menu.save(date);
-    },
-    reset() {
-      this.$refs.form.resetValidation();
-      this.show = false;
-    },
     getData() {
       var uri = this.$apiUrl + "TransaksiProduk/" + "all_get";
       this.$http.get(uri).then((response) => {
