@@ -462,7 +462,7 @@ export default {
     };
   },
   computed:{
-      
+     
   },
 
 
@@ -486,9 +486,13 @@ export default {
     var uri = this.$apiUrl + "Produk/" + "search/"+this.detilTransaksis[index].id_produk;
     this.$http.get(uri).then((response )=>{
       this.detilTransaksis[index].harga = response.data.message.harga
+      this.detilTransaksis[index].subtotal = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
     })
     },
   
+   setSubtotal(index){
+        this.detilTransaksis[index].subtotal = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
+      },
 
     getData() {
       var uri = this.$apiUrl + "TransaksiProduk/" + "all_get";

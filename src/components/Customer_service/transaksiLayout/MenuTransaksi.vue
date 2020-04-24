@@ -266,7 +266,7 @@
                         outlined=""
                         single-line=""
                         clearable=""
-                        @change="setSubtotal(index)"
+                        @change="setSubtotal(index),hitungTotal()"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="2">
@@ -296,7 +296,7 @@
                         outlined=""
                         color="red lighten-2"
                         x-large=""
-                        @click="deleteRow(detilTransaksi)"
+                        @click="deleteRow(detilTransaksi),hitungTotal()"
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -458,7 +458,7 @@ export default {
       text: "",
       load: false,
       form: {
-        total: "",
+        total: 0,
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
@@ -469,7 +469,16 @@ export default {
       updatedId: "",
     };
   },
-  computed: {},
+  computed: {
+    // hitungTotal(){
+    //   this.form.total = 0
+    //   for(var i=0; i<this.detilTransaksis.length; i++){
+    //     this.form.total = this.form.total + this.detilTransaksis[i].subtotal
+    //   }
+    //  return(this.form.total)
+    // },
+
+  },
 
   methods: {
     selectTabs(selectedTabs) {
@@ -499,8 +508,23 @@ export default {
         this.detilTransaksis[index].id_produk;
       this.$http.get(uri).then((response) => {
         this.detilTransaksis[index].harga = response.data.message.harga;
+        this.detilTransaksis[index].subtotal = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
+      
+         
       });
     },
+    setSubtotal(index){
+        this.detilTransaksis[index].subtotal = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
+      },
+     hitungTotal(){
+      this.form.total = 0
+      for(var i=0; i<this.detilTransaksis.length; i++){
+        this.form.total = this.form.total + this.detilTransaksis[i].subtotal
+      }
+    
+    },
+
+    
 
     getData() {
       var uri = this.$apiUrl + "TransaksiProduk/" + "all_get";
@@ -653,6 +677,7 @@ export default {
     this.getData();
     this.getHewan();
     this.getProduk();
+ 
   },
 };
 </script>
