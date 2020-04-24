@@ -105,7 +105,19 @@
     </v-card>
     <!-- ------------------Menu Transaksi Layanan-------------------------------------- -->
     <v-card v-if="this.tabs == 1">
-      Hello
+      <v-container grid-list-md mb-20>
+        <div>
+          <v-tabs v-model="layananTab" background-color="primary" centered>
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab href="#layananTab-1">
+              Diproses
+            </v-tab>
+            <v-tab href="#layananTab-2">
+              Selesai
+            </v-tab>
+          </v-tabs>
+        </div>
+      </v-container>
     </v-card>
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
     <div class="text-center">
@@ -435,7 +447,7 @@ export default {
           value: null,
         },
       ],
-
+      layananTab: null,
       dialogWarning: "",
       dialogEdit: "",
       dialogPassword: "",
