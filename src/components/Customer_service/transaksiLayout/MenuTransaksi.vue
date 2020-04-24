@@ -31,7 +31,7 @@
               x-large=""
               style="text-transform: none !important;"
               color="#f9c99e"
-              @click="(dialog = true)"
+              @click="dialog = true"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Transaksi
@@ -164,13 +164,12 @@
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
-          <v-subheader>
-            <h2>Data Pembelian </h2> </v-subheader>
+          <v-subheader> <h2>Data Pembelian</h2> </v-subheader>
           <v-list-item>
             <v-list-item-content>
               <v-card>
                 <v-row>
-                  <v-col cols="6" >
+                  <v-col cols="6">
                     <v-autocomplete
                       v-model="form.id_hewan"
                       required
@@ -186,46 +185,44 @@
                   </v-col>
                   <v-col cols="1">
                     <v-text-field
-                     v-model="form.created_by"
+                      v-model="form.created_by"
                       label="Customer Service"
                       readonly=""
-                      
-                       color="purple"
+                      color="purple"
                       outlined=""
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="1" >
+                  <v-col cols="1">
                     <v-text-field
                       value="69"
                       label="ID Customer Service"
                       outlined=""
-                       color="purple"
+                      color="purple"
                       readonly=""
                     ></v-text-field>
                   </v-col>
                 </v-row>
                 <v-row>
-                <v-col cols="1">
-                  <h2>Total Pembelian :</h2>
-                </v-col>
-                <v-col cols="4">
-                   <v-text-field
-                     v-model="form.total"
+                  <v-col cols="1">
+                    <h2>Total Pembelian :</h2>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                      v-model="form.total"
                       label="Total Pembelian"
                       readonly=""
                       shaped=""
                       color="purple"
-                     prefix="Rp."
+                      prefix="Rp."
                     ></v-text-field>
-                </v-col>
+                  </v-col>
                 </v-row>
               </v-card>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>
-                <h3>Data Produk</h3></v-list-item-title>
+              <v-list-item-title> <h3>Data Produk</h3></v-list-item-title>
               <v-card>
                 <div
                   class="form-row"
@@ -239,13 +236,13 @@
                         required
                         width=""
                         :items="produks"
-                        @change="filteredProduk(index),setSubtotal(index)"
+                        @change="filteredProduk(index), setSubtotal(index)"
                         item-value="id_produk"
                         item-text="nama"
                         label="Nama Produk*"
                         outlined
-                         color="purple"
-                          :filter="customFilter"
+                        color="purple"
+                        :filter="customFilter"
                       ></v-autocomplete>
                     </v-col>
                     <v-col cols="2">
@@ -264,23 +261,22 @@
                       <v-text-field
                         label="Harga Produk*"
                         v-model="detilTransaksi.harga"
-                        value=""                        
+                        value=""
                         outlined=""
                         readonly=""
-                         color="purple"
-                         prefix="Rp."
-                         
+                        color="purple"
+                        prefix="Rp."
                       ></v-text-field>
                     </v-col>
                     <v-col cols="2">
                       <v-text-field
                         label="Subtotal*"
                         v-model="detilTransaksi.subtotal"
-                        value=""                        
+                        value=""
                         outlined=""
                         readonly=""
-                         color="purple"
-                         prefix="Rp."
+                        color="purple"
+                        prefix="Rp."
                       ></v-text-field>
                     </v-col>
                     <v-col cols="1">
@@ -355,7 +351,7 @@
 export default {
   data() {
     return {
-      cari:'',
+      cari: "",
       tabs: 0,
       dialog: false,
       detilTransaksis: [
@@ -363,10 +359,10 @@ export default {
           nama: "",
           jumlah: "",
           subtotal: "",
-          harga:""
+          harga: "",
         },
       ],
-      selectedIndex:0,
+      selectedIndex: 0,
       transaksiProduks: [],
       keyword: "",
       hewans: [],
@@ -433,13 +429,13 @@ export default {
           text: "Diubah Oleh",
           value: "modified_by",
         },
- 
+
         {
           text: "Aksi",
           value: null,
         },
       ],
-    
+
       dialogWarning: "",
       dialogEdit: "",
       dialogPassword: "",
@@ -450,7 +446,7 @@ export default {
       text: "",
       load: false,
       form: {
-        total:'',
+        total: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
@@ -461,34 +457,38 @@ export default {
       updatedId: "",
     };
   },
-  computed:{
-      
-  },
-
+  computed: {},
 
   methods: {
-
-    deleteRow(_detilTransaksi){
-      this.detilTransaksis.splice(this.detilTransaksis.indexOf(_detilTransaksi),1)
+    selectTabs(selectedTabs) {
+      this.tabs = selectedTabs;
+    },
+    deleteRow(_detilTransaksi) {
+      this.detilTransaksis.splice(
+        this.detilTransaksis.indexOf(_detilTransaksi),
+        1
+      );
     },
 
     addTransaksi() {
       this.detilTransaksis.push({
         nama: "",
         jumlah: "",
-        subtotal:"",
-        harga:""
+        subtotal: "",
+        harga: "",
       });
     },
-    
-    
-    filteredProduk(index){
-    var uri = this.$apiUrl + "Produk/" + "search/"+this.detilTransaksis[index].id_produk;
-    this.$http.get(uri).then((response )=>{
-      this.detilTransaksis[index].harga = response.data.message.harga
-    })
+
+    filteredProduk(index) {
+      var uri =
+        this.$apiUrl +
+        "Produk/" +
+        "search/" +
+        this.detilTransaksis[index].id_produk;
+      this.$http.get(uri).then((response) => {
+        this.detilTransaksis[index].harga = response.data.message.harga;
+      });
     },
-  
 
     getData() {
       var uri = this.$apiUrl + "TransaksiProduk/" + "all_get";
@@ -506,7 +506,6 @@ export default {
       var uri = this.$apiUrl + "Produk/" + "all_get";
       this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
-      
       });
     },
 
@@ -642,7 +641,6 @@ export default {
     this.getData();
     this.getHewan();
     this.getProduk();
- 
   },
 };
 </script>
