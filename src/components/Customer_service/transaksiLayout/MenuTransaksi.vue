@@ -49,7 +49,6 @@
             </v-text-field>
           </v-flex>
         </v-layout>
-
         <v-data-table
           :headers="headers"
           :items="transaksiProduks"
@@ -80,7 +79,12 @@
 
                 <td>
                   <div>
-                    <v-btn icon color="blue" light @click="editHandler(item)">
+                    <v-btn
+                      icon
+                      color="blue"
+                      light
+                      @click="editHandlerProduk(item)"
+                    >
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                   </div>
@@ -107,8 +111,8 @@
     <v-card v-if="this.tabs == 1">
       <v-container grid-list-md mb-20>
         <div>
-          <v-tabs v-model="layananTab" background-color="primary" centered>
-            <v-tabs-slider></v-tabs-slider>
+          <v-tabs v-model="layananTab" color="#f9c99e" centered>
+            <v-tabs-slider color="#f9c99e"></v-tabs-slider>
             <v-tab href="#layananTab-1">
               Diproses
             </v-tab>
@@ -116,6 +120,93 @@
               Selesai
             </v-tab>
           </v-tabs>
+        </div>
+        <div v-if="this.layananTab == 'layananTab-1'">
+          <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
+          <v-layout row wrap style="margin:10px">
+            <v-flex xs6>
+              <v-btn
+                depressed
+                dark
+                class="elevation-2"
+                x-large=""
+                style="text-transform: none !important;"
+                color="#f9c99e"
+                @click="dialog = true"
+              >
+                <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
+                Tambah Transaksi
+              </v-btn>
+            </v-flex>
+            <v-flex xs6 class="text-right">
+              <v-text-field
+                v-model="keyword"
+                append-icon="mdi-search"
+                label="Cari"
+                hide-details="auto"
+                outlined
+                clearable
+              >
+              </v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-data-table
+            :headers="headers2"
+            :items="transaksiLayanans"
+            :search="keyword"
+          >
+            <template v-slot:body="{ items }">
+              <tbody>
+                <tr
+                  v-for="(item, index) in items"
+                  :key="item.id_transaksi_layanan"
+                >
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ item.id_transaksi_layanan }}</td>
+                  <!-- <td>{{ item.nama_pelanggan }}</td>
+                  <td>{{ item.nama_hewan }}</td> -->
+                  <td>{{ item.total }}</td>
+                  <td>{{ item.progress }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.tanggal_lunas }}</td>
+                  <td>{{ item.created_at }}</td>
+                  <td>{{ item.created_by }}</td>
+                  <td>{{ item.modified_at }}</td>
+                  <td>{{ item.modified_by }}</td>
+                  <!-- <td>{{ item.delete_by }}</td>
+                <td>{{ item.delete_at }}</td> -->
+
+                  <td>
+                    <div>
+                      <v-btn
+                        icon
+                        color="blue"
+                        light
+                        @click="editHandlerProduk(item)"
+                      >
+                        <v-icon>mdi-pencil</v-icon>
+                      </v-btn>
+                    </div>
+
+                    <div>
+                      <v-btn
+                        icon
+                        color="red lighten-2"
+                        dark
+                        v-on="on"
+                        @click="deleteRow(item)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-data-table>
+        </div>
+        <div v-if="this.layananTab == 'layananTab-2'">
+          Halo
         </div>
       </v-container>
     </v-card>
@@ -133,7 +224,7 @@
             <v-btn color="primary" text @click="deleteDialog = false"
               >Batal</v-btn
             >
-            <v-btn color="primary" text @click="deleteData(deleteId)"
+            <v-btn color="primary" text @click="deleteDataProduk(deleteId)"
               >Hapus</v-btn
             >
           </v-card-actions>
@@ -157,7 +248,7 @@
         </v-card>
       </v-dialog>
     </div>
-    <!-- ---------------------Dialog----------------------------------- -->
+    <!-- ---------------------Dialog Tambah Produk----------------------------------- -->
     <v-dialog
       v-model="dialog"
       fullscreen
@@ -206,7 +297,7 @@
                   </v-col>
                   <v-col cols="1">
                     <v-text-field
-                      v-model="form.id"
+                      v-model="form.id_customer_service"
                       label="ID Customer Service"
                       outlined=""
                       color="purple"
@@ -377,15 +468,17 @@ export default {
   data() {
     return {
       cari: "",
-      tabs: 0,
+      tabs: 1,
       dialog: false,
-      detilTransaksis: [
-       
-      ],
+      detilTransaksis: [],
       selectedIndex: 0,
-     transaksiProduks:[],
+
+      transaksiProduks: [],
+      transaksiLayanans: [],
+
       keyword: "",
       hewans: [],
+      pelanggans: [],
       produks: [],
       bottomNav: 1,
       menu: false,
@@ -449,7 +542,60 @@ export default {
           text: "Diubah Oleh",
           value: "modified_by",
         },
-
+        {
+          text: "Aksi",
+          value: null,
+        },
+      ],
+      headers2: [
+        {
+          text: "No",
+          value: "index",
+        },
+        {
+          text: "Id Transaksi Layanan",
+          value: "id_transaksi_layanan",
+        },
+        {
+          text: "Nama Pelanggan",
+          value: "nama_pelanggan",
+        },
+        {
+          text: "Nama Hewan",
+          value: "nama_hewan",
+        },
+        {
+          text: "Total",
+          value: "total",
+        },
+        {
+          text: "Progress",
+          value: "progress",
+        },
+        {
+          text: "Status",
+          value: "status",
+        },
+        {
+          text: "Tanggal Lunas",
+          value: "tanggal_lunas",
+        },
+        {
+          text: "Tanggal Dibuat",
+          value: "created_at",
+        },
+        {
+          text: "Dibuat Oleh",
+          value: "created_by",
+        },
+        {
+          text: "Tanggal Diubah",
+          value: "modified_by",
+        },
+        {
+          text: "Diubah Oleh",
+          value: "modified_by",
+        },
         {
           text: "Aksi",
           value: null,
@@ -472,7 +618,7 @@ export default {
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
-        id: sessionStorage.getItem("Id")
+        id_customer_service: sessionStorage.getItem("Id")
       },
       user: new FormData(),
       detil: new FormData(),
@@ -481,10 +627,7 @@ export default {
       updatedId: "",
     };
   },
-  computed: {
  
-
-  },
 
   methods: {
     selectTabs(selectedTabs) {
@@ -550,27 +693,37 @@ export default {
        this.form.subtotal =  this.form.subtotal - this.form.diskon ;
     
     },
-
-    
-
-    getData() {
-      var uri = this.$apiUrl + "TransaksiProduk/" + "all_get";
+    getDataProduk() {
+      var uri = this.$apiUrl + "TransaksiProduk/" + "all";
       this.$http.get(uri).then((response) => {
         this.transaksiProduks = response.data.message;
       });
     },
     getHewan() {
-      var uri = this.$apiUrl + "Hewan/" + "all_get";
+      var uri = this.$apiUrl + "Hewan/" + "all";
       this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
       });
     },
+    getPelanggan() {
+      var uri = this.$apiUrl + "Pelanggan/" + "all";
+      this.$http.get(uri).then((response) => {
+        this.pelanggans = response.data.message;
+      });
+    },
     getProduk() {
-      var uri = this.$apiUrl + "Produk/" + "all_get";
+      var uri = this.$apiUrl + "Produk/" + "all";
       this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
       });
     },
+      getDataLayanan() {
+      var uri = this.$apiUrl + "TransaksiLayanan/getWithJoin";
+      this.$http.get(uri).then((response) => {
+        this.transaksiLayanans = response.data.message;
+      });
+    },
+
 
     sendDataTransaksi() {
         this.detil.append("id_customer_service", this.form.id); 
@@ -579,6 +732,7 @@ export default {
         this.detil.append("diskon", this.form.diskon);  
         this.detil.append("id_hewan", this.form.id_jenis_hewan);  
       var uri = this.$apiUrl + "TransaksiProduk";
+
       this.load = true;
       this.$http
         .post(uri, this.detil)
@@ -608,8 +762,7 @@ export default {
           this.text = response.data.message; 
           this.load = false;
           this.dialog = false;
-          this.getData(); 
-          this.resetForm();
+
         })
         .catch((error) => {
           this.errors = error;
@@ -619,7 +772,7 @@ export default {
           this.load = false;
         });
     },
-    updateData() {
+    updateDataProduk() {
       this.pegawai.append("nama", this.form.nama);
       this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
       this.pegawai.append("alamat", this.form.alamat);
@@ -637,8 +790,8 @@ export default {
           this.text = response.data.message; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialogEdit = false;
-          this.getData(); //mengambil data pegawai
-          this.resetForm();
+          this.getDataProduk(); //mengambil data pegawai
+          this.resetFormProduk();
           this.typeInput = "new";
         })
         .catch((error) => {
@@ -650,7 +803,7 @@ export default {
         });
     },
 
-    editHandler(item) {
+    editHandlerProduk(item) {
       this.typeInput = "edit";
       this.dialogEdit = true;
       this.form.nama = item.nama;
@@ -661,7 +814,7 @@ export default {
       this.updatedId = item.id_pegawai;
     },
 
-    deleteData(deleteId) {
+    deleteDataProduk(deleteId) {
       //mengahapus data
       this.pegawai.append("delete_by", this.form.delete_by);
       var uri = this.$apiUrl + "Pegawai" + "/delete/" + deleteId; //data dihapus berdasarkan id
@@ -673,7 +826,7 @@ export default {
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
-          this.getData();
+          this.getDataProduk();
         })
         .catch((error) => {
           this.errors = error;
@@ -682,16 +835,16 @@ export default {
           this.color = "red";
         });
     },
-    setForm() {
+    setFormProduk() {
       if (this.typeInput === "new") {
-        this.sendData();
+        this.sendDataProduk();
       } else {
         console.log("data berhasil diubah");
-        this.updateData();
+        this.updateDataProduk();
       }
     },
 
-    resetForm() {
+    resetFormProduk() {
       this.form = {
         nama: "",
         alamat: "",
@@ -717,10 +870,10 @@ export default {
     },
   },
   mounted() {
-    this.getData();
+    this.getDataProduk();
     this.getHewan();
     this.getProduk();
- 
+    this.getDataLayanan();
   },
 };
 </script>
