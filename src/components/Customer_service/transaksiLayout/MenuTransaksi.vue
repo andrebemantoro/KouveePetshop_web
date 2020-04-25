@@ -206,7 +206,7 @@
                   </v-col>
                   <v-col cols="1">
                     <v-text-field
-                      value="69"
+                      v-model="form.id"
                       label="ID Customer Service"
                       outlined=""
                       color="purple"
@@ -375,7 +375,7 @@ export default {
         },
       ],
       selectedIndex: 0,
-      transaksiProduks: [],
+     
       keyword: "",
       hewans: [],
       produks: [],
@@ -462,21 +462,16 @@ export default {
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
+        id: sessionStorage.getItem("Id")
       },
-      pegawai: new FormData(),
+      user: new FormData(),
       typeInput: "new",
       errors: "",
       updatedId: "",
     };
   },
   computed: {
-    // hitungTotal(){
-    //   this.form.total = 0
-    //   for(var i=0; i<this.detilTransaksis.length; i++){
-    //     this.form.total = this.form.total + this.detilTransaksis[i].subtotal
-    //   }
-    //  return(this.form.total)
-    // },
+ 
 
   },
 
@@ -489,6 +484,15 @@ export default {
         this.detilTransaksis.indexOf(_detilTransaksi),
         1
       );
+    },
+
+    resetDynamic(){
+       for(var i=0; i<this.detilTransaksis.length; i++){
+          this.detilTransaksis.splice(
+        this.detilTransaksis[i],
+        1
+      );
+      }
     },
 
     addTransaksi() {
@@ -546,14 +550,8 @@ export default {
     },
 
     sendData() {
-      this.pegawai.append("nama", this.form.nama);
-      this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
-      this.pegawai.append("alamat", this.form.alamat);
-      this.pegawai.append("telp", this.form.telp);
-      this.pegawai.append("role", this.form.role);
-      this.pegawai.append("username", this.form.username);
-      this.pegawai.append("password", this.form.password);
-      this.pegawai.append("created_by", this.form.created_by);
+      this.user.append("nama", this.form.nama);
+   
 
       var uri = this.$apiUrl + "Pegawai";
       this.load = true;
