@@ -80,7 +80,7 @@
     </v-card>
     <!------------------------ Detail Layanan Dialog ------------------------>
     <template>
-      <v-dialog v-model="dialogDetailLayanan" persistent max-width="1100px">
+      <v-dialog v-model="dialogDetailLayanan" persistent max-width="1300px">
         <v-card>
           <v-card-title>
             <v-spacer />

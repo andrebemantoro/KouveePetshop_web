@@ -57,12 +57,15 @@
                 :key="item.id_transaksi_produk"
               >
                 <td>{{ index + 1 }}</td>
-                <td>{{ item.id_transaksi_produk }}</td>
-                <td>{{ item.id_customer_service }}</td>
-                <td>{{ item.id_kasir }}</td>
-                <td>{{ item.id_hewan }}</td>
-                <td>{{ item.subtotal }}</td>
-                <td>{{ item.diskon }}</td>
+                <td
+                  class="underlinetext"
+                  @click="showDetail2(item)"
+                  style="cursor:pointer"
+                >
+                  {{ item.id_transaksi_produk }}
+                </td>
+                <td>{{ item.nama_pelanggan }}</td>
+                <td>{{ item.nama_hewan }}</td>
                 <td>{{ item.total }}</td>
                 <td>{{ item.status }}</td>
                 <td>{{ item.tanggal_lunas }}</td>
@@ -334,14 +337,14 @@
       <v-dialog
         v-model="dialogDetailTransaksiLayanan"
         persistent
-        max-width="1100px"
+        max-width="1300px"
       >
         <v-card>
           <v-card-title>
             <v-spacer />
-            <span class="headline">{{
-              "Id Transaksi Layanan: " + detailItem.id_transaksi_layanan
-            }}</span>
+            <h2 class="text-md-center">
+              {{ "Id Transaksi Layanan: " + detailItem.id_transaksi_layanan }}
+            </h2>
             <v-spacer />
           </v-card-title>
           <v-card-text>
@@ -352,15 +355,78 @@
                     <th class="text-left">Id Detail Transaksi</th>
                     <th class="text-left">Nama Layanan</th>
                     <th class="text-left">Ukuran Hewan</th>
-                    <th class="text-left">Harga</th>
+                    <th class="text-left">Harga Satuan</th>
+                    <th class="text-left">Jumlah</th>
+                    <th class="text-left">Total Harga</th>
+                    <th class="text-left">Tanggal Dibuat</th>
                     <th class="text-left">Dibuat Oleh</th>
                     <th class="text-left">Tanggal Diubah</th>
                     <th class="text-left">Diubah Oleh</th>
                     <th class="text-left">Aksi</th>
                   </tr>
                 </thead>
-              </v-simple-table>
+                <tbody>
+                  <tr
+                    v-for="item in filteredItems(detailItem)"
+                    :key="item.id_detail_transaksi_layanan"
+                  >
+                    <td>{{ item.id_detail_transaksi_layanan }}</td>
+                    <td>{{ item.nama_layanan }}</td>
+                    <td>{{ item.ukuran_hewan }}</td>
+                    <td>{{ item.harga }}</td>
+                    <td>{{ item.jumlah }}</td>
+                    <td>{{ item.total_harga }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.created_by }}</td>
+                    <td>{{ item.modified_at }}</td>
+                    <td>{{ item.modified_by }}</td>
+                    <td>
+                      <div>
+                        <v-btn
+                          icon
+                          color="blue"
+                          light
+                          @click="editHandlerHargaLayanan(item)"
+                        >
+                          <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody></v-simple-table
+              >
             </v-container>
+            <br />
+            <div class="text-right">
+              <v-simple-table>
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ "Subtotal : Rp" }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.subtotal }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ "Diskon : Rp" }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.diskon }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ "Total : Rp" }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.total }}</h3>
+                    </td>
+                  </tr>
+                </td>
+              </v-simple-table>
+            </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -368,6 +434,112 @@
               color="blue darken-1"
               text
               @click="dialogDetailTransaksiLayanan = false"
+              >Tutup</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </template>
+    <!------------------------ Detail Produk Dialog ------------------------>
+    <template>
+      <v-dialog
+        v-model="dialogDetailTransaksiProduk"
+        persistent
+        max-width="1300px"
+      >
+        <v-card>
+          <v-card-title>
+            <v-spacer />
+            <h2 class="text-md-center">
+              {{ "Id Transaksi Produk: " + detailItem2.id_transaksi_produk }}
+            </h2>
+            <v-spacer />
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-simple-table height="50%">
+                <thead>
+                  <tr>
+                    <th class="text-left">Id Detail Transaksi</th>
+                    <th class="text-left">Nama Produk</th>
+                    <th class="text-left">Harga Satuan</th>
+                    <th class="text-left">Jumlah</th>
+                    <th class="text-left">Total Harga</th>
+                    <th class="text-left">Tanggal Dibuat</th>
+                    <th class="text-left">Dibuat Oleh</th>
+                    <th class="text-left">Tanggal Diubah</th>
+                    <th class="text-left">Diubah Oleh</th>
+                    <th class="text-left">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="item in filteredItems2(detailItem2)"
+                    :key="item.id_detail_transaksi_produk"
+                  >
+                    <td>{{ item.id_detail_transaksi_produk }}</td>
+                    <td>{{ item.nama_produk }}</td>
+                    <td>{{ item.harga }}</td>
+                    <td>{{ item.jumlah }}</td>
+                    <td>{{ item.total_harga }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.created_by }}</td>
+                    <td>{{ item.modified_at }}</td>
+                    <td>{{ item.modified_by }}</td>
+                    <td>
+                      <div>
+                        <v-btn
+                          icon
+                          color="blue"
+                          light
+                          @click="editHandlerHargaLayanan(item)"
+                        >
+                          <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody></v-simple-table
+              >
+            </v-container>
+            <br />
+            <div class="text-right">
+              <v-simple-table>
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ "Subtotal : Rp" }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem2.subtotal }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ "Diskon : Rp" }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem2.diskon }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ "Total : Rp" }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem2.total }}</h3>
+                    </td>
+                  </tr>
+                </td>
+              </v-simple-table>
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="dialogDetailTransaksiProduk = false"
               >Tutup</v-btn
             >
           </v-card-actions>
@@ -594,11 +766,14 @@ export default {
   data() {
     return {
       cari: "",
-      tabs: 1,
+      tabs: 0,
       dialog: false,
       detilTransaksis: [],
+      detailTransaksiLayanans: [],
+      detailTransaksiProduks: [],
       selectedIndex: 0,
       detailItem: "",
+      detailItem2: "",
       transaksiProduks: [],
       transaksiLayanans: [],
       keyword: "",
@@ -620,24 +795,12 @@ export default {
           value: "id_transaksi_produk",
         },
         {
-          text: "Id CS",
-          value: "id_customer_service",
+          text: "Nama Pelanggan",
+          value: "nama_pelanggan",
         },
         {
-          text: "Id Kasir",
-          value: "id_kasir",
-        },
-        {
-          text: "Id Hewans",
-          value: "id_hewan",
-        },
-        {
-          text: "Subtotal",
-          value: "Subtotal",
-        },
-        {
-          text: "Diskon",
-          value: "diskon",
+          text: "Nama Hewan",
+          value: "nama_hewan",
         },
         {
           text: "Total",
@@ -647,7 +810,6 @@ export default {
           text: "Status",
           value: "status",
         },
-
         {
           text: "Tanggal Lunas",
           value: "tanggal_lunas",
@@ -732,6 +894,7 @@ export default {
       dialogEdit: "",
       dialogPassword: "",
       dialogDetailTransaksiLayanan: false,
+      dialogDetailTransaksiProduk: false,
       pesan: "",
       search: "",
       snackbar: false,
@@ -759,6 +922,22 @@ export default {
     filterProgress() {
       return this.transaksiLayanans.filter((transaksiLayanan) => {
         return transaksiLayanan.progress.match("Sedang Diproses");
+      });
+    },
+    filteredItems(value) {
+      return this.detailTransaksiLayanans.filter((i) => {
+        return (
+          !value.id_transaksi_layanan ||
+          i.id_transaksi_layanan === value.id_transaksi_layanan
+        );
+      });
+    },
+    filteredItems2(value) {
+      return this.detailTransaksiProduks.filter((i) => {
+        return (
+          !value.id_transaksi_produk ||
+          i.id_transaksi_produk === value.id_transaksi_produk
+        );
       });
     },
     filterProgress2() {
@@ -830,9 +1009,15 @@ export default {
       this.form.subtotal = this.form.subtotal - this.form.diskon;
     },
     getDataProduk() {
-      var uri = this.$apiUrl + "TransaksiProduk/" + "all";
+      var uri = this.$apiUrl + "TransaksiProduk/" + "getWithJoin";
       this.$http.get(uri).then((response) => {
         this.transaksiProduks = response.data.message;
+      });
+    },
+    getDataTransaksiProduk() {
+      var uri = this.$apiUrl + "DetailTransaksiProduk/" + "getWithJoin";
+      this.$http.get(uri).then((response) => {
+        this.detailTransaksiProduks = response.data.message;
       });
     },
     getHewan() {
@@ -862,7 +1047,7 @@ export default {
     getDataTransaksiLayanan() {
       var uri = this.$apiUrl + "DetailTransaksiLayanan/" + "getWithJoin";
       this.$http.get(uri).then((response) => {
-        this.transaksiLayanans = response.data.message;
+        this.detailTransaksiLayanans = response.data.message;
       });
     },
     sendDataProduk() {
@@ -996,8 +1181,11 @@ export default {
     },
     showDetail(item) {
       this.detailItem = item;
-      console.log(item);
       this.dialogDetailTransaksiLayanan = true;
+    },
+    showDetail2(item) {
+      this.detailItem2 = item;
+      this.dialogDetailTransaksiProduk = true;
     },
     resetFormProduk() {
       this.form = {
@@ -1029,7 +1217,8 @@ export default {
     this.getDataLayanan();
     this.getHewan();
     this.getProduk();
-    this.getDataLayanan();
+    this.getDataTransaksiLayanan();
+    this.getDataTransaksiProduk();
   },
 };
 </script>
