@@ -89,7 +89,7 @@
           </v-card-title>
           <v-card-text>
             <v-container>
-              <v-simple-table height="300px">
+              <v-simple-table height="50%">
                 <thead>
                   <tr>
                     <th class="text-left">Id Harga Layanan</th>
@@ -340,16 +340,12 @@
     </v-snackbar>
   </v-container>
 </template>
-<style>
-.underlinetext {
-  text-decoration: underline;
-}
-</style>
+
 <script>
 export default {
   data() {
     return {
-      rules: [value => !!value || "Wajib diisi."],
+      rules: [(value) => !!value || "Wajib diisi."],
       dialog: false,
       dialogAddLayanan: false,
       dialogWarning: "",
@@ -365,31 +361,31 @@ export default {
       on: "",
       headers: [
         {
-          text: "No"
+          text: "No",
         },
         {
           text: "Id Layanan",
-          value: "id_layanan"
+          value: "id_layanan",
         },
         {
           text: "Nama Layanan",
-          value: "nama"
+          value: "nama",
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at"
+          value: "created_at",
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by"
+          value: "created_by",
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by"
+          value: "modified_by",
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by"
+          value: "modified_by",
         },
         // {
         //   text: "Delete At",
@@ -405,15 +401,15 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null
-        }
+          value: null,
+        },
       ],
       layanans: [],
       hargalayanans: [],
       ukurans: [
         {
-          nama: ""
-        }
+          nama: "",
+        },
       ],
       ukuransAktif: [],
       snackbar: false,
@@ -429,13 +425,13 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       formHargaLayanan: {
         harga: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       },
       layanan: new FormData(),
       hargalayanan: new FormData(),
@@ -443,7 +439,7 @@ export default {
       ukuranrows: [],
       typeInput: "new",
       errors: "",
-      updatedId: ""
+      updatedId: "",
     };
   },
   methods: {
@@ -473,7 +469,7 @@ export default {
     createMultiform() {
       this.getUkuran();
       var count = 0;
-      this.ukuransAktif.forEach(e => {
+      this.ukuransAktif.forEach((e) => {
         this.hargalayananrows.push({
           id_harga_layanan: count,
           id_layanan: "",
@@ -485,7 +481,7 @@ export default {
           modified_by: "",
           delete_at: "",
           delete_by: "",
-          aktif: 0
+          aktif: 0,
         });
         count++;
       });
@@ -493,31 +489,31 @@ export default {
       this.dialogAddLayanan = true;
     },
     filteredItems(value) {
-      return this.hargalayanans.filter(i => {
+      return this.hargalayanans.filter((i) => {
         return !value.id_layanan || i.id_layanan === value.id_layanan;
       });
     },
     getData() {
       var uri = this.$apiUrl + "HargaLayanan/getWithJoin";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.hargalayanans = response.data.message;
       });
     },
     getLayanan() {
       var uri = this.$apiUrl + "Layanan";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.layanans = response.data.message;
       });
     },
     getAllUkuran() {
       var uri = this.$apiUrl + "UkuranHewan/all";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.ukurans = response.data.message;
       });
     },
     getUkuran() {
       var uri = this.$apiUrl + "UkuranHewan";
-      this.$http.get(uri).then(response => {
+      this.$http.get(uri).then((response) => {
         this.ukuransAktif = response.data.message;
       });
     },
@@ -529,10 +525,10 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.layanan)
-        .then(response => {
+        .then((response) => {
           this.sendDataHargaLayanan(response.data.message);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("masuk error data layanan");
           this.errors = error;
           this.snackbar = true;
@@ -554,7 +550,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.hargalayanan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -564,7 +560,7 @@ export default {
           this.getData();
           this.closeForm(); //mengambil [harga layanan]
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("masuk error data harga layanan");
           this.errors = error;
           this.snackbar = true;
@@ -580,7 +576,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.layanan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -588,7 +584,7 @@ export default {
           this.getLayanan();
           this.closeForm();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -612,7 +608,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.hargalayanan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -620,7 +616,7 @@ export default {
           this.getData();
           this.closeFormUbahHarga();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -654,14 +650,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.layanan)
-        .then(response => {
+        .then((response) => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getLayanan();
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -674,11 +670,11 @@ export default {
       this.load = true;
       this.$http
         .delete(uri)
-        .then(response => {
+        .then((response) => {
           console.log(response.data.message);
           console.log("berhasil menghapus layanan ber id: " + deleteId);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           console.log("gagal menghapus layanan ber id: " + deleteId);
         });
@@ -689,25 +685,31 @@ export default {
         nama: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
       this.updatedId = "";
       this.formHargaLayanan = {
         harga: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        modified_by: sessionStorage.getItem("Nama"),
       };
     },
     searchUkuranHewan(id_ukuran_hewan) {
-      return this.ukurans.find(x => x.id_ukuran_hewan === id_ukuran_hewan);
-    }
+      return this.ukurans.find((x) => x.id_ukuran_hewan === id_ukuran_hewan);
+    },
   },
   mounted() {
     this.getData();
     this.getLayanan();
     this.getAllUkuran();
     this.getUkuran();
-  }
+  },
 };
 </script>
+
+<style>
+.underlinetext {
+  text-decoration: underline;
+}
+</style>
