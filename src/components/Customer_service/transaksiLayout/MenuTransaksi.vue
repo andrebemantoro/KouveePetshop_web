@@ -31,7 +31,7 @@
               x-large=""
               style="text-transform: none !important;"
               color="#f9c99e"
-              @click="dialog = true,resetDynamic()"
+              @click="(dialog = true), resetDynamic()"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Transaksi
@@ -383,7 +383,7 @@
     >
       <v-card>
         <v-toolbar color="#fff4cb">
-          <v-btn icon @click="dialog = false, resetDynamic()">
+          <v-btn icon @click="(dialog = false), resetDynamic()">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Menu Tambah Transaksi Produk</v-toolbar-title>
@@ -423,11 +423,7 @@
                   </v-col>
                   <v-col cols="1">
                     <v-text-field
-<<<<<<< HEAD
-                      v-model="form.id"
-=======
                       v-model="form.id_customer_service"
->>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
                       label="ID Customer Service"
                       outlined=""
                       color="purple"
@@ -500,7 +496,7 @@
                         outlined=""
                         single-line=""
                         clearable=""
-                        @change="setTotal(index),setSubtotal()"
+                        @change="setTotal(index), setSubtotal()"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="2">
@@ -530,7 +526,7 @@
                         outlined=""
                         color="red lighten-2"
                         x-large=""
-                        @click="deleteRow(detilTransaksi),setSubtotal()"
+                        @click="deleteRow(detilTransaksi), setSubtotal()"
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -600,28 +596,12 @@ export default {
       cari: "",
       tabs: 1,
       dialog: false,
-<<<<<<< HEAD
-      detilTransaksis: [
-        {
-          nama: "",
-          jumlah: "",
-          subtotal: "",
-          harga: "",
-        },
-      ],
-      detailItem: "",
-      selectedIndex: 0,
-      transaksiProduks: [],
-      transaksiLayanans: [],
-=======
       detilTransaksis: [],
       selectedIndex: 0,
-
+      detailItem: "",
       transaksiProduks: [],
       transaksiLayanans: [],
-
       keyword: "",
->>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
       hewans: [],
       pelanggans: [],
       produks: [],
@@ -759,17 +739,13 @@ export default {
       text: "",
       load: false,
       form: {
-        subtotal: '',
-        diskon : '',
-        id_jenis_hewan:'',
+        subtotal: "",
+        diskon: "",
+        id_jenis_hewan: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
-<<<<<<< HEAD
-        id: sessionStorage.getItem("Id"),
-=======
-        id_customer_service: sessionStorage.getItem("Id")
->>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
+        id_customer_service: sessionStorage.getItem("Id"),
       },
       user: new FormData(),
       detil: new FormData(),
@@ -778,11 +754,7 @@ export default {
       updatedId: "",
     };
   },
-<<<<<<< HEAD
-=======
- 
 
->>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
   methods: {
     filterProgress() {
       return this.transaksiLayanans.filter((transaksiLayanan) => {
@@ -803,30 +775,22 @@ export default {
         1
       );
     },
-<<<<<<< HEAD
-    resetDynamic() {
-      for (var i = 0; i < this.detilTransaksis.length; i++) {
-        this.detilTransaksis.splice(this.detilTransaksis[i], 1);
-=======
 
-    resetDynamic(){
-       while(this.detilTransaksis.length != 0){
-        for(var i=0; i<this.detilTransaksis.length; i++){
-           this.detilTransaksis.splice(
-        this.detilTransaksis[i],
-        1
-      );}
-         this.form.subtotal='';
-         this.form.diskon='';
-         this.form.id_jenis_hewan='';
->>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
+    resetDynamic() {
+      while (this.detilTransaksis.length != 0) {
+        for (var i = 0; i < this.detilTransaksis.length; i++) {
+          this.detilTransaksis.splice(this.detilTransaksis[i], 1);
+        }
+        this.form.subtotal = "";
+        this.form.diskon = "";
+        this.form.id_jenis_hewan = "";
       }
     },
     addTransaksi() {
       this.getProduk();
       this.detilTransaksis.push({
-        id_customer_service:sessionStorage.getItem("Id"),
-        id_transaksi_produk:"",
+        id_customer_service: sessionStorage.getItem("Id"),
+        id_transaksi_produk: "",
         id_produk: "",
         jumlah: "",
         total_harga: "",
@@ -848,19 +812,22 @@ export default {
         this.detilTransaksis[index].id_produk;
       this.$http.get(uri).then((response) => {
         this.detilTransaksis[index].harga = response.data.message.harga;
-        this.detilTransaksis[index].total_harga = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
+        this.detilTransaksis[index].total_harga =
+          this.detilTransaksis[index].harga *
+          this.detilTransaksis[index].jumlah;
       });
     },
-    setTotal(index){
-        this.detilTransaksis[index].total_harga = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
-      },
-     setSubtotal(){
+    setTotal(index) {
+      this.detilTransaksis[index].total_harga =
+        this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah;
+    },
+    setSubtotal() {
       this.form.subtotal = 0;
-      for(var i=0; i<this.detilTransaksis.length; i++){
-        this.form.subtotal = this.form.subtotal + this.detilTransaksis[i].total_harga
+      for (var i = 0; i < this.detilTransaksis.length; i++) {
+        this.form.subtotal =
+          this.form.subtotal + this.detilTransaksis[i].total_harga;
       }
-       this.form.subtotal =  this.form.subtotal - this.form.diskon ;
-    
+      this.form.subtotal = this.form.subtotal - this.form.diskon;
     },
     getDataProduk() {
       var uri = this.$apiUrl + "TransaksiProduk/" + "all";
@@ -886,7 +853,6 @@ export default {
         this.produks = response.data.message;
       });
     },
-<<<<<<< HEAD
     getDataLayanan() {
       var uri = this.$apiUrl + "TransaksiLayanan/" + "getWithJoin";
       this.$http.get(uri).then((response) => {
@@ -895,15 +861,10 @@ export default {
     },
     getDataTransaksiLayanan() {
       var uri = this.$apiUrl + "DetailTransaksiLayanan/" + "getWithJoin";
-=======
-      getDataLayanan() {
-      var uri = this.$apiUrl + "TransaksiLayanan/getWithJoin";
->>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
       this.$http.get(uri).then((response) => {
         this.transaksiLayanans = response.data.message;
       });
     },
-<<<<<<< HEAD
     sendDataProduk() {
       this.pegawai.append("nama", this.form.nama);
       this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
@@ -913,23 +874,21 @@ export default {
       this.pegawai.append("username", this.form.username);
       this.pegawai.append("password", this.form.password);
       this.pegawai.append("created_by", this.form.created_by);
-=======
->>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
-
+    },
 
     sendDataTransaksi() {
-        this.detil.append("id_customer_service", this.form.id); 
-        this.detil.append("created_by", this.form.created_by);  
-        this.detil.append("subtotal", this.form.subtotal);  
-        this.detil.append("diskon", this.form.diskon);  
-        this.detil.append("id_hewan", this.form.id_jenis_hewan);  
+      this.detil.append("id_customer_service", this.form.id);
+      this.detil.append("created_by", this.form.created_by);
+      this.detil.append("subtotal", this.form.subtotal);
+      this.detil.append("diskon", this.form.diskon);
+      this.detil.append("id_hewan", this.form.id_jenis_hewan);
       var uri = this.$apiUrl + "TransaksiProduk";
 
       this.load = true;
       this.$http
         .post(uri, this.detil)
         .then((response) => {
-          this.sendDataDetilTransaksi(response.data.message)
+          this.sendDataDetilTransaksi(response.data.message);
         })
         .catch((error) => {
           this.errors = error;
@@ -940,21 +899,23 @@ export default {
         });
     },
     sendDataDetilTransaksi(id_transaksi_produk) {
-      for (let i=0; i<this.detilTransaksis.length ; i++){
-        this.detilTransaksis[i].id_transaksi_produk = id_transaksi_produk;    
+      for (let i = 0; i < this.detilTransaksis.length; i++) {
+        this.detilTransaksis[i].id_transaksi_produk = id_transaksi_produk;
       }
-      this.user.append("detail_transaksi_produk",  JSON.stringify(this.detilTransaksis));
+      this.user.append(
+        "detail_transaksi_produk",
+        JSON.stringify(this.detilTransaksis)
+      );
       var uri = this.$apiUrl + "DetailTransaksiProduk/insertMultiple";
       this.load = true;
       this.$http
         .post(uri, this.user)
         .then((response) => {
-          this.snackbar = true; 
-          this.color = "green"; 
-          this.text = response.data.message; 
+          this.snackbar = true;
+          this.color = "green";
+          this.text = response.data.message;
           this.load = false;
           this.dialog = false;
-
         })
         .catch((error) => {
           this.errors = error;
