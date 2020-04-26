@@ -31,7 +31,7 @@
               x-large=""
               style="text-transform: none !important;"
               color="#f9c99e"
-              @click="dialog = true"
+              @click="dialog = true,resetDynamic()"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
               Tambah Transaksi
@@ -383,7 +383,7 @@
     >
       <v-card>
         <v-toolbar color="#fff4cb">
-          <v-btn icon @click="dialog = false">
+          <v-btn icon @click="dialog = false, resetDynamic()">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Menu Tambah Transaksi Produk</v-toolbar-title>
@@ -400,7 +400,7 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                      v-model="form.id_hewan"
+                      v-model="form.id_jenis_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
@@ -423,7 +423,11 @@
                   </v-col>
                   <v-col cols="1">
                     <v-text-field
+<<<<<<< HEAD
                       v-model="form.id"
+=======
+                      v-model="form.id_customer_service"
+>>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
                       label="ID Customer Service"
                       outlined=""
                       color="purple"
@@ -437,9 +441,22 @@
                   </v-col>
                   <v-col cols="4">
                     <v-text-field
-                      v-model="form.total"
+                      v-model="form.subtotal"
                       label="Total Pembelian"
                       readonly=""
+                      shaped=""
+                      color="purple"
+                      prefix="Rp."
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="1">
+                    <h2>Diskon Pembelian:</h2>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                      v-model="form.diskon"
+                      label="Diskon"
+                      @change="setSubtotal()"
                       shaped=""
                       color="purple"
                       prefix="Rp."
@@ -465,7 +482,7 @@
                         required
                         width=""
                         :items="produks"
-                        @change="filteredProduk(index), setSubtotal(index)"
+                        @change="filteredProduk(index), setTotal(index)"
                         item-value="id_produk"
                         item-text="nama"
                         label="Nama Produk*"
@@ -483,7 +500,7 @@
                         outlined=""
                         single-line=""
                         clearable=""
-                        @change="setSubtotal(index), hitungTotal()"
+                        @change="setTotal(index),setSubtotal()"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="2">
@@ -500,7 +517,7 @@
                     <v-col cols="2">
                       <v-text-field
                         label="Subtotal*"
-                        v-model="detilTransaksi.subtotal"
+                        v-model="detilTransaksi.total_harga"
                         value=""
                         outlined=""
                         readonly=""
@@ -513,7 +530,7 @@
                         outlined=""
                         color="red lighten-2"
                         x-large=""
-                        @click="deleteRow(detilTransaksi), hitungTotal()"
+                        @click="deleteRow(detilTransaksi),setSubtotal()"
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -544,7 +561,7 @@
                       color="green"
                       x-large=""
                       fab=""
-                      @click="submit"
+                      @click="sendDataTransaksi()"
                       class="tombol"
                     >
                       <v-icon>
@@ -583,6 +600,7 @@ export default {
       cari: "",
       tabs: 1,
       dialog: false,
+<<<<<<< HEAD
       detilTransaksis: [
         {
           nama: "",
@@ -595,6 +613,15 @@ export default {
       selectedIndex: 0,
       transaksiProduks: [],
       transaksiLayanans: [],
+=======
+      detilTransaksis: [],
+      selectedIndex: 0,
+
+      transaksiProduks: [],
+      transaksiLayanans: [],
+
+      keyword: "",
+>>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
       hewans: [],
       pelanggans: [],
       produks: [],
@@ -732,19 +759,30 @@ export default {
       text: "",
       load: false,
       form: {
-        total: 0,
-        id_customer_service: sessionStorage.getItem("Id"),
+        subtotal: '',
+        diskon : '',
+        id_jenis_hewan:'',
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
+<<<<<<< HEAD
         id: sessionStorage.getItem("Id"),
+=======
+        id_customer_service: sessionStorage.getItem("Id")
+>>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
       },
       user: new FormData(),
+      detil: new FormData(),
       typeInput: "new",
       errors: "",
       updatedId: "",
     };
   },
+<<<<<<< HEAD
+=======
+ 
+
+>>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
   methods: {
     filterProgress() {
       return this.transaksiLayanans.filter((transaksiLayanan) => {
@@ -765,17 +803,40 @@ export default {
         1
       );
     },
+<<<<<<< HEAD
     resetDynamic() {
       for (var i = 0; i < this.detilTransaksis.length; i++) {
         this.detilTransaksis.splice(this.detilTransaksis[i], 1);
+=======
+
+    resetDynamic(){
+       while(this.detilTransaksis.length != 0){
+        for(var i=0; i<this.detilTransaksis.length; i++){
+           this.detilTransaksis.splice(
+        this.detilTransaksis[i],
+        1
+      );}
+         this.form.subtotal='';
+         this.form.diskon='';
+         this.form.id_jenis_hewan='';
+>>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
       }
     },
     addTransaksi() {
+      this.getProduk();
       this.detilTransaksis.push({
-        nama: "",
+        id_customer_service:sessionStorage.getItem("Id"),
+        id_transaksi_produk:"",
+        id_produk: "",
         jumlah: "",
-        subtotal: "",
+        total_harga: "",
         harga: "",
+        created_at: "",
+        created_by: sessionStorage.getItem("Nama"),
+        modified_at: "",
+        modified_by: "",
+        delete_at: "",
+        delete_by: "",
       });
     },
 
@@ -787,20 +848,19 @@ export default {
         this.detilTransaksis[index].id_produk;
       this.$http.get(uri).then((response) => {
         this.detilTransaksis[index].harga = response.data.message.harga;
-        this.detilTransaksis[index].subtotal =
-          this.detilTransaksis[index].harga *
-          this.detilTransaksis[index].jumlah;
+        this.detilTransaksis[index].total_harga = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
       });
     },
-    setSubtotal(index) {
-      this.detilTransaksis[index].subtotal =
-        this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah;
-    },
-    hitungTotal() {
-      this.form.total = 0;
-      for (var i = 0; i < this.detilTransaksis.length; i++) {
-        this.form.total = this.form.total + this.detilTransaksis[i].subtotal;
+    setTotal(index){
+        this.detilTransaksis[index].total_harga = this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah
+      },
+     setSubtotal(){
+      this.form.subtotal = 0;
+      for(var i=0; i<this.detilTransaksis.length; i++){
+        this.form.subtotal = this.form.subtotal + this.detilTransaksis[i].total_harga
       }
+       this.form.subtotal =  this.form.subtotal - this.form.diskon ;
+    
     },
     getDataProduk() {
       var uri = this.$apiUrl + "TransaksiProduk/" + "all";
@@ -826,6 +886,7 @@ export default {
         this.produks = response.data.message;
       });
     },
+<<<<<<< HEAD
     getDataLayanan() {
       var uri = this.$apiUrl + "TransaksiLayanan/" + "getWithJoin";
       this.$http.get(uri).then((response) => {
@@ -834,10 +895,15 @@ export default {
     },
     getDataTransaksiLayanan() {
       var uri = this.$apiUrl + "DetailTransaksiLayanan/" + "getWithJoin";
+=======
+      getDataLayanan() {
+      var uri = this.$apiUrl + "TransaksiLayanan/getWithJoin";
+>>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
       this.$http.get(uri).then((response) => {
         this.transaksiLayanans = response.data.message;
       });
     },
+<<<<<<< HEAD
     sendDataProduk() {
       this.pegawai.append("nama", this.form.nama);
       this.pegawai.append("tanggal_lahir", this.form.tanggal_lahir);
@@ -847,19 +913,48 @@ export default {
       this.pegawai.append("username", this.form.username);
       this.pegawai.append("password", this.form.password);
       this.pegawai.append("created_by", this.form.created_by);
+=======
+>>>>>>> 0a1c989a8b0282c6b1c13f7f4193965947d58bd6
 
-      var uri = this.$apiUrl + "Pegawai";
+
+    sendDataTransaksi() {
+        this.detil.append("id_customer_service", this.form.id); 
+        this.detil.append("created_by", this.form.created_by);  
+        this.detil.append("subtotal", this.form.subtotal);  
+        this.detil.append("diskon", this.form.diskon);  
+        this.detil.append("id_hewan", this.form.id_jenis_hewan);  
+      var uri = this.$apiUrl + "TransaksiProduk";
+
       this.load = true;
       this.$http
-        .post(uri, this.pegawai)
+        .post(uri, this.detil)
         .then((response) => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.sendDataDetilTransaksi(response.data.message)
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = "Coba Lagi";
+          this.color = "red";
+          this.load = false;
+        });
+    },
+    sendDataDetilTransaksi(id_transaksi_produk) {
+      for (let i=0; i<this.detilTransaksis.length ; i++){
+        this.detilTransaksis[i].id_transaksi_produk = id_transaksi_produk;    
+      }
+      this.user.append("detail_transaksi_produk",  JSON.stringify(this.detilTransaksis));
+      var uri = this.$apiUrl + "DetailTransaksiProduk/insertMultiple";
+      this.load = true;
+      this.$http
+        .post(uri, this.user)
+        .then((response) => {
+          this.snackbar = true; 
+          this.color = "green"; 
+          this.text = response.data.message; 
           this.load = false;
           this.dialog = false;
-          this.getDataProduk(); //mengambil [pegawai]
-          this.resetFormProduk();
+
         })
         .catch((error) => {
           this.errors = error;
@@ -973,6 +1068,7 @@ export default {
     this.getDataLayanan();
     this.getHewan();
     this.getProduk();
+    this.getDataLayanan();
   },
 };
 </script>
