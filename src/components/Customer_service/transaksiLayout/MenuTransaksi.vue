@@ -205,31 +205,7 @@
         <div v-if="this.layananTab == 'layananTab-2'">
           <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
           <v-layout row wrap style="margin:10px">
-            <v-flex xs6>
-              <v-btn
-                depressed
-                dark
-                class="elevation-2"
-                x-large
-                style="text-transform: none !important;"
-                color="#f9c99e"
-                @click="dialog2 = true"
-              >
-                <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
-                Transaksi
-              </v-btn>
-            </v-flex>
-            <!-- <v-flex xs6 class="text-right">
-              <v-text-field
-                v-model="keyword2"
-                append-icon="mdi-search"
-                label="Cari"
-                hide-details="auto"
-                outlined
-                clearable
-              >
-              </v-text-field>
-            </v-flex>-->
+            <v-flex xs6 />
           </v-layout>
           <v-data-table :headers="headers2" :items="transaksiLayanans">
             <template v-slot:body="{ items }">
@@ -872,8 +848,8 @@
                         :filter="customFilter"
                       ></v-autocomplete>
                     </v-col>
-                     <v-col cols="2">
-                     <v-autocomplete
+                    <v-col cols="2">
+                      <v-autocomplete
                         v-model="detilLayanan.id_ukuran_hewan"
                         required
                         width=""
@@ -887,7 +863,7 @@
                         :filter="customFilter"
                       ></v-autocomplete>
                     </v-col>
-                     <v-col cols="1">
+                    <v-col cols="1">
                       <v-text-field
                         label="Jumlah*"
                         v-model="detilLayanan.jumlah"
@@ -899,7 +875,7 @@
                         @change="setTotal2(index), setSubtotal2()"
                       ></v-text-field>
                     </v-col>
-                   
+
                     <v-col cols="2">
                       <v-text-field
                         label="Harga Layanan*"
@@ -911,7 +887,7 @@
                         prefix="Rp."
                       ></v-text-field>
                     </v-col>
-                     <v-col cols="2">
+                    <v-col cols="2">
                       <v-text-field
                         label="Subtotal*"
                         v-model="detilLayanan.total_harga"
@@ -922,7 +898,7 @@
                         prefix="Rp."
                       ></v-text-field>
                     </v-col>
-                 
+
                     <v-col cols="1">
                       <v-btn
                         outlined=""
@@ -959,7 +935,7 @@
                       color="green"
                       x-large=""
                       fab=""
-                      @click="sendDataLayanan(),(dialog2=false) "
+                      @click="sendDataLayanan(), (dialog2 = false)"
                       class="tombol"
                     >
                       <v-icon>
@@ -998,9 +974,9 @@ export default {
       dialog: false,
       dialog2: false,
       detilTransaksis: [],
-      detilLayanans:[],
-      layanans:[],
-      ukurans:[],
+      detilLayanans: [],
+      layanans: [],
+      ukurans: [],
       detailTransaksiLayanans: [],
       detailTransaksiProduks: [],
       selectedIndex: 0,
@@ -1134,22 +1110,23 @@ export default {
       text: '',
       load: false,
       form: {
-        progress:"sedang diproses",
-        subtotal: "",
-        diskon: "",
-        id_jenis_hewan: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
-        id_customer_service: sessionStorage.getItem("Id"),
+        progress: 'sedang diproses',
+        subtotal: '',
+        diskon: '',
+        id_jenis_hewan: '',
+        created_by: sessionStorage.getItem('Nama'),
+        delete_by: sessionStorage.getItem('Nama'),
+        modified_by: sessionStorage.getItem('Nama'),
+        id_customer_service: sessionStorage.getItem('Id'),
       },
       user: new FormData(),
       user2: new FormData(),
       detil: new FormData(),
       detil2: new FormData(),
-      typeInput: "new",
-      errors: "",
-      updatedId: "",
+      transaksiLayanan: new FormData(),
+      typeInput: 'new',
+      errors: '',
+      updatedId: '',
     };
   },
 
@@ -1190,10 +1167,7 @@ export default {
       );
     },
     deleteRow2(_detilTransaksi) {
-      this.detilLayanans.splice(
-        this.detilLayanans.indexOf(_detilTransaksi),
-        1
-      );
+      this.detilLayanans.splice(this.detilLayanans.indexOf(_detilTransaksi), 1);
     },
 
     resetDynamic() {
@@ -1202,9 +1176,9 @@ export default {
           this.detilTransaksis.splice(this.detilTransaksis[i], 1);
         }
       }
-        this.resetForm();
+      this.resetForm();
     },
-   
+
     resetDynamic2() {
       while (this.detilLayanans.length != 0) {
         for (var i = 0; i < this.detilLayanans.length; i++) {
@@ -1214,15 +1188,15 @@ export default {
       this.resetForm();
     },
 
-     resetForm() {
+    resetForm() {
       this.form = {
-        subtotal: "",
-        diskon: "",
-        id_jenis_hewan: "",
-        id_customer_service: sessionStorage.getItem("Id"),
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        subtotal: '',
+        diskon: '',
+        id_jenis_hewan: '',
+        id_customer_service: sessionStorage.getItem('Id'),
+        created_by: sessionStorage.getItem('Nama'),
+        delete_by: sessionStorage.getItem('Nama'),
+        modified_by: sessionStorage.getItem('Nama'),
       };
     },
     addTransaksi() {
@@ -1244,19 +1218,19 @@ export default {
     },
     addLayanan() {
       this.detilLayanans.push({
-        id_customer_service: sessionStorage.getItem("Id"),
-        id_transaksi_layanan: "",
-        id_harga_layanan: "",
-        jumlah: "",
-        total_harga: "",
-        progress:"sedang diproses",
-        harga: "",
-        created_at: "",
-        created_by: sessionStorage.getItem("Nama"),
-        modified_at: "",
-        modified_by: "",
-        delete_at: "",
-        delete_by: "",
+        id_customer_service: sessionStorage.getItem('Id'),
+        id_transaksi_layanan: '',
+        id_harga_layanan: '',
+        jumlah: '',
+        total_harga: '',
+        progress: 'sedang diproses',
+        harga: '',
+        created_at: '',
+        created_by: sessionStorage.getItem('Nama'),
+        modified_at: '',
+        modified_by: '',
+        delete_at: '',
+        delete_by: '',
       });
     },
 
@@ -1276,15 +1250,17 @@ export default {
     filteredHargaLayanan(index) {
       var uri =
         this.$apiUrl +
-        "HargaLayanan/" +
-        "searchByIdLayananUkuran/" +
-        this.detilLayanans[index].id_layanan+"/"+ this.detilLayanans[index].id_ukuran_hewan;
+        'HargaLayanan/' +
+        'searchByIdLayananUkuran/' +
+        this.detilLayanans[index].id_layanan +
+        '/' +
+        this.detilLayanans[index].id_ukuran_hewan;
       this.$http.get(uri).then((response) => {
         this.detilLayanans[index].harga = response.data.message.harga;
-        this.detilLayanans[index].id_harga_layanan = response.data.message.id_harga_layanan;
+        this.detilLayanans[index].id_harga_layanan =
+          response.data.message.id_harga_layanan;
         this.detilLayanans[index].total_harga =
-          this.detilLayanans[index].harga *
-          this.detilLayanans[index].jumlah;
+          this.detilLayanans[index].harga * this.detilLayanans[index].jumlah;
       });
     },
     setTotal(index) {
@@ -1354,25 +1330,25 @@ export default {
       });
     },
     getLayanan() {
-      var uri = this.$apiUrl + "Layanan" ;
+      var uri = this.$apiUrl + 'Layanan';
       this.$http.get(uri).then((response) => {
         this.layanans = response.data.message;
       });
     },
     getUkuran() {
-      var uri = this.$apiUrl + "UkuranHewan" ;
+      var uri = this.$apiUrl + 'UkuranHewan';
       this.$http.get(uri).then((response) => {
         this.ukurans = response.data.message;
       });
     },
 
     sendDataTransaksi() {
-      this.detil.append("id_customer_service", this.form.id_customer_service);
-      this.detil.append("created_by", this.form.created_by);
-      this.detil.append("subtotal", this.form.subtotal);
-      this.detil.append("diskon", this.form.diskon);
-      this.detil.append("id_hewan", this.form.id_jenis_hewan);
-      var uri = this.$apiUrl + "TransaksiProduk";
+      this.detil.append('id_customer_service', this.form.id_customer_service);
+      this.detil.append('created_by', this.form.created_by);
+      this.detil.append('subtotal', this.form.subtotal);
+      this.detil.append('diskon', this.form.diskon);
+      this.detil.append('id_hewan', this.form.id_jenis_hewan);
+      var uri = this.$apiUrl + 'TransaksiProduk';
 
       this.load = true;
       this.$http
@@ -1416,13 +1392,13 @@ export default {
         });
     },
     sendDataLayanan() {
-      this.detil2.append("id_customer_service", this.form.id_customer_service);
-      this.detil2.append("created_by", this.form.created_by);
-      this.detil2.append("subtotal", this.form.subtotal);
-      this.detil2.append("diskon", this.form.diskon);
-      this.detil2.append("id_hewan", this.form.id_jenis_hewan);
-    
-      var uri = this.$apiUrl + "TransaksiLayanan";
+      this.detil2.append('id_customer_service', this.form.id_customer_service);
+      this.detil2.append('created_by', this.form.created_by);
+      this.detil2.append('subtotal', this.form.subtotal);
+      this.detil2.append('diskon', this.form.diskon);
+      this.detil2.append('id_hewan', this.form.id_jenis_hewan);
+
+      var uri = this.$apiUrl + 'TransaksiLayanan';
 
       this.load = true;
       this.$http
@@ -1433,8 +1409,8 @@ export default {
         .catch((error) => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
+          this.text = 'Coba Lagi';
+          this.color = 'red';
           this.load = false;
         });
     },
@@ -1443,25 +1419,28 @@ export default {
         this.detilLayanans[i].id_transaksi_layanan = id_transaksi_layanan;
       }
       this.user2.append(
-        "detail_transaksi_layanan",
+        'detail_transaksi_layanan',
         JSON.stringify(this.detilLayanans)
       );
-      var uri = this.$apiUrl + "DetailTransaksiLayanan/insertMultiple";
+      var uri = this.$apiUrl + 'DetailTransaksiLayanan/insertMultiple';
       this.load = true;
       this.$http
         .post(uri, this.user2)
         .then((response) => {
           this.snackbar = true;
-          this.color = "green";
+          this.color = 'green';
           this.text = response.data.message;
           this.load = false;
           this.dialog = false;
+          this.getDataLayanan();
+          this.getDataTransaksiLayanan();
+          this.typeInput = 'new';
         })
         .catch((error) => {
           this.errors = error;
           this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
+          this.text = 'Coba Lagi';
+          this.color = 'red';
           this.load = false;
         });
     },

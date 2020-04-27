@@ -6,11 +6,11 @@
         <div>
           <v-tabs v-model="layananTab" color="#f9c99e" centered>
             <v-tabs-slider color="#f9c99e"></v-tabs-slider>
-            <v-tab href="#layananTab-1">Diproses</v-tab>
-            <v-tab href="#layananTab-2">Selesai</v-tab>
+            <v-tab href="#layananTab-1">Menunggu Pembayaran</v-tab>
+            <v-tab href="#layananTab-2">Lunas</v-tab>
           </v-tabs>
         </div>
-        <div v-if="this.layananTab == 'layananTab-1'">
+        <div v-if="this.layananTab == 'layananTab-2'">
           <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
           <v-layout row wrap style="margin:10px">
             <v-flex xs6>
@@ -96,7 +96,7 @@
             </template>
           </v-data-table>
         </div>
-        <div v-if="this.layananTab == 'layananTab-2'">
+        <div v-if="this.layananTab == 'layananTab-1'">
           <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
           <v-layout row wrap style="margin:10px">
             <v-flex xs6>
