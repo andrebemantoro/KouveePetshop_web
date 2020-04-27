@@ -563,16 +563,17 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                      v-model="form.id_jenis_hewan"
+                      v-model="form.id_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
-                      item-value="id_jenis_hewan"
+                      item-value="id_hewan"
                       color="purple"
                       item-text="nama"
                       label="Nama Hewan*"
                       outlined
                       rounded
+                      auto-select-first
                       
                     ></v-autocomplete>
                   </v-col>
@@ -651,6 +652,8 @@
                         outlined
                         color="purple"
                         :filter="customFilter"
+                        hide-selected=""
+                       
                       ></v-autocomplete>
                     </v-col>
                     <v-col cols="2">
@@ -762,11 +765,11 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                      v-model="form.id_jenis_hewan"
+                      v-model="form.id_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
-                      item-value="id_jenis_hewan"
+                      item-value="id_hewan"
                       color="purple"
                       item-text="nama"
                       label="Nama Hewan*"
@@ -1113,7 +1116,7 @@ export default {
       form: {
         subtotal: "",
         diskon: "",
-        id_jenis_hewan: "",
+        id_hewan: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
@@ -1192,7 +1195,7 @@ export default {
       this.form = {
         subtotal: '',
         diskon: '',
-        id_jenis_hewan: '',
+        id_hewan: '',
         id_customer_service: sessionStorage.getItem('Id'),
         created_by: sessionStorage.getItem('Nama'),
         delete_by: sessionStorage.getItem('Nama'),
@@ -1299,10 +1302,14 @@ export default {
       });
     },
     getHewan() {
-      var uri = this.$apiUrl + 'Hewan/' + 'all';
+      var uri = this.$apiUrl +'Hewan';
       this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
       });
+      
+    },
+    cek(){
+      console.log(this.hewans)
     },
     getPelanggan() {
       var uri = this.$apiUrl + 'Pelanggan/' + 'all';
@@ -1346,7 +1353,7 @@ export default {
       this.detil.append('created_by', this.form.created_by);
       this.detil.append('subtotal', this.form.subtotal);
       this.detil.append('diskon', this.form.diskon);
-      this.detil.append('id_hewan', this.form.id_jenis_hewan);
+      this.detil.append('id_hewan', this.form.id_hewan);
       var uri = this.$apiUrl + 'TransaksiProduk';
 
       this.load = true;
@@ -1395,7 +1402,7 @@ export default {
       this.detil2.append('created_by', this.form.created_by);
       this.detil2.append('subtotal', this.form.subtotal);
       this.detil2.append('diskon', this.form.diskon);
-      this.detil2.append('id_hewan', this.form.id_jenis_hewan);
+      this.detil2.append('id_hewan', this.form.id_hewan);
 
       var uri = this.$apiUrl + 'TransaksiLayanan';
 
