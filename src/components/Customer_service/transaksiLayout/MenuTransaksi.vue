@@ -597,6 +597,7 @@
                       label="Nama Hewan*"
                       outlined
                       rounded
+                      
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -1463,36 +1464,7 @@ export default {
           this.load = false;
         });
     },
-    updateDataProduk() {
-      this.pegawai.append('nama', this.form.nama);
-      this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
-      this.pegawai.append('alamat', this.form.alamat);
-      this.pegawai.append('telp', this.form.telp);
-      this.pegawai.append('role', this.form.role);
-      this.pegawai.append('username', this.form.username);
-      this.pegawai.append('modified_by', this.form.modified_by);
-      var uri = this.$apiUrl + 'Pegawai/' + 'update/' + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.pegawai)
-        .then((response) => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = 'green'; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialogEdit = false;
-          this.getDataProduk(); //mengambil data pegawai
-          this.resetFormProduk();
-          this.typeInput = 'new';
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-        });
-    },
+
     updateProgressLayanan(detailItem) {
       this.updatedId = detailItem.id_transaksi_layanan;
       this.transaksiLayanan.append(
@@ -1523,37 +1495,8 @@ export default {
           this.load = false;
         });
     },
-    editHandlerProduk(item) {
-      this.typeInput = 'edit';
-      this.dialogEdit = true;
-      this.form.nama = item.nama;
-      this.form.alamat = item.alamat;
-      this.form.tanggal_lahir = item.tanggal_lahir;
-      this.form.telp = item.telp;
-      (this.form.role = item.role), (this.form.username = item.username);
-      this.updatedId = item.id_pegawai;
-    },
-    deleteDataProduk(deleteId) {
-      //mengahapus data
-      this.pegawai.append('delete_by', this.form.delete_by);
-      var uri = this.$apiUrl + 'Pegawai' + '/delete/' + deleteId; //data dihapus berdasarkan id
-      this.load = true;
-      this.$http
-        .post(uri, this.pegawai)
-        .then((response) => {
-          this.snackbar = true;
-          this.text = response.data.message;
-          this.color = 'green';
-          this.deleteDialog = false;
-          this.getDataProduk();
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-        });
-    },
+  
+
     setFormProduk() {
       if (this.typeInput === 'new') {
         this.sendDataProduk();
@@ -1570,20 +1513,7 @@ export default {
       this.detailItem2 = item;
       this.dialogDetailTransaksiProduk = true;
     },
-    resetFormProduk() {
-      this.form = {
-        nama: '',
-        alamat: '',
-        tanggal_lahir: '',
-        telp: '',
-        role: '',
-        username: '',
-        password: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-      };
-    },
+    
 
     customFilter(item, queryText) {
       const textOne = item.nama.toLowerCase();
