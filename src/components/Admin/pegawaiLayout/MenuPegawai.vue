@@ -13,8 +13,7 @@
               color="#f9c99e"
               @click="(dialog = true), resetForm(), reset()"
             >
-              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
-              Tambah Pegawai
+              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah Pegawai
             </v-btn>
           </v-flex>
           <v-flex xs6 class="text-right">
@@ -25,8 +24,7 @@
               hide-details="auto"
               outlined
               clearable
-            >
-            </v-text-field>
+            ></v-text-field>
           </v-flex>
         </v-layout>
 
@@ -47,7 +45,7 @@
                 <td>{{ item.modified_at }}</td>
                 <td>{{ item.modified_by }}</td>
                 <!-- <td>{{ item.delete_by }}</td>
-                <td>{{ item.delete_at }}</td> -->
+                <td>{{ item.delete_at }}</td>-->
 
                 <td>
                   <div>
@@ -57,23 +55,12 @@
                   </div>
 
                   <div>
-                    <v-btn
-                      icon
-                      color="indigo"
-                      light
-                      @click="changePassword(item), reset()"
-                    >
+                    <v-btn icon color="indigo" light @click="changePassword(item), reset()">
                       <v-icon>mdi-lock</v-icon>
                     </v-btn>
                   </div>
                   <div>
-                    <v-btn
-                      icon
-                      color="red lighten-2"
-                      dark
-                      v-on="on"
-                      @click="deleteRow(item)"
-                    >
+                    <v-btn icon color="red lighten-2" dark v-on="on" @click="deleteRow(item)">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </div>
@@ -88,19 +75,13 @@
     <div class="text-center">
       <v-dialog width="500" v-model="deleteDialog">
         <v-card>
-          <v-card-title class="headline Red lighten-2" primary-title
-            >Konfirmasi Hapus</v-card-title
-          >
+          <v-card-title class="headline Red lighten-2" primary-title>Konfirmasi Hapus</v-card-title>
           <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="deleteDialog = false"
-              >Batal</v-btn
-            >
-            <v-btn color="primary" text @click="deleteData(deleteId)"
-              >Hapus</v-btn
-            >
+            <v-btn color="primary" text @click="deleteDialog = false">Batal</v-btn>
+            <v-btn color="primary" text @click="deleteData(deleteId)">Hapus</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -109,15 +90,11 @@
     <div class="text-center">
       <v-dialog width="500" v-model="dialogWarning">
         <v-card>
-          <v-card-title class="headline Red lighten-2" primary-title
-            >Data Harus Diisi Semua !</v-card-title
-          >
+          <v-card-title class="headline Red lighten-2" primary-title>Data Harus Diisi Semua !</v-card-title>
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialogWarning = false"
-              >Kembali</v-btn
-            >
+            <v-btn color="primary" text @click="dialogWarning = false">Kembali</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -135,13 +112,7 @@
             <v-form ref="form">
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
-                    label="Nama*"
-                    v-model="form.nama"
-                    required
-                    outlined
-                    :rules="rules"
-                  ></v-text-field>
+                  <v-text-field label="Nama*" v-model="form.nama" required outlined :rules="rules"></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -197,8 +168,7 @@
                     required
                     outlined
                     :rules="rules"
-                  >
-                  </v-select>
+                  ></v-select>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -229,12 +199,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="resetForm(), (dialog = false)"
-            >Tutup</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="resetForm(), (dialog = false)">Tutup</v-btn>
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
@@ -252,20 +217,14 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field
-                  label="Nama*"
-                  v-model="form.nama"
-                  required
-                  outlined=""
-                  :rules="rules"
-                ></v-text-field>
+                <v-text-field label="Nama*" v-model="form.nama" required outlined :rules="rules"></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Alamat*"
                   v-model="form.alamat"
                   required
-                  outlined=""
+                  outlined
                   :rules="rules"
                 ></v-text-field>
               </v-col>
@@ -302,7 +261,7 @@
                   label="Nomor Telepon*"
                   v-model="form.telp"
                   required
-                  outlined=""
+                  outlined
                   :rules="rules"
                 ></v-text-field>
               </v-col>
@@ -312,17 +271,16 @@
                   v-model="form.role"
                   :items="items"
                   required
-                  outlined=""
+                  outlined
                   :rules="rules"
-                >
-                </v-select>
+                ></v-select>
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Username*"
                   v-model="form.username"
                   required
-                  outlined=""
+                  outlined
                   :rules="rules"
                 ></v-text-field>
               </v-col>
@@ -332,15 +290,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="resetForm(), (dialogEdit = false)"
-            >Tutup</v-btn
-          >
-          <v-btn color="blue darken-1" text @click="cekKosongEdit()"
-            >Simpan</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="resetForm(), (dialogEdit = false)">Tutup</v-btn>
+          <v-btn color="blue darken-1" text @click="cekKosongEdit()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -380,28 +331,15 @@
             color="blue darken-1"
             text
             @click="resetForm(), (dialogPassword = false), reset()"
-            >Tutup</v-btn
-          >
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="cekKosongPassword(), reset()"
-            >Simpan</v-btn
-          >
+          >Tutup</v-btn>
+          <v-btn color="blue darken-1" text @click="cekKosongPassword(), reset()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-    <v-snackbar
-      v-model="snackbar"
-      :color="color"
-      :multi-line="true"
-      :timeout="3000"
-    >
+    <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
       {{ text }}
-      <v-btn dark text @click="snackbar = false">
-        Tutup
-      </v-btn>
+      <v-btn dark text @click="snackbar = false">Tutup</v-btn>
     </v-snackbar>
   </v-container>
 </template>
@@ -410,9 +348,9 @@
 export default {
   data() {
     return {
-      rules: [(value) => !!value || "Wajib diisi."],
-      rulesPassword: [(value) => !!value || "Password wajib diisi."],
-      rulesUsername: [(value) => !!value || "Username wajib diisi."],
+      rules: [value => !!value || "Wajib diisi."],
+      rulesPassword: [value => !!value || "Password wajib diisi."],
+      rulesUsername: [value => !!value || "Username wajib diisi."],
       password: "Password",
       show: false,
       dialog: false,
@@ -425,51 +363,51 @@ export default {
       headers: [
         {
           text: "No",
-          value: "index",
+          value: "index"
         },
         {
           text: "Id Pegawai",
-          value: "id_pegawai",
+          value: "id_pegawai"
         },
         {
           text: "Nama Pegawai",
-          value: "nama",
+          value: "nama"
         },
         {
           text: "Alamat",
-          value: "alamat",
+          value: "alamat"
         },
         {
           text: "Tanggal Lahir",
-          value: "tanggal_lahir",
+          value: "tanggal_lahir"
         },
         {
           text: "Nomor Telepon",
-          value: "telp",
+          value: "telp"
         },
         {
           text: "Username",
-          value: "username",
+          value: "username"
         },
         {
           text: "Role",
-          value: "role",
+          value: "role"
         },
         {
           text: "Tanggal Dibuat",
-          value: "created_at",
+          value: "created_at"
         },
         {
           text: "Dibuat Oleh",
-          value: "created_by",
+          value: "created_by"
         },
         {
           text: "Tanggal Diubah",
-          value: "modified_by",
+          value: "modified_by"
         },
         {
           text: "Diubah Oleh",
-          value: "modified_by",
+          value: "modified_by"
         },
         // {
         //   text: "Delete At",
@@ -485,8 +423,8 @@ export default {
         // },
         {
           text: "Aksi",
-          value: null,
-        },
+          value: null
+        }
       ],
       pegawais: [],
       dialogWarning: "",
@@ -508,19 +446,19 @@ export default {
         role: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       },
       pegawai: new FormData(),
       typeInput: "new",
       errors: "",
-      updatedId: "",
+      updatedId: ""
     };
   },
 
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    },
+    }
   },
 
   methods: {
@@ -578,7 +516,7 @@ export default {
     },
     getData() {
       var uri = this.$apiUrl + "Pegawai/" + "all_get";
-      this.$http.get(uri).then((response) => {
+      this.$http.get(uri).then(response => {
         this.pegawais = response.data.message;
       });
     },
@@ -596,7 +534,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -605,7 +543,7 @@ export default {
           this.getData(); //mengambil [pegawai]
           this.resetForm();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -625,7 +563,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -635,7 +573,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -650,7 +588,7 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = "green"; //memberi warna snackbar
           this.text = response.data.message; //memasukkan pesan kesnackbar
@@ -660,7 +598,7 @@ export default {
           this.resetForm();
           this.typeInput = "new";
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -696,14 +634,14 @@ export default {
       this.load = true;
       this.$http
         .post(uri, this.pegawai)
-        .then((response) => {
+        .then(response => {
           this.snackbar = true;
           this.text = response.data.message;
           this.color = "green";
           this.deleteDialog = false;
           this.getData();
         })
-        .catch((error) => {
+        .catch(error => {
           this.errors = error;
           this.snackbar = true;
           this.text = "Coba Lagi";
@@ -733,17 +671,17 @@ export default {
         password: "",
         created_by: sessionStorage.getItem("Nama"),
         delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama")
       };
     },
     resetFormPassword() {
       this.form = {
-        password: "",
+        password: ""
       };
-    },
+    }
   },
   mounted() {
     this.getData();
-  },
+  }
 };
 </script>

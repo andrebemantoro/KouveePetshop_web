@@ -76,10 +76,10 @@ export default {
       hidePassword: true,
       error: false,
       color: null,
-      text: "",
+      text: '',
 
       rules: {
-        required: (value) => !!value || "Required.",
+        required: (value) => !!value || 'Required.',
       },
       form: {
         username: null,
@@ -87,8 +87,8 @@ export default {
       },
       user: new FormData(),
       pegawai: [],
-      typeInput: "new",
-      errors: "",
+      typeInput: 'new',
+      errors: '',
     };
   },
   props: {
@@ -96,62 +96,69 @@ export default {
   },
   methods: {
     login() {
-      if (this.form.username == "admin") {
-        if (this.form.password == "admin123") {
-          sessionStorage.setItem("Nama", "admin");
+      if (this.form.username == 'admin') {
+        if (this.form.password == 'admin123') {
+          sessionStorage.setItem('Nama', 'admin');
           this.snackbar = true;
-          this.text = "Login Berhasil";
-          this.color = "green";
-          this.$router.push({ name: "Pegawai" });
-          console.log("admin");
+          this.text = 'Login Berhasil';
+          this.color = 'green';
+          this.$router.push({ name: 'Pegawai' });
+          console.log('admin');
         } else {
           this.snackbar = true;
-          this.text = "Login Gagal";
-          this.color = "red";
+          this.text = 'Login Gagal';
+          this.color = 'red';
         }
       } else {
-        this.user.append("username", this.form.username);
-        this.user.append("password", this.form.password);
-        var url = this.$apiUrl + "Pegawai/" + "auth";
+        this.user.append('username', this.form.username);
+        this.user.append('password', this.form.password);
+        var url = this.$apiUrl + 'Pegawai/' + 'auth';
         this.load = true;
         this.$http
           .post(url, this.user)
           .then((response) => {
             this.pegawai = response.data.message;
             if (this.pegawai.id_pegawai != null) {
-              if (this.pegawai.role.toLowerCase() == "customer service") {
+              if (this.pegawai.role.toLowerCase() == 'customer service') {
                 //login ke menu customer
-                sessionStorage.setItem("Id", response.data.message.id_pegawai);
-                sessionStorage.setItem("Nama", response.data.message.username);
+                sessionStorage.setItem('Id', response.data.message.id_pegawai);
+                sessionStorage.setItem('Nama', response.data.message.username);
                 this.snackbar = true;
-                this.text = "Login Berhasil";
-                this.color = "green";
-                this.$router.push({ name: "Pelanggan" });
-                console.log("customer service");
-              } else if (this.pegawai.role.toLowerCase() == "kasir") {
+                this.text = 'Login Berhasil';
+                this.color = 'green';
+                this.$router.push({ name: 'Pelanggan' });
+                console.log('customer service');
+              } else if (this.pegawai.role.toLowerCase() == 'cashier') {
                 //code untuk login ke kasir
+                sessionStorage.setItem('Id', response.data.message.id_pegawai);
+                sessionStorage.setItem('Nama', response.data.message.username);
+                this.snackbar = true;
+                this.text = 'Login Berhasil';
+                this.color = 'green';
+                this.$router.push({ name: 'TransaksiProduk' });
+                console.log('customer service');
               } else {
                 this.snackbar = true;
-                this.text = "Login Gagal";
-                this.color = "red";
+                this.text = 'Login Gagal';
+                this.color = 'red';
               }
             } else {
               this.snackbar = true;
-              this.text = "Login Gagal";
-              this.color = "red";
+              this.text = 'Login Gagal';
+              this.color = 'red';
             }
           })
           .catch((error) => {
             this.errors = error;
             this.snackbar = true;
-            this.text = "Try Again";
-            this.color = "red";
+            this.text = 'Try Again';
+            this.color = 'red';
           });
       }
     },
   },
   mounted() {
-    window.addEventListener("keyup", (event) => {
+    window.addEventListener('keyup', (event) => {
       if (event.keyCode === 13) {
         this.login();
       }
@@ -167,7 +174,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  content: "";
+  content: '';
   z-index: 0;
 }
 </style>

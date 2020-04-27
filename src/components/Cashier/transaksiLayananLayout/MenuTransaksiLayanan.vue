@@ -1,113 +1,7 @@
 <template>
   <v-container>
-    <div class="text-md-center">
-      <v-btn
-        class="tab"
-        color="#f9c99e"
-        style="text-transform: none !important;"
-        :class="tabs ? 'btn-unclicked' : 'btn-clicked'"
-        @click="selectTabs(0)"
-        >Produk</v-btn
-      >
-      <v-btn
-        class="tab"
-        color="#f9c99e"
-        style="text-transform: none !important;"
-        :class="tabs ? 'btn-clicked' : 'btn-unclicked'"
-        @click="selectTabs(1)"
-        >Layanan</v-btn
-      >
-    </div>
-    <!-- ------------------Menu Transaksi Produk-------------------------------------- -->
-    <v-card v-if="this.tabs == 0">
-      <v-container grid-list-md mb-20>
-        <h2 class="text-md-center">Data Transaksi Produk Kouvee Petshop</h2>
-        <v-layout row wrap style="margin:10px">
-          <v-flex xs6>
-            <v-btn
-              depressed
-              dark
-              class="elevation-2"
-              x-large
-              style="text-transform: none !important;"
-              color="#f9c99e"
-              @click="(dialog = true), resetDynamic()"
-            >
-              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
-              Transaksi
-            </v-btn>
-          </v-flex>
-          <!-- <v-flex xs6 class="text-right">
-            <v-text-field
-              v-model="keyword"
-              append-icon="mdi-search"
-              label="Cari"
-              hide-details="auto"
-              outlined
-              clearable
-            >
-            </v-text-field>
-          </v-flex>-->
-        </v-layout>
-        <v-data-table :headers="headers" :items="transaksiProduks">
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr
-                v-for="(item, index) in items"
-                :key="item.id_transaksi_produk"
-              >
-                <td>{{ index + 1 }}</td>
-                <td
-                  class="underlinetext"
-                  @click="showDetail2(item)"
-                  style="cursor:pointer"
-                >
-                  {{ item.id_transaksi_produk }}
-                </td>
-                <td>{{ item.nama_pelanggan }}</td>
-                <td>{{ item.nama_hewan }}</td>
-                <td>{{ item.total }}</td>
-                <td>{{ item.status }}</td>
-                <td>{{ item.tanggal_lunas }}</td>
-                <td>{{ item.created_at }}</td>
-                <td>{{ item.created_by }}</td>
-                <td>{{ item.modified_at }}</td>
-                <td>{{ item.modified_by }}</td>
-                <!-- <td>{{ item.delete_by }}</td>
-                <td>{{ item.delete_at }}</td>-->
-
-                <td>
-                  <div>
-                    <v-btn
-                      icon
-                      color="blue"
-                      light
-                      @click="editHandlerProduk(item)"
-                    >
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                  </div>
-
-                  <div>
-                    <v-btn
-                      icon
-                      color="red lighten-2"
-                      dark
-                      v-on="on"
-                      @click="deleteRow(item)"
-                    >
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-data-table>
-      </v-container>
-    </v-card>
     <!-- ------------------Menu Transaksi Layanan-------------------------------------- -->
-    <v-card v-if="this.tabs == 1">
+    <v-card>
       <v-container grid-list-md mb-20>
         <div>
           <v-tabs v-model="layananTab" color="#f9c99e" centered>
@@ -453,112 +347,7 @@
         </v-card>
       </v-dialog>
     </template>
-    <!------------------------ Detail Produk Dialog ------------------------>
-    <template>
-      <v-dialog
-        v-model="dialogDetailTransaksiProduk"
-        persistent
-        max-width="1300px"
-      >
-        <v-card>
-          <v-card-title>
-            <v-spacer />
-            <h2 class="text-md-center">
-              {{ 'Id Transaksi Produk: ' + detailItem2.id_transaksi_produk }}
-            </h2>
-            <v-spacer />
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-simple-table height="50%">
-                <thead>
-                  <tr>
-                    <th class="text-left">Id Detail Transaksi</th>
-                    <th class="text-left">Nama Produk</th>
-                    <th class="text-left">Harga Satuan</th>
-                    <th class="text-left">Jumlah</th>
-                    <th class="text-left">Total Harga</th>
-                    <th class="text-left">Tanggal Dibuat</th>
-                    <th class="text-left">Dibuat Oleh</th>
-                    <th class="text-left">Tanggal Diubah</th>
-                    <th class="text-left">Diubah Oleh</th>
-                    <th class="text-left">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="item in filteredItems2(detailItem2)"
-                    :key="item.id_detail_transaksi_produk"
-                  >
-                    <td>{{ item.id_detail_transaksi_produk }}</td>
-                    <td>{{ item.nama_produk }}</td>
-                    <td>{{ item.harga }}</td>
-                    <td>{{ item.jumlah }}</td>
-                    <td>{{ item.total_harga }}</td>
-                    <td>{{ item.created_at }}</td>
-                    <td>{{ item.created_by }}</td>
-                    <td>{{ item.modified_at }}</td>
-                    <td>{{ item.modified_by }}</td>
-                    <td>
-                      <div>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          @click="editHandlerHargaLayanan(item)"
-                        >
-                          <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-simple-table>
-            </v-container>
-            <br />
-            <div class="text-right">
-              <v-simple-table>
-                <td class="text-right">
-                  <tr>
-                    <td>
-                      <h3>{{ 'Subtotal : Rp' }}</h3>
-                    </td>
-                    <td>
-                      <h3>{{ detailItem2.subtotal }}</h3>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h3>{{ 'Diskon : Rp' }}</h3>
-                    </td>
-                    <td>
-                      <h3>{{ detailItem2.diskon }}</h3>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h3>{{ 'Total : Rp' }}</h3>
-                    </td>
-                    <td>
-                      <h3>{{ detailItem2.total }}</h3>
-                    </td>
-                  </tr>
-                </td>
-              </v-simple-table>
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="dialogDetailTransaksiProduk = false"
-              >Tutup</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </template>
+
     <!-- ---------------------Dialog Tambah Produk----------------------------------- -->
     <v-dialog
       v-model="dialog"
@@ -777,15 +566,11 @@ export default {
   data() {
     return {
       cari: '',
-      tabs: 0,
       dialog: false,
       detilTransaksis: [],
       detailTransaksiLayanans: [],
-      detailTransaksiProduks: [],
       selectedIndex: 0,
       detailItem: '',
-      detailItem2: '',
-      transaksiProduks: [],
       transaksiLayanans: [],
       keyword: '',
       hewans: [],
@@ -905,7 +690,6 @@ export default {
       dialogEdit: '',
       dialogPassword: '',
       dialogDetailTransaksiLayanan: false,
-      dialogDetailTransaksiProduk: false,
       pesan: '',
       search: '',
       snackbar: false,
