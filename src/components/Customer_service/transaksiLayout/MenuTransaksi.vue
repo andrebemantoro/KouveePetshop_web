@@ -1110,6 +1110,7 @@ export default {
       text: '',
       load: false,
       form: {
+<<<<<<< HEAD
         progress: 'sedang diproses',
         subtotal: '',
         diskon: '',
@@ -1118,6 +1119,15 @@ export default {
         delete_by: sessionStorage.getItem('Nama'),
         modified_by: sessionStorage.getItem('Nama'),
         id_customer_service: sessionStorage.getItem('Id'),
+=======
+        subtotal: "",
+        diskon: "",
+        id_jenis_hewan: "",
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama"),
+        id_customer_service: sessionStorage.getItem("Id"),
+>>>>>>> de3124933a7af3e6daa720cc4f21a9236aee1462
       },
       user: new FormData(),
       user2: new FormData(),
@@ -1218,6 +1228,7 @@ export default {
     },
     addLayanan() {
       this.detilLayanans.push({
+<<<<<<< HEAD
         id_customer_service: sessionStorage.getItem('Id'),
         id_transaksi_layanan: '',
         id_harga_layanan: '',
@@ -1231,6 +1242,20 @@ export default {
         modified_by: '',
         delete_at: '',
         delete_by: '',
+=======
+        id_customer_service: sessionStorage.getItem("Id"),
+        id_transaksi_layanan: "",
+        id_harga_layanan: "",
+        jumlah: "",
+        total_harga: "",
+        harga: "",
+        created_at: "",
+        created_by: sessionStorage.getItem("Nama"),
+        modified_at: "",
+        modified_by: "",
+        delete_at: "",
+        delete_by: "",
+>>>>>>> de3124933a7af3e6daa720cc4f21a9236aee1462
       });
     },
 
