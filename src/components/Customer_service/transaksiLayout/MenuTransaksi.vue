@@ -1134,7 +1134,6 @@ export default {
       text: '',
       load: false,
       form: {
-        progress:"sedang diproses",
         subtotal: "",
         diskon: "",
         id_jenis_hewan: "",
@@ -1249,7 +1248,6 @@ export default {
         id_harga_layanan: "",
         jumlah: "",
         total_harga: "",
-        progress:"sedang diproses",
         harga: "",
         created_at: "",
         created_by: sessionStorage.getItem("Nama"),
