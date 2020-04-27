@@ -1,12 +1,14 @@
-import Vue from "vue";
-import Router from "vue-router";
+import Vue from 'vue';
+import Router from 'vue-router';
 // import { loadavg } from 'os'
 
 const dashboardAdminLayout = () =>
-  import("../components/Admin/dashboardAdminLayout.vue");
+  import('../components/Admin/dashboardAdminLayout.vue');
 const dashboardCSLayout = () =>
-  import("../components/Customer_service/dashboardCSLayout.vue");
-const loginLayout = () => import("../components/Login.vue");
+  import('../components/Customer_service/dashboardCSLayout.vue');
+const dashboardCashierLayout = () =>
+  import('../components/Cashier/dashboardCashierLayout.vue');
+const loginLayout = () => import('../components/Login.vue');
 
 function loadLayanan(view) {
   return () => import(`../components/Admin/layananLayout/${view}.vue`);
@@ -40,167 +42,209 @@ function loadTransaksi(view) {
   return () =>
     import(`../components/Customer_service/transaksiLayout/${view}.vue`);
 }
+function loadTransaksiProduk(view) {
+  return () =>
+    import(`../components/Cashier/transaksiProdukLayout/${view}.vue`);
+}
+function loadTransaksiLayanan(view) {
+  return () =>
+    import(`../components/Cashier/transaksiLayananLayout/${view}.vue`);
+}
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     component: loginLayout,
     children: [
       {
-        name: "Login",
-        path: "/",
+        name: 'Login',
+        path: '/',
       },
     ],
   },
   {
-    path: "/MenuAdmin",
+    path: '/MenuAdmin',
     component: dashboardAdminLayout,
     children: [
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") == "admin") {
+          if (sessionStorage.getItem('Nama') == 'admin') {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Layanan",
-        path: "/MenuLayanan",
-        component: loadLayanan("MenuLayanan"),
+        name: 'Layanan',
+        path: '/MenuLayanan',
+        component: loadLayanan('MenuLayanan'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") == "admin") {
+          if (sessionStorage.getItem('Nama') == 'admin') {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Pegawai",
-        path: "/MenuPegawai",
-        component: loadPegawai("MenuPegawai"),
+        name: 'Pegawai',
+        path: '/MenuPegawai',
+        component: loadPegawai('MenuPegawai'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") == "admin") {
+          if (sessionStorage.getItem('Nama') == 'admin') {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Pengadaan",
-        path: "/MenuPengadaan",
-        component: loadPengadaan("MenuPengadaan"),
+        name: 'Pengadaan',
+        path: '/MenuPengadaan',
+        component: loadPengadaan('MenuPengadaan'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") == "admin") {
+          if (sessionStorage.getItem('Nama') == 'admin') {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Produk",
-        path: "/MenuProduk",
-        component: loadProduk("MenuProduk"),
+        name: 'Produk',
+        path: '/MenuProduk',
+        component: loadProduk('MenuProduk'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") == "admin") {
+          if (sessionStorage.getItem('Nama') == 'admin') {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Supplier",
-        path: "/MenuSupplier",
-        component: loadSupplier("MenuSupplier"),
+        name: 'Supplier',
+        path: '/MenuSupplier',
+        component: loadSupplier('MenuSupplier'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") == "admin") {
+          if (sessionStorage.getItem('Nama') == 'admin') {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Ukuran",
-        path: "/MenuUkuran",
-        component: loadUkuran("MenuUkuran"),
+        name: 'Ukuran',
+        path: '/MenuUkuran',
+        component: loadUkuran('MenuUkuran'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") == "admin") {
+          if (sessionStorage.getItem('Nama') == 'admin') {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Jenis",
-        path: "/MenuJenis",
-        component: loadJenis("MenuJenisHewan"),
+        name: 'Jenis',
+        path: '/MenuJenis',
+        component: loadJenis('MenuJenisHewan'),
       },
     ],
   },
   {
-    path: "/MenuCustomerService",
+    path: '/MenuCustomerService',
     component: dashboardCSLayout,
     children: [
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") != null) {
+          if (sessionStorage.getItem('Nama') != null) {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Pelanggan",
-        path: "/MenuPelanggan",
-        component: loadPelanggan("MenuPelanggan"),
+        name: 'Pelanggan',
+        path: '/MenuPelanggan',
+        component: loadPelanggan('MenuPelanggan'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") != null) {
+          if (sessionStorage.getItem('Nama') != null) {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Hewan",
-        path: "/MenuHewan",
-        component: loadHewan("MenuHewan"),
+        name: 'Hewan',
+        path: '/MenuHewan',
+        component: loadHewan('MenuHewan'),
       },
       {
         beforeEnter(to, from, next) {
-          if (sessionStorage.getItem("Nama") != null) {
+          if (sessionStorage.getItem('Nama') != null) {
             next();
           } else {
-            sessionStorage.removeItem("Nama");
-            sessionStorage.removeItem("Id");
-            next({ path: "/" });
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
           }
         },
-        name: "Transkasi",
-        path: "/MenuTransaksi",
-        component: loadTransaksi("MenuTransaksi"),
+        name: 'Transkasi',
+        path: '/MenuTransaksi',
+        component: loadTransaksi('MenuTransaksi'),
+      },
+    ],
+  },
+  {
+    path: '/MenuCashier',
+    component: dashboardCashierLayout,
+    children: [
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem('Nama') != null) {
+            next();
+          } else {
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
+          }
+        },
+        name: 'TransaksiProduk',
+        path: '/MenuTransaksiProduk',
+        component: loadTransaksiProduk('MenuTransaksiProduk'),
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem('Nama') != null) {
+            next();
+          } else {
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/' });
+          }
+        },
+        name: 'TransaksiLayanan',
+        path: '/MenuTransaksiLayanan',
+        component: loadTransaksiLayanan('MenuTransaksiLayanan'),
       },
     ],
   },
@@ -208,6 +252,6 @@ const routes = [
 
 Vue.use(Router);
 
-const router = new Router({ mode: "history", routes: routes });
+const router = new Router({ mode: 'history', routes: routes });
 
 export default router;
