@@ -573,10 +573,7 @@
                       label="Nama Hewan*"
                       outlined
                       rounded
-<<<<<<< HEAD
-=======
                       :search-input.sync="form.empty"
->>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -1121,15 +1118,6 @@ export default {
       text: '',
       load: false,
       form: {
-<<<<<<< HEAD
-        subtotal: '',
-        diskon: '',
-        id_jenis_hewan: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-        id_customer_service: sessionStorage.getItem('Id'),
-=======
         subtotal: "",
         diskon: "",
         id_hewan: "",
@@ -1137,7 +1125,6 @@ export default {
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
         id_customer_service: sessionStorage.getItem("Id"),
->>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
       },
       user: new FormData(),
       user2: new FormData(),
