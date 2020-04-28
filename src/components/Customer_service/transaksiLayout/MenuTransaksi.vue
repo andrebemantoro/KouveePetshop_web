@@ -573,7 +573,6 @@
                       label="Nama Hewan*"
                       outlined
                       rounded
-                      
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -1111,13 +1110,13 @@ export default {
       text: '',
       load: false,
       form: {
-        subtotal: "",
-        diskon: "",
-        id_jenis_hewan: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
-        id_customer_service: sessionStorage.getItem("Id"),
+        subtotal: '',
+        diskon: '',
+        id_jenis_hewan: '',
+        created_by: sessionStorage.getItem('Nama'),
+        delete_by: sessionStorage.getItem('Nama'),
+        modified_by: sessionStorage.getItem('Nama'),
+        id_customer_service: sessionStorage.getItem('Id'),
       },
       user: new FormData(),
       user2: new FormData(),
@@ -1218,18 +1217,18 @@ export default {
     },
     addLayanan() {
       this.detilLayanans.push({
-        id_customer_service: sessionStorage.getItem("Id"),
-        id_transaksi_layanan: "",
-        id_harga_layanan: "",
-        jumlah: "",
-        total_harga: "",
-        harga: "",
-        created_at: "",
-        created_by: sessionStorage.getItem("Nama"),
-        modified_at: "",
-        modified_by: "",
-        delete_at: "",
-        delete_by: "",
+        id_customer_service: sessionStorage.getItem('Id'),
+        id_transaksi_layanan: '',
+        id_harga_layanan: '',
+        jumlah: '',
+        total_harga: '',
+        harga: '',
+        created_at: '',
+        created_by: sessionStorage.getItem('Nama'),
+        modified_at: '',
+        modified_by: '',
+        delete_at: '',
+        delete_by: '',
       });
     },
 
@@ -1474,7 +1473,6 @@ export default {
           this.load = false;
         });
     },
-  
 
     setFormProduk() {
       if (this.typeInput === 'new') {
@@ -1492,7 +1490,6 @@ export default {
       this.detailItem2 = item;
       this.dialogDetailTransaksiProduk = true;
     },
-    
 
     customFilter(item, queryText) {
       const textOne = item.nama.toLowerCase();
