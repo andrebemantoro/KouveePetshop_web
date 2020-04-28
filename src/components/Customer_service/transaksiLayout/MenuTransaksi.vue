@@ -1503,13 +1503,10 @@ export default {
           this.load = false;
         });
     },
-<<<<<<< HEAD
-=======
     updateDataTransaksi(){
 
     },
     updateDataLayanan(){
->>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
 
     },
     setFormProduk() {
