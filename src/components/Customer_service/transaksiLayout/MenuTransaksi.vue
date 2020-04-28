@@ -127,7 +127,7 @@
                 x-large
                 style="text-transform: none !important;"
                 color="#f9c99e"
-                @click="dialog2 = true"
+                @click="(dialog2 = true),(resetDynamic2())"
               >
                 <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
                 Transaksi
@@ -563,7 +563,7 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                      v-model="form.id_hewan"
+                      v-model="id_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
@@ -573,8 +573,7 @@
                       label="Nama Hewan*"
                       outlined
                       rounded
-                      auto-select-first
-                      
+                      :search-input.sync="form.empty"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -724,7 +723,7 @@
                       color="green"
                       x-large
                       fab
-                      @click="sendDataTransaksi()"
+                      @click="setFormProduk(),setSubtotal()"
                       class="tombol"
                     >
                       <v-icon>mdi-content-save</v-icon>
@@ -765,7 +764,7 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                      v-model="form.id_hewan"
+                       v-model="id_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
@@ -774,7 +773,8 @@
                       item-text="nama"
                       label="Nama Hewan*"
                       outlined
-                      rounded=""
+                      rounded
+                      :search-input.sync="form.empty"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -849,6 +849,7 @@
                         label="Nama Layanan*"
                         outlined
                         color="purple"
+                        hide-selected=""
                         :filter="customFilter"
                       ></v-autocomplete>
                     </v-col>
@@ -864,6 +865,7 @@
                         label="Ukuran*"
                         outlined
                         color="purple"
+                        hide-selected=""
                         :filter="customFilter"
                       ></v-autocomplete>
                     </v-col>
@@ -939,7 +941,7 @@
                       color="green"
                       x-large=""
                       fab=""
-                      @click="sendDataLayanan(), (dialog2 = false)"
+                      @click="setFormLayanan(),setSubtotal2(), (dialog2 = false)"
                       class="tombol"
                     >
                       <v-icon>
@@ -1108,7 +1110,9 @@ export default {
       dialogDetailTransaksiLayanan: false,
       dialogDetailTransaksiProduk: false,
       pesan: '',
-      search: '',
+      empty: null,
+      id_hewan: null,
+
       snackbar: false,
       color: null,
       text: '',
@@ -1131,6 +1135,11 @@ export default {
       errors: '',
       updatedId: '',
     };
+  },
+  watch: {
+  id_hewan() {
+    this.empty = ''
+  }
   },
 
   methods: {
@@ -1353,7 +1362,7 @@ export default {
       this.detil.append('created_by', this.form.created_by);
       this.detil.append('subtotal', this.form.subtotal);
       this.detil.append('diskon', this.form.diskon);
-      this.detil.append('id_hewan', this.form.id_hewan);
+      this.detil.append('id_hewan', this.id_hewan);
       var uri = this.$apiUrl + 'TransaksiProduk';
 
       this.load = true;
@@ -1481,14 +1490,26 @@ export default {
           this.load = false;
         });
     },
-  
+    updateDataTransaksi(){
 
+    },
+    updateDataLayanan(){
+
+    },
     setFormProduk() {
       if (this.typeInput === 'new') {
-        this.sendDataProduk();
+        this.sendDataTransaksi();
       } else {
         console.log('data berhasil diubah');
-        this.updateDataProduk();
+        this.updateDataTransaksi();
+      }
+    },
+    setFormLayanan() {
+      if (this.typeInput === 'new') {
+        this.sendDataLayanan();
+      } else {
+        console.log('data berhasil diubah');
+        this.updateDataLayanan();
       }
     },
     showDetail(item) {
