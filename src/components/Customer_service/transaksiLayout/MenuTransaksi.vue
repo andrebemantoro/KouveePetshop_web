@@ -750,7 +750,7 @@
           <v-btn icon @click="(dialog2 = false), resetDynamic2()">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Menu Tambah Transaksi Produk</v-toolbar-title>
+          <v-toolbar-title>Menu Tambah Transaksi Layanan</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn text @click="dialog = false">Save</v-btn>
@@ -1411,7 +1411,7 @@ export default {
       this.detil2.append('created_by', this.form.created_by);
       this.detil2.append('subtotal', this.form.subtotal);
       this.detil2.append('diskon', this.form.diskon);
-      this.detil2.append('id_hewan', this.form.id_hewan);
+      this.detil2.append('id_hewan', this.id_hewan);
 
       var uri = this.$apiUrl + 'TransaksiLayanan';
 
