@@ -127,7 +127,7 @@
                 x-large
                 style="text-transform: none !important;"
                 color="#f9c99e"
-                @click="dialog2 = true"
+                @click="(dialog2 = true),(resetDynamic2())"
               >
                 <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
                 Transaksi
@@ -563,16 +563,20 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                      v-model="form.id_jenis_hewan"
+                      v-model="id_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
-                      item-value="id_jenis_hewan"
+                      item-value="id_hewan"
                       color="purple"
                       item-text="nama"
                       label="Nama Hewan*"
                       outlined
                       rounded
+<<<<<<< HEAD
+=======
+                      :search-input.sync="form.empty"
+>>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -650,6 +654,8 @@
                         outlined
                         color="purple"
                         :filter="customFilter"
+                        hide-selected=""
+                       
                       ></v-autocomplete>
                     </v-col>
                     <v-col cols="2">
@@ -720,7 +726,7 @@
                       color="green"
                       x-large
                       fab
-                      @click="sendDataTransaksi()"
+                      @click="setFormProduk(),setSubtotal()"
                       class="tombol"
                     >
                       <v-icon>mdi-content-save</v-icon>
@@ -761,16 +767,17 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                      v-model="form.id_jenis_hewan"
+                       v-model="id_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
-                      item-value="id_jenis_hewan"
+                      item-value="id_hewan"
                       color="purple"
                       item-text="nama"
                       label="Nama Hewan*"
                       outlined
-                      rounded=""
+                      rounded
+                      :search-input.sync="form.empty"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -845,6 +852,7 @@
                         label="Nama Layanan*"
                         outlined
                         color="purple"
+                        hide-selected=""
                         :filter="customFilter"
                       ></v-autocomplete>
                     </v-col>
@@ -860,6 +868,7 @@
                         label="Ukuran*"
                         outlined
                         color="purple"
+                        hide-selected=""
                         :filter="customFilter"
                       ></v-autocomplete>
                     </v-col>
@@ -935,7 +944,7 @@
                       color="green"
                       x-large=""
                       fab=""
-                      @click="sendDataLayanan(), (dialog2 = false)"
+                      @click="setFormLayanan(),setSubtotal2(), (dialog2 = false)"
                       class="tombol"
                     >
                       <v-icon>
@@ -1104,12 +1113,15 @@ export default {
       dialogDetailTransaksiLayanan: false,
       dialogDetailTransaksiProduk: false,
       pesan: '',
-      search: '',
+      empty: null,
+      id_hewan: null,
+
       snackbar: false,
       color: null,
       text: '',
       load: false,
       form: {
+<<<<<<< HEAD
         subtotal: '',
         diskon: '',
         id_jenis_hewan: '',
@@ -1117,6 +1129,15 @@ export default {
         delete_by: sessionStorage.getItem('Nama'),
         modified_by: sessionStorage.getItem('Nama'),
         id_customer_service: sessionStorage.getItem('Id'),
+=======
+        subtotal: "",
+        diskon: "",
+        id_hewan: "",
+        created_by: sessionStorage.getItem("Nama"),
+        delete_by: sessionStorage.getItem("Nama"),
+        modified_by: sessionStorage.getItem("Nama"),
+        id_customer_service: sessionStorage.getItem("Id"),
+>>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
       },
       user: new FormData(),
       user2: new FormData(),
@@ -1127,6 +1148,11 @@ export default {
       errors: '',
       updatedId: '',
     };
+  },
+  watch: {
+  id_hewan() {
+    this.empty = ''
+  }
   },
 
   methods: {
@@ -1191,7 +1217,7 @@ export default {
       this.form = {
         subtotal: '',
         diskon: '',
-        id_jenis_hewan: '',
+        id_hewan: '',
         id_customer_service: sessionStorage.getItem('Id'),
         created_by: sessionStorage.getItem('Nama'),
         delete_by: sessionStorage.getItem('Nama'),
@@ -1298,10 +1324,14 @@ export default {
       });
     },
     getHewan() {
-      var uri = this.$apiUrl + 'Hewan/' + 'all';
+      var uri = this.$apiUrl +'Hewan';
       this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
       });
+      
+    },
+    cek(){
+      console.log(this.hewans)
     },
     getPelanggan() {
       var uri = this.$apiUrl + 'Pelanggan/' + 'all';
@@ -1345,7 +1375,7 @@ export default {
       this.detil.append('created_by', this.form.created_by);
       this.detil.append('subtotal', this.form.subtotal);
       this.detil.append('diskon', this.form.diskon);
-      this.detil.append('id_hewan', this.form.id_jenis_hewan);
+      this.detil.append('id_hewan', this.id_hewan);
       var uri = this.$apiUrl + 'TransaksiProduk';
 
       this.load = true;
@@ -1394,7 +1424,7 @@ export default {
       this.detil2.append('created_by', this.form.created_by);
       this.detil2.append('subtotal', this.form.subtotal);
       this.detil2.append('diskon', this.form.diskon);
-      this.detil2.append('id_hewan', this.form.id_jenis_hewan);
+      this.detil2.append('id_hewan', this.form.id_hewan);
 
       var uri = this.$apiUrl + 'TransaksiLayanan';
 
@@ -1473,13 +1503,29 @@ export default {
           this.load = false;
         });
     },
+<<<<<<< HEAD
+=======
+    updateDataTransaksi(){
 
+    },
+    updateDataLayanan(){
+>>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
+
+    },
     setFormProduk() {
       if (this.typeInput === 'new') {
-        this.sendDataProduk();
+        this.sendDataTransaksi();
       } else {
         console.log('data berhasil diubah');
-        this.updateDataProduk();
+        this.updateDataTransaksi();
+      }
+    },
+    setFormLayanan() {
+      if (this.typeInput === 'new') {
+        this.sendDataLayanan();
+      } else {
+        console.log('data berhasil diubah');
+        this.updateDataLayanan();
       }
     },
     showDetail(item) {
