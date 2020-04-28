@@ -573,7 +573,10 @@
                       label="Nama Hewan*"
                       outlined
                       rounded
+<<<<<<< HEAD
+=======
                       :search-input.sync="form.empty"
+>>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="1">
@@ -1118,6 +1121,15 @@ export default {
       text: '',
       load: false,
       form: {
+<<<<<<< HEAD
+        subtotal: '',
+        diskon: '',
+        id_jenis_hewan: '',
+        created_by: sessionStorage.getItem('Nama'),
+        delete_by: sessionStorage.getItem('Nama'),
+        modified_by: sessionStorage.getItem('Nama'),
+        id_customer_service: sessionStorage.getItem('Id'),
+=======
         subtotal: "",
         diskon: "",
         id_hewan: "",
@@ -1125,6 +1137,7 @@ export default {
         delete_by: sessionStorage.getItem("Nama"),
         modified_by: sessionStorage.getItem("Nama"),
         id_customer_service: sessionStorage.getItem("Id"),
+>>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
       },
       user: new FormData(),
       user2: new FormData(),
@@ -1230,18 +1243,18 @@ export default {
     },
     addLayanan() {
       this.detilLayanans.push({
-        id_customer_service: sessionStorage.getItem("Id"),
-        id_transaksi_layanan: "",
-        id_harga_layanan: "",
-        jumlah: "",
-        total_harga: "",
-        harga: "",
-        created_at: "",
-        created_by: sessionStorage.getItem("Nama"),
-        modified_at: "",
-        modified_by: "",
-        delete_at: "",
-        delete_by: "",
+        id_customer_service: sessionStorage.getItem('Id'),
+        id_transaksi_layanan: '',
+        id_harga_layanan: '',
+        jumlah: '',
+        total_harga: '',
+        harga: '',
+        created_at: '',
+        created_by: sessionStorage.getItem('Nama'),
+        modified_at: '',
+        modified_by: '',
+        delete_at: '',
+        delete_by: '',
       });
     },
 
@@ -1490,10 +1503,13 @@ export default {
           this.load = false;
         });
     },
+<<<<<<< HEAD
+=======
     updateDataTransaksi(){
 
     },
     updateDataLayanan(){
+>>>>>>> 07b440e73a49121f2d6b5c98456da471ca22c833
 
     },
     setFormProduk() {
@@ -1520,7 +1536,6 @@ export default {
       this.detailItem2 = item;
       this.dialogDetailTransaksiProduk = true;
     },
-    
 
     customFilter(item, queryText) {
       const textOne = item.nama.toLowerCase();
