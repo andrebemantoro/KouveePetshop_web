@@ -13,24 +13,27 @@
         <div v-if="this.layananTab == 'layananTab-2'">
           <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
           <v-layout row wrap style="margin:10px">
-           
-            <!-- <v-flex xs6 class="text-right">
+            <v-flex xs6 class="text-right">
               <v-text-field
-                v-model="keyword2"
+                v-model="keyword"
                 append-icon="mdi-search"
-                label="Cari"
+                label="Cari Data Layanan"
                 hide-details="auto"
                 outlined
                 clearable
               >
               </v-text-field>
-            </v-flex>-->
+            </v-flex>
           </v-layout>
-          <v-data-table :headers="headers2" :items="transaksiLayanans">
+          <v-data-table
+            :headers="headers2"
+            :items="filterProgress(transaksiLayanans)"
+            :search="keyword"
+          >
             <template v-slot:body="{ items }">
               <tbody>
                 <tr
-                  v-for="(item, index) in filterProgress(items)"
+                  v-for="(item, index) in items"
                   :key="item.id_transaksi_layanan"
                 >
                   <td>{{ index + 1 }}</td>
@@ -44,35 +47,29 @@
                   <td>{{ item.nama_pelanggan }}</td>
                   <td>{{ item.nama_hewan }}</td>
                   <td>{{ item.total }}</td>
-                  <td>{{ item.progress }}</td>
                   <td>{{ item.status }}</td>
-                  <td>{{ item.tanggal_lunas }}</td>
                   <td>{{ item.created_at }}</td>
                   <td>{{ item.created_by }}</td>
                   <td>{{ item.modified_at }}</td>
                   <td>{{ item.modified_by }}</td>
                   <!-- <td>{{ item.delete_by }}</td>
                   <td>{{ item.delete_at }}</td>-->
-
                   <td>
                     <div>
-                      <v-btn
-                        icon
-                        color="blue"
-                        light
-                        @click="editHandlerProduk(item)"
-                      >
-                        <v-icon>mdi-pencil</v-icon>
+                      <v-btn icon color="red lighten-2" dark v-on="on">
+                        <v-icon>mdi-pdf-box</v-icon>
                       </v-btn>
                     </div>
-
                     <div>
                       <v-btn
                         icon
                         color="red lighten-2"
                         dark
                         v-on="on"
-                        @click="deleteRow(item)"
+                        @click="
+                          deleteRowLayanan(item),
+                            getDetailTransaksiLayananById(item)
+                        "
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -86,24 +83,27 @@
         <div v-if="this.layananTab == 'layananTab-1'">
           <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
           <v-layout row wrap style="margin:10px">
-        
-            <!-- <v-flex xs6 class="text-right">
+            <v-flex xs6 class="text-right">
               <v-text-field
-                v-model="keyword2"
+                v-model="keyword"
                 append-icon="mdi-search"
-                label="Cari"
+                label="Cari Data Layanan"
                 hide-details="auto"
                 outlined
                 clearable
               >
               </v-text-field>
-            </v-flex>-->
+            </v-flex>
           </v-layout>
-          <v-data-table :headers="headers2" :items="transaksiLayanans">
+          <v-data-table
+            :headers="headers2"
+            :items="filterProgress2(transaksiLayanans)"
+            :search="keyword"
+          >
             <template v-slot:body="{ items }">
               <tbody>
                 <tr
-                  v-for="(item, index) in filterProgress2(items)"
+                  v-for="(item, index) in items"
                   :key="item.id_transaksi_layanan"
                 >
                   <td>{{ index + 1 }}</td>
@@ -117,9 +117,7 @@
                   <td>{{ item.nama_pelanggan }}</td>
                   <td>{{ item.nama_hewan }}</td>
                   <td>{{ item.total }}</td>
-                  <td>{{ item.progress }}</td>
                   <td>{{ item.status }}</td>
-                  <td>{{ item.tanggal_lunas }}</td>
                   <td>{{ item.created_at }}</td>
                   <td>{{ item.created_by }}</td>
                   <td>{{ item.modified_at }}</td>
@@ -128,15 +126,26 @@
                   <td>{{ item.delete_at }}</td>-->
 
                   <td>
-                    
-
+                    <div>
+                      <v-btn
+                        icon
+                        color="blue"
+                        light
+                        @click="editHandlerTransaksiLayanan(item)"
+                      >
+                        <v-icon>mdi-pencil</v-icon>
+                      </v-btn>
+                    </div>
                     <div>
                       <v-btn
                         icon
                         color="red lighten-2"
                         dark
                         v-on="on"
-                        @click="deleteRow(item)"
+                        @click="
+                          deleteRowLayanan(item),
+                            getDetailTransaksiLayananById(item)
+                        "
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -163,8 +172,32 @@
             <v-btn color="primary" text @click="deleteDialog = false"
               >Batal</v-btn
             >
-            <v-btn color="primary" text @click="deleteDataProduk(deleteId)"
-              >Hapus</v-btn
+            <v-btn color="primary" text @click="deleteDataLayanan(deleteId)"
+              >Hapus Layanan</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- ------------------Dialog untuk konfirmasi delete detail produk/layanan-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDetailDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Konfirmasi Hapus</v-card-title
+          >
+          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDetailDialog = false"
+              >Batal</v-btn
+            >
+            <v-btn
+              color="primary"
+              text
+              @click="deleteDataDetailLayanan(deleteId)"
+              >Hapus Layanan</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -201,7 +234,7 @@
                     <th class="text-left">Dibuat Oleh</th>
                     <th class="text-left">Tanggal Diubah</th>
                     <th class="text-left">Diubah Oleh</th>
-
+                    <th class="text-left">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -220,7 +253,44 @@
                     <td>{{ item.modified_at }}</td>
                     <td>{{ item.modified_by }}</td>
                     <td>
-                     
+                      <div>
+                        <v-btn
+                          icon
+                          color="blue"
+                          light
+                          class="tombol"
+                          outlined=""
+                          @click="editHandlerLayanan(item)"
+                        >
+                          <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                        <v-btn
+                          icon
+                          color="blue"
+                          light
+                          class="tombol"
+                          outlined=""
+                          @click="
+                            setIdTransaksiLayanan(item),
+                              (dialogEditLayanan = true)
+                          "
+                        >
+                          <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                      </div>
+                      <div>
+                        <v-btn
+                          icon
+                          color="red lighten-2"
+                          light
+                          class="tombol"
+                          outlined=""
+                          v-on="on"
+                          @click="deleteRowDetailLayanan(item)"
+                        >
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -255,7 +325,51 @@
                     </td>
                   </tr>
                 </td>
+
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Pelanggan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_pelanggan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Hewan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_hewan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Jenis Hewan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.jenis_hewan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nomor Telpon : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.telp }}</h3>
+                    </td>
+                  </tr>
+                  <tr v-if="this.layananTab == 'layananTab-2'">
+                    <td>
+                      <h3>{{ 'Tanggal Lunas : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.tanggal_lunas }}</h3>
+                    </td>
+                  </tr>
+                </td>
               </v-simple-table>
+
               <div v-if="this.layananTab == 'layananTab-1'">
                 <v-btn
                   depressed
@@ -266,11 +380,11 @@
                   color="#f9c99e"
                   @click="
                     (dialogDetailTransaksiLayanan = false),
-                      updateProgressLayanan(detailItem)
+                      updateStatusLayanan(detailItem)
                   "
                 >
-                  <v-icon size="18" class="mr-2">mdi-check-bold</v-icon>Layanan
-                  Selesai
+                  <v-icon size="18" class="mr-2">mdi-check-bold</v-icon>Bayar
+                  Sekarang
                 </v-btn>
               </div>
             </div>
@@ -287,8 +401,172 @@
         </v-card>
       </v-dialog>
     </template>
+    <!-- ---------------------Dialog Edit Transaksi Layanan-------------------------------- -->
+    <v-row justify="center">
+      <v-dialog
+        v-model="dialogEditTransaksiLayanan"
+        persistent
+        max-width="1300px"
+      >
+        <v-card>
+          <v-card-title>
+            <span class="headline">Ubah Detail Transaksi Layanan</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="3">
+                  <v-autocomplete
+                    v-model="formLayanan.id_hewan"
+                    required
+                    width
+                    :items="hewans"
+                    item-value="id_hewan"
+                    item-text="nama"
+                    label="Nama Hewan*"
+                    outlined
+                    color="purple"
+                    :filter="customFilter"
+                    hide-selected=""
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                    label="Diskon*"
+                    v-model="formLayanan.diskon"
+                    color="purple"
+                    type="number"
+                    outlined
+                    single-line
+                    clearable
+                    @change="setNewEditTotal2()"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-divider light></v-divider>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>*wajib diisi</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="dialogEditTransaksiLayanan = false"
+              >Tutup</v-btn
+            >
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="updateDataLayanan(), (dialogEditTransaksiLayanan = false)"
+              >Simpan</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!-- ---------------------Dialog Edit Detil Layanan-------------------------------- -->
+    <v-row justify="center">
+      <v-dialog v-model="dialogEditLayanan" persistent max-width="1300px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Ubah Detail Transaksi Layanan</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="3">
+                  <v-autocomplete
+                    v-model="formLayanan.id_layanan"
+                    required
+                    width=""
+                    :items="layanans"
+                    @change="setHargaLayananEdit()"
+                    item-value="id_layanan"
+                    item-text="nama"
+                    label="Nama Layanan*"
+                    outlined
+                    color="purple"
+                    hide-selected=""
+                    :filter="customFilter"
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="2">
+                  <v-autocomplete
+                    v-model="formLayanan.id_ukuran_hewan"
+                    required
+                    width=""
+                    :items="ukurans"
+                    @change="setHargaLayananEdit()"
+                    item-value="id_ukuran_hewan"
+                    item-text="nama"
+                    label="Ukuran*"
+                    outlined
+                    color="purple"
+                    hide-selected=""
+                    :filter="customFilter"
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                    label="Jumlah*"
+                    v-model="formLayanan.jumlah"
+                    color="purple"
+                    type="number"
+                    outlined=""
+                    single-line=""
+                    clearable=""
+                    @change="setSubtotalEditLayanan(), setHargaLayananEdit()"
+                  ></v-text-field>
+                </v-col>
 
-   
+                <v-col cols="2">
+                  <v-text-field
+                    label="Harga Layanan*"
+                    v-model="formLayanan.harga"
+                    value=""
+                    outlined=""
+                    readonly=""
+                    color="purple"
+                    prefix="Rp."
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                    label="Subtotal*"
+                    v-model="formLayanan.total_harga"
+                    value=""
+                    outlined=""
+                    readonly=""
+                    color="purple"
+                    prefix="Rp."
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>*wajib diisi</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="(dialogEditLayanan = false), resetFormLayanan()"
+              >Tutup</v-btn
+            >
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="setFormLayanan(), (dialogEditLayanan = false)"
+              >Simpan</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!-- ----------------------------------------------------------------------------- -->
 
     <v-snackbar
       v-model="snackbar"
@@ -308,21 +586,26 @@ export default {
     return {
       cari: '',
       dialog: false,
+      cekHewans: false,
       detilTransaksis: [],
       detailTransaksiLayanans: [],
       selectedIndex: 0,
       detailItem: '',
       transaksiLayanans: [],
+      dialogEditLayanan: false,
+      dialogEditTransaksiLayanan: false,
+      detailIdTransaksiLayanansFiltered: [],
       keyword: '',
+      jenishewans: [],
       hewans: [],
       pelanggans: [],
-      produks: [],
+      ukurans: [],
+      layanans: [],
       bottomNav: 1,
       menu: false,
       on: '',
-      deleteDialog: '',
       submit: '',
-     
+
       headers2: [
         {
           text: 'No',
@@ -345,16 +628,8 @@ export default {
           value: 'total',
         },
         {
-          text: 'Progress',
-          value: 'progress',
-        },
-        {
           text: 'Status',
           value: 'status',
-        },
-        {
-          text: 'Tanggal Lunas',
-          value: 'tanggal_lunas',
         },
         {
           text: 'Tanggal Dibuat',
@@ -382,7 +657,11 @@ export default {
       dialogEdit: '',
       dialogPassword: '',
       dialogDetailTransaksiLayanan: false,
+      deleteDialog: '',
+      deleteDetailDialog: '',
       pesan: '',
+      empty: null,
+      id_hewan: null,
       search: '',
       snackbar: false,
       color: null,
@@ -397,19 +676,55 @@ export default {
         modified_by: sessionStorage.getItem('Nama'),
         id_customer_service: sessionStorage.getItem('Id'),
       },
+      formLayanan: {
+        id_hewan: '',
+        total: '',
+        diskon: '',
+        id_transaksi_layanan: '',
+        subtotal: '',
+        id_harga_layanan: '',
+        total_harga: '',
+        id_layanan: '',
+        created_by: sessionStorage.getItem('Nama'),
+        delete_by: sessionStorage.getItem('Nama'),
+        modified_by: sessionStorage.getItem('Nama'),
+        id_customer_service: sessionStorage.getItem('Id'),
+      },
       user: new FormData(),
-      detil: new FormData(),
+      detil2: new FormData(),
       transaksiLayanan: new FormData(),
+      deleteLayanan: new FormData(),
       typeInput: 'new',
       errors: '',
       updatedId: '',
     };
   },
+  watch: {
+    id_hewan() {
+      this.empty = '';
+    },
+  },
 
   methods: {
+    isHaveHewan() {
+      var hewan = false;
+      this.hewans.forEach((item) => {
+        if (item.id_hewan == this.id_hewan) {
+          console.log(
+            'id hewan: ' + item.id_hewan + ', id input: ' + this.id_hewan
+          );
+          this.cekHewans = true;
+          hewan = true;
+        }
+      });
+      if (!hewan) {
+        this.form.diskon = 0;
+        this.cekHewans = false;
+      }
+    },
     filterProgress() {
       return this.transaksiLayanans.filter((transaksiLayanan) => {
-        return transaksiLayanan.progress.match('Sedang Diproses');
+        return transaksiLayanan.status.match('Lunas');
       });
     },
     filteredItems(value) {
@@ -430,28 +745,23 @@ export default {
     },
     filterProgress2() {
       return this.transaksiLayanans.filter((transaksiLayanan) => {
-        return transaksiLayanan.progress.match('Layanan Selesai');
+        return transaksiLayanan.status.match('Menunggu Pembayaran');
       });
     },
     selectTabs(selectedTabs) {
       this.tabs = selectedTabs;
     },
-    deleteRow(_detilTransaksi) {
-      this.detilTransaksis.splice(
-        this.detilTransaksis.indexOf(_detilTransaksi),
-        1
-      );
+    deleteRow2(_detilTransaksi) {
+      this.detilLayanans.splice(this.detilLayanans.indexOf(_detilTransaksi), 1);
     },
 
-    resetDynamic() {
-      while (this.detilTransaksis.length != 0) {
-        for (var i = 0; i < this.detilTransaksis.length; i++) {
-          this.detilTransaksis.splice(this.detilTransaksis[i], 1);
+    resetDynamic2() {
+      while (this.detilLayanans.length != 0) {
+        for (var i = 0; i < this.detilLayanans.length; i++) {
+          this.detilLayanans.splice(this.detilLayanans[i], 1);
         }
-        this.form.subtotal = '';
-        this.form.diskon = '';
-        this.form.id_jenis_hewan = '';
       }
+      this.resetForm();
     },
     addTransaksi() {
       this.getProduk();
@@ -471,47 +781,57 @@ export default {
       });
     },
 
-    filteredProduk(index) {
+    filteredHargaLayanan(index) {
       var uri =
         this.$apiUrl +
-        'Produk/' +
-        'search/' +
-        this.detilTransaksis[index].id_produk;
+        'HargaLayanan/' +
+        'searchByIdLayananUkuran/' +
+        this.detilLayanans[index].id_layanan +
+        '/' +
+        this.detilLayanans[index].id_ukuran_hewan;
       this.$http.get(uri).then((response) => {
-        this.detilTransaksis[index].harga = response.data.message.harga;
-        this.detilTransaksis[index].total_harga =
-          this.detilTransaksis[index].harga *
-          this.detilTransaksis[index].jumlah;
+        this.detilLayanans[index].harga = response.data.message.harga;
+        this.detilLayanans[index].id_harga_layanan =
+          response.data.message.id_harga_layanan;
+        this.detilLayanans[index].total_harga =
+          this.detilLayanans[index].harga * this.detilLayanans[index].jumlah;
       });
     },
-    setTotal(index) {
-      this.detilTransaksis[index].total_harga =
-        this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah;
-    },
-    setSubtotal() {
-      this.form.subtotal = 0;
-      for (var i = 0; i < this.detilTransaksis.length; i++) {
-        this.form.subtotal =
-          this.form.subtotal + this.detilTransaksis[i].total_harga;
-      }
-      this.form.subtotal = this.form.subtotal - this.form.diskon;
-    },
-    getDataProduk() {
-      var uri = this.$apiUrl + 'TransaksiProduk/' + 'getWithJoin';
+    setHargaLayananEdit() {
+      var uri =
+        this.$apiUrl +
+        'HargaLayanan/' +
+        'searchByIdLayananUkuran/' +
+        this.formLayanan.id_layanan +
+        '/' +
+        this.formLayanan.id_ukuran_hewan;
       this.$http.get(uri).then((response) => {
-        this.transaksiProduks = response.data.message;
+        this.formLayanan.harga = response.data.message.harga;
+        this.formLayanan.id_harga_layanan =
+          response.data.message.id_harga_layanan;
+        this.formLayanan.total_harga =
+          this.formLayanan.harga * this.formLayanan.jumlah;
+        console.log(this.formLayanan.id_harga_layanan);
       });
     },
-    getDataTransaksiProduk() {
-      var uri = this.$apiUrl + 'DetailTransaksiProduk/' + 'getWithJoin';
-      this.$http.get(uri).then((response) => {
-        this.detailTransaksiProduks = response.data.message;
-      });
+    setSubtotalEditLayanan() {
+      this.formLayanan.total_harga =
+        this.formLayanan.harga * this.formLayanan.jumlah;
+    },
+    setNewEditTotal2() {
+      this.formLayanan.total =
+        this.formLayanan.subtotal - this.formLayanan.diskon;
     },
     getHewan() {
       var uri = this.$apiUrl + 'Hewan/' + 'all';
       this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
+      });
+    },
+    getJenisHewan() {
+      var uri = this.$apiUrl + 'JenisHewan';
+      this.$http.get(uri).then((response) => {
+        this.jenishewans = response.data.message;
       });
     },
     getPelanggan() {
@@ -520,10 +840,10 @@ export default {
         this.pelanggans = response.data.message;
       });
     },
-    getProduk() {
-      var uri = this.$apiUrl + 'Produk/' + 'all';
+    getLayanan() {
+      var uri = this.$apiUrl + 'Layanan';
       this.$http.get(uri).then((response) => {
-        this.produks = response.data.message;
+        this.layanans = response.data.message;
       });
     },
     getDataLayanan() {
@@ -538,66 +858,28 @@ export default {
         this.detailTransaksiLayanans = response.data.message;
       });
     },
-    sendDataProduk() {
-      this.pegawai.append('nama', this.form.nama);
-      this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
-      this.pegawai.append('alamat', this.form.alamat);
-      this.pegawai.append('telp', this.form.telp);
-      this.pegawai.append('role', this.form.role);
-      this.pegawai.append('username', this.form.username);
-      this.pegawai.append('password', this.form.password);
-      this.pegawai.append('created_by', this.form.created_by);
+    getDetailTransaksiLayananById(item) {
+      this.updatedId = item.id_transaksi_layanan;
+      var uri =
+        this.$apiUrl +
+        'DetailTransaksiLayanan/' +
+        'getByTransactionId/' +
+        this.updatedId;
+      this.$http.get(uri).then((response) => {
+        this.detailIdTransaksiLayanans = response.data.message;
+        for (var i = 0; i < this.detailIdTransaksiLayanans.length; i++) {
+          this.detailIdTransaksiLayanansFiltered[
+            i
+          ] = this.detailIdTransaksiLayanans[i].id_detail_transaksi_layanan;
+        }
+        console.log(this.detailIdTransaksiLayanansFiltered);
+      });
+    },
+    setIdTransaksiLayanan(item) {
+      this.formLayanan.id_transaksi_layanan = item.id_transaksi_layanan;
+      console.log(this.formLayanan.id_transaksi_layanan);
     },
 
-    sendDataTransaksi() {
-      this.detil.append('id_customer_service', this.form.id);
-      this.detil.append('created_by', this.form.created_by);
-      this.detil.append('subtotal', this.form.subtotal);
-      this.detil.append('diskon', this.form.diskon);
-      this.detil.append('id_hewan', this.form.id_jenis_hewan);
-      var uri = this.$apiUrl + 'TransaksiProduk';
-
-      this.load = true;
-      this.$http
-        .post(uri, this.detil)
-        .then((response) => {
-          this.sendDataDetilTransaksi(response.data.message);
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-        });
-    },
-    sendDataDetilTransaksi(id_transaksi_produk) {
-      for (let i = 0; i < this.detilTransaksis.length; i++) {
-        this.detilTransaksis[i].id_transaksi_produk = id_transaksi_produk;
-      }
-      this.user.append(
-        'detail_transaksi_produk',
-        JSON.stringify(this.detilTransaksis)
-      );
-      var uri = this.$apiUrl + 'DetailTransaksiProduk/insertMultiple';
-      this.load = true;
-      this.$http
-        .post(uri, this.user)
-        .then((response) => {
-          this.snackbar = true;
-          this.color = 'green';
-          this.text = response.data.message;
-          this.load = false;
-          this.dialog = false;
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-        });
-    },
     updateDataProduk() {
       this.pegawai.append('nama', this.form.nama);
       this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
@@ -628,22 +910,23 @@ export default {
           this.load = false;
         });
     },
-    updateProgressLayanan(detailItem) {
+    updateStatusLayanan(detailItem) {
       this.updatedId = detailItem.id_transaksi_layanan;
+      this.transaksiLayanan.append('id_kasir', sessionStorage.getItem('Id'));
       this.transaksiLayanan.append(
         'modified_by',
         sessionStorage.getItem('Nama')
       );
       console.log(detailItem.id_transaksi_layanan);
       var uri =
-        this.$apiUrl + 'TransaksiLayanan/' + 'updateProgress/' + this.updatedId;
+        this.$apiUrl + 'TransaksiLayanan/' + 'updateStatus/' + this.updatedId;
       this.load = true;
       this.$http
         .post(uri, this.transaksiLayanan)
-        .then((response) => {
+        .then(() => {
           this.snackbar = true; //mengaktifkan snackbar
           this.color = 'green'; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
+          this.text = 'Layanan Berhasil Dibayar'; //memasukkan pesan kesnackbar
           this.load = false;
           this.dialogEdit = false;
           this.getDataLayanan();
@@ -658,36 +941,154 @@ export default {
           this.load = false;
         });
     },
-    editHandlerProduk(item) {
+    editHandlerLayanan(item) {
       this.typeInput = 'edit';
-      this.dialogEdit = true;
-      this.form.nama = item.nama;
-      this.form.alamat = item.alamat;
-      this.form.tanggal_lahir = item.tanggal_lahir;
-      this.form.telp = item.telp;
-      (this.form.role = item.role), (this.form.username = item.username);
-      this.updatedId = item.id_pegawai;
+      this.dialogEditLayanan = true;
+      this.formLayanan.id_layanan = item.id_layanan;
+      this.formLayanan.id_ukuran_hewan = item.id_ukuran_hewan;
+      this.formLayanan.jumlah = item.jumlah;
+      this.formLayanan.total_harga = item.total_harga;
+      this.formLayanan.id_transaksi_Layanan = item.id_transaksi_layanan;
+      console.log(this.formLayanan.id_transaksi_Layanan);
+      this.updatedId = item.id_detail_transaksi_layanan;
     },
-    deleteDataProduk(deleteId) {
-      //mengahapus data
-      this.pegawai.append('delete_by', this.form.delete_by);
-      var uri = this.$apiUrl + 'Pegawai' + '/delete/' + deleteId; //data dihapus berdasarkan id
+    editHandlerTransaksiLayanan(item) {
+      this.typeInput = 'edit';
+      this.dialogEditTransaksiLayanan = true;
+      this.formLayanan.id_hewan = item.id_hewan;
+      this.formLayanan.subtotal = item.subtotal;
+      this.formLayanan.total = item.total;
+      this.formLayanan.diskon = item.diskon;
+      this.formLayanan.id_transaksi_layanan = item.id_transaksi_layanan;
+      this.updatedId = item.id_transaksi_layanan;
+    },
+    deleteDataLayanan(deleteId) {
+      var uri = this.$apiUrl + 'TransaksiLayanan/' + deleteId; //data dihapus berdasarkan id
+      this.$http
+        .delete(uri)
+        .then((response) => {
+          this.text = response.data.message;
+          this.deleteMultipleDataDetailLayanan();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Try Again';
+          this.color = 'red';
+        });
+    },
+    updateDataLayanan() {
+      this.detil2.append('id_hewan', this.formLayanan.id_hewan);
+      this.detil2.append('diskon', this.formLayanan.diskon);
+      this.detil2.append('subtotal', this.formLayanan.subtotal);
+      this.detil2.append('total', this.formLayanan.total);
+      this.detil2.append('modified_by', this.formLayanan.modified_by);
+      var uri = this.$apiUrl + 'TransaksiLayanan/' + 'update/' + this.updatedId;
       this.load = true;
       this.$http
-        .post(uri, this.pegawai)
+        .post(uri, this.detil2)
         .then((response) => {
           this.snackbar = true;
-          this.text = response.data.message;
           this.color = 'green';
-          this.deleteDialog = false;
-          this.getDataProduk();
+          this.text = response.data.message;
+          this.load = false;
+          this.dialogEditTransaksiProduk = false;
+          this.getDataTransaksiLayanan();
+          this.getDataLayanan();
+          this.typeInput = 'new';
         })
         .catch((error) => {
           this.errors = error;
           this.snackbar = true;
           this.text = 'Coba Lagi';
           this.color = 'red';
+          this.load = false;
+          this.typeInput = 'new';
         });
+    },
+    updateDataDetilLayanan() {
+      this.user2.append('id_harga_layanan', this.formLayanan.id_harga_layanan);
+      this.user2.append('id_layanan', this.formLayanan.id_Layanan);
+      this.user2.append('jumlah', this.formLayanan.jumlah);
+      this.user2.append('total_harga', this.formLayanan.total_harga);
+      this.user2.append('modified_by', this.formLayanan.modified_by);
+      var uri =
+        this.$apiUrl + 'DetailTransaksiLayanan/' + 'update/' + this.updatedId;
+      this.load = true;
+      this.$http
+        .post(uri, this.user2)
+        .then((response) => {
+          this.snackbar = true;
+          this.color = 'green';
+          this.text = response.data.message;
+          this.load = false;
+          this.dialogEdit = false;
+          this.getDataTransaksiLayanan();
+          this.getDataLayanan();
+          this.resetFormLayanan();
+          this.typeInput = 'new';
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Coba Lagi';
+          this.color = 'red';
+          this.load = false;
+          this.typeInput = 'new';
+        });
+    },
+    deleteMultipleDataDetailLayanan() {
+      this.deleteLayanan.append(
+        'id_detail_transaksi_layanan',
+        JSON.stringify(this.detailIdTransaksiLayanansFiltered)
+      );
+      var uri = this.$apiUrl + 'DetailTransaksiLayanan/' + 'deleteMultiple';
+      this.load = true;
+      this.$http
+        .post(uri, this.deleteLayanan)
+        .then(() => {
+          this.snackbar = true;
+          this.color = 'green';
+          this.text = 'Berhasil';
+          this.load = false;
+          this.deleteDialog = false;
+          this.getDataLayanan();
+          this.getDataTransaksiLayanan();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Coba Lagi';
+          this.color = 'red';
+          this.load = false;
+        });
+    },
+    async deleteDataDetailLayanan(deleteId) {
+      var uri = this.$apiUrl + 'DetailTransaksiLayanan/' + deleteId; //data dihapus berdasarkan id
+      await this.$http
+        .delete(uri)
+        .then((response) => {
+          this.snackbar = true;
+          this.text = response.data.message;
+          this.color = 'green';
+          this.deleteDetailDialog = false;
+          this.getDataLayanan();
+          this.getDataTransaksiLayanan();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Try Again';
+          this.color = 'red';
+        });
+    },
+    deleteRowLayanan(item) {
+      this.deleteId = item.id_transaksi_layanan;
+      this.deleteDialog = true;
+    },
+    deleteRowDetailLayanan(item) {
+      this.deleteId = item.id_detail_transaksi_layanan;
+      this.deleteDetailDialog = true;
     },
     setFormProduk() {
       if (this.typeInput === 'new') {
@@ -701,25 +1102,14 @@ export default {
       this.detailItem = item;
       this.dialogDetailTransaksiLayanan = true;
     },
-    showDetail2(item) {
-      this.detailItem2 = item;
-      this.dialogDetailTransaksiProduk = true;
+    setFormLayanan() {
+      if (this.typeInput === 'new') {
+        this.addLayananDetil();
+      } else {
+        console.log('data berhasil diubah');
+        this.updateDataDetilLayanan();
+      }
     },
-    resetFormProduk() {
-      this.form = {
-        nama: '',
-        alamat: '',
-        tanggal_lahir: '',
-        telp: '',
-        role: '',
-        username: '',
-        password: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-      };
-    },
-
     customFilter(item, queryText) {
       const textOne = item.nama.toLowerCase();
       const textTwo = item.nama.toLowerCase();
@@ -729,14 +1119,29 @@ export default {
         textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
       );
     },
+    resetFormLayanan() {
+      this.formLayanan = {
+        id_hewan: '',
+        total: '',
+        diskon: '',
+        id_transaksi_layanan: '',
+        subtotal: '',
+        id_harga_layanan: '',
+        total_harga: '',
+        id_layanan: '',
+        created_by: sessionStorage.getItem('Nama'),
+        delete_by: sessionStorage.getItem('Nama'),
+        modified_by: sessionStorage.getItem('Nama'),
+        id_customer_service: sessionStorage.getItem('Id'),
+      };
+    },
   },
   mounted() {
-    this.getDataProduk();
     this.getDataLayanan();
     this.getHewan();
-    this.getProduk();
+    this.getJenisHewan();
+    this.getLayanan();
     this.getDataTransaksiLayanan();
-    this.getDataTransaksiProduk();
   },
 };
 </script>

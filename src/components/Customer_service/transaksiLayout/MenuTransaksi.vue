@@ -114,7 +114,7 @@
     <!-- ------------------Menu Transaksi Layanan-------------------------------------- -->
     <v-card v-if="this.tabs == 1">
       <div class="pa-3">
-      <!-- <v-container grid-list-md mb-20> -->
+        <!-- <v-container grid-list-md mb-20> -->
         <div>
           <v-tabs v-model="layananTab" color="#f9c99e" centered>
             <v-tabs-slider color="#f9c99e"></v-tabs-slider>
@@ -151,11 +151,14 @@
               </v-text-field>
             </v-flex>-->
           </v-layout>
-          <v-data-table :headers="headers2" :items="transaksiLayanans">
+          <v-data-table
+            :headers="headers2"
+            :items="filterProgress(transaksiLayanans)"
+          >
             <template v-slot:body="{ items }">
               <tbody>
                 <tr
-                  v-for="(item, index) in filterProgress(items)"
+                  v-for="(item, index) in items"
                   :key="item.id_transaksi_layanan"
                 >
                   <td>{{ index + 1 }}</td>
@@ -216,11 +219,14 @@
           <v-layout row wrap style="margin:10px">
             <v-flex xs6 />
           </v-layout>
-          <v-data-table :headers="headers2" :items="transaksiLayanans">
+          <v-data-table
+            :headers="headers2"
+            :items="filterProgress2(transaksiLayanans)"
+          >
             <template v-slot:body="{ items }">
               <tbody>
                 <tr
-                  v-for="(item, index) in filterProgress2(items)"
+                  v-for="(item, index) in items"
                   :key="item.id_transaksi_layanan"
                 >
                   <td>{{ index + 1 }}</td>
@@ -276,7 +282,7 @@
             </template>
           </v-data-table>
         </div>
-      <!-- </v-container> -->
+        <!-- </v-container> -->
       </div>
     </v-card>
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
@@ -412,6 +418,8 @@
                           icon
                           color="blue"
                           light
+                          class="tombol"
+                          outlined=""
                           @click="editHandlerLayanan(item)"
                         >
                           <v-icon>mdi-pencil</v-icon>
@@ -434,8 +442,10 @@
                         <v-btn
                           icon
                           color="red lighten-2"
-                          dark
+                          light
                           v-on="on"
+                          class="tombol"
+                          outlined=""
                           @click="deleteRowDetailLayanan(item)"
                         >
                           <v-icon>mdi-delete</v-icon>
@@ -472,6 +482,41 @@
                     </td>
                     <td>
                       <h3>{{ detailItem.total }}</h3>
+                    </td>
+                  </tr>
+                </td>
+
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Pelanggan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_pelanggan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Hewan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_hewan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Jenis Hewan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.jenis_hewan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nomor Telpon : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.telp }}</h3>
                     </td>
                   </tr>
                 </td>
@@ -583,7 +628,9 @@
                         <v-btn
                           icon
                           color="red lighten-2"
-                          dark
+                          light
+                          class="tombol"
+                          outlined=""
                           v-on="on"
                           @click="deleteRowDetailProduk(item)"
                         >
@@ -621,6 +668,41 @@
                     </td>
                     <td>
                       <h3>{{ detailItem2.total }}</h3>
+                    </td>
+                  </tr>
+                </td>
+
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Pelanggan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_pelanggan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Hewan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_hewan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Jenis Hewan : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.jenis_hewan }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nomor Telpon : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.telp }}</h3>
                     </td>
                   </tr>
                 </td>
@@ -705,7 +787,7 @@
                 </v-col>
               </v-row>
             </v-container>
-            <small>*indicates required field</small>
+            <small>*wajib diisi</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -713,13 +795,13 @@
               color="blue darken-1"
               text
               @click="(dialogEditProduk = false), resetFormProduk()"
-              >Close</v-btn
+              >Tutup</v-btn
             >
             <v-btn
               color="blue darken-1"
               text
               @click="setFormProduk(), (dialogEditProduk = false)"
-              >Save</v-btn
+              >Simpan</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -757,7 +839,7 @@
                 </v-col>
                 <v-col cols="2">
                   <v-text-field
-                    label="Diskon"
+                    label="Diskon*"
                     v-model="formProduk.diskon"
                     color="purple"
                     type="number"
@@ -772,15 +854,15 @@
                 </v-col>
               </v-row>
             </v-container>
-            <small>*indicates required field</small>
+            <small>*wajib diisi</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
               color="blue darken-1"
               text
-              @click="(dialogEditTransaksiProduk = false), resetFormLayanan()"
-              >Close</v-btn
+              @click="(dialogEditTransaksiProduk = false), resetFormProduk()"
+              >Tutup</v-btn
             >
             <v-btn
               color="blue darken-1"
@@ -788,7 +870,7 @@
               @click="
                 updateDataTransaksi(), (dialogEditTransaksiProduk = false)
               "
-              >Save</v-btn
+              >Simpan</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -826,7 +908,7 @@
                 </v-col>
                 <v-col cols="2">
                   <v-text-field
-                    label="Diskon"
+                    label="Diskon*"
                     v-model="formLayanan.diskon"
                     color="purple"
                     type="number"
@@ -835,13 +917,12 @@
                     @change="setNewEditTotal2()"
                   ></v-text-field>
                 </v-col>
-
                 <v-col cols="12">
                   <v-divider light></v-divider>
                 </v-col>
               </v-row>
             </v-container>
-            <small>*indicates required field</small>
+            <small>*wajib diisi</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -849,13 +930,13 @@
               color="blue darken-1"
               text
               @click="dialogEditTransaksiLayanan = false"
-              >Close</v-btn
+              >Tutup</v-btn
             >
             <v-btn
               color="blue darken-1"
               text
               @click="updateDataLayanan(), (dialogEditTransaksiLayanan = false)"
-              >Save</v-btn
+              >Simpan</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -1083,9 +1164,6 @@
           </v-btn>
           <v-toolbar-title>Menu Tambah Transaksi Layanan</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn text @click="dialog = false">Save</v-btn>
-          </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
           <v-subheader> <h2>Data Pembelian</h2> </v-subheader>
@@ -1375,7 +1453,7 @@
                 </v-col>
               </v-row>
             </v-container>
-            <small>*indicates required field</small>
+            <small>*wajib diisi</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -1383,13 +1461,13 @@
               color="blue darken-1"
               text
               @click="(dialogEditLayanan = false), resetFormLayanan()"
-              >Close</v-btn
+              >Tutup</v-btn
             >
             <v-btn
               color="blue darken-1"
               text
               @click="setFormLayanan(), (dialogEditLayanan = false)"
-              >Save</v-btn
+              >Simpan</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -1437,6 +1515,7 @@ export default {
       transaksiProduks: [],
       transaksiLayanans: [],
       keyword: '',
+      jenishewans: [],
       hewans: [],
       pelanggans: [],
       produks: [],
@@ -1559,7 +1638,6 @@ export default {
       pesan: '',
       empty: null,
       id_hewan: null,
-
       snackbar: false,
       color: null,
       text: '',
@@ -1613,7 +1691,7 @@ export default {
       updatedId: '',
     };
   },
-  computed:{
+  computed: {
     // cekHewans: function(){
     // //   // return this.hewans.filter((hewans)=>{
     // //   //   return this.hewans.id_hewan.match(this.id_hewan)
@@ -1633,20 +1711,21 @@ export default {
   },
 
   methods: {
-    isHaveHewan(){
-      var hewan=false;
-      this.hewans.forEach(item => {
-        if(item.id_hewan==this.id_hewan){
-          console.log("id hewan: "+item.id_hewan+", id input: "+this.id_hewan)
+    isHaveHewan() {
+      var hewan = false;
+      this.hewans.forEach((item) => {
+        if (item.id_hewan == this.id_hewan) {
+          console.log(
+            'id hewan: ' + item.id_hewan + ', id input: ' + this.id_hewan
+          );
           this.cekHewans = true;
-          hewan=true;
+          hewan = true;
         }
       });
-      if(!hewan){
+      if (!hewan) {
         this.form.diskon = 0;
         this.cekHewans = false;
       }
-      
     },
     filterProgress() {
       return this.transaksiLayanans.filter((transaksiLayanan) => {
@@ -1878,7 +1957,7 @@ export default {
           this.form.subtotal + this.detilTransaksis[i].total_harga;
       }
       this.form.subtotal = this.form.subtotal - this.form.diskon;
-      if(this.form.subtotal<0){
+      if (this.form.subtotal < 0) {
         this.form.subtotal = 0;
       }
     },
@@ -1889,8 +1968,8 @@ export default {
           this.form.subtotal + this.detilLayanans[i].total_harga;
       }
       this.form.subtotal = this.form.subtotal - this.form.diskon;
-      if(this.form.subtotal<0){
-        this.form.subtotal=0;
+      if (this.form.subtotal < 0) {
+        this.form.subtotal = 0;
       }
     },
     getDataProduk() {
@@ -1909,6 +1988,12 @@ export default {
       var uri = this.$apiUrl + 'Hewan';
       this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
+      });
+    },
+    getJenisHewan() {
+      var uri = this.$apiUrl + 'JenisHewan';
+      this.$http.get(uri).then((response) => {
+        this.jenishewans = response.data.message;
       });
     },
     cek() {
@@ -2241,8 +2326,9 @@ export default {
           this.text = response.data.message;
           this.load = false;
           this.dialogEdit = false;
-          this.getDataTransaksiLayanan();
-          this.getDataLayanan();
+          this.getDataTransaksiProduk();
+          this.getDataProduk();
+          this.resetFormProduk();
           this.typeInput = 'new';
         })
         .catch((error) => {
@@ -2301,7 +2387,6 @@ export default {
           this.dialogEditTransaksiProduk = false;
           this.getDataTransaksiLayanan();
           this.getDataLayanan();
-          this.resetFormProduk();
           this.typeInput = 'new';
         })
         .catch((error) => {
@@ -2330,8 +2415,8 @@ export default {
           this.text = response.data.message;
           this.load = false;
           this.dialogEdit = false;
-          this.getDataTransaksiProduk();
-          this.getDataProduk();
+          this.getDataTransaksiLayanan();
+          this.getDataLayanan();
           this.resetFormLayanan();
           this.typeInput = 'new';
         })
@@ -2519,6 +2604,7 @@ export default {
     this.getDataProduk();
     this.getDataLayanan();
     this.getHewan();
+    this.getJenisHewan();
     this.getProduk();
     this.getDataTransaksiLayanan();
     this.getDataTransaksiProduk();
