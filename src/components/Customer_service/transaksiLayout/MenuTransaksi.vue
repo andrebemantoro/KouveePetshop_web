@@ -630,7 +630,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="dialogEditProduk = false,resetFormProduk()">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="setFormProduk(),dialogEditProduk = false,console.log(formProduk.id_transaksi_produk)">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="setFormProduk(),dialogEditProduk = false">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -1807,7 +1807,7 @@ export default {
           this.load = false;
           this.getDataProduk();
           this.getDataTransaksiProduk();
-           this.resetFormProduk() 
+          this.resetFormProduk() 
           this.dialog = false;
         })
          .catch((error) => {
