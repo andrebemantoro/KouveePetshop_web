@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div class="ma-3">
     <div class="text-md-center">
       <v-btn
         class="tab"
@@ -20,7 +20,8 @@
     </div>
     <!-- ------------------Menu Transaksi Produk-------------------------------------- -->
     <v-card v-if="this.tabs == 0">
-      <v-container grid-list-md mb-20>
+      <!-- <v-container grid-list-md mb-20> -->
+      <div class="pa-3">
         <h2 class="text-md-center">Data Transaksi Produk Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
@@ -107,11 +108,13 @@
             </tbody>
           </template>
         </v-data-table>
-      </v-container>
+      </div>
+      <!-- </v-container> -->
     </v-card>
     <!-- ------------------Menu Transaksi Layanan-------------------------------------- -->
     <v-card v-if="this.tabs == 1">
-      <v-container grid-list-md mb-20>
+      <div class="pa-3">
+      <!-- <v-container grid-list-md mb-20> -->
         <div>
           <v-tabs v-model="layananTab" color="#f9c99e" centered>
             <v-tabs-slider color="#f9c99e"></v-tabs-slider>
@@ -273,7 +276,8 @@
             </template>
           </v-data-table>
         </div>
-      </v-container>
+      <!-- </v-container> -->
+      </div>
     </v-card>
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
     <div class="text-center">
@@ -731,7 +735,7 @@
       >
         <v-card>
           <v-card-title>
-            <span class="headline">Ubah Detail Transaksi Produk</span>
+            <span class="headline">Ubah Transaksi Produk</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -753,12 +757,11 @@
                 </v-col>
                 <v-col cols="2">
                   <v-text-field
-                    label="Jumlah*"
+                    label="Diskon"
                     v-model="formProduk.diskon"
                     color="purple"
                     type="number"
                     outlined
-                    single-line
                     clearable
                     @change="setNewEditTotal()"
                   ></v-text-field>
@@ -801,7 +804,7 @@
       >
         <v-card>
           <v-card-title>
-            <span class="headline">Ubah Detail Transaksi Layanan</span>
+            <span class="headline">Ubah Transaksi Layanan</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -823,12 +826,11 @@
                 </v-col>
                 <v-col cols="2">
                   <v-text-field
-                    label="Jumlah*"
+                    label="Diskon"
                     v-model="formLayanan.diskon"
                     color="purple"
                     type="number"
                     outlined
-                    single-line
                     clearable
                     @change="setNewEditTotal2()"
                   ></v-text-field>
@@ -874,13 +876,13 @@
           </v-btn>
           <v-toolbar-title>Menu Tambah Transaksi Produk</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items>
+          <!-- <v-toolbar-items>
             <v-btn text @click="dialog = false">Save</v-btn>
-          </v-toolbar-items>
+          </v-toolbar-items> -->
         </v-toolbar>
         <v-list three-line subheader>
           <v-subheader>
-            <h2>Data Pembelian</h2>
+            <h2>Data Pembelian Produk</h2>
           </v-subheader>
           <v-list-item>
             <v-list-item-content>
@@ -898,10 +900,12 @@
                       label="Nama Hewan*"
                       outlined
                       rounded
+                      @keyup="isHaveHewan()"
+                      @change="isHaveHewan()"
                       :search-input.sync="form.empty"
                     ></v-autocomplete>
                   </v-col>
-                  <v-col cols="1">
+                  <v-col cols="3">
                     <v-text-field
                       v-model="form.created_by"
                       label="Customer Service"
@@ -910,7 +914,7 @@
                       outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="1">
+                  <v-col cols="2">
                     <v-text-field
                       v-model="form.id_customer_service"
                       label="ID Customer Service"
@@ -921,7 +925,7 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="1">
+                  <v-col cols="2">
                     <h2>Total Pembelian :</h2>
                   </v-col>
                   <v-col cols="4">
@@ -931,20 +935,22 @@
                       readonly
                       shaped
                       color="purple"
-                      prefix="Rp."
+                      prefix="Rp. "
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="1">
+                  <v-col cols="2">
                     <h2>Diskon Pembelian:</h2>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="2">
                     <v-text-field
                       v-model="form.diskon"
+                      :disabled="!cekHewans"
                       label="Diskon"
+                      @keyup="setSubtotal()"
                       @change="setSubtotal()"
                       shaped
                       color="purple"
-                      prefix="Rp."
+                      prefix="Rp. "
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -988,6 +994,7 @@
                         outlined
                         single-line
                         clearable
+                        @keyup="setTotal(index), setSubtotal()"
                         @change="setTotal(index), setSubtotal()"
                       ></v-text-field>
                     </v-col>
@@ -1098,10 +1105,12 @@
                       label="Nama Hewan*"
                       outlined
                       rounded
+                      @keyup="isHaveHewan()"
+                      @change="isHaveHewan()"
                       :search-input.sync="form.empty"
                     ></v-autocomplete>
                   </v-col>
-                  <v-col cols="1">
+                  <v-col cols="3">
                     <v-text-field
                       v-model="form.created_by"
                       label="Customer Service"
@@ -1110,7 +1119,7 @@
                       outlined=""
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="1">
+                  <v-col cols="2">
                     <v-text-field
                       v-model="form.id_customer_service"
                       label="ID Customer Service"
@@ -1121,7 +1130,7 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="1">
+                  <v-col cols="2">
                     <h2>Total Pembelian:</h2>
                   </v-col>
                   <v-col cols="4">
@@ -1131,20 +1140,22 @@
                       readonly=""
                       shaped=""
                       color="purple"
-                      prefix="Rp."
+                      prefix="Rp. "
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="1">
+                  <v-col cols="2">
                     <h2>Diskon Pembelian:</h2>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="2">
                     <v-text-field
                       v-model="form.diskon"
+                      :disabled="!cekHewans"
                       label="Diskon"
+                      @keyup="setSubtotal2()"
                       @change="setSubtotal2()"
                       shaped=""
                       color="purple"
-                      prefix="Rp."
+                      prefix="Rp. "
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -1153,7 +1164,7 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title> <h3>Data Produk</h3></v-list-item-title>
+              <v-list-item-title> <h3>Data Layanan</h3></v-list-item-title>
               <v-card>
                 <div
                   class="form-row"
@@ -1202,6 +1213,7 @@
                         outlined=""
                         single-line=""
                         clearable=""
+                        @keyup="setTotal2(index), setSubtotal2()"
                         @change="setTotal2(index), setSubtotal2()"
                       ></v-text-field>
                     </v-col>
@@ -1394,7 +1406,7 @@
       {{ text }}
       <v-btn dark text @click="snackbar = false">Tutup</v-btn>
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -1601,13 +1613,19 @@ export default {
       updatedId: '',
     };
   },
-  // computed:{
-  //   cekHewan: function(){
-  //     return this.hewans.filter((hewans)=>{
-  //       return this.hewans.id_hewan.match(this.id_hewan)
-  //     });
-  //   }
-  // },
+  computed:{
+    // cekHewans: function(){
+    // //   // return this.hewans.filter((hewans)=>{
+    // //   //   return this.hewans.id_hewan.match(this.id_hewan)
+    // //   // });
+    //   this.hewans.forEach(item => {
+    //     if(item.id==this.id_hewan){
+    //       return true;
+    //     }
+    //   });
+    //   return false;
+    // }
+  },
   watch: {
     id_hewan() {
       this.empty = '';
@@ -1615,6 +1633,21 @@ export default {
   },
 
   methods: {
+    isHaveHewan(){
+      var hewan=false;
+      this.hewans.forEach(item => {
+        if(item.id_hewan==this.id_hewan){
+          console.log("id hewan: "+item.id_hewan+", id input: "+this.id_hewan)
+          this.cekHewans = true;
+          hewan=true;
+        }
+      });
+      if(!hewan){
+        this.form.diskon = 0;
+        this.cekHewans = false;
+      }
+      
+    },
     filterProgress() {
       return this.transaksiLayanans.filter((transaksiLayanan) => {
         return transaksiLayanan.progress.match('Sedang Diproses');
@@ -1845,6 +1878,9 @@ export default {
           this.form.subtotal + this.detilTransaksis[i].total_harga;
       }
       this.form.subtotal = this.form.subtotal - this.form.diskon;
+      if(this.form.subtotal<0){
+        this.form.subtotal = 0;
+      }
     },
     setSubtotal2() {
       this.form.subtotal = 0;
@@ -1853,6 +1889,9 @@ export default {
           this.form.subtotal + this.detilLayanans[i].total_harga;
       }
       this.form.subtotal = this.form.subtotal - this.form.diskon;
+      if(this.form.subtotal<0){
+        this.form.subtotal=0;
+      }
     },
     getDataProduk() {
       var uri = this.$apiUrl + 'TransaksiProduk/' + 'getWithJoin';
@@ -2049,6 +2088,8 @@ export default {
           this.text = response.data.message;
           this.load = false;
           this.dialog = false;
+          this.getDataProduk();
+          this.getDataTransaksiProduk();
         })
         .catch((error) => {
           this.errors = error;
