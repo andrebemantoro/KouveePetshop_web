@@ -637,82 +637,90 @@
     </template>
     <!-- ---------------------Dialog Edit Detil Produk-------------------------------- -->
     <v-row justify="center">
-    <v-dialog v-model="dialogEditProduk" persistent max-width="1300px">
-      
-      <v-card>
-        <v-card-title>
-          <span class="headline">Ubah Detail Transaksi Produk</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-           <v-row>
-                    <v-col cols="3">
-                      <v-autocomplete
-                        v-model="formProduk.id_produk"
-                        required
-                        width
-                        :items="produks"
-                        @change="getHargaEditProduk(), setTotalEditProduk()"
-                        item-value="id_produk"
-                        item-text="nama"
-                        label="Nama Produk*"
-                        outlined
-                        color="purple"
-                        :filter="customFilter"
-                        hide-selected=""
-                       
-                      ></v-autocomplete>
-                    </v-col>
-                    <v-col cols="2">
-                      <v-text-field
-                        label="Jumlah*"
-                        v-model="formProduk.jumlah"
-                        color="purple"
-                        type="number"
-                        outlined
-                        single-line
-                        clearable
-                        @change="getHargaEditProduk(),setTotalEditProduk()"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="2">
-                      <v-text-field
-                        label="Harga Produk*"
-                        v-model="formProduk.harga"
-                        value
-                        outlined
-                        readonly
-                        color="purple"
-                        prefix="Rp."
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="2">
-                      <v-text-field
-                        label="Subtotal*"
-                        v-model="formProduk.total_harga"
-                        value
-                        outlined
-                        readonly
-                        color="purple"
-                        prefix="Rp."
-                      ></v-text-field>
-                    </v-col>
-                    
-                    <v-col cols="12">
-                      <v-divider light></v-divider>
-                    </v-col>
-                  </v-row>
-          </v-container>
-          <small>*indicates required field</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialogEditProduk = false,resetFormProduk()">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="setFormProduk(),dialogEditProduk = false">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+      <v-dialog v-model="dialogEditProduk" persistent max-width="1300px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Ubah Detail Transaksi Produk</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="3">
+                  <v-autocomplete
+                    v-model="formProduk.id_produk"
+                    required
+                    width
+                    :items="produks"
+                    @change="getHargaEditProduk(), setTotalEditProduk()"
+                    item-value="id_produk"
+                    item-text="nama"
+                    label="Nama Produk*"
+                    outlined
+                    color="purple"
+                    :filter="customFilter"
+                    hide-selected=""
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                    label="Jumlah*"
+                    v-model="formProduk.jumlah"
+                    color="purple"
+                    type="number"
+                    outlined
+                    single-line
+                    clearable
+                    @change="getHargaEditProduk(), setTotalEditProduk()"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                    label="Harga Produk*"
+                    v-model="formProduk.harga"
+                    value
+                    outlined
+                    readonly
+                    color="purple"
+                    prefix="Rp."
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                    label="Subtotal*"
+                    v-model="formProduk.total_harga"
+                    value
+                    outlined
+                    readonly
+                    color="purple"
+                    prefix="Rp."
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12">
+                  <v-divider light></v-divider>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>*indicates required field</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="(dialogEditProduk = false), resetFormProduk()"
+              >Close</v-btn
+            >
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="setFormProduk(), (dialogEditProduk = false)"
+              >Save</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
     <!-- ----------------------------------------------------------------------------- -->
     <!-- ---------------------Dialog Edit Transaksi Produk-------------------------------- -->
     <v-row justify="center">
@@ -1957,7 +1965,7 @@ export default {
           this.load = false;
           this.getDataProduk();
           this.getDataTransaksiProduk();
-          this.resetFormProduk() 
+          this.resetFormProduk();
           this.dialog = false;
         })
         .catch((error) => {
