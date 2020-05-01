@@ -94,7 +94,10 @@
                       color="red lighten-2"
                       dark
                       v-on="on"
-                      @click="deleteRow(item)"
+                      @click="
+                        deleteRowProduk(item),
+                          getDetailTransaksiProdukById(item)
+                      "
                     >
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
@@ -127,7 +130,7 @@
                 x-large
                 style="text-transform: none !important;"
                 color="#f9c99e"
-                @click="(dialog2 = true),(resetDynamic2())"
+                @click="(dialog2 = true), resetDynamic2()"
               >
                 <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
                 Transaksi
@@ -191,7 +194,10 @@
                         color="red lighten-2"
                         dark
                         v-on="on"
-                        @click="deleteRow(item)"
+                        @click="
+                          deleteRowLayanan(item),
+                            getDetailTransaksiLayananById(item)
+                        "
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -253,7 +259,10 @@
                         color="red lighten-2"
                         dark
                         v-on="on"
-                        @click="deleteRow(item)"
+                        @click="
+                          deleteRowLayanan(item),
+                            getDetailTransaksiLayananById(item)
+                        "
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -266,7 +275,7 @@
         </div>
       </v-container>
     </v-card>
-    <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <!-- ------------------Dialog untuk konfirmasi delete produk/layanan-------------------------------------- -->
     <div class="text-center">
       <v-dialog width="500" v-model="deleteDialog">
         <v-card>
@@ -280,9 +289,50 @@
             <v-btn color="primary" text @click="deleteDialog = false"
               >Batal</v-btn
             >
-            <v-btn color="primary" text @click="deleteDataProduk(deleteId)"
-              >Hapus</v-btn
+            <div v-if="this.tabs == 0">
+              <v-btn color="primary" text @click="deleteDataProduk(deleteId)"
+                >Hapus Produk</v-btn
+              >
+            </div>
+            <div v-if="this.tabs == 1">
+              <v-btn color="primary" text @click="deleteDataLayanan(deleteId)"
+                >Hapus Layanan</v-btn
+              >
+            </div>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!-- ------------------Dialog untuk konfirmasi delete detail produk/layanan-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDetailDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Konfirmasi Hapus</v-card-title
+          >
+          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDetailDialog = false"
+              >Batal</v-btn
             >
+            <div v-if="this.tabs == 0">
+              <v-btn
+                color="primary"
+                text
+                @click="deleteDataDetailProduk(deleteId)"
+                >Hapus Produk</v-btn
+              >
+            </div>
+            <div v-if="this.tabs == 1">
+              <v-btn
+                color="primary"
+                text
+                @click="deleteDataDetailLayanan(deleteId)"
+                >Hapus Layanan</v-btn
+              >
+            </div>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -361,6 +411,17 @@
                           @click="editHandlerHargaLayanan(item)"
                         >
                           <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                      </div>
+                      <div>
+                        <v-btn
+                          icon
+                          color="red lighten-2"
+                          dark
+                          v-on="on"
+                          @click="deleteRowDetailLayanan(item)"
+                        >
+                          <v-icon>mdi-delete</v-icon>
                         </v-btn>
                       </div>
                     </td>
@@ -484,6 +545,17 @@
                           @click="editHandlerHargaLayanan(item)"
                         >
                           <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                      </div>
+                      <div>
+                        <v-btn
+                          icon
+                          color="red lighten-2"
+                          dark
+                          v-on="on"
+                          @click="deleteRowDetailProduk(item)"
+                        >
+                          <v-icon>mdi-delete</v-icon>
                         </v-btn>
                       </div>
                     </td>
@@ -652,7 +724,6 @@
                         color="purple"
                         :filter="customFilter"
                         hide-selected=""
-                       
                       ></v-autocomplete>
                     </v-col>
                     <v-col cols="2">
@@ -723,7 +794,7 @@
                       color="green"
                       x-large
                       fab
-                      @click="setFormProduk(),setSubtotal()"
+                      @click="setFormProduk(), setSubtotal()"
                       class="tombol"
                     >
                       <v-icon>mdi-content-save</v-icon>
@@ -764,7 +835,7 @@
                 <v-row>
                   <v-col cols="6">
                     <v-autocomplete
-                       v-model="id_hewan"
+                      v-model="id_hewan"
                       required
                       :items="hewans"
                       :filter="customFilter"
@@ -941,7 +1012,9 @@
                       color="green"
                       x-large=""
                       fab=""
-                      @click="setFormLayanan(),setSubtotal2(), (dialog2 = false)"
+                      @click="
+                        setFormLayanan(), setSubtotal2(), (dialog2 = false)
+                      "
                       class="tombol"
                     >
                       <v-icon>
@@ -990,6 +1063,8 @@ export default {
       detailItem2: '',
       transaksiProduks: [],
       transaksiLayanans: [],
+      detailIdTransaksiProduksFiltered: [],
+      detailIdTransaksiLayanansFiltered: [],
       keyword: '',
       hewans: [],
       pelanggans: [],
@@ -998,6 +1073,7 @@ export default {
       menu: false,
       on: '',
       deleteDialog: '',
+      deleteDetailDialog: '',
       submit: '',
       headers: [
         {
@@ -1118,18 +1194,20 @@ export default {
       text: '',
       load: false,
       form: {
-        subtotal: "",
-        diskon: "",
-        id_hewan: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama"),
-        id_customer_service: sessionStorage.getItem("Id"),
+        subtotal: '',
+        diskon: '',
+        id_hewan: '',
+        created_by: sessionStorage.getItem('Nama'),
+        delete_by: sessionStorage.getItem('Nama'),
+        modified_by: sessionStorage.getItem('Nama'),
+        id_customer_service: sessionStorage.getItem('Id'),
       },
       user: new FormData(),
       user2: new FormData(),
       detil: new FormData(),
       detil2: new FormData(),
+      deleteProduk: new FormData(),
+      deleteLayanan: new FormData(),
       transaksiLayanan: new FormData(),
       typeInput: 'new',
       errors: '',
@@ -1137,17 +1215,12 @@ export default {
     };
   },
   watch: {
-  id_hewan() {
-    this.empty = ''
-  }
+    id_hewan() {
+      this.empty = '';
+    },
   },
 
   methods: {
-    filterProgress() {
-      return this.transaksiLayanans.filter((transaksiLayanan) => {
-        return transaksiLayanan.progress.match('Sedang Diproses');
-      });
-    },
     filteredItems(value) {
       return this.detailTransaksiLayanans.filter((i) => {
         return (
@@ -1162,6 +1235,11 @@ export default {
           !value.id_transaksi_produk ||
           i.id_transaksi_produk === value.id_transaksi_produk
         );
+      });
+    },
+    filterProgress() {
+      return this.transaksiLayanans.filter((transaksiLayanan) => {
+        return transaksiLayanan.progress.match('Sedang Diproses');
       });
     },
     filterProgress2() {
@@ -1244,7 +1322,6 @@ export default {
         delete_by: '',
       });
     },
-
     filteredProduk(index) {
       var uri =
         this.$apiUrl +
@@ -1311,14 +1388,13 @@ export default {
       });
     },
     getHewan() {
-      var uri = this.$apiUrl +'Hewan';
+      var uri = this.$apiUrl + 'Hewan';
       this.$http.get(uri).then((response) => {
         this.hewans = response.data.message;
       });
-      
     },
-    cek(){
-      console.log(this.hewans)
+    cek() {
+      console.log(this.hewans);
     },
     getPelanggan() {
       var uri = this.$apiUrl + 'Pelanggan/' + 'all';
@@ -1330,6 +1406,40 @@ export default {
       var uri = this.$apiUrl + 'Produk/' + 'all';
       this.$http.get(uri).then((response) => {
         this.produks = response.data.message;
+      });
+    },
+    getDetailTransaksiProdukById(item) {
+      this.updatedId = item.id_transaksi_produk;
+      var uri =
+        this.$apiUrl +
+        'DetailTransaksiProduk/' +
+        'getByTransactionId/' +
+        this.updatedId;
+      this.$http.get(uri).then((response) => {
+        this.detailIdTransaksiProduks = response.data.message;
+        for (var i = 0; i < this.detailIdTransaksiProduks.length; i++) {
+          this.detailIdTransaksiProduksFiltered[
+            i
+          ] = this.detailIdTransaksiProduks[i].id_detail_transaksi_produk;
+        }
+        console.log(this.detailIdTransaksiProduksFiltered);
+      });
+    },
+    getDetailTransaksiLayananById(item) {
+      this.updatedId = item.id_transaksi_layanan;
+      var uri =
+        this.$apiUrl +
+        'DetailTransaksiLayanan/' +
+        'getByTransactionId/' +
+        this.updatedId;
+      this.$http.get(uri).then((response) => {
+        this.detailIdTransaksiLayanans = response.data.message;
+        for (var i = 0; i < this.detailIdTransaksiLayanans.length; i++) {
+          this.detailIdTransaksiLayanansFiltered[
+            i
+          ] = this.detailIdTransaksiLayanans[i].id_detail_transaksi_layanan;
+        }
+        console.log(this.detailIdTransaksiLayanansFiltered);
       });
     },
     getDataLayanan() {
@@ -1397,6 +1507,8 @@ export default {
           this.text = response.data.message;
           this.load = false;
           this.dialog = false;
+          this.getDataProduk();
+          this.getDataTransaksiProduk();
         })
         .catch((error) => {
           this.errors = error;
@@ -1459,7 +1571,6 @@ export default {
           this.load = false;
         });
     },
-
     updateProgressLayanan(detailItem) {
       this.updatedId = detailItem.id_transaksi_layanan;
       this.transaksiLayanan.append(
@@ -1490,12 +1601,145 @@ export default {
           this.load = false;
         });
     },
-    updateDataTransaksi(){
-
+    updateDataTransaksi() {},
+    updateDataLayanan() {},
+    deleteDataProduk(deleteId) {
+      var uri = this.$apiUrl + 'TransaksiProduk/' + deleteId; //data dihapus berdasarkan id
+      this.$http
+        .delete(uri)
+        .then((response) => {
+          this.text = response.data.message;
+          this.deleteMultipleDataDetailProduk();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Try Again';
+          this.color = 'red';
+        });
     },
-    updateDataLayanan(){
-
+    deleteMultipleDataDetailProduk() {
+      this.deleteProduk.append(
+        'id_detail_transaksi_produk',
+        JSON.stringify(this.detailIdTransaksiProduksFiltered)
+      );
+      var uri = this.$apiUrl + 'DetailTransaksiProduk/' + 'deleteMultiple';
+      this.load = true;
+      this.$http
+        .post(uri, this.deleteProduk)
+        .then(() => {
+          this.snackbar = true;
+          this.color = 'green';
+          this.text = 'Berhasil';
+          this.load = false;
+          this.deleteDialog = false;
+          this.getDataProduk();
+          this.getDataTransaksiProduk();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Coba Lagi';
+          this.color = 'red';
+          this.load = false;
+        });
     },
+    async deleteDataDetailProduk(deleteId) {
+      var uri = this.$apiUrl + 'DetailTransaksiProduk/' + deleteId; //data dihapus berdasarkan id
+      await this.$http
+        .delete(uri)
+        .then((response) => {
+          this.snackbar = true;
+          this.text = response.data.message;
+          this.color = 'green';
+          this.deleteDetailDialog = false;
+          this.getDataProduk();
+          this.getDataTransaksiProduk();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Try Again';
+          this.color = 'red';
+        });
+    },
+    deleteRowProduk(item) {
+      this.deleteId = item.id_transaksi_produk;
+      this.deleteDialog = true;
+    },
+    deleteRowDetailProduk(item) {
+      this.deleteId = item.id_detail_transaksi_produk;
+      this.deleteDetailDialog = true;
+    },
+    deleteDataLayanan(deleteId) {
+      var uri = this.$apiUrl + 'TransaksiLayanan/' + deleteId; //data dihapus berdasarkan id
+      this.$http
+        .delete(uri)
+        .then((response) => {
+          this.text = response.data.message;
+          this.deleteMultipleDataDetailLayanan();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Try Again';
+          this.color = 'red';
+        });
+    },
+    deleteMultipleDataDetailLayanan() {
+      this.deleteLayanan.append(
+        'id_detail_transaksi_layanan',
+        JSON.stringify(this.detailIdTransaksiLayanansFiltered)
+      );
+      var uri = this.$apiUrl + 'DetailTransaksiLayanan/' + 'deleteMultiple';
+      this.load = true;
+      this.$http
+        .post(uri, this.deleteLayanan)
+        .then(() => {
+          this.snackbar = true;
+          this.color = 'green';
+          this.text = 'Berhasil';
+          this.load = false;
+          this.deleteDialog = false;
+          this.getDataLayanan();
+          this.getDataTransaksiLayanan();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Coba Lagi';
+          this.color = 'red';
+          this.load = false;
+        });
+    },
+    async deleteDataDetailLayanan(deleteId) {
+      var uri = this.$apiUrl + 'DetailTransaksiLayanan/' + deleteId; //data dihapus berdasarkan id
+      await this.$http
+        .delete(uri)
+        .then((response) => {
+          this.snackbar = true;
+          this.text = response.data.message;
+          this.color = 'green';
+          this.deleteDetailDialog = false;
+          this.getDataLayanan();
+          this.getDataTransaksiLayanan();
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Try Again';
+          this.color = 'red';
+        });
+    },
+    deleteRowLayanan(item) {
+      this.deleteId = item.id_transaksi_layanan;
+      this.deleteDialog = true;
+    },
+    deleteRowDetailLayanan(item) {
+      this.deleteId = item.id_detail_transaksi_layanan;
+      this.deleteDetailDialog = true;
+    },
+
     setFormProduk() {
       if (this.typeInput === 'new') {
         this.sendDataTransaksi();
