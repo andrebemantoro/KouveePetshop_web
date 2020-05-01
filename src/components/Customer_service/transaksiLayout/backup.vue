@@ -82,7 +82,7 @@
                       icon
                       color="blue"
                       light
-                      @click="editHandlerTransaksiProduk(item)"
+                      @click="editHandlerProduk(item)"
                     >
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -182,7 +182,7 @@
                         icon
                         color="blue"
                         light
-                        @click="editHandlerTransaksiLayanan(item)"
+                        @click="editHandlerProduk(item)"
                       >
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
@@ -247,7 +247,7 @@
                         icon
                         color="blue"
                         light
-                        @click="editHandlerTransaksiLayanan(item)"
+                        @click="editHandlerProduk(item)"
                       >
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
@@ -275,7 +275,7 @@
         </div>
       </v-container>
     </v-card>
-    <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <!-- ------------------Dialog untuk konfirmasi delete produk/layanan-------------------------------------- -->
     <div class="text-center">
       <v-dialog width="500" v-model="deleteDialog">
         <v-card>
@@ -408,22 +408,9 @@
                           icon
                           color="blue"
                           light
-                          @click="editHandlerLayanan(item)"
+                          @click="editHandlerHargaLayanan(item)"
                         >
                           <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          class="tombol"
-                          outlined=""
-                          @click="
-                            setIdTransaksiLayanan(item),
-                              (dialogEditLayanan = true)
-                          "
-                        >
-                          <v-icon>mdi-plus</v-icon>
                         </v-btn>
                       </div>
                       <div>
@@ -555,24 +542,9 @@
                           icon
                           color="blue"
                           light
-                          outlined=""
-                          class="tombol"
-                          @click="editHandlerProduk(item)"
+                          @click="editHandlerHargaLayanan(item)"
                         >
                           <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          class="tombol"
-                          outlined=""
-                          @click="
-                            setIdTransaksiProduk(item),
-                              (dialogEditProduk = true)
-                          "
-                        >
-                          <v-icon>mdi-plus</v-icon>
                         </v-btn>
                       </div>
                       <div>
@@ -635,235 +607,6 @@
         </v-card>
       </v-dialog>
     </template>
-    <!-- ---------------------Dialog Edit Detil Produk-------------------------------- -->
-    <v-row justify="center">
-      <v-dialog v-model="dialogEditProduk" persistent max-width="1300px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Ubah Detail Transaksi Produk</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="3">
-                  <v-autocomplete
-                    v-model="formProduk.id_produk"
-                    required
-                    width
-                    :items="produks"
-                    @change="getHargaEditProduk(), setTotalEditProduk()"
-                    item-value="id_produk"
-                    item-text="nama"
-                    label="Nama Produk*"
-                    outlined
-                    color="purple"
-                    :filter="customFilter"
-                    hide-selected=""
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                    label="Jumlah*"
-                    v-model="formProduk.jumlah"
-                    color="purple"
-                    type="number"
-                    outlined
-                    single-line
-                    clearable
-                    @change="getHargaEditProduk(), setTotalEditProduk()"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                    label="Harga Produk*"
-                    v-model="formProduk.harga"
-                    value
-                    outlined
-                    readonly
-                    color="purple"
-                    prefix="Rp."
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                    label="Subtotal*"
-                    v-model="formProduk.total_harga"
-                    value
-                    outlined
-                    readonly
-                    color="purple"
-                    prefix="Rp."
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12">
-                  <v-divider light></v-divider>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="(dialogEditProduk = false), resetFormProduk()"
-              >Close</v-btn
-            >
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="
-                setFormProduk(),
-                  (dialogEditProduk = false),
-                  console.log(formProduk.id_transaksi_produk)
-              "
-              >Save</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-    <!-- ----------------------------------------------------------------------------- -->
-    <!-- ---------------------Dialog Edit Transaksi Produk-------------------------------- -->
-    <v-row justify="center">
-      <v-dialog
-        v-model="dialogEditTransaksiProduk"
-        persistent
-        max-width="1300px"
-      >
-        <v-card>
-          <v-card-title>
-            <span class="headline">Ubah Detail Transaksi Produk</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="3">
-                  <v-autocomplete
-                    v-model="formProduk.id_hewan"
-                    required
-                    width
-                    :items="hewans"
-                    item-value="id_hewan"
-                    item-text="nama"
-                    label="Nama Hewan*"
-                    outlined
-                    color="purple"
-                    :filter="customFilter"
-                    hide-selected=""
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                    label="Jumlah*"
-                    v-model="formProduk.diskon"
-                    color="purple"
-                    type="number"
-                    outlined
-                    single-line
-                    clearable
-                    @change="setNewEditTotal()"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12">
-                  <v-divider light></v-divider>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="(dialogEditTransaksiProduk = false), resetFormLayanan()"
-              >Close</v-btn
-            >
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="
-                updateDataTransaksi(), (dialogEditTransaksiProduk = false)
-              "
-              >Save</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-    <!-- ----------------------------------------------------------------------------- -->
-    <!-- ---------------------Dialog Edit Transaksi Layanan-------------------------------- -->
-    <v-row justify="center">
-      <v-dialog
-        v-model="dialogEditTransaksiLayanan"
-        persistent
-        max-width="1300px"
-      >
-        <v-card>
-          <v-card-title>
-            <span class="headline">Ubah Detail Transaksi Layanan</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="3">
-                  <v-autocomplete
-                    v-model="formLayanan.id_hewan"
-                    required
-                    width
-                    :items="hewans"
-                    item-value="id_hewan"
-                    item-text="nama"
-                    label="Nama Hewan*"
-                    outlined
-                    color="purple"
-                    :filter="customFilter"
-                    hide-selected=""
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                    label="Jumlah*"
-                    v-model="formLayanan.diskon"
-                    color="purple"
-                    type="number"
-                    outlined
-                    single-line
-                    clearable
-                    @change="setNewEditTotal2()"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12">
-                  <v-divider light></v-divider>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="dialogEditTransaksiLayanan = false"
-              >Close</v-btn
-            >
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="updateDataLayanan(), (dialogEditTransaksiLayanan = false)"
-              >Save</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-    <!-- ----------------------------------------------------------------------------- -->
     <!-- ---------------------Dialog Tambah Produk----------------------------------- -->
     <v-dialog
       v-model="dialog"
@@ -1008,7 +751,7 @@
                     </v-col>
                     <v-col cols="2">
                       <v-text-field
-                        label="Total Harga*"
+                        label="Subtotal*"
                         v-model="detilTransaksi.total_harga"
                         value
                         outlined
@@ -1051,7 +794,7 @@
                       color="green"
                       x-large
                       fab
-                      @click="sendDataTransaksi(), setSubtotal()"
+                      @click="setFormProduk(), setSubtotal()"
                       class="tombol"
                     >
                       <v-icon>mdi-content-save</v-icon>
@@ -1270,7 +1013,7 @@
                       x-large=""
                       fab=""
                       @click="
-                        sendDataLayanan(), setSubtotal2(), (dialog2 = false)
+                        setFormLayanan(), setSubtotal2(), (dialog2 = false)
                       "
                       class="tombol"
                     >
@@ -1288,106 +1031,6 @@
       </v-card>
     </v-dialog>
     <!-- -------------------------------------------------------- -->
-    <!-- ---------------------Dialog Edit Detil Layanan-------------------------------- -->
-    <v-row justify="center">
-      <v-dialog v-model="dialogEditLayanan" persistent max-width="1300px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Ubah Detail Transaksi Layanan</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="3">
-                  <v-autocomplete
-                    v-model="formLayanan.id_layanan"
-                    required
-                    width=""
-                    :items="layanans"
-                    @change="setHargaLayananEdit()"
-                    item-value="id_layanan"
-                    item-text="nama"
-                    label="Nama Layanan*"
-                    outlined
-                    color="purple"
-                    hide-selected=""
-                    :filter="customFilter"
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                  <v-autocomplete
-                    v-model="formLayanan.id_ukuran_hewan"
-                    required
-                    width=""
-                    :items="ukurans"
-                    @change="setHargaLayananEdit()"
-                    item-value="id_ukuran_hewan"
-                    item-text="nama"
-                    label="Ukuran*"
-                    outlined
-                    color="purple"
-                    hide-selected=""
-                    :filter="customFilter"
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                    label="Jumlah*"
-                    v-model="formLayanan.jumlah"
-                    color="purple"
-                    type="number"
-                    outlined=""
-                    single-line=""
-                    clearable=""
-                    @change="setSubtotalEditLayanan(), setHargaLayananEdit()"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="2">
-                  <v-text-field
-                    label="Harga Layanan*"
-                    v-model="formLayanan.harga"
-                    value=""
-                    outlined=""
-                    readonly=""
-                    color="purple"
-                    prefix="Rp."
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="2">
-                  <v-text-field
-                    label="Subtotal*"
-                    v-model="formLayanan.total_harga"
-                    value=""
-                    outlined=""
-                    readonly=""
-                    color="purple"
-                    prefix="Rp."
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="(dialogEditLayanan = false), resetFormLayanan()"
-              >Close</v-btn
-            >
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="setFormLayanan(), (dialogEditLayanan = false)"
-              >Save</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-    <!-- ----------------------------------------------------------------------------- -->
 
     <v-snackbar
       v-model="snackbar"
@@ -1409,25 +1052,19 @@ export default {
       tabs: 0,
       dialog: false,
       dialog2: false,
-      cekHewans: false,
       detilTransaksis: [],
       detilLayanans: [],
-      temps: [],
-      dialogEditProduk: false,
-      dialogEditLayanan: false,
-      dialogEditTransaksiProduk: false,
-      dialogEditTransaksiLayanan: false,
       layanans: [],
       ukurans: [],
       detailTransaksiLayanans: [],
       detailTransaksiProduks: [],
-      detailIdTransaksiProduksFiltered: [],
-      detailIdTransaksiLayanansFiltered: [],
       selectedIndex: 0,
       detailItem: '',
       detailItem2: '',
       transaksiProduks: [],
       transaksiLayanans: [],
+      detailIdTransaksiProduksFiltered: [],
+      detailIdTransaksiLayanansFiltered: [],
       keyword: '',
       hewans: [],
       pelanggans: [],
@@ -1565,34 +1202,6 @@ export default {
         modified_by: sessionStorage.getItem('Nama'),
         id_customer_service: sessionStorage.getItem('Id'),
       },
-      formProduk: {
-        id_hewan: '',
-        total: '',
-        diskon: '',
-        id_transaksi_produk: '',
-        subtotal: '',
-        harga: '',
-        total_harga: '',
-        id_produk: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-        id_customer_service: sessionStorage.getItem('Id'),
-      },
-      formLayanan: {
-        id_hewan: '',
-        total: '',
-        diskon: '',
-        id_transaksi_layanan: '',
-        subtotal: '',
-        id_harga_layanan: '',
-        total_harga: '',
-        id_layanan: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-        id_customer_service: sessionStorage.getItem('Id'),
-      },
       user: new FormData(),
       user2: new FormData(),
       detil: new FormData(),
@@ -1605,13 +1214,6 @@ export default {
       updatedId: '',
     };
   },
-  // computed:{
-  //   cekHewan: function(){
-  //     return this.hewans.filter((hewans)=>{
-  //       return this.hewans.id_hewan.match(this.id_hewan)
-  //     });
-  //   }
-  // },
   watch: {
     id_hewan() {
       this.empty = '';
@@ -1619,11 +1221,6 @@ export default {
   },
 
   methods: {
-    filterProgress() {
-      return this.transaksiLayanans.filter((transaksiLayanan) => {
-        return transaksiLayanan.progress.match('Sedang Diproses');
-      });
-    },
     filteredItems(value) {
       return this.detailTransaksiLayanans.filter((i) => {
         return (
@@ -1638,6 +1235,11 @@ export default {
           !value.id_transaksi_produk ||
           i.id_transaksi_produk === value.id_transaksi_produk
         );
+      });
+    },
+    filterProgress() {
+      return this.transaksiLayanans.filter((transaksiLayanan) => {
+        return transaksiLayanan.progress.match('Sedang Diproses');
       });
     },
     filterProgress2() {
@@ -1687,38 +1289,6 @@ export default {
         modified_by: sessionStorage.getItem('Nama'),
       };
     },
-    resetFormProduk() {
-      this.formProduk = {
-        id_hewan: '',
-        total: '',
-        diskon: '',
-        id_transaksi_produk: '',
-        subtotal: '',
-        harga: '',
-        total_harga: '',
-        id_produk: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-        id_customer_service: sessionStorage.getItem('Id'),
-      };
-    },
-    resetFormLayanan() {
-      this.formLayanan = {
-        id_hewan: '',
-        total: '',
-        diskon: '',
-        id_transaksi_layanan: '',
-        subtotal: '',
-        id_harga_layanan: '',
-        total_harga: '',
-        id_layanan: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-        id_customer_service: sessionStorage.getItem('Id'),
-      };
-    },
     addTransaksi() {
       this.getProduk();
       this.detilTransaksis.push({
@@ -1752,7 +1322,6 @@ export default {
         delete_by: '',
       });
     },
-
     filteredProduk(index) {
       var uri =
         this.$apiUrl +
@@ -1766,30 +1335,6 @@ export default {
           this.detilTransaksis[index].jumlah;
       });
     },
-    getHargaEditProduk() {
-      var uri =
-        this.$apiUrl + 'Produk/' + 'search/' + this.formProduk.id_produk;
-      this.$http.get(uri).then((response) => {
-        this.formProduk.harga = response.data.message.harga;
-        this.formProduk.total_harga =
-          this.formProduk.harga * this.formProduk.jumlah;
-      });
-    },
-
-    setIdTransaksiProduk(item) {
-      this.formProduk.id_transaksi_produk = item.id_transaksi_produk;
-      console.log(this.formProduk.id_transaksi_produk);
-    },
-    setIdTransaksiLayanan(item) {
-      this.formLayanan.id_transaksi_layanan = item.id_transaksi_layanan;
-      console.log(this.formLayanan.id_transaksi_layanan);
-    },
-
-    setTotalEditProduk() {
-      this.formProduk.total_harga =
-        this.formProduk.harga * this.formProduk.jumlah;
-    },
-
     filteredHargaLayanan(index) {
       var uri =
         this.$apiUrl +
@@ -1806,41 +1351,13 @@ export default {
           this.detilLayanans[index].harga * this.detilLayanans[index].jumlah;
       });
     },
-    setHargaLayananEdit() {
-      var uri =
-        this.$apiUrl +
-        'HargaLayanan/' +
-        'searchByIdLayananUkuran/' +
-        this.formLayanan.id_layanan +
-        '/' +
-        this.formLayanan.id_ukuran_hewan;
-      this.$http.get(uri).then((response) => {
-        this.formLayanan.harga = response.data.message.harga;
-        this.formLayanan.id_harga_layanan =
-          response.data.message.id_harga_layanan;
-        this.formLayanan.total_harga =
-          this.formLayanan.harga * this.formLayanan.jumlah;
-        console.log(this.formLayanan.id_harga_layanan);
-      });
-    },
     setTotal(index) {
       this.detilTransaksis[index].total_harga =
         this.detilTransaksis[index].harga * this.detilTransaksis[index].jumlah;
     },
-    setSubtotalEditLayanan() {
-      this.formLayanan.total_harga =
-        this.formLayanan.harga * this.formLayanan.jumlah;
-    },
     setTotal2(index) {
       this.detilLayanans[index].total_harga =
         this.detilLayanans[index].harga * this.detilLayanans[index].jumlah;
-    },
-    setNewEditTotal() {
-      this.formProduk.total = this.formProduk.subtotal - this.formProduk.diskon;
-    },
-    setNewEditTotal2() {
-      this.formLayanan.total =
-        this.formLayanan.subtotal - this.formLayanan.diskon;
     },
     setSubtotal() {
       this.form.subtotal = 0;
@@ -1891,30 +1408,6 @@ export default {
         this.produks = response.data.message;
       });
     },
-    getDataLayanan() {
-      var uri = this.$apiUrl + 'TransaksiLayanan/' + 'getWithJoin';
-      this.$http.get(uri).then((response) => {
-        this.transaksiLayanans = response.data.message;
-      });
-    },
-    getDataTransaksiLayanan() {
-      var uri = this.$apiUrl + 'DetailTransaksiLayanan/' + 'getWithJoin';
-      this.$http.get(uri).then((response) => {
-        this.detailTransaksiLayanans = response.data.message;
-      });
-    },
-    getLayanan() {
-      var uri = this.$apiUrl + 'Layanan';
-      this.$http.get(uri).then((response) => {
-        this.layanans = response.data.message;
-      });
-    },
-    getUkuran() {
-      var uri = this.$apiUrl + 'UkuranHewan';
-      this.$http.get(uri).then((response) => {
-        this.ukurans = response.data.message;
-      });
-    },
     getDetailTransaksiProdukById(item) {
       this.updatedId = item.id_transaksi_produk;
       var uri =
@@ -1949,68 +1442,29 @@ export default {
         console.log(this.detailIdTransaksiLayanansFiltered);
       });
     },
-    addProdukDetil() {
-      this.user.append(
-        'id_transaksi_produk',
-        this.formProduk.id_transaksi_produk
-      );
-      this.user.append('id_produk', this.formProduk.id_produk);
-      this.user.append('created_by', this.formProduk.created_by);
-      this.user.append('total_harga', this.formProduk.total_harga);
-      this.user.append('jumlah', this.formProduk.jumlah);
-      var uri = this.$apiUrl + 'DetailTransaksiProduk';
-      this.load = true;
-      this.$http
-        .post(uri, this.user)
-        .then((response) => {
-          this.snackbar = true;
-          this.color = 'green';
-          this.text = response.data.message;
-          this.load = false;
-          this.getDataProduk();
-          this.getDataTransaksiProduk();
-          this.resetFormProduk();
-          this.dialog = false;
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-        });
+    getDataLayanan() {
+      var uri = this.$apiUrl + 'TransaksiLayanan/' + 'getWithJoin';
+      this.$http.get(uri).then((response) => {
+        this.transaksiLayanans = response.data.message;
+      });
     },
-    addLayananDetil() {
-      this.user2.append(
-        'id_transaksi_layanan',
-        this.formLayanan.id_transaksi_layanan
-      );
-      this.user2.append('id_harga_layanan', this.formLayanan.id_harga_layanan);
-      this.user2.append('id_layanan', this.formLayanan.id_Layanan);
-      this.user2.append('jumlah', this.formLayanan.jumlah);
-      this.user2.append('total_harga', this.formLayanan.total_harga);
-      this.user2.append('created_by', this.formLayanan.created_by);
-      var uri = this.$apiUrl + 'DetailTransaksiLayanan';
-      this.load = true;
-      this.$http
-        .post(uri, this.user2)
-        .then((response) => {
-          this.snackbar = true;
-          this.color = 'green';
-          this.text = response.data.message;
-          this.load = false;
-          this.getDataLayanan();
-          this.getDataTransaksiLayanan();
-          this.resetFormLayanan();
-          this.dialogEditLayanan = false;
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-        });
+    getDataTransaksiLayanan() {
+      var uri = this.$apiUrl + 'DetailTransaksiLayanan/' + 'getWithJoin';
+      this.$http.get(uri).then((response) => {
+        this.detailTransaksiLayanans = response.data.message;
+      });
+    },
+    getLayanan() {
+      var uri = this.$apiUrl + 'Layanan';
+      this.$http.get(uri).then((response) => {
+        this.layanans = response.data.message;
+      });
+    },
+    getUkuran() {
+      var uri = this.$apiUrl + 'UkuranHewan';
+      this.$http.get(uri).then((response) => {
+        this.ukurans = response.data.message;
+      });
     },
 
     sendDataTransaksi() {
@@ -2053,6 +1507,8 @@ export default {
           this.text = response.data.message;
           this.load = false;
           this.dialog = false;
+          this.getDataProduk();
+          this.getDataTransaksiProduk();
         })
         .catch((error) => {
           this.errors = error;
@@ -2115,7 +1571,6 @@ export default {
           this.load = false;
         });
     },
-
     updateProgressLayanan(detailItem) {
       this.updatedId = detailItem.id_transaksi_layanan;
       this.transaksiLayanan.append(
@@ -2146,191 +1601,8 @@ export default {
           this.load = false;
         });
     },
-    editHandlerProduk(item) {
-      this.typeInput = 'edit';
-      this.dialogEditProduk = true;
-      this.formProduk.id_produk = item.id_produk;
-      this.formProduk.jumlah = item.jumlah;
-      this.formProduk.harga = item.harga;
-      this.formProduk.total_harga = item.total_harga;
-      this.formProduk.id_transaksi_produk = item.id_transaksi_produk;
-      console.log(this.formProduk.id_transaksi_produk);
-      this.updatedId = item.id_detail_transaksi_produk;
-    },
-    editHandlerLayanan(item) {
-      this.typeInput = 'edit';
-      this.dialogEditLayanan = true;
-      this.formLayanan.id_layanan = item.id_layanan;
-      this.formLayanan.id_ukuran_hewan = item.id_ukuran_hewan;
-      this.formLayanan.jumlah = item.jumlah;
-      this.formLayanan.total_harga = item.total_harga;
-      this.formLayanan.id_transaksi_Layanan = item.id_transaksi_layanan;
-      console.log(this.formLayanan.id_transaksi_Layanan);
-      this.updatedId = item.id_detail_transaksi_layanan;
-    },
-    editHandlerTransaksiProduk(item) {
-      this.typeInput = 'edit';
-      this.dialogEditTransaksiProduk = true;
-      this.formProduk.id_hewan = item.id_hewan;
-      this.formProduk.subtotal = item.subtotal;
-      this.formProduk.total = item.total;
-      this.formProduk.diskon = item.diskon;
-      this.formProduk.id_transaksi_produk = item.id_transaksi_produk;
-      this.updatedId = item.id_transaksi_produk;
-    },
-    editHandlerTransaksiLayanan(item) {
-      this.typeInput = 'edit';
-      this.dialogEditTransaksiLayanan = true;
-      this.formLayanan.id_hewan = item.id_hewan;
-      this.formLayanan.subtotal = item.subtotal;
-      this.formLayanan.total = item.total;
-      this.formLayanan.diskon = item.diskon;
-      this.formLayanan.id_transaksi_layanan = item.id_transaksi_layanan;
-      this.updatedId = item.id_transaksi_layanan;
-    },
-    updateDataDetilTransaksi() {
-      this.user.append('id_produk', this.formProduk.id_produk);
-      this.user.append('jumlah', this.formProduk.jumlah);
-      this.user.append('total_harga', this.formProduk.total_harga);
-      this.user.append('modified_by', this.formProduk.modified_by);
-      var uri =
-        this.$apiUrl + 'DetailTransaksiProduk/' + 'update/' + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.user)
-        .then((response) => {
-          this.snackbar = true;
-          this.color = 'green';
-          this.text = response.data.message;
-          this.load = false;
-          this.dialogEdit = false;
-          this.getDataTransaksiLayanan();
-          this.getDataLayanan();
-          this.typeInput = 'new';
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-          this.typeInput = 'new';
-        });
-    },
-    updateDataTransaksi() {
-      this.detil.append('id_hewan', this.formProduk.id_hewan);
-      this.detil.append('diskon', this.formProduk.diskon);
-      this.detil.append('subtotal', this.formProduk.subtotal);
-      this.detil.append('total', this.formProduk.total);
-      this.detil.append('modified_by', this.formProduk.modified_by);
-      var uri = this.$apiUrl + 'TransaksiProduk/' + 'update/' + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.detil)
-        .then((response) => {
-          this.snackbar = true;
-          this.color = 'green';
-          this.text = response.data.message;
-          this.load = false;
-          this.dialogEditTransaksiProduk = false;
-          this.getDataTransaksiProduk();
-          this.getDataProduk();
-          this.typeInput = 'new';
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-          this.typeInput = 'new';
-        });
-    },
-    updateDataLayanan() {
-      this.detil2.append('id_hewan', this.formLayanan.id_hewan);
-      this.detil2.append('diskon', this.formLayanan.diskon);
-      this.detil2.append('subtotal', this.formLayanan.subtotal);
-      this.detil2.append('total', this.formLayanan.total);
-      this.detil2.append('modified_by', this.formLayanan.modified_by);
-      var uri = this.$apiUrl + 'TransaksiLayanan/' + 'update/' + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.detil2)
-        .then((response) => {
-          this.snackbar = true;
-          this.color = 'green';
-          this.text = response.data.message;
-          this.load = false;
-          this.dialogEditTransaksiProduk = false;
-          this.getDataTransaksiLayanan();
-          this.getDataLayanan();
-          this.resetFormProduk();
-          this.typeInput = 'new';
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-          this.typeInput = 'new';
-        });
-    },
-    updateDataDetilLayanan() {
-      this.user2.append('id_harga_layanan', this.formLayanan.id_harga_layanan);
-      this.user2.append('id_layanan', this.formLayanan.id_Layanan);
-      this.user2.append('jumlah', this.formLayanan.jumlah);
-      this.user2.append('total_harga', this.formLayanan.total_harga);
-      this.user2.append('modified_by', this.formLayanan.modified_by);
-      var uri =
-        this.$apiUrl + 'DetailTransaksiLayanan/' + 'update/' + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.user2)
-        .then((response) => {
-          this.snackbar = true;
-          this.color = 'green';
-          this.text = response.data.message;
-          this.load = false;
-          this.dialogEdit = false;
-          this.getDataTransaksiProduk();
-          this.getDataProduk();
-          this.resetFormLayanan();
-          this.typeInput = 'new';
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-          this.typeInput = 'new';
-        });
-    },
-    setFormProduk() {
-      if (this.typeInput === 'new') {
-        this.addProdukDetil();
-      } else {
-        console.log('data berhasil diubah');
-        this.updateDataDetilTransaksi();
-      }
-    },
-    setFormLayanan() {
-      if (this.typeInput === 'new') {
-        this.addLayananDetil();
-      } else {
-        console.log('data berhasil diubah');
-        this.updateDataDetilLayanan();
-      }
-    },
-    showDetail(item) {
-      this.detailItem = item;
-      this.dialogDetailTransaksiLayanan = true;
-    },
-    showDetail2(item) {
-      this.detailItem2 = item;
-      this.dialogDetailTransaksiProduk = true;
-    },
+    updateDataTransaksi() {},
+    updateDataLayanan() {},
     deleteDataProduk(deleteId) {
       var uri = this.$apiUrl + 'TransaksiProduk/' + deleteId; //data dihapus berdasarkan id
       this.$http
@@ -2466,6 +1738,31 @@ export default {
     deleteRowDetailLayanan(item) {
       this.deleteId = item.id_detail_transaksi_layanan;
       this.deleteDetailDialog = true;
+    },
+
+    setFormProduk() {
+      if (this.typeInput === 'new') {
+        this.sendDataTransaksi();
+      } else {
+        console.log('data berhasil diubah');
+        this.updateDataTransaksi();
+      }
+    },
+    setFormLayanan() {
+      if (this.typeInput === 'new') {
+        this.sendDataLayanan();
+      } else {
+        console.log('data berhasil diubah');
+        this.updateDataLayanan();
+      }
+    },
+    showDetail(item) {
+      this.detailItem = item;
+      this.dialogDetailTransaksiLayanan = true;
+    },
+    showDetail2(item) {
+      this.detailItem2 = item;
+      this.dialogDetailTransaksiProduk = true;
     },
 
     customFilter(item, queryText) {
