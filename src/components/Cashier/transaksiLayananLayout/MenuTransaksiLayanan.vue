@@ -13,20 +13,7 @@
         <div v-if="this.layananTab == 'layananTab-2'">
           <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
           <v-layout row wrap style="margin:10px">
-            <v-flex xs6>
-              <v-btn
-                depressed
-                dark
-                class="elevation-2"
-                x-large
-                style="text-transform: none !important;"
-                color="#f9c99e"
-                @click="dialog = true"
-              >
-                <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
-                Transaksi
-              </v-btn>
-            </v-flex>
+           
             <!-- <v-flex xs6 class="text-right">
               <v-text-field
                 v-model="keyword2"
@@ -99,20 +86,7 @@
         <div v-if="this.layananTab == 'layananTab-1'">
           <h2 class="text-md-center">Data Transaksi Layanan Kouvee Petshop</h2>
           <v-layout row wrap style="margin:10px">
-            <v-flex xs6>
-              <v-btn
-                depressed
-                dark
-                class="elevation-2"
-                x-large
-                style="text-transform: none !important;"
-                color="#f9c99e"
-                @click="dialog = true"
-              >
-                <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
-                Transaksi
-              </v-btn>
-            </v-flex>
+        
             <!-- <v-flex xs6 class="text-right">
               <v-text-field
                 v-model="keyword2"
@@ -154,16 +128,7 @@
                   <td>{{ item.delete_at }}</td>-->
 
                   <td>
-                    <div>
-                      <v-btn
-                        icon
-                        color="blue"
-                        light
-                        @click="editHandlerProduk(item)"
-                      >
-                        <v-icon>mdi-pencil</v-icon>
-                      </v-btn>
-                    </div>
+                    
 
                     <div>
                       <v-btn
@@ -205,23 +170,7 @@
         </v-card>
       </v-dialog>
     </div>
-    <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
-    <div class="text-center">
-      <v-dialog width="500" v-model="dialogWarning">
-        <v-card>
-          <v-card-title class="headline Red lighten-2" primary-title
-            >Data Harus Diisi Semua !</v-card-title
-          >
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialogWarning = false"
-              >Kembali</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
     <!------------------------ Detail Layanan Dialog ------------------------>
     <template>
       <v-dialog
@@ -252,7 +201,7 @@
                     <th class="text-left">Dibuat Oleh</th>
                     <th class="text-left">Tanggal Diubah</th>
                     <th class="text-left">Diubah Oleh</th>
-                    <th class="text-left">Aksi</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -271,16 +220,7 @@
                     <td>{{ item.modified_at }}</td>
                     <td>{{ item.modified_by }}</td>
                     <td>
-                      <div>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          @click="editHandlerHargaLayanan(item)"
-                        >
-                          <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                      </div>
+                     
                     </td>
                   </tr>
                 </tbody>
@@ -348,206 +288,7 @@
       </v-dialog>
     </template>
 
-    <!-- ---------------------Dialog Tambah Produk----------------------------------- -->
-    <v-dialog
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
-      <v-card>
-        <v-toolbar color="#fff4cb">
-          <v-btn icon @click="(dialog = false), resetDynamic()">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Menu Tambah Transaksi Produk</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn text @click="dialog = false">Save</v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-list three-line subheader>
-          <v-subheader>
-            <h2>Data Pembelian</h2>
-          </v-subheader>
-          <v-list-item>
-            <v-list-item-content>
-              <v-card>
-                <v-row>
-                  <v-col cols="6">
-                    <v-autocomplete
-                      v-model="form.id_jenis_hewan"
-                      required
-                      :items="hewans"
-                      :filter="customFilter"
-                      item-value="id_jenis_hewan"
-                      color="purple"
-                      item-text="nama"
-                      label="Nama Hewan*"
-                      outlined
-                      rounded
-                    ></v-autocomplete>
-                  </v-col>
-                  <v-col cols="1">
-                    <v-text-field
-                      v-model="form.created_by"
-                      label="Customer Service"
-                      readonly
-                      color="purple"
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="1">
-                    <v-text-field
-                      v-model="form.id_customer_service"
-                      label="ID Customer Service"
-                      outlined
-                      color="purple"
-                      readonly
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="1">
-                    <h2>Total Pembelian :</h2>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      v-model="form.subtotal"
-                      label="Total Pembelian"
-                      readonly
-                      shaped
-                      color="purple"
-                      prefix="Rp."
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="1">
-                    <h2>Diskon Pembelian:</h2>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      v-model="form.diskon"
-                      label="Diskon"
-                      @change="setSubtotal()"
-                      shaped
-                      color="purple"
-                      prefix="Rp."
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>
-                <h3>Data Produk</h3>
-              </v-list-item-title>
-              <v-card>
-                <div
-                  class="form-row"
-                  v-for="(detilTransaksi, index) in detilTransaksis"
-                  :key="index"
-                >
-                  <v-row>
-                    <v-col cols="3">
-                      <v-autocomplete
-                        v-model="detilTransaksi.id_produk"
-                        required
-                        width
-                        :items="produks"
-                        @change="filteredProduk(index), setTotal(index)"
-                        item-value="id_produk"
-                        item-text="nama"
-                        label="Nama Produk*"
-                        outlined
-                        color="purple"
-                        :filter="customFilter"
-                      ></v-autocomplete>
-                    </v-col>
-                    <v-col cols="2">
-                      <v-text-field
-                        label="Jumlah*"
-                        v-model="detilTransaksi.jumlah"
-                        color="purple"
-                        type="number"
-                        outlined
-                        single-line
-                        clearable
-                        @change="setTotal(index), setSubtotal()"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="2">
-                      <v-text-field
-                        label="Harga Produk*"
-                        v-model="detilTransaksi.harga"
-                        value
-                        outlined
-                        readonly
-                        color="purple"
-                        prefix="Rp."
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="2">
-                      <v-text-field
-                        label="Subtotal*"
-                        v-model="detilTransaksi.total_harga"
-                        value
-                        outlined
-                        readonly
-                        color="purple"
-                        prefix="Rp."
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="1">
-                      <v-btn
-                        outlined
-                        color="red lighten-2"
-                        x-large
-                        @click="deleteRow(detilTransaksi), setSubtotal()"
-                      >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-divider light></v-divider>
-                    </v-col>
-                  </v-row>
-                </div>
-
-                <v-row>
-                  <v-col class="text-right">
-                    <v-btn
-                      outlined
-                      color="green"
-                      x-large
-                      fab
-                      @click="addTransaksi"
-                      class="tombol"
-                    >
-                      <v-icon>mdi-plus</v-icon>
-                    </v-btn>
-
-                    <v-btn
-                      outlined
-                      color="green"
-                      x-large
-                      fab
-                      @click="sendDataTransaksi()"
-                      class="tombol"
-                    >
-                      <v-icon>mdi-content-save</v-icon>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-divider></v-divider>
-      </v-card>
-    </v-dialog>
-    <!-- -------------------------------------------------------- -->
+   
 
     <v-snackbar
       v-model="snackbar"
@@ -581,56 +322,7 @@ export default {
       on: '',
       deleteDialog: '',
       submit: '',
-      headers: [
-        {
-          text: 'No',
-          value: 'index',
-        },
-        {
-          text: 'Id Transaksi Produk',
-          value: 'id_transaksi_produk',
-        },
-        {
-          text: 'Nama Pelanggan',
-          value: 'nama_pelanggan',
-        },
-        {
-          text: 'Nama Hewan',
-          value: 'nama_hewan',
-        },
-        {
-          text: 'Total',
-          value: 'total',
-        },
-        {
-          text: 'Status',
-          value: 'status',
-        },
-        {
-          text: 'Tanggal Lunas',
-          value: 'tanggal_lunas',
-        },
-        {
-          text: 'Tanggal Dibuat',
-          value: 'created_at',
-        },
-        {
-          text: 'Dibuat Oleh',
-          value: 'created_by',
-        },
-        {
-          text: 'Tanggal Diubah',
-          value: 'modified_by',
-        },
-        {
-          text: 'Diubah Oleh',
-          value: 'modified_by',
-        },
-        {
-          text: 'Aksi',
-          value: null,
-        },
-      ],
+     
       headers2: [
         {
           text: 'No',
