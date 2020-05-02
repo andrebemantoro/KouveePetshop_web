@@ -690,7 +690,7 @@ export default {
         modified_by: sessionStorage.getItem('Nama'),
         id_customer_service: sessionStorage.getItem('Id'),
       },
-      user: new FormData(),
+      user2: new FormData(),
       detil2: new FormData(),
       transaksiLayanan: new FormData(),
       deleteLayanan: new FormData(),
@@ -762,6 +762,12 @@ export default {
         }
       }
       this.resetForm();
+    },
+        getUkuran() {
+      var uri = this.$apiUrl + 'UkuranHewan';
+      this.$http.get(uri).then((response) => {
+        this.ukurans = response.data.message;
+      });
     },
     addTransaksi() {
       this.getProduk();
@@ -880,36 +886,7 @@ export default {
       console.log(this.formLayanan.id_transaksi_layanan);
     },
 
-    updateDataProduk() {
-      this.pegawai.append('nama', this.form.nama);
-      this.pegawai.append('tanggal_lahir', this.form.tanggal_lahir);
-      this.pegawai.append('alamat', this.form.alamat);
-      this.pegawai.append('telp', this.form.telp);
-      this.pegawai.append('role', this.form.role);
-      this.pegawai.append('username', this.form.username);
-      this.pegawai.append('modified_by', this.form.modified_by);
-      var uri = this.$apiUrl + 'Pegawai/' + 'update/' + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.pegawai)
-        .then((response) => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = 'green'; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialogEdit = false;
-          this.getDataProduk(); //mengambil data pegawai
-          this.resetFormProduk();
-          this.typeInput = 'new';
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-        });
-    },
+    
     updateStatusLayanan(detailItem) {
       this.updatedId = detailItem.id_transaksi_layanan;
       this.transaksiLayanan.append('id_kasir', sessionStorage.getItem('Id'));
@@ -1110,6 +1087,38 @@ export default {
         this.updateDataDetilLayanan();
       }
     },
+     addLayananDetil() {
+      this.user2.append(
+        'id_transaksi_layanan',
+        this.formLayanan.id_transaksi_layanan
+      );
+      this.user2.append('id_harga_layanan', this.formLayanan.id_harga_layanan);
+      this.user2.append('id_layanan', this.formLayanan.id_Layanan);
+      this.user2.append('jumlah', this.formLayanan.jumlah);
+      this.user2.append('total_harga', this.formLayanan.total_harga);
+      this.user2.append('created_by', this.formLayanan.created_by);
+      var uri = this.$apiUrl + 'DetailTransaksiLayanan';
+      this.load = true;
+      this.$http
+        .post(uri, this.user2)
+        .then((response) => {
+          this.snackbar = true;
+          this.color = 'green';
+          this.text = response.data.message;
+          this.load = false;
+          this.getDataLayanan();
+          this.getDataTransaksiLayanan();
+          this.resetFormLayanan();
+          this.dialogEditLayanan = false;
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Coba Lagi';
+          this.color = 'red';
+          this.load = false;
+        });
+    },
     customFilter(item, queryText) {
       const textOne = item.nama.toLowerCase();
       const textTwo = item.nama.toLowerCase();
@@ -1136,11 +1145,13 @@ export default {
       };
     },
   },
+  
   mounted() {
     this.getDataLayanan();
     this.getHewan();
     this.getJenisHewan();
     this.getLayanan();
+     this.getUkuran();
     this.getDataTransaksiLayanan();
   },
 };

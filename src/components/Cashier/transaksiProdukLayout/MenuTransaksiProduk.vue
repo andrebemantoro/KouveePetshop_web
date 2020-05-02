@@ -132,7 +132,7 @@
                         icon
                         color="blue"
                         light
-                        @click="editHandlerTransaksiLayanan(item)"
+                        @click="editHandlerTransaksiProduk(item)"
                       >
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
@@ -768,6 +768,7 @@ export default {
           this.formProduk.harga * this.formProduk.jumlah;
       });
     },
+ 
 
     setIdTransaksiProduk(item) {
       this.formProduk.id_transaksi_produk = item.id_transaksi_produk;
@@ -1052,15 +1053,38 @@ export default {
         textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
       );
     },
-  },
-  mounted() {
-    this.getDataProduk();
-    this.getHewan();
-    this.getJenisHewan();
-    this.getProduk();
-    this.getDataTransaksiProduk();
-  },
-  resetFormProduk() {
+    addProdukDetil() {
+      this.user.append(
+        'id_transaksi_produk',
+        this.formProduk.id_transaksi_produk
+      );
+      this.user.append('id_produk', this.formProduk.id_produk);
+      this.user.append('created_by', this.formProduk.created_by);
+      this.user.append('total_harga', this.formProduk.total_harga);
+      this.user.append('jumlah', this.formProduk.jumlah);
+      var uri = this.$apiUrl + 'DetailTransaksiProduk';
+      this.load = true;
+      this.$http
+        .post(uri, this.user)
+        .then((response) => {
+          this.snackbar = true;
+          this.color = 'green';
+          this.text = response.data.message;
+          this.load = false;
+          this.getDataProduk();
+          this.getDataTransaksiProduk();
+          this.resetFormProduk();
+          this.dialogEditProduk = false;
+        })
+        .catch((error) => {
+          this.errors = error;
+          this.snackbar = true;
+          this.text = 'Coba Lagi';
+          this.color = 'red';
+          this.load = false;
+        });
+    },
+      resetFormProduk() {
     this.formProduk = {
       id_hewan: '',
       total: '',
@@ -1076,6 +1100,27 @@ export default {
       id_customer_service: sessionStorage.getItem('Id'),
     };
   },
+  },
+    
+  editHandlerTransaksiProduk(item) {
+      this.typeInput = 'edit';
+      this.dialogEditTransaksiProduk = true;
+      this.formProduk.id_hewan = item.id_hewan;
+      this.formProduk.subtotal = item.subtotal;
+      this.formProduk.total = item.total;
+      this.formProduk.diskon = item.diskon;
+      this.formProduk.id_transaksi_produk = item.id_transaksi_produk;
+      this.updatedId = item.id_transaksi_produk;
+    },
+  mounted() {
+    this.getDataProduk();
+    this.getHewan();
+    this.getJenisHewan();
+    this.getProduk();
+   
+    this.getDataTransaksiProduk();
+  },
+
 };
 </script>
 <style scoped>
