@@ -27,7 +27,7 @@
           </v-layout>
           <v-data-table
             :headers="headers2"
-            :items="filterProgress(transaksiLayanans)"
+            :items="filterProgress(transaksiLayanans2)"
             :search="keyword"
           >
             <template v-slot:body="{ items }">
@@ -97,7 +97,7 @@
           </v-layout>
           <v-data-table
             :headers="headers2"
-            :items="filterProgress2(transaksiLayanans)"
+            :items="filterProgress2(transaksiLayanans2)"
             :search="keyword"
           >
             <template v-slot:body="{ items }">
@@ -169,10 +169,16 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="deleteDialog = false"
+            <v-btn
+              color="primary"
+              text
+              @click="resetArray(), (deleteDialog = false)"
               >Batal</v-btn
             >
-            <v-btn color="primary" text @click="deleteDataLayanan(deleteId)"
+            <v-btn
+              color="primary"
+              text
+              @click="deleteDataLayanan(deleteId), resetArray()"
               >Hapus Transaksi</v-btn
             >
           </v-card-actions>
@@ -599,6 +605,7 @@
         selectedIndex: 0,
         detailItem: '',
         transaksiLayanans: [],
+        transaksiLayanans2: [],
         dialogEditLayanan: false,
         dialogEditTransaksiLayanan: false,
         detailIdTransaksiLayanansFiltered: [],
@@ -743,7 +750,10 @@
       },
       filterProgress() {
         return this.transaksiLayanans.filter((transaksiLayanan) => {
-          return transaksiLayanan.status.match('Lunas');
+          return (
+            transaksiLayanan.status.match('Lunas') &&
+            transaksiLayanan.progress.match('Layanan Selesai')
+          );
         });
       },
       filteredItems(value) {
@@ -764,7 +774,10 @@
       },
       filterProgress2() {
         return this.transaksiLayanans.filter((transaksiLayanan) => {
-          return transaksiLayanan.status.match('Menunggu Pembayaran');
+          return (
+            transaksiLayanan.status.match('Menunggu Pembayaran') &&
+            transaksiLayanan.progress.match('Layanan Selesai')
+          );
         });
       },
       selectTabs(selectedTabs) {
@@ -776,7 +789,9 @@
           1
         );
       },
-
+      resetArray() {
+        this.detailIdTransaksiLayanansFiltered = [];
+      },
       resetDynamic2() {
         while (this.detilLayanans.length != 0) {
           for (var i = 0; i < this.detilLayanans.length; i++) {
@@ -974,7 +989,7 @@
           .catch((error) => {
             this.errors = error;
             this.snackbar = true;
-            this.text = 'Try Again';
+            this.text = 'Coba Lagi';
             this.color = 'red';
           });
       },
@@ -1083,7 +1098,7 @@
           .catch((error) => {
             this.errors = error;
             this.snackbar = true;
-            this.text = 'Try Again';
+            this.text = 'Coba Lagi';
             this.color = 'red';
           });
       },

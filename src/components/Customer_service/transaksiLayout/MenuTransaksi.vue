@@ -296,16 +296,25 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="deleteDialog = false"
+            <v-btn
+              color="primary"
+              text
+              @click="resetArray(), (deleteDialog = false)"
               >Batal</v-btn
             >
             <div v-if="this.tabs == 0">
-              <v-btn color="primary" text @click="deleteDataProduk(deleteId)"
+              <v-btn
+                color="primary"
+                text
+                @click="deleteDataProduk(deleteId), resetArray()"
                 >Hapus Transaksi</v-btn
               >
             </div>
             <div v-if="this.tabs == 1">
-              <v-btn color="primary" text @click="deleteDataLayanan(deleteId)"
+              <v-btn
+                color="primary"
+                text
+                @click="deleteDataLayanan(deleteId), resetArray()"
                 >Hapus Transaksi</v-btn
               >
             </div>
@@ -2115,6 +2124,10 @@
           }
           console.log(this.detailIdTransaksiLayanansFiltered);
         });
+      },
+      resetArray() {
+        this.detailIdTransaksiLayanansFiltered = [];
+        this.detailIdTransaksiProduksFiltered = [];
       },
       addProdukDetil() {
         this.user.append(
