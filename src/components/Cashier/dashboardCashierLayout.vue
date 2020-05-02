@@ -20,7 +20,7 @@
             Kouvee Petshop
           </v-list-item-title>
           <v-list-item-subtitle style="margin-left:10px;">
-            untuk Customer Service
+            untuk Kasir
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -78,31 +78,31 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      collapseOnScroll: true,
-      drawer: null,
-      items: [
-        {
-          title: 'Transaksi Produk',
-          icon: 'mdi-cash-multiple',
-          to: '/menuTransaksiProduk',
-        },
-        {
-          title: 'Transaksi Layanan',
-          icon: 'mdi-cash-multiple',
-          to: '/menuTransaksiLayanan',
-        },
-      ],
-    };
-  },
-  methods: {
-    logout() {
-      sessionStorage.removeItem('Nama');
-      sessionStorage.removeItem('Id');
-      this.$router.push({ name: 'Login' });
+  export default {
+    data() {
+      return {
+        collapseOnScroll: true,
+        drawer: null,
+        items: [
+          {
+            title: 'Transaksi Produk',
+            icon: 'mdi-cash-multiple',
+            to: '/menuTransaksiProduk',
+          },
+          {
+            title: 'Transaksi Layanan',
+            icon: 'mdi-cash-multiple',
+            to: '/menuTransaksiLayanan',
+          },
+        ],
+      };
     },
-  },
-};
+    methods: {
+      logout() {
+        sessionStorage.removeItem('Nama');
+        sessionStorage.removeItem('Id');
+        this.$router.push({ name: 'Login' });
+      },
+    },
+  };
 </script>
