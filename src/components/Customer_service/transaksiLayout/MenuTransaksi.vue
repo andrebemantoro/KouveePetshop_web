@@ -1373,9 +1373,7 @@
                       color="green"
                       x-large
                       fab
-                      @click="
-                        sendDataLayanan(), setSubtotal2(), (dialog2 = false)
-                      "
+                      @click="sendDataLayanan(), setSubtotal2()"
                       class="tombol"
                     >
                       <v-icon>mdi-content-save</v-icon>
@@ -2201,7 +2199,12 @@
         this.detil.append('created_by', this.form.created_by);
         this.detil.append('subtotal', this.form.subtotal);
         this.detil.append('diskon', this.form.diskon);
-        this.detil.append('id_hewan', this.id_hewan);
+        if(this.id_hewan!=null){
+          this.detil.append('id_hewan', this.id_hewan);
+        }else{
+          this.detil.delete('id_hewan');
+        }
+
         var uri = this.$apiUrl + 'TransaksiProduk';
 
         this.load = true;
@@ -2236,6 +2239,7 @@
             this.text = response.data.message;
             this.load = false;
             this.dialog = false;
+            this.id_hewan=null;
             this.getDataProduk();
             this.getDataTransaksiProduk();
           })
@@ -2255,8 +2259,12 @@
         this.detil2.append('created_by', this.form.created_by);
         this.detil2.append('subtotal', this.form.subtotal);
         this.detil2.append('diskon', this.form.diskon);
-        this.detil2.append('id_hewan', this.id_hewan);
-
+        if(this.id_hewan!=null){
+          this.detil2.append('id_hewan', this.id_hewan);
+        }else{
+          this.detil2.delete('id_hewan');
+        }
+        console.log(this.id_hewan)
         var uri = this.$apiUrl + 'TransaksiLayanan';
 
         this.load = true;
@@ -2290,7 +2298,8 @@
             this.color = 'green';
             this.text = response.data.message;
             this.load = false;
-            this.dialog = false;
+            this.dialog2 = false;
+            this.id_hewan=null;
             this.getDataLayanan();
             this.getDataTransaksiLayanan();
             this.typeInput = 'new';
