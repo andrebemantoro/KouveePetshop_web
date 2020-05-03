@@ -56,10 +56,12 @@
                   <td>{{ item.delete_at }}</td>-->
                   <td>
                     <div>
-                      <v-btn icon color="red lighten-2" 
-                      dark 
-                      v-on="on"  
-                      @click="cetakStruk(item)"
+                      <v-btn
+                        icon
+                        color="red lighten-2"
+                        dark
+                        v-on="on"
+                        @click="cetakStruk(item)"
                       >
                         <v-icon>mdi-pdf-box</v-icon>
                       </v-btn>
@@ -378,6 +380,41 @@
                     </td>
                   </tr>
                 </td>
+
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.id_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.id_kasir }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_kasir }}</h3>
+                    </td>
+                  </tr>
+                </td>
               </v-simple-table>
 
               <div v-if="this.layananTab == 'layananTab-1'">
@@ -500,14 +537,13 @@
                     required
                     width=""
                     :items="layanans"
-                    @keyup="setHargaLayananEdit()"
                     @change="setHargaLayananEdit()"
                     item-value="id_layanan"
                     item-text="nama"
                     label="Nama Layanan*"
                     outlined
                     color="purple"
-                    hide-selected=""
+                    hide-selected
                     :filter="customFilter"
                   ></v-autocomplete>
                 </v-col>
@@ -517,14 +553,13 @@
                     required
                     width=""
                     :items="ukurans"
-                    @keyup="setHargaLayananEdit()"
                     @change="setHargaLayananEdit()"
                     item-value="id_ukuran_hewan"
                     item-text="nama"
                     label="Ukuran*"
                     outlined
                     color="purple"
-                    hide-selected=""
+                    hide-selected
                     :filter="customFilter"
                   ></v-autocomplete>
                 </v-col>
@@ -534,10 +569,9 @@
                     v-model="formLayanan.jumlah"
                     color="purple"
                     type="number"
-                    outlined=""
-                    single-line=""
-                    clearable=""
-                    @keyup="setSubtotalEditLayanan(), setHargaLayananEdit()"
+                    outlined
+                    single-line
+                    clearable
                     @change="setSubtotalEditLayanan(), setHargaLayananEdit()"
                   ></v-text-field>
                 </v-col>
@@ -626,7 +660,8 @@
         menu: false,
         on: '',
         submit: '',
-        link:'http://kouveepetshopapi.smithdev.xyz/index.php/CetakStrukLayanan/',
+        link:
+          'http://kouveepetshopapi.smithdev.xyz/index.php/CetakStrukLayanan/',
 
         headers2: [
           {
@@ -752,6 +787,21 @@
             this.transaksiLayanans[i].jenis_hewan = '-';
             this.transaksiLayanans[i].nama_pelanggan = 'Guest';
             this.transaksiLayanans[i].telp = '-';
+            this.transaksiLayanans[i].diskon = '0';
+          }
+        }
+      },
+      isHaveKasirLayanan() {
+        for (var i = 0; i < this.transaksiLayanans.length; i++) {
+          if (this.transaksiLayanans[i].id_kasir == null) {
+            this.transaksiLayanans[i].id_kasir = '-';
+            this.transaksiLayanans[i].nama_kasir = '-';
+          }
+        }
+      },
+      isHaveDiskonLayanan() {
+        for (var i = 0; i < this.transaksiLayanans.length; i++) {
+          if (this.transaksiLayanans[i].diskon == null) {
             this.transaksiLayanans[i].diskon = '0';
           }
         }
@@ -902,6 +952,8 @@
         this.$http.get(uri).then((response) => {
           this.transaksiLayanans = response.data.message;
           this.isGuestLayanan();
+          this.isHaveKasirLayanan();
+          this.isHaveDiskonLayanan();
         });
       },
       getDataTransaksiLayanan() {
@@ -1198,8 +1250,11 @@
           id_customer_service: sessionStorage.getItem('Id'),
         };
       },
-      cetakStruk(item){
-        var uri = this.$apiUrl + 'CetakStruk/transaksiLayanan/'+item.id_transaksi_layanan;
+      cetakStruk(item) {
+        var uri =
+          this.$apiUrl +
+          'CetakStruk/transaksiLayanan/' +
+          item.id_transaksi_layanan;
         // this.$http.get(uri).then(() => {
         //     this.snackbar = true;
         //     this.color = 'green';
@@ -1213,8 +1268,8 @@
         //     this.color = 'red';
         //     this.load = false;
         //   });
-        window.open(uri,"_blank");
-        console.log(item.id_transaksi_layanan)
+        window.open(uri, '_blank');
+        console.log(item.id_transaksi_layanan);
       },
     },
 

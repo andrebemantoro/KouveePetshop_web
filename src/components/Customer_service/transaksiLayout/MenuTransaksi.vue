@@ -529,6 +529,41 @@
                     </td>
                   </tr>
                 </td>
+
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.id_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.id_kasir }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_kasir }}</h3>
+                    </td>
+                  </tr>
+                </td>
               </v-simple-table>
               <div v-if="this.layananTab == 'layananTab-1'">
                 <v-btn
@@ -712,6 +747,41 @@
                     </td>
                     <td>
                       <h3>{{ detailItem2.telp }}</h3>
+                    </td>
+                  </tr>
+                </td>
+
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem2.id_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem2.id_kasir }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem2.nama_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem2.nama_kasir }}</h3>
                     </td>
                   </tr>
                 </td>
@@ -1772,6 +1842,36 @@
           }
         }
       },
+      isHaveDiskonProduk() {
+        for (var i = 0; i < this.transaksiProduks.length; i++) {
+          if (this.transaksiProduks[i].diskon == null) {
+            this.transaksiProduks[i].diskon = '0';
+          }
+        }
+      },
+      isHaveDiskonLayanan() {
+        for (var i = 0; i < this.transaksiLayanans.length; i++) {
+          if (this.transaksiLayanans[i].diskon == null) {
+            this.transaksiLayanans[i].diskon = '0';
+          }
+        }
+      },
+      isHaveKasirProduk() {
+        for (var i = 0; i < this.transaksiProduks.length; i++) {
+          if (this.transaksiProduks[i].id_kasir == null) {
+            this.transaksiProduks[i].id_kasir = '-';
+            this.transaksiProduks[i].nama_kasir = '-';
+          }
+        }
+      },
+      isHaveKasirLayanan() {
+        for (var i = 0; i < this.transaksiLayanans.length; i++) {
+          if (this.transaksiLayanans[i].id_kasir == null) {
+            this.transaksiLayanans[i].id_kasir = '-';
+            this.transaksiLayanans[i].nama_kasir = '-';
+          }
+        }
+      },
       filterProgress() {
         return this.transaksiLayanans.filter((transaksiLayanan) => {
           return transaksiLayanan.progress.match('Sedang Diproses');
@@ -2029,6 +2129,8 @@
         this.$http.get(uri).then((response) => {
           this.transaksiProduks = response.data.message;
           this.isGuestProduk();
+          this.isHaveKasirProduk();
+          this.isHaveDiskonProduk();
         });
       },
       getDataTransaksiProduk() {
@@ -2069,6 +2171,8 @@
         this.$http.get(uri).then((response) => {
           this.transaksiLayanans = response.data.message;
           this.isGuestLayanan();
+          this.isHaveKasirLayanan();
+          this.isHaveDiskonLayanan();
         });
       },
       getDataTransaksiLayanan() {
@@ -2198,10 +2302,14 @@
         this.detil.append('id_customer_service', this.form.id_customer_service);
         this.detil.append('created_by', this.form.created_by);
         this.detil.append('subtotal', this.form.subtotal);
-        this.detil.append('diskon', this.form.diskon);
-        if(this.id_hewan!=null){
+        if (this.diskon != null) {
+          this.detil.append('diskon', this.form.diskon);
+        } else {
+          this.detil.delete('diskon');
+        }
+        if (this.id_hewan != null) {
           this.detil.append('id_hewan', this.id_hewan);
-        }else{
+        } else {
           this.detil.delete('id_hewan');
         }
 
@@ -2239,7 +2347,7 @@
             this.text = response.data.message;
             this.load = false;
             this.dialog = false;
-            this.id_hewan=null;
+            this.id_hewan = null;
             this.getDataProduk();
             this.getDataTransaksiProduk();
           })
@@ -2258,13 +2366,17 @@
         );
         this.detil2.append('created_by', this.form.created_by);
         this.detil2.append('subtotal', this.form.subtotal);
-        this.detil2.append('diskon', this.form.diskon);
-        if(this.id_hewan!=null){
+        if (this.diskon != null) {
+          this.detil2.append('diskon', this.form.diskon);
+        } else {
+          this.detil2.delete('diskon');
+        }
+        if (this.id_hewan != null) {
           this.detil2.append('id_hewan', this.id_hewan);
-        }else{
+        } else {
           this.detil2.delete('id_hewan');
         }
-        console.log(this.id_hewan)
+        console.log(this.id_hewan);
         var uri = this.$apiUrl + 'TransaksiLayanan';
 
         this.load = true;
@@ -2299,7 +2411,7 @@
             this.text = response.data.message;
             this.load = false;
             this.dialog2 = false;
-            this.id_hewan=null;
+            this.id_hewan = null;
             this.getDataLayanan();
             this.getDataTransaksiLayanan();
             this.typeInput = 'new';

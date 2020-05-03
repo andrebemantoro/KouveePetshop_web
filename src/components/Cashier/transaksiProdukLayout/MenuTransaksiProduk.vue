@@ -57,12 +57,12 @@
 
                   <td>
                     <div>
-                      <v-btn 
-                      icon 
-                      color="red lighten-2" 
-                      dark 
-                      v-on="on" 
-                      @click="cetakStruk(item)"
+                      <v-btn
+                        icon
+                        color="red lighten-2"
+                        dark
+                        v-on="on"
+                        @click="cetakStruk(item)"
                       >
                         <v-icon>mdi-pdf-box</v-icon>
                       </v-btn>
@@ -547,6 +547,41 @@
                     </td>
                   </tr>
                 </td>
+
+                <td class="text-right">
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.id_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Id Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.id_kasir }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Customer Service : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_customer_service }}</h3>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h3>{{ 'Nama Kasir : ' }}</h3>
+                    </td>
+                    <td>
+                      <h3>{{ detailItem.nama_kasir }}</h3>
+                    </td>
+                  </tr>
+                </td>
               </v-simple-table>
               <div v-if="this.layananTab == 'layananTab-1'">
                 <v-btn
@@ -745,6 +780,21 @@
           }
         }
       },
+      isHaveKasirProduk() {
+        for (var i = 0; i < this.transaksiProduks.length; i++) {
+          if (this.transaksiProduks[i].id_kasir == null) {
+            this.transaksiProduks[i].id_kasir = '-';
+            this.transaksiProduks[i].nama_kasir = '-';
+          }
+        }
+      },
+      isHaveDiskonProduk() {
+        for (var i = 0; i < this.transaksiProduks.length; i++) {
+          if (this.transaksiProduks[i].diskon == null) {
+            this.transaksiProduks[i].diskon = '0';
+          }
+        }
+      },
       filterProgress() {
         return this.transaksiProduks.filter((transaksiProduk) => {
           return transaksiProduk.status.match('Lunas');
@@ -840,6 +890,8 @@
         this.$http.get(uri).then((response) => {
           this.transaksiProduks = response.data.message;
           this.isGuestProduk();
+          this.isHaveKasirProduk();
+          this.isHaveDiskonProduk();
         });
       },
       getDataTransaksiProduk() {
@@ -1142,10 +1194,13 @@
           id_customer_service: sessionStorage.getItem('Id'),
         };
       },
-      cetakStruk(item){
-        var uri = this.$apiUrl + 'CetakStruk/transaksiProduk/'+item.id_transaksi_produk;
-        window.open(uri,"_blank");
-        console.log(item.id_transaksi_produk)
+      cetakStruk(item) {
+        var uri =
+          this.$apiUrl +
+          'CetakStruk/transaksiProduk/' +
+          item.id_transaksi_produk;
+        window.open(uri, '_blank');
+        console.log(item.id_transaksi_produk);
       },
     },
 
