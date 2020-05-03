@@ -399,7 +399,7 @@
             <v-spacer />
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <!-- <v-container> -->
               <v-simple-table height="50%">
                 <thead>
                   <tr>
@@ -474,7 +474,7 @@
                   </tr>
                 </tbody>
               </v-simple-table>
-            </v-container>
+            <!-- </v-container> -->
             <br />
             <div class="text-right">
               <v-simple-table>

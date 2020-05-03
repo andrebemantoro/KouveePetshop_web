@@ -232,7 +232,7 @@
             <v-spacer />
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <!-- <v-container> -->
               <v-simple-table height="50%">
                 <thead>
                   <tr>
@@ -246,7 +246,7 @@
                     <th class="text-left">Dibuat Oleh</th>
                     <th class="text-left">Tanggal Diubah</th>
                     <th class="text-left">Diubah Oleh</th>
-                    <th class="text-left">Aksi</th>
+                    <th v-if="detailItem.status!='Lunas'" class="text-left">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -264,8 +264,8 @@
                     <td>{{ item.created_by }}</td>
                     <td>{{ item.modified_at }}</td>
                     <td>{{ item.modified_by }}</td>
-                    <td>
-                      <div>
+                    <td v-if="detailItem.status!='Lunas'">
+                      <div >
                         <v-btn
                           icon
                           color="blue"
@@ -307,7 +307,7 @@
                   </tr>
                 </tbody>
               </v-simple-table>
-            </v-container>
+            <!-- </v-container> -->
             <br />
             <div class="text-right">
               <v-simple-table>
