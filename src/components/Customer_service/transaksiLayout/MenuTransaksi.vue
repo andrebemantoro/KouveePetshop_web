@@ -389,83 +389,88 @@
             <v-spacer />
           </v-card-title>
           <v-card-text>
-            <v-container>
-              <v-simple-table height="50%">
-                <thead>
-                  <tr>
-                    <th class="text-left">Id Detail Transaksi</th>
-                    <th class="text-left">Nama Layanan</th>
-                    <th class="text-left">Ukuran Hewan</th>
-                    <th class="text-left">Harga Satuan</th>
-                    <th class="text-left">Jumlah</th>
-                    <th class="text-left">Total Harga</th>
-                    <th class="text-left">Tanggal Dibuat</th>
-                    <th class="text-left">Dibuat Oleh</th>
-                    <th class="text-left">Tanggal Diubah</th>
-                    <th class="text-left">Diubah Oleh</th>
-                    <th class="text-left">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="item in filteredItems(detailItem)"
-                    :key="item.id_detail_transaksi_layanan"
-                  >
-                    <td>{{ item.id_detail_transaksi_layanan }}</td>
-                    <td>{{ item.nama_layanan }}</td>
-                    <td>{{ item.ukuran_hewan }}</td>
-                    <td>{{ item.harga }}</td>
-                    <td>{{ item.jumlah }}</td>
-                    <td>{{ item.total_harga }}</td>
-                    <td>{{ item.created_at }}</td>
-                    <td>{{ item.created_by }}</td>
-                    <td>{{ item.modified_at }}</td>
-                    <td>{{ item.modified_by }}</td>
-                    <td>
-                      <div>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          class="tombol"
-                          outlined
-                          @click="editHandlerLayanan(item)"
-                        >
-                          <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          class="tombol"
-                          outlined
-                          @click="
-                            setIdTransaksiLayanan(item),
-                              (dialogEditLayanan = true)
-                          "
-                        >
-                          <v-icon>mdi-plus</v-icon>
-                        </v-btn>
-                      </div>
-                      <div>
-                        <v-btn
-                          icon
-                          color="red lighten-2"
-                          light
-                          v-on="on"
-                          class="tombol"
-                          outlined
-                          @click="deleteRowDetailLayanan(item)"
-                        >
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-simple-table>
-            </v-container>
+            <!-- <v-container> -->
+            <v-simple-table height="50%">
+              <thead>
+                <tr>
+                  <th class="text-left">Id Detail Transaksi</th>
+                  <th class="text-left">Nama Layanan</th>
+                  <th class="text-left">Ukuran Hewan</th>
+                  <th class="text-left">Harga Satuan</th>
+                  <th class="text-left">Jumlah</th>
+                  <th class="text-left">Total Harga</th>
+                  <th class="text-left">Tanggal Dibuat</th>
+                  <th class="text-left">Dibuat Oleh</th>
+                  <th class="text-left">Tanggal Diubah</th>
+                  <th class="text-left">Diubah Oleh</th>
+                  <th class="text-left">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="item in filteredItems(detailItem)"
+                  :key="item.id_detail_transaksi_layanan"
+                >
+                  <td>{{ item.id_detail_transaksi_layanan }}</td>
+                  <td>{{ item.nama_layanan }}</td>
+                  <td>{{ item.ukuran_hewan }}</td>
+                  <td>{{ item.harga }}</td>
+                  <td>{{ item.jumlah }}</td>
+                  <td>{{ item.total_harga }}</td>
+                  <td>{{ item.created_at }}</td>
+                  <td>{{ item.created_by }}</td>
+                  <td>{{ item.modified_at }}</td>
+                  <td>{{ item.modified_by }}</td>
+                  <td>
+                    <div>
+                      <v-btn
+                        icon
+                        color="blue"
+                        light
+                        class="tombol"
+                        outlined
+                        @click="editHandlerLayanan(item)"
+                      >
+                        <v-icon>mdi-pencil</v-icon>
+                      </v-btn>
+                    </div>
+                    <div>
+                      <v-btn
+                        icon
+                        color="red lighten-2"
+                        light
+                        v-on="on"
+                        class="tombol"
+                        outlined
+                        @click="deleteRowDetailLayanan(item)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+            <!-- </v-container> -->
             <br />
+            <div
+              v-if="detailItem.status != 'Lunas'"
+              class="text-right"
+              id="right"
+            >
+              <v-btn
+                icon
+                color="blue"
+                light
+                class="tombol"
+                outlined=""
+                @click="
+                  setIdTransaksiLayanan(detailItem), (dialogEditLayanan = true)
+                "
+              >
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </div>
             <div class="text-right">
               <v-simple-table>
                 <td class="text-right">
@@ -612,81 +617,86 @@
             <v-spacer />
           </v-card-title>
           <v-card-text>
-            <v-container>
-              <v-simple-table height="50%">
-                <thead>
-                  <tr>
-                    <th class="text-left">Id Detail Transaksi</th>
-                    <th class="text-left">Nama Produk</th>
-                    <th class="text-left">Harga Satuan</th>
-                    <th class="text-left">Jumlah</th>
-                    <th class="text-left">Total Harga</th>
-                    <th class="text-left">Tanggal Dibuat</th>
-                    <th class="text-left">Dibuat Oleh</th>
-                    <th class="text-left">Tanggal Diubah</th>
-                    <th class="text-left">Diubah Oleh</th>
-                    <th class="text-left">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="item in filteredItems2(detailItem2)"
-                    :key="item.id_detail_transaksi_produk"
-                  >
-                    <td>{{ item.id_detail_transaksi_produk }}</td>
-                    <td>{{ item.nama_produk }}</td>
-                    <td>{{ item.harga }}</td>
-                    <td>{{ item.jumlah }}</td>
-                    <td>{{ item.total_harga }}</td>
-                    <td>{{ item.created_at }}</td>
-                    <td>{{ item.created_by }}</td>
-                    <td>{{ item.modified_at }}</td>
-                    <td>{{ item.modified_by }}</td>
-                    <td>
-                      <div>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          outlined
-                          class="tombol"
-                          @click="editHandlerProduk(item)"
-                        >
-                          <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn
-                          icon
-                          color="blue"
-                          light
-                          class="tombol"
-                          outlined
-                          @click="
-                            setIdTransaksiProduk(item),
-                              (dialogEditProduk = true)
-                          "
-                        >
-                          <v-icon>mdi-plus</v-icon>
-                        </v-btn>
-                      </div>
-                      <div>
-                        <v-btn
-                          icon
-                          color="red lighten-2"
-                          light
-                          class="tombol"
-                          outlined
-                          v-on="on"
-                          @click="deleteRowDetailProduk(item)"
-                        >
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-simple-table>
-            </v-container>
+            <!-- <v-container> -->
+            <v-simple-table height="50%">
+              <thead>
+                <tr>
+                  <th class="text-left">Id Detail Transaksi</th>
+                  <th class="text-left">Nama Produk</th>
+                  <th class="text-left">Harga Satuan</th>
+                  <th class="text-left">Jumlah</th>
+                  <th class="text-left">Total Harga</th>
+                  <th class="text-left">Tanggal Dibuat</th>
+                  <th class="text-left">Dibuat Oleh</th>
+                  <th class="text-left">Tanggal Diubah</th>
+                  <th class="text-left">Diubah Oleh</th>
+                  <th class="text-left">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="item in filteredItems2(detailItem2)"
+                  :key="item.id_detail_transaksi_produk"
+                >
+                  <td>{{ item.id_detail_transaksi_produk }}</td>
+                  <td>{{ item.nama_produk }}</td>
+                  <td>{{ item.harga }}</td>
+                  <td>{{ item.jumlah }}</td>
+                  <td>{{ item.total_harga }}</td>
+                  <td>{{ item.created_at }}</td>
+                  <td>{{ item.created_by }}</td>
+                  <td>{{ item.modified_at }}</td>
+                  <td>{{ item.modified_by }}</td>
+                  <td>
+                    <div>
+                      <v-btn
+                        icon
+                        color="blue"
+                        light
+                        outlined
+                        class="tombol"
+                        @click="editHandlerProduk(item)"
+                      >
+                        <v-icon>mdi-pencil</v-icon>
+                      </v-btn>
+                    </div>
+                    <div>
+                      <v-btn
+                        icon
+                        color="red lighten-2"
+                        light
+                        class="tombol"
+                        outlined
+                        v-on="on"
+                        @click="deleteRowDetailProduk(item)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+            <!-- </v-container> -->
             <br />
+            <div
+              v-if="detailItem.status != 'Lunas'"
+              class="text-right"
+              id="right-2"
+            >
+              <v-btn
+                icon
+                color="blue"
+                light
+                class="tombol"
+                outlined=""
+                @click="
+                  setIdTransaksiProduk(detailItem2), (dialogEditProduk = true)
+                "
+              >
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </div>
             <div class="text-right">
               <v-simple-table>
                 <td class="text-right">
@@ -2832,5 +2842,11 @@
   }
   .underlinetext {
     text-decoration: underline;
+  }
+  #right {
+    margin-right: 17px;
+  }
+  #right-2 {
+    margin-right: 22px;
   }
 </style>

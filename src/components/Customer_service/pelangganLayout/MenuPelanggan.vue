@@ -262,7 +262,12 @@
             @click="resetForm(), (dialogEdit = false)"
             >Tutup</v-btn
           >
-          <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="setForm(), (dialogEdit = false)"
+            >Simpan</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -282,254 +287,254 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      rules: [value => !!value || "Wajib diisi."],
-      dialogWarning: "",
-      dialog: false,
-      pelanggans: [],
-      keyword: "",
-      bottomNav: 1,
-      on: "",
-      deleteDialog: "",
-      menu: false,
-      headers: [
-        {
-          text: "No",
-          value: "index"
+  export default {
+    data() {
+      return {
+        rules: [(value) => !!value || 'Wajib diisi.'],
+        dialogWarning: '',
+        dialog: false,
+        pelanggans: [],
+        keyword: '',
+        bottomNav: 1,
+        on: '',
+        deleteDialog: '',
+        menu: false,
+        headers: [
+          {
+            text: 'No',
+            value: 'index',
+          },
+          {
+            text: 'Id Pelanggan',
+            value: 'id_pelanggan',
+          },
+          {
+            text: 'Nama Pelanggan',
+            value: 'nama',
+          },
+          {
+            text: 'Alamat',
+            value: 'alamat',
+          },
+          {
+            text: 'Tanggal Lahir',
+            value: 'tanggal_lahir',
+          },
+          {
+            text: 'Nomor Telepon',
+            value: 'telp',
+          },
+          {
+            text: 'Tanggal Dibuat',
+            value: 'created_at',
+          },
+          {
+            text: 'Dibuat Oleh',
+            value: 'created_by',
+          },
+          {
+            text: 'Tanggal Diubah',
+            value: 'modified_by',
+          },
+          {
+            text: 'Diubah Oleh',
+            value: 'modified_by',
+          },
+          // {
+          //   text: "Delete At",
+          //   value: "delete_at"
+          // },
+          // {
+          //   text: "Delete By",
+          //   value: "delete_by"
+          // },
+          // {
+          //   text: "Aktif",
+          //   value: "aktif"
+          // },
+          {
+            text: 'Aksi',
+            value: null,
+          },
+        ],
+        snackbar: false,
+        color: null,
+        text: '',
+        load: false,
+        form: {
+          nama: '',
+          alamat: '',
+          tanggal_lahir: '',
+          telp: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
         },
-        {
-          text: "Id Pelanggan",
-          value: "id_pelanggan"
-        },
-        {
-          text: "Nama Pelanggan",
-          value: "nama"
-        },
-        {
-          text: "Alamat",
-          value: "alamat"
-        },
-        {
-          text: "Tanggal Lahir",
-          value: "tanggal_lahir"
-        },
-        {
-          text: "Nomor Telepon",
-          value: "telp"
-        },
-        {
-          text: "Tanggal Dibuat",
-          value: "created_at"
-        },
-        {
-          text: "Dibuat Oleh",
-          value: "created_by"
-        },
-        {
-          text: "Tanggal Diubah",
-          value: "modified_by"
-        },
-        {
-          text: "Diubah Oleh",
-          value: "modified_by"
-        },
-        // {
-        //   text: "Delete At",
-        //   value: "delete_at"
-        // },
-        // {
-        //   text: "Delete By",
-        //   value: "delete_by"
-        // },
-        // {
-        //   text: "Aktif",
-        //   value: "aktif"
-        // },
-        {
-          text: "Aksi",
-          value: null
-        }
-      ],
-      snackbar: false,
-      color: null,
-      text: "",
-      load: false,
-      form: {
-        nama: "",
-        alamat: "",
-        tanggal_lahir: "",
-        telp: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
-      },
-      pelanggan: new FormData(),
-      dialogEdit: "",
-      typeInput: "new",
-      errors: "",
-      updatedId: ""
-    };
-  },
-  // computed: {
-  //   color() {
-  //     switch (this.bottomNav) {
-  //       case 0:
-  //         return "blue-grey";
-  //       case 1:
-  //         return "teal";
-  //     }
-  //   }
-  // },
-  watch: {
-    menu(val) {
-      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
-    }
-  },
-
-  methods: {
-    cekKosong() {
-      if (
-        this.form.nama === "" ||
-        this.form.alamat === "" ||
-        this.form.tanggal_lahir === "" ||
-        this.form.telp === ""
-      ) {
-        this.dialogWarning = true;
-      } else {
-        this.setForm();
-        this.resetForm();
-        this.reset();
-        this.dialog = false;
-      }
-    },
-    save(date) {
-      this.$refs.menu.save(date);
-    },
-    reset() {
-      this.$refs.form.resetValidation();
-      this.show = false;
-    },
-    getData() {
-      var uri = this.$apiUrl + "Pelanggan";
-      this.$http.get(uri).then(response => {
-        this.pelanggans = response.data.message;
-      });
-    },
-    sendData() {
-      this.pelanggan.append("nama", this.form.nama);
-      this.pelanggan.append("tanggal_lahir", this.form.tanggal_lahir);
-      this.pelanggan.append("alamat", this.form.alamat);
-      this.pelanggan.append("telp", this.form.telp);
-      this.pelanggan.append("created_by", this.form.created_by);
-
-      var uri = this.$apiUrl + "Pelanggan";
-      this.load = true;
-      this.$http
-        .post(uri, this.pelanggan)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil [pegawai]
-          this.resetForm();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-          this.load = false;
-        });
-    },
-    updateData() {
-      this.pelanggan.append("nama", this.form.nama);
-      this.pelanggan.append("tanggal_lahir", this.form.tanggal_lahir);
-      this.pelanggan.append("alamat", this.form.alamat);
-      this.pelanggan.append("telp", this.form.telp);
-      this.pelanggan.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "Pelanggan/" + "update/" + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.pelanggan)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil data pelanggan
-          this.resetForm();
-          this.typeInput = "new";
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-          this.load = false;
-          this.typeInput = "new";
-        });
-    },
-    editHandler(item) {
-      this.typeInput = "edit";
-      this.dialogEdit = true;
-      this.form.nama = item.nama;
-      this.form.alamat = item.alamat;
-      this.form.tanggal_lahir = item.tanggal_lahir;
-      this.form.telp = item.telp;
-      this.updatedId = item.id_pelanggan;
-    },
-    deleteRow(item) {
-      this.deleteId = item.id_pelanggan;
-      this.deleteDialog = true;
-    },
-    deleteData(deleteId) {
-      //mengahapus data
-      this.pelanggan.append("delete_by", this.form.delete_by);
-      var uri = this.$apiUrl + "Pelanggan" + "/delete/" + deleteId; //data dihapus berdasarkan id
-      this.load = true;
-      this.$http
-        .post(uri, this.pelanggan)
-        .then(response => {
-          this.snackbar = true;
-          this.text = response.data.message;
-          this.color = "green";
-          this.deleteDialog = false;
-          this.getData();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Try Again";
-          this.color = "red";
-        });
-    },
-    setForm() {
-      if (this.typeInput === "new") {
-        this.sendData();
-      } else {
-        console.log("data berhasil diubah");
-        this.updateData();
-      }
-    },
-    resetForm() {
-      this.form = {
-        nama: "",
-        alamat: "",
-        tanggal_lahir: "",
-        telp: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        pelanggan: new FormData(),
+        dialogEdit: '',
+        typeInput: 'new',
+        errors: '',
+        updatedId: '',
       };
-    }
-  },
-  mounted() {
-    this.getData();
-  }
-};
+    },
+    // computed: {
+    //   color() {
+    //     switch (this.bottomNav) {
+    //       case 0:
+    //         return "blue-grey";
+    //       case 1:
+    //         return "teal";
+    //     }
+    //   }
+    // },
+    watch: {
+      menu(val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'));
+      },
+    },
+
+    methods: {
+      cekKosong() {
+        if (
+          this.form.nama === '' ||
+          this.form.alamat === '' ||
+          this.form.tanggal_lahir === '' ||
+          this.form.telp === ''
+        ) {
+          this.dialogWarning = true;
+        } else {
+          this.setForm();
+          this.resetForm();
+          this.reset();
+          this.dialog = false;
+        }
+      },
+      save(date) {
+        this.$refs.menu.save(date);
+      },
+      reset() {
+        this.$refs.form.resetValidation();
+        this.show = false;
+      },
+      getData() {
+        var uri = this.$apiUrl + 'Pelanggan';
+        this.$http.get(uri).then((response) => {
+          this.pelanggans = response.data.message;
+        });
+      },
+      sendData() {
+        this.pelanggan.append('nama', this.form.nama);
+        this.pelanggan.append('tanggal_lahir', this.form.tanggal_lahir);
+        this.pelanggan.append('alamat', this.form.alamat);
+        this.pelanggan.append('telp', this.form.telp);
+        this.pelanggan.append('created_by', this.form.created_by);
+
+        var uri = this.$apiUrl + 'Pelanggan';
+        this.load = true;
+        this.$http
+          .post(uri, this.pelanggan)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialog = false;
+            this.getData(); //mengambil [pegawai]
+            this.resetForm();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Try Again';
+            this.color = 'red';
+            this.load = false;
+          });
+      },
+      updateData() {
+        this.pelanggan.append('nama', this.form.nama);
+        this.pelanggan.append('tanggal_lahir', this.form.tanggal_lahir);
+        this.pelanggan.append('alamat', this.form.alamat);
+        this.pelanggan.append('telp', this.form.telp);
+        this.pelanggan.append('modified_by', this.form.modified_by);
+        var uri = this.$apiUrl + 'Pelanggan/' + 'update/' + this.updatedId;
+        this.load = true;
+        this.$http
+          .post(uri, this.pelanggan)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialog = false;
+            this.getData(); //mengambil data pelanggan
+            this.resetForm();
+            this.typeInput = 'new';
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Try Again';
+            this.color = 'red';
+            this.load = false;
+            this.typeInput = 'new';
+          });
+      },
+      editHandler(item) {
+        this.typeInput = 'edit';
+        this.dialogEdit = true;
+        this.form.nama = item.nama;
+        this.form.alamat = item.alamat;
+        this.form.tanggal_lahir = item.tanggal_lahir;
+        this.form.telp = item.telp;
+        this.updatedId = item.id_pelanggan;
+      },
+      deleteRow(item) {
+        this.deleteId = item.id_pelanggan;
+        this.deleteDialog = true;
+      },
+      deleteData(deleteId) {
+        //mengahapus data
+        this.pelanggan.append('delete_by', this.form.delete_by);
+        var uri = this.$apiUrl + 'Pelanggan' + '/delete/' + deleteId; //data dihapus berdasarkan id
+        this.load = true;
+        this.$http
+          .post(uri, this.pelanggan)
+          .then((response) => {
+            this.snackbar = true;
+            this.text = response.data.message;
+            this.color = 'green';
+            this.deleteDialog = false;
+            this.getData();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Try Again';
+            this.color = 'red';
+          });
+      },
+      setForm() {
+        if (this.typeInput === 'new') {
+          this.sendData();
+        } else {
+          console.log('data berhasil diubah');
+          this.updateData();
+        }
+      },
+      resetForm() {
+        this.form = {
+          nama: '',
+          alamat: '',
+          tanggal_lahir: '',
+          telp: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
+        };
+      },
+    },
+    mounted() {
+      this.getData();
+    },
+  };
 </script>

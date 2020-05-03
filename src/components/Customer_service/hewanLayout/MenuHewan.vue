@@ -318,270 +318,270 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      rules: [(value) => !!value || 'Wajib diisi.'],
-      dialogWarning: '',
-      dialogEdit: '',
-      on: '',
-      dialog: false,
-      deleteDialog: false,
-      dialogLabel: 'Tambah Hewan',
-      jenishewans: [],
-      pelanggans: [],
-      hewans: [],
-      keyword: '',
-      bottomNav: 1,
-      menu: false,
-      headers: [
-        {
-          text: 'No',
-          value: 'index',
+  export default {
+    data() {
+      return {
+        rules: [(value) => !!value || 'Wajib diisi.'],
+        dialogWarning: '',
+        dialogEdit: '',
+        on: '',
+        dialog: false,
+        deleteDialog: false,
+        dialogLabel: 'Tambah Hewan',
+        jenishewans: [],
+        pelanggans: [],
+        hewans: [],
+        keyword: '',
+        bottomNav: 1,
+        menu: false,
+        headers: [
+          {
+            text: 'No',
+            value: 'index',
+          },
+          {
+            text: 'Id Hewan',
+            value: 'id_hewan',
+          },
+          {
+            text: 'Nama Hewan',
+            value: 'nama_hewan',
+          },
+          {
+            text: 'Jenis Hewan',
+            value: 'nama_jenis_hewan',
+          },
+          {
+            text: 'Nama Pemilik',
+            value: 'nama_pelanggan',
+          },
+          {
+            text: 'Tanggal Lahir',
+            value: 'tanggal_lahir_hewan',
+          },
+          {
+            text: 'Tanggal Dibuat',
+            value: 'created_at',
+          },
+          {
+            text: 'Dibuat Oleh',
+            value: 'created_by',
+          },
+          {
+            text: 'Tanggal Diubah',
+            value: 'modified_by',
+          },
+          {
+            text: 'Diubah Oleh',
+            value: 'modified_by',
+          },
+          // {
+          // text: "Delete At",
+          // value: "delete_at"
+          // },
+          // {
+          // text: "Delete By",
+          // value: "delete_by"
+          // },
+          // {
+          // text: "Aktif",
+          // value: "aktif"
+          // },
+          {
+            text: 'Aksi',
+            value: null,
+          },
+        ],
+        snackbar: false,
+        color: null,
+        text: '',
+        load: false,
+        form: {
+          nama: '',
+          id_jenis_hewan: '',
+          id_pelanggan: '',
+          tanggal_lahir: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
         },
-        {
-          text: 'Id Hewan',
-          value: 'id_hewan',
-        },
-        {
-          text: 'Nama Hewan',
-          value: 'nama_hewan',
-        },
-        {
-          text: 'Jenis Hewan',
-          value: 'nama_jenis_hewan',
-        },
-        {
-          text: 'Nama Pemilik',
-          value: 'nama_pelanggan',
-        },
-        {
-          text: 'Tanggal Lahir',
-          value: 'tanggal_lahir_hewan',
-        },
-        {
-          text: 'Tanggal Dibuat',
-          value: 'created_at',
-        },
-        {
-          text: 'Dibuat Oleh',
-          value: 'created_by',
-        },
-        {
-          text: 'Tanggal Diubah',
-          value: 'modified_by',
-        },
-        {
-          text: 'Diubah Oleh',
-          value: 'modified_by',
-        },
-        // {
-        // text: "Delete At",
-        // value: "delete_at"
-        // },
-        // {
-        // text: "Delete By",
-        // value: "delete_by"
-        // },
-        // {
-        // text: "Aktif",
-        // value: "aktif"
-        // },
-        {
-          text: 'Aksi',
-          value: null,
-        },
-      ],
-      snackbar: false,
-      color: null,
-      text: '',
-      load: false,
-      form: {
-        nama: '',
-        id_jenis_hewan: '',
-        id_pelanggan: '',
-        tanggal_lahir: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
-      },
-      hewan: new FormData(),
-      typeInput: 'new',
-      errors: '',
-      updatedId: '',
-      deleteId: '',
-    };
-  },
-  watch: {
-    menu(val) {
-      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'));
-    },
-  },
-  methods: {
-    cekKosong() {
-      if (this.form.nama === '') {
-        this.dialogWarning = true;
-      } else {
-        this.setForm();
-        this.resetForm();
-        this.reset();
-        this.dialog = false;
-      }
-    },
-    save(date) {
-      this.$refs.menu.save(date);
-    },
-    reset() {
-      this.$refs.form.resetValidation();
-    },
-    getData() {
-      var uri = this.$apiUrl + 'Hewan/getWithJoin';
-      this.$http.get(uri).then((response) => {
-        this.hewans = response.data.message;
-      });
-    },
-    getPelanggan() {
-      var uri = this.$apiUrl + 'Pelanggan';
-      this.$http.get(uri).then((response) => {
-        this.pelanggans = response.data.message;
-      });
-    },
-    getJenisHewan() {
-      var uri = this.$apiUrl + 'JenisHewan';
-      this.$http.get(uri).then((response) => {
-        this.jenishewans = response.data.message;
-      });
-    },
-    sendData() {
-      this.hewan.append('nama', this.form.nama);
-      this.hewan.append('id_jenis_hewan', this.form.id_jenis_hewan);
-      this.hewan.append('id_pelanggan', this.form.id_pelanggan);
-      this.hewan.append('tanggal_lahir', this.form.tanggal_lahir);
-      this.hewan.append('created_by', this.form.created_by);
-
-      var uri = this.$apiUrl + 'Hewan';
-      this.load = true;
-      this.$http
-        .post(uri, this.hewan)
-        .then((response) => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = 'green'; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.resetForm();
-          this.getData();
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-        });
-    },
-    updateData() {
-      this.hewan.append('nama', this.form.nama);
-      this.hewan.append('id_jenis_hewan', this.form.id_jenis_hewan);
-      this.hewan.append('id_pelanggan', this.form.id_pelanggan);
-      this.hewan.append('tanggal_lahir', this.form.tanggal_lahir);
-      this.hewan.append('modified_by', this.form.modified_by);
-      var uri = this.$apiUrl + 'Hewan/' + 'update/' + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.hewan)
-        .then((response) => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = 'green'; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialogEdit = false;
-          this.getData(); //mengambil data hewan
-          this.resetForm();
-          this.typeInput = 'new';
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-          this.load = false;
-          this.typeInput = 'new';
-        });
-    },
-    showAddDialog() {
-      this.typeInput = 'new';
-      (this.dialogLabel = 'Tambah Hewan'), this.resetForm();
-      this.dialog = true;
-    },
-    editHandler(item) {
-      this.typeInput = 'edit';
-      this.dialogEdit = true;
-      this.form.nama = item.nama_hewan;
-      this.form.id_jenis_hewan = item.id_jenis_hewan;
-      this.form.id_pelanggan = item.id_pelanggan;
-      this.form.tanggal_lahir = item.tanggal_lahir_hewan;
-      this.updatedId = item.id_hewan;
-    },
-    deleteRow(item) {
-      this.deleteId = item.id_hewan;
-      this.deleteDialog = true;
-    },
-    deleteData(deleteId) {
-      //menghapus data
-      this.hewan.append('delete_by', this.form.delete_by);
-      var uri = this.$apiUrl + 'Hewan' + '/delete/' + deleteId; //data dihapus berdasarkan id
-      this.load = true;
-      this.$http
-        .post(uri, this.hewan)
-        .then((response) => {
-          this.snackbar = true;
-          this.text = response.data.message;
-          this.color = 'green';
-          this.deleteDialog = false;
-          this.deleteId = '';
-          this.getData();
-        })
-        .catch((error) => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = 'Coba Lagi';
-          this.color = 'red';
-        });
-    },
-    setForm() {
-      if (this.typeInput === 'new') {
-        this.sendData();
-      } else {
-        console.log('data berhasil diubah');
-        this.updateData();
-      }
-    },
-    resetForm() {
-      this.form = {
-        nama: '',
-        id_jenis_hewan: '',
-        id_pelanggan: '',
-        tanggal_lahir: '',
-        created_by: sessionStorage.getItem('Nama'),
-        delete_by: sessionStorage.getItem('Nama'),
-        modified_by: sessionStorage.getItem('Nama'),
+        hewan: new FormData(),
+        typeInput: 'new',
+        errors: '',
+        updatedId: '',
+        deleteId: '',
       };
     },
-    customFilter(item, queryText) {
-      const textOne = item.nama.toLowerCase();
-      const textTwo = item.nama.toLowerCase();
-      const searchText = queryText.toLowerCase();
-
-      return (
-        textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
-      );
+    watch: {
+      menu(val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'));
+      },
     },
-  },
-  mounted() {
-    this.getData();
-    this.getPelanggan();
-    this.getJenisHewan();
-  },
-};
+    methods: {
+      cekKosong() {
+        if (this.form.nama === '') {
+          this.dialogWarning = true;
+        } else {
+          this.setForm();
+          this.resetForm();
+          this.reset();
+          this.dialog = false;
+        }
+      },
+      save(date) {
+        this.$refs.menu.save(date);
+      },
+      reset() {
+        this.$refs.form.resetValidation();
+      },
+      getData() {
+        var uri = this.$apiUrl + 'Hewan/getWithJoin';
+        this.$http.get(uri).then((response) => {
+          this.hewans = response.data.message;
+        });
+      },
+      getPelanggan() {
+        var uri = this.$apiUrl + 'Pelanggan';
+        this.$http.get(uri).then((response) => {
+          this.pelanggans = response.data.message;
+        });
+      },
+      getJenisHewan() {
+        var uri = this.$apiUrl + 'JenisHewan';
+        this.$http.get(uri).then((response) => {
+          this.jenishewans = response.data.message;
+        });
+      },
+      sendData() {
+        this.hewan.append('nama', this.form.nama);
+        this.hewan.append('id_jenis_hewan', this.form.id_jenis_hewan);
+        this.hewan.append('id_pelanggan', this.form.id_pelanggan);
+        this.hewan.append('tanggal_lahir', this.form.tanggal_lahir);
+        this.hewan.append('created_by', this.form.created_by);
+
+        var uri = this.$apiUrl + 'Hewan';
+        this.load = true;
+        this.$http
+          .post(uri, this.hewan)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialog = false;
+            this.resetForm();
+            this.getData();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+          });
+      },
+      updateData() {
+        this.hewan.append('nama', this.form.nama);
+        this.hewan.append('id_jenis_hewan', this.form.id_jenis_hewan);
+        this.hewan.append('id_pelanggan', this.form.id_pelanggan);
+        this.hewan.append('tanggal_lahir', this.form.tanggal_lahir);
+        this.hewan.append('modified_by', this.form.modified_by);
+        var uri = this.$apiUrl + 'Hewan/' + 'update/' + this.updatedId;
+        this.load = true;
+        this.$http
+          .post(uri, this.hewan)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialogEdit = false;
+            this.getData(); //mengambil data hewan
+            this.resetForm();
+            this.typeInput = 'new';
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+            this.typeInput = 'new';
+          });
+      },
+      showAddDialog() {
+        this.typeInput = 'new';
+        (this.dialogLabel = 'Tambah Hewan'), this.resetForm();
+        this.dialog = true;
+      },
+      editHandler(item) {
+        this.typeInput = 'edit';
+        this.dialogEdit = true;
+        this.form.nama = item.nama_hewan;
+        this.form.id_jenis_hewan = item.id_jenis_hewan;
+        this.form.id_pelanggan = item.id_pelanggan;
+        this.form.tanggal_lahir = item.tanggal_lahir_hewan;
+        this.updatedId = item.id_hewan;
+      },
+      deleteRow(item) {
+        this.deleteId = item.id_hewan;
+        this.deleteDialog = true;
+      },
+      deleteData(deleteId) {
+        //menghapus data
+        this.hewan.append('delete_by', this.form.delete_by);
+        var uri = this.$apiUrl + 'Hewan' + '/delete/' + deleteId; //data dihapus berdasarkan id
+        this.load = true;
+        this.$http
+          .post(uri, this.hewan)
+          .then((response) => {
+            this.snackbar = true;
+            this.text = response.data.message;
+            this.color = 'green';
+            this.deleteDialog = false;
+            this.deleteId = '';
+            this.getData();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+          });
+      },
+      setForm() {
+        if (this.typeInput === 'new') {
+          this.sendData();
+        } else {
+          console.log('data berhasil diubah');
+          this.updateData();
+        }
+      },
+      resetForm() {
+        this.form = {
+          nama: '',
+          id_jenis_hewan: '',
+          id_pelanggan: '',
+          tanggal_lahir: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
+        };
+      },
+      customFilter(item, queryText) {
+        const textOne = item.nama.toLowerCase();
+        const textTwo = item.nama.toLowerCase();
+        const searchText = queryText.toLowerCase();
+
+        return (
+          textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
+        );
+      },
+    },
+    mounted() {
+      this.getData();
+      this.getPelanggan();
+      this.getJenisHewan();
+    },
+  };
 </script>
