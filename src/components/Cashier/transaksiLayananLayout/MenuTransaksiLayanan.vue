@@ -56,7 +56,11 @@
                   <td>{{ item.delete_at }}</td>-->
                   <td>
                     <div>
-                      <v-btn icon color="red lighten-2" dark v-on="on">
+                      <v-btn icon color="red lighten-2" 
+                      dark 
+                      v-on="on"  
+                      @click="cetakStruk(item)"
+                      >
                         <v-icon>mdi-pdf-box</v-icon>
                       </v-btn>
                     </div>
@@ -619,6 +623,7 @@
         menu: false,
         on: '',
         submit: '',
+        link:'http://kouveepetshopapi.smithdev.xyz/index.php/CetakStrukLayanan/',
 
         headers2: [
           {
@@ -1190,6 +1195,27 @@
           id_customer_service: sessionStorage.getItem('Id'),
         };
       },
+   cetakStruk(item){
+  
+     var uri = this.$apiUrl + 'CetakStruk/transaksiLayanan/'+ item.id_transaksi_layanan;
+        this.$http.connect(uri).then(() => {
+            this.snackbar = true;
+            this.color = 'green';
+            this.text = 'Berhasil';
+            this.load = false;
+          })
+           .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+          });
+      
+  console.log(item.id_transaksi_layanan)
+   
+   },
+     
     },
 
     mounted() {
