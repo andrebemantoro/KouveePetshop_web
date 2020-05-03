@@ -50,7 +50,10 @@
             </v-text-field>
           </v-flex>-->
         </v-layout>
-        <v-data-table :headers="headers" :items="transaksiProduks">
+        <v-data-table
+          :headers="headers"
+          :items="filterProgress3(transaksiProduks)"
+        >
           <template v-slot:body="{ items }">
             <tbody>
               <tr
@@ -69,7 +72,6 @@
                 <td>{{ item.nama_hewan }}</td>
                 <td>{{ item.total }}</td>
                 <td>{{ item.status }}</td>
-                <td>{{ item.tanggal_lunas }}</td>
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.created_by }}</td>
                 <td>{{ item.modified_at }}</td>
@@ -174,7 +176,6 @@
                   <td>{{ item.total }}</td>
                   <td>{{ item.progress }}</td>
                   <td>{{ item.status }}</td>
-                  <td>{{ item.tanggal_lunas }}</td>
                   <td>{{ item.created_at }}</td>
                   <td>{{ item.created_by }}</td>
                   <td>{{ item.modified_at }}</td>
@@ -242,7 +243,6 @@
                   <td>{{ item.total }}</td>
                   <td>{{ item.progress }}</td>
                   <td>{{ item.status }}</td>
-                  <td>{{ item.tanggal_lunas }}</td>
                   <td>{{ item.created_at }}</td>
                   <td>{{ item.created_by }}</td>
                   <td>{{ item.modified_at }}</td>
@@ -1642,10 +1642,6 @@
             value: 'status',
           },
           {
-            text: 'Tanggal Lunas',
-            value: 'tanggal_lunas',
-          },
-          {
             text: 'Tanggal Dibuat',
             value: 'created_at',
           },
@@ -1694,10 +1690,6 @@
           {
             text: 'Status',
             value: 'status',
-          },
-          {
-            text: 'Tanggal Lunas',
-            value: 'tanggal_lunas',
           },
           {
             text: 'Tanggal Dibuat',
@@ -1872,9 +1864,28 @@
           }
         }
       },
+      //memfilter transaksi layanan yang progressnya sedang diproses dan statusnya menunggu pembayaran
       filterProgress() {
         return this.transaksiLayanans.filter((transaksiLayanan) => {
-          return transaksiLayanan.progress.match('Sedang Diproses');
+          return (
+            transaksiLayanan.progress.match('Sedang Diproses') &&
+            transaksiLayanan.status.match('Menunggu Pembayaran')
+          );
+        });
+      },
+      //memfilter transaksi layanan yang progressnya sudah selesai diproses dan statusnya menunggu pembayaran
+      filterProgress2() {
+        return this.transaksiLayanans.filter((transaksiLayanan) => {
+          return (
+            transaksiLayanan.progress.match('Layanan Selesai') &&
+            transaksiLayanan.status.match('Menunggu Pembayaran')
+          );
+        });
+      },
+      //memfilter transaksi produk yang statusnya menunggu pembayaran
+      filterProgress3() {
+        return this.transaksiProduks.filter((transaksiProduk) => {
+          return transaksiProduk.status.match('Menunggu Pembayaran');
         });
       },
       filteredItems(value) {
@@ -1893,11 +1904,7 @@
           );
         });
       },
-      filterProgress2() {
-        return this.transaksiLayanans.filter((transaksiLayanan) => {
-          return transaksiLayanan.progress.match('Layanan Selesai');
-        });
-      },
+
       selectTabs(selectedTabs) {
         this.tabs = selectedTabs;
       },
