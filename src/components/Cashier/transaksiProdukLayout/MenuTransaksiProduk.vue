@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <div class="ma-3">
     <!-- ------------------Menu Transaksi Produk-------------------------------------- -->
     <v-card>
-      <v-container grid-list-md mb-20>
-        <div>
+      <div class="pa-3">
+        <div class="mb-3">
           <v-tabs v-model="layananTab" color="#f9c99e" centered>
             <v-tabs-slider color="#f9c99e"></v-tabs-slider>
             <v-tab href="#layananTab-1">Menunggu Pembayaran</v-tab>
@@ -57,7 +57,13 @@
 
                   <td>
                     <div>
-                      <v-btn icon color="red lighten-2" dark v-on="on">
+                      <v-btn 
+                      icon 
+                      color="red lighten-2" 
+                      dark 
+                      v-on="on" 
+                      @click="cetakStruk(item)"
+                      >
                         <v-icon>mdi-pdf-box</v-icon>
                       </v-btn>
                     </div>
@@ -157,7 +163,7 @@
             </template>
           </v-data-table>
         </div>
-      </v-container>
+      </div>
     </v-card>
 
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
@@ -236,6 +242,7 @@
                     required
                     width
                     :items="produks"
+                    @keyup="getHargaEditProduk(), setTotalEditProduk()"
                     @change="getHargaEditProduk(), setTotalEditProduk()"
                     item-value="id_produk"
                     item-text="nama"
@@ -255,6 +262,7 @@
                     outlined
                     single-line
                     clearable
+                    @keyup="getHargaEditProduk(), setTotalEditProduk()"
                     @change="getHargaEditProduk(), setTotalEditProduk()"
                   ></v-text-field>
                 </v-col>
@@ -581,7 +589,7 @@
       {{ text }}
       <v-btn dark text @click="snackbar = false">Tutup</v-btn>
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -1133,6 +1141,11 @@
           modified_by: sessionStorage.getItem('Nama'),
           id_customer_service: sessionStorage.getItem('Id'),
         };
+      },
+      cetakStruk(item){
+        var uri = this.$apiUrl + 'CetakStruk/transaksiProduk/'+item.id_transaksi_produk;
+        window.open(uri,"_blank");
+        console.log(item.id_transaksi_produk)
       },
     },
 

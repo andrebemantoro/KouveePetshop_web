@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <div class="ma-3">
     <!-- ------------------Menu Transaksi Layanan-------------------------------------- -->
     <v-card>
-      <v-container grid-list-md mb-20>
-        <div>
+      <div class="pa-3">
+        <div class="mb-3">
           <v-tabs v-model="layananTab" color="#f9c99e" centered>
             <v-tabs-slider color="#f9c99e"></v-tabs-slider>
             <v-tab href="#layananTab-1">Menunggu Pembayaran</v-tab>
@@ -160,7 +160,7 @@
             </template>
           </v-data-table>
         </div>
-      </v-container>
+      </div>
     </v-card>
     <!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
     <div class="text-center">
@@ -500,6 +500,7 @@
                     required
                     width=""
                     :items="layanans"
+                    @keyup="setHargaLayananEdit()"
                     @change="setHargaLayananEdit()"
                     item-value="id_layanan"
                     item-text="nama"
@@ -516,6 +517,7 @@
                     required
                     width=""
                     :items="ukurans"
+                    @keyup="setHargaLayananEdit()"
                     @change="setHargaLayananEdit()"
                     item-value="id_ukuran_hewan"
                     item-text="nama"
@@ -535,6 +537,7 @@
                     outlined=""
                     single-line=""
                     clearable=""
+                    @keyup="setSubtotalEditLayanan(), setHargaLayananEdit()"
                     @change="setSubtotalEditLayanan(), setHargaLayananEdit()"
                   ></v-text-field>
                 </v-col>
@@ -594,7 +597,7 @@
       {{ text }}
       <v-btn dark text @click="snackbar = false">Tutup</v-btn>
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -1195,27 +1198,24 @@
           id_customer_service: sessionStorage.getItem('Id'),
         };
       },
-   cetakStruk(item){
-  
-     var uri = this.$apiUrl + 'CetakStruk/transaksiLayanan/'+ item.id_transaksi_layanan;
-        this.$http.connect(uri).then(() => {
-            this.snackbar = true;
-            this.color = 'green';
-            this.text = 'Berhasil';
-            this.load = false;
-          })
-           .catch((error) => {
-            this.errors = error;
-            this.snackbar = true;
-            this.text = 'Coba Lagi';
-            this.color = 'red';
-            this.load = false;
-          });
-      
-  console.log(item.id_transaksi_layanan)
-   
-   },
-     
+      cetakStruk(item){
+        var uri = this.$apiUrl + 'CetakStruk/transaksiLayanan/'+item.id_transaksi_layanan;
+        // this.$http.get(uri).then(() => {
+        //     this.snackbar = true;
+        //     this.color = 'green';
+        //     this.text = 'Berhasil';
+        //     this.load = false;
+        //   })
+        //   .catch((error) => {
+        //     this.errors = error;
+        //     this.snackbar = true;
+        //     this.text = 'Coba Lagi';
+        //     this.color = 'red';
+        //     this.load = false;
+        //   });
+        window.open(uri,"_blank");
+        console.log(item.id_transaksi_layanan)
+      },
     },
 
     mounted() {
