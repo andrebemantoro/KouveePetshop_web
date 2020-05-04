@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import { loadavg } from 'os'
 
 const dashboardAdminLayout = () =>
   import('../components/Admin/dashboardAdminLayout.vue');
@@ -9,6 +8,8 @@ const dashboardCSLayout = () =>
 const dashboardCashierLayout = () =>
   import('../components/Cashier/dashboardCashierLayout.vue');
 const loginLayout = () => import('../components/Login.vue');
+const landingPageLayout = () =>
+  import('../components/Pelanggan/landingPage.vue');
 
 function loadLayanan(view) {
   return () => import(`../components/Admin/layananLayout/${view}.vue`);
@@ -54,15 +55,34 @@ function loadTransaksiLayanan(view) {
 const routes = [
   {
     path: '/',
-    component: loginLayout,
+    component: landingPageLayout,
     children: [
       {
-        name: 'Login',
+        name: 'landingPage',
         path: '/',
       },
     ],
   },
   {
+    path: '/LoginAdmin',
+    component: loginLayout,
+    children: [
+      {
+        name: 'Login',
+        path: '/LoginAdmin',
+      },
+    ],
+  },
+  {
+    beforeEnter(to, from, next) {
+      if (sessionStorage.getItem('Nama') != null) {
+        next();
+      } else {
+        sessionStorage.removeItem('Nama');
+        sessionStorage.removeItem('Id');
+        next({ path: '/LoginAdmin' });
+      }
+    },
     path: '/MenuAdmin',
     component: dashboardAdminLayout,
     children: [
@@ -73,7 +93,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Layanan',
@@ -87,7 +107,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Pegawai',
@@ -101,7 +121,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Pengadaan',
@@ -115,7 +135,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Produk',
@@ -129,7 +149,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Supplier',
@@ -143,7 +163,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Ukuran',
@@ -157,7 +177,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Jenis',
@@ -167,6 +187,15 @@ const routes = [
     ],
   },
   {
+    beforeEnter(to, from, next) {
+      if (sessionStorage.getItem('Nama') != null) {
+        next();
+      } else {
+        sessionStorage.removeItem('Nama');
+        sessionStorage.removeItem('Id');
+        next({ path: '/LoginAdmin' });
+      }
+    },
     path: '/MenuCustomerService',
     component: dashboardCSLayout,
     children: [
@@ -177,7 +206,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Pelanggan',
@@ -191,7 +220,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Hewan',
@@ -205,7 +234,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'Transkasi',
@@ -215,6 +244,15 @@ const routes = [
     ],
   },
   {
+    beforeEnter(to, from, next) {
+      if (sessionStorage.getItem('Nama') != null) {
+        next();
+      } else {
+        sessionStorage.removeItem('Nama');
+        sessionStorage.removeItem('Id');
+        next({ path: '/LoginAdmin' });
+      }
+    },
     path: '/MenuCashier',
     component: dashboardCashierLayout,
     children: [
@@ -225,7 +263,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'TransaksiProduk',
@@ -239,7 +277,7 @@ const routes = [
           } else {
             sessionStorage.removeItem('Nama');
             sessionStorage.removeItem('Id');
-            next({ path: '/' });
+            next({ path: '/LoginAdmin' });
           }
         },
         name: 'TransaksiLayanan',

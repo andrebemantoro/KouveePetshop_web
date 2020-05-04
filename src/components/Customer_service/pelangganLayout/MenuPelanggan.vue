@@ -234,13 +234,32 @@
                   outlined=""
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Tanggal Lahir*"
-                  v-model="form.tanggal_lahir"
-                  required
-                  outlined=""
-                ></v-text-field>
+              <v-col cols="20">
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="form.tanggal_lahir"
+                      label="Tanggal Lahir*"
+                      readonly
+                      v-on="on"
+                      outlined=""
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    ref="picker"
+                    v-model="form.tanggal_lahir"
+                    :max="new Date().toISOString().substr(0, 10)"
+                    min="1950-01-01"
+                    @change="save"
+                  ></v-date-picker>
+                </v-menu>
               </v-col>
               <v-col cols="12">
                 <v-text-field

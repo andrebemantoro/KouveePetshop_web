@@ -67,114 +67,126 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      loading: false,
-      load: false,
-      snackbar: false,
-      hidePassword: true,
-      error: false,
-      color: null,
-      text: '',
+  export default {
+    data() {
+      return {
+        loading: false,
+        load: false,
+        snackbar: false,
+        hidePassword: true,
+        error: false,
+        color: null,
+        text: '',
 
-      rules: {
-        required: (value) => !!value || 'Required.',
-      },
-      form: {
-        username: null,
-        password: null,
-      },
-      user: new FormData(),
-      pegawai: [],
-      typeInput: 'new',
-      errors: '',
-    };
-  },
-  props: {
-    source: String,
-  },
-  methods: {
-    login() {
-      if (this.form.username == 'admin') {
-        if (this.form.password == 'admin123') {
-          sessionStorage.setItem('Nama', 'admin');
-          this.snackbar = true;
-          this.text = 'Login Berhasil';
-          this.color = 'green';
-          this.$router.push({ name: 'Pegawai' });
-          console.log('admin');
+        rules: {
+          required: (value) => !!value || 'Required.',
+        },
+        form: {
+          username: null,
+          password: null,
+        },
+        user: new FormData(),
+        pegawai: [],
+        typeInput: 'new',
+        errors: '',
+      };
+    },
+    props: {
+      source: String,
+    },
+    methods: {
+      login() {
+        if (this.form.username == 'admin') {
+          if (this.form.password == 'admin123') {
+            sessionStorage.setItem('Nama', 'admin');
+            this.snackbar = true;
+            this.text = 'Login Berhasil';
+            this.color = 'green';
+            this.$router.push({ name: 'Pegawai' });
+            console.log('admin');
+          } else {
+            this.snackbar = true;
+            this.text = 'Login Gagal';
+            this.color = 'red';
+          }
         } else {
-          this.snackbar = true;
-          this.text = 'Login Gagal';
-          this.color = 'red';
-        }
-      } else {
-        this.user.append('username', this.form.username);
-        this.user.append('password', this.form.password);
-        var url = this.$apiUrl + 'Pegawai/' + 'auth';
-        this.load = true;
-        this.$http
-          .post(url, this.user)
-          .then((response) => {
-            this.pegawai = response.data.message;
-            if (this.pegawai.id_pegawai != null) {
-              if (this.pegawai.role.toLowerCase() == 'customer service') {
-                //login ke menu customer
-                sessionStorage.setItem('Id', response.data.message.id_pegawai);
-                sessionStorage.setItem('Nama', response.data.message.username);
-                this.snackbar = true;
-                this.text = 'Login Berhasil';
-                this.color = 'green';
-                this.$router.push({ name: 'Pelanggan' });
-                console.log('customer service');
-              } else if (this.pegawai.role.toLowerCase() == 'cashier') {
-                //code untuk login ke kasir
-                sessionStorage.setItem('Id', response.data.message.id_pegawai);
-                sessionStorage.setItem('Nama', response.data.message.username);
-                this.snackbar = true;
-                this.text = 'Login Berhasil';
-                this.color = 'green';
-                this.$router.push({ name: 'TransaksiProduk' });
-                console.log('customer service');
+          this.user.append('username', this.form.username);
+          this.user.append('password', this.form.password);
+          var url = this.$apiUrl + 'Pegawai/' + 'auth';
+          this.load = true;
+          this.$http
+            .post(url, this.user)
+            .then((response) => {
+              this.pegawai = response.data.message;
+              if (this.pegawai.id_pegawai != null) {
+                if (this.pegawai.role.toLowerCase() == 'customer service') {
+                  //login ke menu customer
+                  sessionStorage.setItem(
+                    'Id',
+                    response.data.message.id_pegawai
+                  );
+                  sessionStorage.setItem(
+                    'Nama',
+                    response.data.message.username
+                  );
+                  this.snackbar = true;
+                  this.text = 'Login Berhasil';
+                  this.color = 'green';
+                  this.$router.push({ name: 'Pelanggan' });
+                  console.log('customer service');
+                } else if (this.pegawai.role.toLowerCase() == 'cashier') {
+                  //code untuk login ke kasir
+                  sessionStorage.setItem(
+                    'Id',
+                    response.data.message.id_pegawai
+                  );
+                  sessionStorage.setItem(
+                    'Nama',
+                    response.data.message.username
+                  );
+                  this.snackbar = true;
+                  this.text = 'Login Berhasil';
+                  this.color = 'green';
+                  this.$router.push({ name: 'TransaksiProduk' });
+                  console.log('customer service');
+                } else {
+                  this.snackbar = true;
+                  this.text = 'Login Gagal';
+                  this.color = 'red';
+                }
               } else {
                 this.snackbar = true;
                 this.text = 'Login Gagal';
                 this.color = 'red';
               }
-            } else {
+            })
+            .catch((error) => {
+              this.errors = error;
               this.snackbar = true;
-              this.text = 'Login Gagal';
+              this.text = 'Try Again';
               this.color = 'red';
-            }
-          })
-          .catch((error) => {
-            this.errors = error;
-            this.snackbar = true;
-            this.text = 'Try Again';
-            this.color = 'red';
-          });
-      }
+            });
+        }
+      },
     },
-  },
-  mounted() {
-    window.addEventListener('keyup', (event) => {
-      if (event.keyCode === 13) {
-        this.login();
-      }
-    });
-  },
-};
+    mounted() {
+      window.addEventListener('keyup', (event) => {
+        if (event.keyCode === 13) {
+          this.login();
+        }
+      });
+    },
+  };
 </script>
 
 <style scoped lang="css">
-#login {
-  height: 50%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: '';
-  z-index: 0;
-}
+  #login {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    z-index: 0;
+  }
 </style>

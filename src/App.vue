@@ -1,15 +1,13 @@
 <template>
   <v-app>
-    <main>
+    <main class="main">
       <router-view></router-view>
     </main>
   </v-app>
 </template>
 
 <script>
-export default {
-  name: "App"
-};
+  export default {
+    name: 'App',
+  };
 </script>
-
-
