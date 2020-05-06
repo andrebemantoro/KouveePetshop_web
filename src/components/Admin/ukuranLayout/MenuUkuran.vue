@@ -123,7 +123,7 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="resetForm(), (dialog = false)"
+              @click="resetForm(), reset(), (dialog = false)"
               >Tutup</v-btn
             >
             <v-btn color="blue darken-1" text @click="cekKosong()"
@@ -163,10 +163,12 @@
             <v-btn
               color="blue darken-1"
               text
-              @click="resetForm(), (dialogEdit = false)"
+              @click="resetForm(), reset(), (dialogEdit = false)"
               >Tutup</v-btn
             >
-            <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
+            <v-btn color="blue darken-1" text @click="cekKosong()"
+              >Simpan</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -202,201 +204,203 @@
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      rules: [value => !!value || "Wajib diisi."],
-      dialogWarning: "",
-      dialog: false,
-      on: "",
-      deleteDialog: "",
-      keyword: "",
-      headers: [
-        {
-          text: "No",
-          value: "index"
+  export default {
+    data() {
+      return {
+        rules: [(value) => !!value || 'Wajib diisi.'],
+        dialogWarning: '',
+        dialog: false,
+        on: '',
+        show: false,
+        deleteDialog: '',
+        keyword: '',
+        headers: [
+          {
+            text: 'No',
+            value: 'index',
+          },
+          {
+            text: 'Id Ukuran',
+            value: 'id_ukuran_hewan',
+          },
+          {
+            text: 'Nama',
+            value: 'nama',
+          },
+          {
+            text: 'Tanggal Dibuat',
+            value: 'created_at',
+          },
+          {
+            text: 'Dibuat Oleh',
+            value: 'created_by',
+          },
+          {
+            text: 'Tanggal Diubah',
+            value: 'modified_by',
+          },
+          {
+            text: 'Diubah Oleh',
+            value: 'modified_by',
+          },
+          // {
+          //   text: "Delete At",
+          //   value: "delete_at"
+          // },
+          // {
+          //   text: "Delete By",
+          //   value: "delete_by"
+          // },
+          // {
+          //   text: "Aktif",
+          //   value: "aktif"
+          // },
+          {
+            text: 'Aksi',
+            value: null,
+          },
+        ],
+        ukurans: [],
+        snackbar: false,
+        color: null,
+        text: '',
+        load: false,
+        form: {
+          nama: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
         },
-        {
-          text: "Id Ukuran",
-          value: "id_ukuran_hewan"
-        },
-        {
-          text: "Nama",
-          value: "nama"
-        },
-        {
-          text: "Tanggal Dibuat",
-          value: "created_at"
-        },
-        {
-          text: "Dibuat Oleh",
-          value: "created_by"
-        },
-        {
-          text: "Tanggal Diubah",
-          value: "modified_by"
-        },
-        {
-          text: "Diubah Oleh",
-          value: "modified_by"
-        },
-        // {
-        //   text: "Delete At",
-        //   value: "delete_at"
-        // },
-        // {
-        //   text: "Delete By",
-        //   value: "delete_by"
-        // },
-        // {
-        //   text: "Aktif",
-        //   value: "aktif"
-        // },
-        {
-          text: "Aksi",
-          value: null
-        }
-      ],
-      ukurans: [],
-      snackbar: false,
-      color: null,
-      text: "",
-      load: false,
-      form: {
-        nama: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
-      },
-      ukuran: new FormData(),
-      typeInput: "new",
-      errors: "",
-      updatedId: "",
-      dialogEdit: ""
-    };
-  },
-  methods: {
-    cekKosong() {
-      if (this.form.nama === "") {
-        this.dialogWarning = true;
-      } else {
-        this.setForm();
-        this.resetForm();
-        this.reset();
-        this.dialog = false;
-      }
-    },
-    reset() {
-      this.$refs.form.resetValidation();
-    },
-    getData() {
-      var uri = this.$apiUrl + "UkuranHewan/" + "getAll";
-      this.$http.get(uri).then(response => {
-        this.ukurans = response.data.message;
-      });
-    },
-    sendData() {
-      this.ukuran.append("nama", this.form.nama);
-      this.ukuran.append("created_by", this.form.created_by);
-
-      var uri = this.$apiUrl + "UkuranHewan";
-      this.load = true;
-      this.$http
-        .post(uri, this.ukuran)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialog = false;
-          this.getData(); //mengambil [pegawai]
-          this.resetForm();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
-          this.load = false;
-        });
-    },
-    updateData() {
-      this.ukuran.append("nama", this.form.nama);
-      this.ukuran.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "UkuranHewan/" + "update/" + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.ukuran)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialogEdit = false;
-          this.getData(); //mengambil databong
-          this.resetForm();
-          this.typeInput = "new";
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
-          this.load = false;
-          this.typeInput = "new";
-        });
-    },
-    editHandler(item) {
-      this.typeInput = "edit";
-      this.dialogEdit = true;
-      this.form.nama = item.nama;
-
-      this.updatedId = item.id_ukuran_hewan;
-    },
-    deleteRow(item) {
-      this.deleteId = item.id_ukuran_hewan;
-      this.deleteDialog = true;
-    },
-    deleteData(deleteId) {
-      //mengahapus data
-      this.ukuran.append("delete_by", this.form.delete_by);
-      var uri = this.$apiUrl + "UkuranHewan" + "/delete/" + deleteId; //data dihapus berdasarkan id
-      this.load = true;
-      this.$http
-        .post(uri, this.ukuran)
-        .then(response => {
-          this.snackbar = true;
-          this.text = response.data.message;
-          this.color = "green";
-          this.deleteDialog = false;
-          this.getData();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
-        });
-    },
-    setForm() {
-      if (this.typeInput === "new") {
-        this.sendData();
-      } else {
-        console.log("data berhasil diubah");
-        this.updateData();
-      }
-    },
-    resetForm() {
-      this.form = {
-        nama: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
+        ukuran: new FormData(),
+        typeInput: 'new',
+        errors: '',
+        updatedId: '',
+        dialogEdit: '',
       };
-    }
-  },
-  mounted() {
-    this.getData();
-  }
-};
+    },
+    methods: {
+      cekKosong() {
+        if (this.form.nama === '') {
+          this.dialogWarning = true;
+        } else {
+          this.setForm();
+          this.resetForm();
+          this.reset();
+          this.dialog = false;
+        }
+      },
+      reset() {
+        this.$refs.form.resetValidation();
+        this.show = false;
+      },
+      getData() {
+        var uri = this.$apiUrl + 'UkuranHewan/' + 'getAll';
+        this.$http.get(uri).then((response) => {
+          this.ukurans = response.data.message;
+        });
+      },
+      sendData() {
+        this.ukuran.append('nama', this.form.nama);
+        this.ukuran.append('created_by', this.form.created_by);
+
+        var uri = this.$apiUrl + 'UkuranHewan';
+        this.load = true;
+        this.$http
+          .post(uri, this.ukuran)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialog = false;
+            this.getData(); //mengambil [pegawai]
+            this.resetForm();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+          });
+      },
+      updateData() {
+        this.ukuran.append('nama', this.form.nama);
+        this.ukuran.append('modified_by', this.form.modified_by);
+        var uri = this.$apiUrl + 'UkuranHewan/' + 'update/' + this.updatedId;
+        this.load = true;
+        this.$http
+          .post(uri, this.ukuran)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialogEdit = false;
+            this.getData(); //mengambil databong
+            this.resetForm();
+            this.typeInput = 'new';
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+            this.typeInput = 'new';
+          });
+      },
+      editHandler(item) {
+        this.typeInput = 'edit';
+        this.dialogEdit = true;
+        this.form.nama = item.nama;
+
+        this.updatedId = item.id_ukuran_hewan;
+      },
+      deleteRow(item) {
+        this.deleteId = item.id_ukuran_hewan;
+        this.deleteDialog = true;
+      },
+      deleteData(deleteId) {
+        //mengahapus data
+        this.ukuran.append('delete_by', this.form.delete_by);
+        var uri = this.$apiUrl + 'UkuranHewan' + '/delete/' + deleteId; //data dihapus berdasarkan id
+        this.load = true;
+        this.$http
+          .post(uri, this.ukuran)
+          .then((response) => {
+            this.snackbar = true;
+            this.text = response.data.message;
+            this.color = 'green';
+            this.deleteDialog = false;
+            this.getData();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+          });
+      },
+      setForm() {
+        if (this.typeInput === 'new') {
+          this.sendData();
+        } else {
+          console.log('data berhasil diubah');
+          this.updateData();
+        }
+      },
+      resetForm() {
+        this.form = {
+          nama: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
+        };
+      },
+    },
+    mounted() {
+      this.getData();
+    },
+  };
 </script>

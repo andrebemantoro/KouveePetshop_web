@@ -1,6 +1,6 @@
 <template>
   <!-- Latihan 1 - Column -->
-  <v-container class="container-utama">
+  <div>
     <div class="container-satu">
       <div class="kolom-utama">
         <h2>Kouve Petshop</h2>
@@ -63,8 +63,8 @@
         voluptas.
       </div>
     </div>
-    <!-- Akhir Latihan 2 -->
-  </v-container>
+  </div>
+  <!-- Akhir Latihan 2 -->
 </template>
 
 <script>
@@ -75,10 +75,6 @@
 
 <style>
   /* latihan 1 */
-  .container-utama {
-    margin: 0;
-    padding: 0;
-  }
   .container-satu {
     width: auto;
     margin: auto;

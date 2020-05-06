@@ -104,7 +104,7 @@
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="resetForm(), (dialog = false)"
+                      @click="resetForm(), reset(), (dialog = false)"
                       >Tutup</v-btn
                     >
                     <v-btn color="blue darken-1" text @click="cekKosong()"
@@ -327,6 +327,7 @@
       },
       reset() {
         this.$refs.form.resetValidation();
+        this.show = false;
       },
       getData() {
         var uri = this.$apiUrl + 'Produk/' + 'getAll';
@@ -409,7 +410,7 @@
         this.form.jumlah_stok = item.jumlah_stok;
         this.form.harga = item.harga;
         this.form.min_stok = item.min_stok;
-        this.form.gambar = item.password;
+        this.form.gambar = item.gambar;
         this.updatedId = item.id_produk;
       },
       deleteRow(item) {

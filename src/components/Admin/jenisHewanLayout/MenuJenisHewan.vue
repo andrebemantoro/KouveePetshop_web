@@ -148,7 +148,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialog = false)"
+            @click="resetForm(), reset(), (dialog = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
@@ -182,7 +182,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogEdit = false)"
+            @click="resetForm(), reset(), (dialogEdit = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
@@ -203,217 +203,217 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      rules: [value => !!value || "Wajib diisi."],
-      dialog: false,
-      jenishewans: [],
-      keyword: "",
-      on: "",
-      bottomNav: 1,
-      menu: false,
-      headers: [
-        {
-          text: "No",
-          value: "index"
+  export default {
+    data() {
+      return {
+        rules: [(value) => !!value || 'Wajib diisi.'],
+        dialog: false,
+        jenishewans: [],
+        keyword: '',
+        on: '',
+        bottomNav: 1,
+        menu: false,
+        headers: [
+          {
+            text: 'No',
+            value: 'index',
+          },
+          {
+            text: 'Id Jenis Hewan',
+            value: 'id_jenis_hewan',
+          },
+          {
+            text: 'Jenis Hewan',
+            value: 'nama',
+          },
+          {
+            text: 'Tanggal Dibuat',
+            value: 'created_at',
+          },
+          {
+            text: 'Dibuat Oleh',
+            value: 'created_by',
+          },
+          {
+            text: 'Tanggal Diubah',
+            value: 'modified_by',
+          },
+          {
+            text: 'Diubah Oleh',
+            value: 'modified_by',
+          },
+          // {
+          //   text: "Delete At",
+          //   value: "delete_at"
+          // },
+          // {
+          //   text: "Delete By",
+          //   value: "delete_by"
+          // },
+          // {
+          //   text: "Aktif",
+          //   value: "aktif"
+          // },
+          {
+            text: 'Aksi',
+            value: null,
+          },
+        ],
+        snackbar: false,
+        color: null,
+        text: '',
+        load: false,
+        form: {
+          nama: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
         },
-        {
-          text: "Id Jenis Hewan",
-          value: "id_jenis_hewan"
-        },
-        {
-          text: "Jenis Hewan",
-          value: "nama"
-        },
-        {
-          text: "Tanggal Dibuat",
-          value: "created_at"
-        },
-        {
-          text: "Dibuat Oleh",
-          value: "created_by"
-        },
-        {
-          text: "Tanggal Diubah",
-          value: "modified_by"
-        },
-        {
-          text: "Diubah Oleh",
-          value: "modified_by"
-        },
-        // {
-        //   text: "Delete At",
-        //   value: "delete_at"
-        // },
-        // {
-        //   text: "Delete By",
-        //   value: "delete_by"
-        // },
-        // {
-        //   text: "Aktif",
-        //   value: "aktif"
-        // },
-        {
-          text: "Aksi",
-          value: null
-        }
-      ],
-      snackbar: false,
-      color: null,
-      text: "",
-      load: false,
-      form: {
-        nama: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
-      },
-      jenishewan: new FormData(),
-      dialogWarning: "",
-      dialogEdit: "",
-      deleteDialog: false,
-      typeInput: "new",
-      errors: "",
-      updatedId: ""
-    };
-  },
-  // computed: {
-  //   color() {
-  //     switch (this.bottomNav) {
-  //       case 0:
-  //         return "blue-grey";
-  //       case 1:
-  //         return "teal";
-  //     }
-  //   }
-  // },
-  methods: {
-    cekKosong() {
-      if (this.form.nama === "") {
-        this.dialogWarning = true;
-      } else {
-        this.setForm();
-        this.resetForm();
-        this.reset();
-        this.dialog = false;
-      }
+        jenishewan: new FormData(),
+        dialogWarning: '',
+        dialogEdit: '',
+        deleteDialog: false,
+        typeInput: 'new',
+        errors: '',
+        updatedId: '',
+      };
     },
-    reset() {
-      this.$refs.form.resetValidation();
-    },
-    getData() {
-      var uri = this.$apiUrl + "JenisHewan";
-      this.$http.get(uri).then(response => {
-        this.jenishewans = response.data.message;
-      });
-    },
-    sendData() {
-      this.jenishewan.append("nama", this.form.nama);
-      this.jenishewan.append("created_by", this.form.created_by);
-
-      var uri = this.$apiUrl + "JenisHewan";
-      this.load = true;
-      this.$http
-        .post(uri, this.jenishewan)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
+    // computed: {
+    //   color() {
+    //     switch (this.bottomNav) {
+    //       case 0:
+    //         return "blue-grey";
+    //       case 1:
+    //         return "teal";
+    //     }
+    //   }
+    // },
+    methods: {
+      cekKosong() {
+        if (this.form.nama === '') {
+          this.dialogWarning = true;
+        } else {
+          this.setForm();
+          this.resetForm();
+          this.reset();
           this.dialog = false;
-          this.getData();
-          this.resetForm();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
-          this.load = false;
+        }
+      },
+      reset() {
+        this.$refs.form.resetValidation();
+      },
+      getData() {
+        var uri = this.$apiUrl + 'JenisHewan';
+        this.$http.get(uri).then((response) => {
+          this.jenishewans = response.data.message;
         });
+      },
+      sendData() {
+        this.jenishewan.append('nama', this.form.nama);
+        this.jenishewan.append('created_by', this.form.created_by);
+
+        var uri = this.$apiUrl + 'JenisHewan';
+        this.load = true;
+        this.$http
+          .post(uri, this.jenishewan)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialog = false;
+            this.getData();
+            this.resetForm();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+          });
+      },
+      updateData() {
+        this.jenishewan.append('nama', this.form.nama);
+        this.jenishewan.append('modified_by', this.form.modified_by);
+        var uri = this.$apiUrl + 'JenisHewan/' + 'update/' + this.updatedId;
+        this.load = true;
+        this.$http
+          .post(uri, this.jenishewan)
+          .then((response) => {
+            this.snackbar = true; //mengaktifkan snackbar
+            this.color = 'green'; //memberi warna snackbar
+            this.text = response.data.message; //memasukkan pesan kesnackbar
+            this.load = false;
+            this.dialogEdit = false;
+            this.getData(); //mengambil data jenis hewan
+            this.resetForm();
+            this.typeInput = 'new';
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+            this.typeInput = 'new';
+          });
+      },
+      editHandler(item) {
+        this.typeInput = 'edit';
+        this.dialogEdit = true;
+        this.form.nama = item.nama;
+        this.updatedId = item.id_jenis_hewan;
+      },
+      deleteRow(item) {
+        this.deleteId = item.id_jenis_hewan;
+        this.deleteDialog = true;
+      },
+      deleteData(deleteId) {
+        //menghapus data
+        this.jenishewan.append('delete_by', this.form.delete_by);
+        var uri = this.$apiUrl + 'JenisHewan' + '/delete/' + deleteId; //data dihapus berdasarkan id
+        this.load = true;
+        this.$http
+          .post(uri, this.jenishewan)
+          .then((response) => {
+            this.snackbar = true;
+            this.text = response.data.message;
+            this.color = 'green';
+            this.deleteDialog = false;
+            this.getData();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+          });
+      },
+      setForm() {
+        if (this.typeInput === 'new') {
+          this.sendData();
+        } else {
+          console.log('data berhasil diubah');
+          this.updateData();
+        }
+      },
+      resetForm() {
+        this.form = {
+          nama: '',
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
+        };
+      },
+      resetFormPassword() {
+        this.form = {
+          password: '',
+        };
+      },
     },
-    updateData() {
-      this.jenishewan.append("nama", this.form.nama);
-      this.jenishewan.append("modified_by", this.form.modified_by);
-      var uri = this.$apiUrl + "JenisHewan/" + "update/" + this.updatedId;
-      this.load = true;
-      this.$http
-        .post(uri, this.jenishewan)
-        .then(response => {
-          this.snackbar = true; //mengaktifkan snackbar
-          this.color = "green"; //memberi warna snackbar
-          this.text = response.data.message; //memasukkan pesan kesnackbar
-          this.load = false;
-          this.dialogEdit = false;
-          this.getData(); //mengambil data jenis hewan
-          this.resetForm();
-          this.typeInput = "new";
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
-          this.load = false;
-          this.typeInput = "new";
-        });
+    mounted() {
+      this.getData();
     },
-    editHandler(item) {
-      this.typeInput = "edit";
-      this.dialogEdit = true;
-      this.form.nama = item.nama;
-      this.updatedId = item.id_jenis_hewan;
-    },
-    deleteRow(item) {
-      this.deleteId = item.id_jenis_hewan;
-      this.deleteDialog = true;
-    },
-    deleteData(deleteId) {
-      //menghapus data
-      this.jenishewan.append("delete_by", this.form.delete_by);
-      var uri = this.$apiUrl + "JenisHewan" + "/delete/" + deleteId; //data dihapus berdasarkan id
-      this.load = true;
-      this.$http
-        .post(uri, this.jenishewan)
-        .then(response => {
-          this.snackbar = true;
-          this.text = response.data.message;
-          this.color = "green";
-          this.deleteDialog = false;
-          this.getData();
-        })
-        .catch(error => {
-          this.errors = error;
-          this.snackbar = true;
-          this.text = "Coba Lagi";
-          this.color = "red";
-        });
-    },
-    setForm() {
-      if (this.typeInput === "new") {
-        this.sendData();
-      } else {
-        console.log("data berhasil diubah");
-        this.updateData();
-      }
-    },
-    resetForm() {
-      this.form = {
-        nama: "",
-        created_by: sessionStorage.getItem("Nama"),
-        delete_by: sessionStorage.getItem("Nama"),
-        modified_by: sessionStorage.getItem("Nama")
-      };
-    },
-    resetFormPassword() {
-      this.form = {
-        password: ""
-      };
-    }
-  },
-  mounted() {
-    this.getData();
-  }
-};
+  };
 </script>

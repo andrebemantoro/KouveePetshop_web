@@ -225,12 +225,17 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeForm()">Tutup</v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="resetForm(), reset(), closeForm()"
+            >Tutup</v-btn
+          >
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!-----------------------Dialog untuk ubah Layanan----------------------->
+    <!-----------------------Dialog untuk ubah Layanan------------------------>
     <v-dialog v-model="dialogUbahLayanan" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -278,7 +283,7 @@
         </v-card>
       </v-dialog>
     </div>
-    <!-----------------------Dialog untuk edit Harga Layanan----------------------->
+    <!-----------------------Dialog untuk edit Harga Layanan------------------------>
     <v-dialog v-model="dialogUbahHargaLayanan" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -457,6 +462,7 @@
       },
       reset() {
         this.$refs.form.resetValidation();
+        this.show = false;
       },
       closeForm() {
         this.resetForm();

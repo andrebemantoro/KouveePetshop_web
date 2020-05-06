@@ -207,7 +207,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialog = false)"
+            @click="resetForm(), reset(), (dialog = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
@@ -296,7 +296,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogEdit = false)"
+            @click="resetForm(), reset(), (dialogEdit = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="setForm()">Simpan</v-btn>
@@ -327,6 +327,7 @@
         on: '',
         dialog: false,
         deleteDialog: false,
+        show: false,
         dialogLabel: 'Tambah Hewan',
         jenishewans: [],
         pelanggans: [],
@@ -433,6 +434,7 @@
       },
       reset() {
         this.$refs.form.resetValidation();
+        this.show = false;
       },
       getData() {
         var uri = this.$apiUrl + 'Hewan/getWithJoin';

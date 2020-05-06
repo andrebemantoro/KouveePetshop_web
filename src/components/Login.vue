@@ -134,7 +134,7 @@
                   this.color = 'green';
                   this.$router.push({ name: 'Pelanggan' });
                   console.log('customer service');
-                } else if (this.pegawai.role.toLowerCase() == 'cashier') {
+                } else if (this.pegawai.role.toLowerCase() == 'kasir') {
                   //code untuk login ke kasir
                   sessionStorage.setItem(
                     'Id',

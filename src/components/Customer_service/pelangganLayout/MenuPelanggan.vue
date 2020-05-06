@@ -200,7 +200,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialog = false)"
+            @click="resetForm(), reset(), (dialog = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
@@ -278,7 +278,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogEdit = false)"
+            @click="resetForm(), reset(), (dialogEdit = false)"
             >Tutup</v-btn
           >
           <v-btn
@@ -315,6 +315,7 @@
         pelanggans: [],
         keyword: '',
         bottomNav: 1,
+        show: false,
         on: '',
         deleteDialog: '',
         menu: false,

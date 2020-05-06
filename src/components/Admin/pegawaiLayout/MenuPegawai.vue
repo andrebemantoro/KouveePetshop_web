@@ -11,7 +11,7 @@
               rounded
               style="text-transform: none !important;"
               color="#f9c99e"
-              @click="(dialog = true), resetForm(), reset()"
+              @click="(dialog = true), resetForm()"
             >
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>Tambah
               Pegawai
@@ -60,7 +60,7 @@
                       icon
                       color="indigo"
                       light
-                      @click="changePassword(item), reset()"
+                      @click="changePassword(item)"
                     >
                       <v-icon>mdi-lock</v-icon>
                     </v-btn>
@@ -230,7 +230,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialog = false)"
+            @click="resetForm(), reset(), (dialog = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosong()">Simpan</v-btn>
@@ -332,7 +332,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogEdit = false)"
+            @click="resetForm(), reset(), (dialogEdit = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosongEdit()"
@@ -376,13 +376,10 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), (dialogPassword = false), reset()"
+            @click="resetForm(), (dialogPassword = false)"
             >Tutup</v-btn
           >
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="cekKosongPassword(), reset()"
+          <v-btn color="blue darken-1" text @click="cekKosongPassword()"
             >Simpan</v-btn
           >
         </v-card-actions>
@@ -411,7 +408,7 @@
         password: 'Password',
         show: false,
         dialog: false,
-        items: ['Cashier', 'Customer Service'],
+        items: ['Kasir', 'Customer Service'],
         keyword: '',
         bottomNav: 1,
         menu: false,
