@@ -1,12 +1,31 @@
 <template>
 <v-container> 
     <v-row>
-        <v-col cols="2"></v-col>
         <v-col cols="12">
+  <v-bottom-navigation
+    :value="activeBtn"
+    grow
+      color="#f9c99e"
+  >
+    <v-btn @click="Pengadaan()">
+      <span>Menunggu Konfirmasi</span>
+      <v-icon>mdi-history</v-icon>
+    </v-btn>
+
+    <v-btn @click="PengadaanDiproses()"> 
+      <span>Sedang Diproses</span>
+      <v-icon>mdi-truck</v-icon>
+    </v-btn>
+
+    <v-btn @click="PengadaanSelesai()">
+      <span>Selesai</span>
+      <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
          <v-card>
       <!-- <v-container grid-list-md mb-20> -->
       <div class="pa-3">
-        <h2 class="text-md-center">Data Pengadaan Produk Kouvee Petshop</h2>
+        <h2 class="text-md-center">Pengadaan Produk Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
             <v-btn
@@ -66,9 +85,10 @@
                   <div>
                     <v-btn
                       icon
-                      color="blue"
+                      color="primary"
                       light
-                      @click="editHandlerTransaksiProduk(item)"
+                      outlined=""
+                      @click="editHandlerPengadaan(item)"
                     >
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -76,13 +96,34 @@
 
                   <div>
                     <v-btn
+                    color="primary"
+                    icon=""
+                    outlined=""
+                    @click="updateSedangDiproses(item)"
+                    ><v-icon>mdi-arrow-right-box</v-icon>
+                    </v-btn>
+                  </div>
+                  <div>
+                 <v-btn
+                        icon
+                        color="primary"
+                        dark
+                        v-on="on"
+                       outlined=""
+                      >
+                        <v-icon>mdi-pdf-box</v-icon>
+                      </v-btn>
+                  </div>
+                  <div>
+                    <v-btn
                       icon
                       color="red lighten-2"
                       dark
+                      outlined=""
                       v-on="on"
                       @click="
-                        deleteRowProduk(item),
-                          getDetailTransaksiProdukById(item)
+                        deleteRowPengadaan(item),
+                          getDetailPengadaanId(item)
                       "
                     >
                       <v-icon>mdi-delete</v-icon>
@@ -143,7 +184,6 @@
                         required
                         width
                         :items="produks"
-                        @change="filteredProduk(index)"
                         item-value="id_produk"
                         item-text="nama"
                         label="Nama Produk*"
@@ -236,6 +276,254 @@
 </v-card>
 </v-dialog>
 <!-- --------------------------------------------------------------------------------------------------------------- -->
+  <!-- --------------------Dialog Add Produk------------------------------------------ -->
+  <v-dialog v-model="dialogAddProduk" persistent="" width="1500px">
+    <v-card>
+  <v-card-title>
+    <h2 class="text-center">Tambah Pengadaan Produk</h2>
+  </v-card-title>
+  <v-card-text>
+    <v-container>
+        <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                <h3>Data Produk</h3>
+              </v-list-item-title>
+              <v-card>
+                <div
+                  class="form-row"
+                  v-for="(tambah, index) in detailTambah"
+                  :key="index"
+                >
+                  <v-row>
+                    <v-col cols="4">
+                      <v-autocomplete
+                        v-model="tambah.id_produk"
+                        required
+                        width
+                        :items="produks"
+                        item-value="id_produk"
+                        item-text="nama"
+                        label="Nama Produk*"
+                        outlined
+                        color="purple"
+                        :filter="customFilter"
+                        hide-selected
+                      ></v-autocomplete>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Jumlah*"
+                        v-model="tambah.jumlah"
+                        color="purple"
+                        type="number"
+                        outlined
+                        single-line
+                        clearable
+                        @keyup="setTotal(index)"
+                        @change="setTotal(index)"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Harga*"
+                        v-model="tambah.harga"
+                        color="purple"
+                        type="number"
+                        outlined
+                        single-line
+                        clearable
+                         prefix="Rp."
+                        @keyup="setTotal(index)"
+                        @change="setTotal(index)"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Total Harga*"
+                        v-model="tambah.total_harga"
+                        value
+                        outlined
+                        readonly
+                        color="purple"
+                        prefix="Rp."
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="1">
+                      <v-btn
+                        outlined
+                        color="red lighten-2"
+                        x-large
+                        @click="deleteRow(tambah)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-divider light></v-divider>
+                    </v-col>
+                  </v-row>
+                </div>
+
+                <v-row>
+                  <v-col class="text-right">
+                    <v-btn
+                      outlined
+                      color="green"
+                      x-large
+                      fab
+                      @click="addTambah"
+                      class="tombol"
+                    >
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+
+                
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-list-item-content>
+          </v-list-item>
+      </v-container>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" outlined="" text @click="addDataDetailPengadaan()">Save</v-btn>
+        <v-btn color="blue darken-1" outlined="" text @click="dialogAddProduk = false,resetDynamic()">Cancel</v-btn>
+    </v-card-actions>
+</v-card>
+</v-dialog>
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+  <!-- --------------------Dialog Edit Produk------------------------------------------ -->
+  <v-dialog v-model="dialogEditProduk" persistent="" width="1500px">
+    <v-card>
+  <v-card-title>
+    <h2 class="text-center">Tambah Pengadaan Produk</h2>
+  </v-card-title>
+  <v-card-text>
+    <v-container>
+
+        <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                <h3>Data Produk</h3>
+              </v-list-item-title>
+              <v-card>
+                <div
+                  class="form-row"
+                  
+                >
+                  <v-row>
+                    <v-col cols="4">
+                      <v-autocomplete
+                        v-model="form.id_produk"
+                        required
+                        width
+                        :items="produks"
+                        item-value="id_produk"
+                        item-text="nama"
+                        label="Nama Produk*"
+                        outlined
+                        color="purple"
+                        :filter="customFilter"
+                        hide-selected
+                      ></v-autocomplete>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Jumlah*"
+                        v-model="form.jumlah"
+                        color="purple"
+                        type="number"
+                        outlined
+                        single-line
+                        clearable
+                        @keyup="setTotal2()"
+                        @change="setTotal2()"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Harga*"
+                        v-model="form.harga"
+                        color="purple"
+                        type="number"
+                        outlined
+                        single-line
+                        clearable
+                         prefix="Rp."
+                        @keyup="setTotal2()"
+                        @change="setTotal2()"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-text-field
+                        label="Total Harga*"
+                        v-model="form.total_harga"
+                        value
+                        outlined
+                        readonly
+                        color="purple"
+                        prefix="Rp."
+                      ></v-text-field>
+                    </v-col>
+                  
+                    <v-col cols="12">
+                      <v-divider light></v-divider>
+                    </v-col>
+                  </v-row>
+                </div>
+
+              </v-card>
+            </v-list-item-content>
+          </v-list-item>
+      </v-container>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" outlined="" text @click="updateDataProduk()">Save</v-btn>
+        <v-btn color="blue darken-1" outlined="" text @click="dialogEditProduk = false,resetForm()">Cancel</v-btn>
+    </v-card-actions>
+</v-card>
+</v-dialog>
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+  <!-- --------------------Dialog Edit Pengadaan------------------------------------------ -->
+  <v-dialog v-model="dialogEditPengadaan" persistent="" width="1500px">
+    <v-card>
+  <v-card-title>
+    <h2 class="text-center">Edit Pengadaan Produk</h2>
+  </v-card-title>
+  <v-card-text>
+    <v-container>
+        <v-row>
+            <v-col cols="12">
+               <div class="form-group">
+                 <label for="Supplier">Supplier : </label>
+               <v-autocomplete
+                      v-model="id_supplier"
+                      required
+                      :items="suppliers"
+                      :filter="customFilter"
+                      item-value="id_supplier"
+                      color="purple"
+                      item-text="nama"
+                      outlined
+                      :search-input.sync="form.empty"
+                    ></v-autocomplete>
+               </div>
+            </v-col>
+        </v-row>
+     
+      </v-container>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" outlined="" text @click="updateDataPengadaan()">Save</v-btn>
+        <v-btn color="blue darken-1" outlined="" text @click="dialogEditPengadaan = false,resetDynamic()">Cancel</v-btn>
+    </v-card-actions>
+</v-card>
+</v-dialog>
+<!-- --------------------------------------------------------------------------------------------------------------- -->
 <!------------------------  Dialog detail pengadaan------------------------>
     <template>
       <v-dialog
@@ -247,7 +535,7 @@
           <v-card-title>
             <v-spacer />
             <h2 class="text-md-center">
-              {{ 'Id Transaksi Produk: ' + detailItem.id_pengadaan_produk }}
+              {{ 'Id Pengadaan Produk: ' + detailItem.id_pengadaan_produk }}
             </h2>
             <v-spacer />
           </v-card-title>
@@ -298,7 +586,7 @@
                     <div>
                       <v-btn
                         icon
-                        color="red lighten-2"
+                        color="red darken"
                         light
                         class="tombol"
                         outlined
@@ -329,15 +617,19 @@
                     </td>
                   </tr>
                 </td>
-              </v-simple-table>
             <v-spacer></v-spacer>
               <v-btn
-              color="blue darken-1"
-              text=""
+              color="primary"
+              text
+              width="50px"
+              height="50px"
+              light
+              icon=""
               outlined=""
-              @click="dialogDetailPengadaanProduk = false"
-              ><v-icon size="18" class="mr-2">mdi-arrow-right-box</v-icon>Pesanan Diproses
-              </v-btn>
+              @click="setIdPengadaan(detailItem),(dialogAddProduk = true)"
+              ><v-icon>mdi-plus</v-icon></v-btn
+            >
+              </v-simple-table>
             
             </div>
           </v-card-text>
@@ -346,6 +638,7 @@
             <v-btn
               color="blue darken-1"
               text
+              outlined=""
               @click="dialogDetailPengadaanProduk = false"
               >Tutup</v-btn
             >
@@ -354,26 +647,62 @@
       </v-dialog>
     </template>
     <!-- ------------------------------------------------------------------------- -->
-<v-dialog v-model="confirmationDialog" width="25%">
-<v-card>
-  <v-card-title>
-    <h2 class="text-center">Confirmation</h2>
-  </v-card-title>
-  <v-card-text>
-    <v-container>
-        <v-row>
-            <h4>Are you sure want to delete this item ?</h4>
-        </v-row>
-      </v-container>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" outlined="" text @click="deleteData(id)">Confirm</v-btn>
-        <v-btn color="blue darken-1" outlined="" text @click="confirmationDialog = false">Cancel</v-btn>
-    </v-card-actions>
-</v-card>
-</v-dialog>
-
+<!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="deleteDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Konfirmasi Hapus</v-card-title>
+          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="resetArray(), (deleteDialog = false)"
+              >Batal</v-btn>
+          
+              <v-btn
+                color="primary"
+                text
+                @click="deleteDataProduk(deletedId), resetArray()"
+                >Hapus Transaksi</v-btn>
+           
+  
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+<!-- ------------------------------------------------------------------------- -->
+<!-- ----------------------------Dialog Delete Detail Pengadaan--------------------------------------------- -->
+<div class="text-center">
+      <v-dialog width="500" v-model="deleteDetailDialog">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Konfirmasi Hapus</v-card-title
+          >
+          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="deleteDetailDialog = false"
+              >Batal</v-btn
+            >
+           
+              <v-btn
+                color="primary"
+                text
+                @click="deleteDataDetailProduk(deletedId)"
+                >Hapus Produk</v-btn
+              >
+     
+          
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+<!-- ------------------------------------------------------------------------- -->
 <v-snackbar       
     v-model="snackbar"
     :color="color"       
@@ -396,6 +725,7 @@
   export default {
     data () {
       return {
+        dialogEditPengadaan: false,
          headers: [
           {
             text: 'No',
@@ -438,24 +768,43 @@
             value: null,
           },
         ],
+          
+            updatedId : '',
+            deletedId:'',
             dialog: false,
-            confirmationDialog: false,
+            deleteDialog: false,
             editedIndex: -1,
+            activeBtn: 0,
             produks:[],
             pengadaans:[],
             detailPengadaans:[],
             suppliers:[],
             detailTambah:[],
+            detailIdPengadaanFiltered:[],
+            detailIdPengadaanFilteredDelete:[],
             id_supplier:null,
             empty:null,
             dialogDetailPengadaanProduk: false,
+            dialogEditProduk: false,
+            dialogAddProduk: false,
+            deleteDetailDialog: false,
             detailItem: '',
             on: '',
             user: new FormData(),
             user2: new FormData(),
+            status: new FormData(),
+            deleteProduk: new FormData(),
             form: 
             {
+              id_pengadaan_produk:'',
+              id_produk:'',
+              jumlah:'',
+              total_harga:'',
+              harga:'',
+              total:'',
+              id_supplier:'',
               subtotal: 0,
+              status: 'Sedang Diproses',
               created_by: sessionStorage.getItem('Nama'),
               delete_by: sessionStorage.getItem('Nama'),
               modified_by: sessionStorage.getItem('Nama'),
@@ -474,13 +823,17 @@
         this.empty = 'null';
       },
     },
-    computed: 
-    {
-      formTitle () {
-        return this.typeInput === "new" ? 'Add Company' : 'Edit Company'
-      },
-    },
+    
     methods: {
+      Pengadaan(){
+         this.$router.push({ name: 'Pengadaan' });
+      },
+      PengadaanDiproses(){
+        this.$router.push({ name: 'PengadaanDiproses' });
+      },
+      PengadaanSelesai(){
+        this.$router.push({ name: 'PengadaanSelesai' });
+      },
         getSupplier() {
         var uri = this.$apiUrl + 'Supplier';
         this.$http.get(uri).then((response) => {
@@ -508,6 +861,9 @@
       setTotal(index){
         this.detailTambah[index].total_harga = this.detailTambah[index].jumlah * this.detailTambah[index].harga;
       },
+      setTotal2(){
+        this.form.total_harga = this.form.jumlah * this.form.harga;
+      },
       setSubtotal() {
         this.form.subtotal = 0;
         for (var i = 0; i < this.detailTambah.length; i++) {
@@ -515,6 +871,9 @@
             this.form.subtotal + this.detailTambah[i].total_harga;
         }
 
+      },
+      setIdPengadaan(detailItem){
+        this.form.id_pengadaan_produk = detailItem.id_pengadaan_produk;
       },
       addTambah() {
         this.detailTambah.push({
@@ -615,28 +974,53 @@
             this.load = false;
           });
       },
-        updateData(){ 
-            this.company = new FormData()
-            this.company.append('id_user', this.$session.get('user').id_user)
-            this.company.append('company_name', this.form.company_name);
-            this.company.append('address', this.form.address);
-            this.company.append('city', this.form.city);
-            this.company.append('province', this.form.province);
-            this.company.append('company_email', this.form.company_email);
-            this.company.append('phone_number', this.form.phone_number);
-            this.company.append('company_picture', this.form.company_picture);
-            this.company.append('company_description', this.form.company_description);
-
-            var uri =this.$apiUrl + 'company/' + this.form.id             
+      addDataDetailPengadaan() {
+        for (let i = 0; i < this.detailTambah.length; i++) {
+          this.detailTambah[i].id_pengadaan_produk = this.form.id_pengadaan_produk;
+        }
+        this.user2.append(
+          'detail_pengadaan',
+          JSON.stringify(this.detailTambah)
+        );
+        var uri = this.$apiUrl + 'DetailPengadaan/insertMultiple';
+        this.load = true;
+        this.$http
+          .post(uri, this.user2)
+          .then((response) => {
+            this.snackbar = true;
+            this.color = 'green';
+            this.text = response.data.message;
+            this.load = false;
+            this.dialogAddProduk = false;
+            this.id_supplier = null;
+            this.getPengadaan(); 
+          this.getDetailPengadaan();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+          });
+      },
+      
+        updateSedangDiproses(item){ 
+            this.status.append('status', item.status);
+            this.status.append('modified_by', this.form.modified_by);
+            this.status.append('created_by', item.created_by);
+            this.status.append('id_supplier', item.id_supplier);
+            console.log(this.form.status)
+            var uri =this.$apiUrl + 'PengadaanProduk/'+ 'updateStatusToProses/' + item.id_pengadaan_produk;             
             this.load = true             
-            this.$http.post(uri,this.company).then(response =>{               
+            this.$http.post(uri,this.status).then(response =>{               
                 this.snackbar = true; //mengaktifkan snackbar               
                 this.color = 'green'; //memberi warna snackbar               
                 this.text = response.data.message; //memasukkan pesan ke snackba r               
                 this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
+                this.dialogDetailPengadaanProduk = false               
+                this.getPengadaan(); 
+                this.getDetailPengadaan();            
             }).catch(error =>{               
                 this.errors = error               
                 this.snackbar = true;  
@@ -646,60 +1030,179 @@
                 this.load = false;           
             })         
         },
-        deleteData(id){ 
-            this.confirmationDialog = false;
-            var uri =this.$apiUrl + 'company/delete/' + id             
+        updateDataPengadaan(){ 
+            
+            this.user.append('id_supplier', this.id_supplier);
+            this.user.append('total', this.form.total);
+            this.user.append('modified_by', this.form.modified_by);
+            
+            var uri =this.$apiUrl + 'PengadaanProduk/update/' + this.updatedId;          
             this.load = true             
-            this.$http.post(uri).then(response =>{               
+            this.$http.post(uri,this.user).then(response =>{               
                 this.snackbar = true; //mengaktifkan snackbar               
                 this.color = 'green'; //memberi warna snackbar               
                 this.text = response.data.message; //memasukkan pesan ke snackba r               
                 this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
+                this.dialogEditPengadaan = false               
+                this.getPengadaan(); 
+                this.getDetailPengadaan();
             }).catch(error =>{               
                 this.errors = error               
-                this.snackbar = true;               
-                this.text = 'Try Again';
+                this.snackbar = true;  
+                this.text = error             
+                // this.text = 'Try Again';
                 this.color = 'red';               
                 this.load = false;           
-            })
-        }, 
-        confirm(id){
-            this.id = id;
-            this.confirmationDialog = true;
+            })         
         },
-        editHandler(company){
-            this.dialog = true; 
-            this.typeInput = "edit";   
-            this.form.id = company.id_company;       
-            this.form.company_name = company.company_name;
-            this.form.address = company.address;
-            this.form.city = company.city;
-            this.form.province = company.province;
-            this.form.phone_number = company.phone_number;
-            this.form.company_email = company.company_email;
-            this.form.company_description = company.company_description;
+        updateDataProduk(){ 
+            
+            this.user2.append('id_produk', this.form.id_produk);
+            this.user2.append('jumlah', this.form.jumlah);
+            this.user2.append('harga', this.form.harga);
+            this.user2.append('total_harga', this.form.total_harga);
+            this.user2.append('modified_by', this.form.modified_by);
+            
+            var uri =this.$apiUrl + 'DetailPengadaan/update/' + this.updatedId;          
+            this.load = true             
+            this.$http.post(uri,this.user2).then(response =>{               
+                this.snackbar = true; //mengaktifkan snackbar               
+                this.color = 'green'; //memberi warna snackbar               
+                this.text = response.data.message; //memasukkan pesan ke snackba r               
+                this.load = false;               
+                this.dialogEditProduk = false               
+                this.getPengadaan(); 
+                this.getDetailPengadaan();
+            }).catch(error =>{               
+                this.errors = error               
+                this.snackbar = true;  
+                this.text = error             
+                // this.text = 'Try Again';
+                this.color = 'red';               
+                this.load = false;           
+            })         
         },
-        setForm(){             
-            if (this.typeInput === 'new') {
-                this.sendData()             
-            }else{         
-                this.updateData()             
-            }
+       deleteDataProduk(deletedId) {
+        var uri = this.$apiUrl + 'PengadaanProduk/' + deletedId; //data dihapus berdasarkan id
+        this.$http
+          .delete(uri)
+          .then((response) => {
+            
+            this.deleteMultipleDataDetailPengadaan( response.data.message);
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Try Again';
+            this.color = 'red';
+          });
+      },
+      
+      deleteMultipleDataDetailPengadaan() {
+        this.deleteProduk.append(
+          'id_detail_pengadaan',
+          JSON.stringify(this.detailIdPengadaanFilteredDelete)
+        );
+        var uri = this.$apiUrl + 'DetailPengadaan/' + 'deleteMultiple';
+        this.load = true;
+        this.$http
+          .post(uri, this.deleteProduk)
+          .then(() => {
+            this.snackbar = true;
+            this.color = 'green';
+            this.text = 'Berhasil';
+            this.load = false;
+            this.deleteDialog = false;
+            this.getPengadaan();
+            this.getDetailPengadaan();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Coba Lagi';
+            this.color = 'red';
+            this.load = false;
+          });
+      },
+
+      async deleteDataDetailProduk(deletedId) {
+        var uri = this.$apiUrl + 'DetailPengadaan/' + deletedId; //data dihapus berdasarkan id
+        await this.$http
+          .delete(uri)
+          .then((response) => {
+            this.snackbar = true;
+            this.text = response.data.message;
+            this.color = 'green';
+            this.deleteDetailDialog = false;
+            this.getPengadaan();
+            this.getDetailPengadaan();
+          })
+          .catch((error) => {
+            this.errors = error;
+            this.snackbar = true;
+            this.text = 'Try Again';
+            this.color = 'red';
+          });
+      },
+      deleteRowDetailProduk(item) {
+        this.deletedId = item.id_detail_pengadaan;
+        console.log(item.id_detail_pengadaan)
+        this.deleteDetailDialog = true;
+      },
+      deleteRowPengadaan(item){
+        this.deletedId = item.id_pengadaan_produk;
+        this.deleteDialog = true;
+      },
+      getDetailPengadaanId(item){
+         var uri =
+          this.$apiUrl +
+          'DetailPengadaan/' +
+          'getByIdPengadaan/' +
+          item.id_pengadaan_produk;
+        this.$http.get(uri).then((response) => {
+          this.detailIdPengadaanFiltered = response.data.message;
+          for (var i = 0; i < this.detailIdPengadaanFiltered.length; i++) {
+            this.detailIdPengadaanFilteredDelete[
+              i
+            ] = this.detailIdPengadaanFiltered[i].id_detail_pengadaan;
+          }
+          console.log(this.detailIdPengadaanFilteredDelete);
+        });
+      },
+        resetArray() {
+        this.detailIdPengadaanFiltered = [];
+        this.detailIdPengadaanFilteredDelete = [];
+      },
+        editHandlerPengadaan(item){
+ 
+            this.updatedId = item.id_pengadaan_produk;
+            this.id_supplier = item.id_supplier;
+            this.form.total = item.total;
+            console.log(item.total)
+            this.dialogEditPengadaan = true;
         },
-        resetForm(){     
-          this.typeInput = 'new'        
-            this.form = {                
-                company_name: '',
-                address: '', 
-                city: '', 
-                province: '',
-                company_email: '',
-                phone_number: '',
-                company_description: ''             
-            }         
+        editHandlerProduk(item){
+ 
+            this.updatedId = item.id_detail_pengadaan;
+            this.form.id_produk = item.id_produk;
+            this.form.total_harga = item.total_harga;
+            this.form.harga = item.harga;
+            this.form.jumlah = item.jumlah;
+            this.dialogEditProduk = true;
+        },
+        resetForm(){ 
+              this.id_supplier = null;
+              this.form.id_pengadaan_produk = '';
+              this.form.id_produk='';
+              this.form.jumlah='';
+              this.form.harga='';
+              this.form.total_harga='';
+              this.form.id_supplier='';
+              this.form.subtotal= 0;
+              this.form.status= 'Sedang Diproses';
+              this.form.created_by= sessionStorage.getItem('Nama');
+              this.form.delete_by=sessionStorage.getItem('Nama');
+              this.form.modified_by= sessionStorage.getItem('Nama');    
         },
         customFilter(item, queryText) {
         const textOne = item.nama.toLowerCase();

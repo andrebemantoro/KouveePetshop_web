@@ -138,6 +138,34 @@ const routes = [
             next({ path: '/LoginAdmin' });
           }
         },
+        name: 'PengadaanDiproses',
+        path: '/PengadaanDiproses',
+        component: loadPengadaan('PengadaanDiproses'),
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem('Nama') == 'admin') {
+            next();
+          } else {
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/LoginAdmin' });
+          }
+        },
+        name: 'PengadaanSelesai',
+        path: '/PengadaanSelesai',
+        component: loadPengadaan('PengadaanSelesai'),
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem('Nama') == 'admin') {
+            next();
+          } else {
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/LoginAdmin' });
+          }
+        },
         name: 'Produk',
         path: '/MenuProduk',
         component: loadProduk('MenuProduk'),
