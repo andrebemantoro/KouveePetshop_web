@@ -109,9 +109,9 @@
         });
       },
        getColor (items,index) {
-        console.log(items[index].min_stok)
+   
         this.temp[index] =(parseInt(items[index].min_stok)+parseInt(this.temp2));
-        console.log(this.temp[index])
+      
         if (items[index].jumlah_stok < items[index].min_stok) return 'red'
         else if (  items[index].jumlah_stok > items[index].min_stok && items[index].jumlah_stok < this.temp[index]) return 'orange' 
         else return 'green'
