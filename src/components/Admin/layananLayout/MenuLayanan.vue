@@ -126,6 +126,8 @@
                           icon
                           color="blue"
                           light
+                          class="tombol"
+                          outlined=""
                           @click="editHandlerHargaLayanan(item)"
                         >
                           <v-icon>mdi-pencil</v-icon>
@@ -720,6 +722,9 @@
 </script>
 
 <style>
+  .tombol {
+    margin: 2px;
+  }
   .underlinetext {
     text-decoration: underline;
   }

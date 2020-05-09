@@ -78,56 +78,55 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      collapseOnScroll: true,
-      drawer: null,
-      items: [
-        {
-          title: "Pegawai",
-          icon: "mdi-account",
-          to: "/menuPegawai",
-        },
-        {
-          title: "Produk",
-          icon: "mdi-paw",
-          to: "/menuProduk",
-        },
-        {
-          title: "Layanan",
-          icon: "mdi-dog-service",
-          to: "/menuLayanan",
-        },
-        {
-          title: "Supplier",
-          icon: "mdi-package-variant-closed",
-          to: "/menuSupplier",
-        },
-        {
-          title: "Ukuran Hewan",
-          icon: "mdi-ruler",
-          to: "/menuUkuran",
-        },
-        {
-          title: "Jenis Hewan",
-          icon: "mdi-dog",
-          to: "/menuJenis",
-        },
-        {
-          title: "Pengadaan",
-          icon: "mdi-plus-circle-multiple-outline",
-          to: "/menuPengadaan",
-        },
-      ],
-    };
-  },
-  methods: {
-    logout() {
-      sessionStorage.removeItem("Nama");
-      sessionStorage.removeItem("Id");
-      this.$router.push({ name: "Login" });
+  export default {
+    data() {
+      return {
+        drawer: null,
+        items: [
+          {
+            title: 'Pegawai',
+            icon: 'mdi-account',
+            to: '/menuPegawai',
+          },
+          {
+            title: 'Produk',
+            icon: 'mdi-paw',
+            to: '/menuProduk',
+          },
+          {
+            title: 'Layanan',
+            icon: 'mdi-dog-service',
+            to: '/menuLayanan',
+          },
+          {
+            title: 'Supplier',
+            icon: 'mdi-package-variant-closed',
+            to: '/menuSupplier',
+          },
+          {
+            title: 'Ukuran Hewan',
+            icon: 'mdi-ruler',
+            to: '/menuUkuran',
+          },
+          {
+            title: 'Jenis Hewan',
+            icon: 'mdi-dog',
+            to: '/menuJenis',
+          },
+          {
+            title: 'Pengadaan',
+            icon: 'mdi-plus-circle-multiple-outline',
+            to: '/menuPengadaan',
+          },
+        ],
+      };
     },
-  },
-};
+    methods: {
+      logout() {
+        sessionStorage.removeItem('Nama');
+        sessionStorage.removeItem('Id');
+        this.$router.push({ name: 'Login' });
+      },
+    },
+  };
 </script>

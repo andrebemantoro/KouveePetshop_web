@@ -67,20 +67,6 @@
                         <v-icon>mdi-pdf-box</v-icon>
                       </v-btn>
                     </div>
-                    <div>
-                      <v-btn
-                        icon
-                        color="red lighten-2"
-                        dark
-                        v-on="on"
-                        @click="
-                          deleteRowProduk(item),
-                            getDetailTransaksiProdukById(item)
-                        "
-                      >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </div>
                   </td>
                 </tr>
               </tbody>

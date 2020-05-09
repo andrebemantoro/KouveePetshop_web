@@ -81,7 +81,6 @@
   export default {
     data() {
       return {
-        collapseOnScroll: true,
         drawer: null,
         items: [
           {

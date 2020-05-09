@@ -2678,7 +2678,7 @@
           .catch((error) => {
             this.errors = error;
             this.snackbar = true;
-            this.text = 'Try Again';
+            this.text = 'Coba Lagi';
             this.color = 'red';
           });
       },
