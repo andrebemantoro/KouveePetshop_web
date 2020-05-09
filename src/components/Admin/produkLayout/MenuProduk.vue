@@ -133,7 +133,7 @@
           <v-flex>
             <template>
               <v-row>
-                <v-col v-for="(item, i) in produks" :key="i" cols="3">
+                <v-col v-for="(item, i) in filteredProduk" :key="i" cols="3">
                   <v-card class="mx-auto" max-width="344">
                     <v-img
                       :src="$apiUrl2 + 'produk/' + item.gambar"
@@ -305,6 +305,13 @@
         errors: '',
         updatedId: '',
       };
+    },
+    computed:{
+      filteredProduk: function(){
+        return this.produks.filter((item)=>{
+          return item.nama.toLowerCase().match(this.keyword.toLowerCase());
+        })
+      }
     },
 
     methods: {

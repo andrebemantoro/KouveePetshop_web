@@ -68,25 +68,7 @@
                 <!-- <td>{{ item.delete_by }}</td>
                 <td>{{ item.delete_at }}</td>-->
 
-               <td>
-
-
-                  <div>
-                    <v-btn
-                      icon
-                      color="red lighten-2"
-                      dark
-                      outlined=""
-                      v-on="on"
-                      @click="
-                        deleteRowPengadaan(item),
-                          getDetailPengadaanId(item)
-                      "
-                    ><v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </div>
-                
-                </td>
+               
               </tr>
             </tbody>
           </template>
@@ -183,34 +165,7 @@
       </v-dialog>
     </template>
     <!-- ------------------------------------------------------------------------- -->
-<!-- ------------------Dialog untuk konfirmasi delete-------------------------------------- -->
-    <div class="text-center">
-      <v-dialog width="500" v-model="deleteDialog">
-        <v-card>
-          <v-card-title class="headline Red lighten-2" primary-title
-            >Konfirmasi Hapus</v-card-title>
-          <v-card-text>Data yang akan dihapus, Lanjutkan ?</v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              @click="resetArray(), (deleteDialog = false)"
-              >Batal</v-btn>
-          
-              <v-btn
-                color="primary"
-                text
-                @click="deleteDataProduk(deletedId), resetArray()"
-                >Hapus Transaksi</v-btn>
-           
-  
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
-<!-- ------------------------------------------------------------------------- -->
+
 
 <v-snackbar       
     v-model="snackbar"
@@ -271,10 +226,7 @@
             text: 'Diubah Oleh',
             value: 'modified_by',
           },
-          {
-            text: 'Aksi',
-            value: null,
-          },
+         
         ],
         activeBtn: 2,
             dialog: false,
@@ -402,7 +354,7 @@
       },
       filterProgres() {
         return this.pengadaans.filter((pengadaan) => {
-          return pengadaan.status.match('Menunggu Konfirmasi');
+          return pengadaan.status.match('Pesanan Selesai');
         });
       },
       filteredItems2(value) {

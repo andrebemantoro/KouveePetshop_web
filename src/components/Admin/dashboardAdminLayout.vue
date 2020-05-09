@@ -65,10 +65,35 @@
       <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      
+      <v-menu offset-y>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          
+          icon=""
+          link=""
+          v-on="on"
+        >
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in menus"
+          :key="index"
+          @click="$router.push(item.to).catch((error) => {})"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            {{ item.title }}
+            </v-list-item-title>
+          
+        </v-list-item>
+      </v-list>
+    </v-menu>
+      
     </v-app-bar>
 
     <VContent>
@@ -83,6 +108,21 @@ export default {
     return {
       collapseOnScroll: true,
       drawer: null,
+      menus: [
+        { title: 'Stok Produk',
+          icon: "mdi-package-variant",
+          to: "/StokProduk",
+
+        },
+        { title: 'Laporan Pengadaan',
+         icon: "mdi-format-list-bulleted",
+          to: "/menuUkuran",
+         },
+        { title: 'Laporan Transaksi Terlaris',
+         icon: "mdi-tag-faces",
+          to: "/menuUkuran",
+ },
+      ],
       items: [
         {
           title: "Pegawai",
