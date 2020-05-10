@@ -20,7 +20,7 @@
         <v-data-table :headers="headers" :items="produks" :search="keyword">
           <template v-slot:body="{ items }">
             <tbody>
-              <tr v-for="(item, index) in items" :key="item.id_pegawai">
+              <tr v-for="(item, index) in items" :key="item.id_produk">
                 <td>{{ index + 1 }}</td>
                 <td>{{ item.id_produk }}</td>
                 <td>{{ item.nama }}</td>
@@ -57,7 +57,8 @@
       return {
         
         keyword: '',
-      
+        temp: [],
+        temp2: 10,
         menu: false,
         on: '',
         deleteDialog: '',
@@ -108,7 +109,11 @@
         });
       },
        getColor (items,index) {
+   
+        this.temp[index] =(parseInt(items[index].min_stok)+parseInt(this.temp2));
+      
         if (items[index].jumlah_stok < items[index].min_stok) return 'red'
+        else if (  items[index].jumlah_stok > items[index].min_stok && items[index].jumlah_stok < this.temp[index]) return 'orange' 
         else return 'green'
       },
      
