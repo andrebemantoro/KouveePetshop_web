@@ -72,78 +72,38 @@
       </v-carousel>
     </div>
     <div class="container-satu">
-      <v-layout class="mx-4">
-        <v-flex>
-          <template>
-            <v-row>
-              <v-col v-for="(item, i) in produks" :key="i" cols="3">
-                <v-card class="mx-auto" max-width="344">
-                  <v-img
-                    :src="$apiUrl2 + 'produk/' + item.gambar"
-                    contain
-                    class="white"
-                    height="200"
-                  />
+      <h1 class="mx-auto">PRODUK YANG TERSEDIA</h1>
+      <v-row>
+        <v-col v-for="(item, i) in produks" :key="i" cols="3">
+          <v-card class="mx-auto" max-width="344">
+            <v-img
+              :src="$apiUrl2 + 'produk/' + item.gambar"
+              contain
+              class="white"
+              height="200"
+            />
 
-                  <v-card-title>
-                    {{ item.nama }}
-                  </v-card-title>
+            <v-card-title>
+              {{ item.nama }}
+            </v-card-title>
 
-                  <v-card-subtitle color="black">
-                    Harga: Rp{{ item.harga }}
-                  </v-card-subtitle>
-                </v-card>
-              </v-col>
-            </v-row>
-          </template>
-        </v-flex>
-      </v-layout>
+            <v-card-subtitle> Harga: Rp{{ item.harga }} </v-card-subtitle>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
     <div class="container-satu"></div>
     <div class="container-satu">
-      <div class="kolom-utama">
-        <h2>Kouve Petshop</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa aliquid
-          veritatis, nostrum rem accusantium illum amet cum esse labore,
-          doloremque animi perspiciatis ducimus architecto alias!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-          sapiente sed debitis vero error molestiae neque molestias mollitia
-          accusamus, odio eos distinctio cum eveniet qui, ipsa tempore
-          architecto eligendi voluptatem amet soluta quo eaque dolor. Omnis
-          dolorum error distinctio deserunt.
-        </p>
-      </div>
-
-      <div class="sidebar-satu">
-        <h3>Sidebar Satu</h3>
-        <ul>
-          <li>
-            <a href>Link 1</a>
-          </li>
-          <li>
-            <a href>Link 2</a>
-          </li>
-          <li>
-            <a href>Link 3</a>
-          </li>
-          <li>
-            <a href>Link 4</a>
-          </li>
-          <li>
-            <a href>Link 5</a>
-          </li>
-        </ul>
-      </div>
-      <div class="sidebar-dua">
-        <h3>Sidebar Dua</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque officia
-          tempore quos dolorem at optio?
-        </p>
-      </div>
+      <h1 class="mx-auto">LAYANAN YANG TERSEDIA</h1>
+      <v-row>
+        <v-col v-for="(item, i) in layanans" :key="i" cols="3">
+          <v-card class="mx-auto" max-width="344">
+            <v-card-title>
+              {{ item.nama }}
+            </v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
     <!-- Akhir latihan 1 -->
     <!-- Latihan 2 - Service/Features -->
@@ -171,6 +131,7 @@
     data: () => ({
       drawer: false,
       produks: [],
+      layanans: [],
       groups: [
         {
           title: 'BERANDA',
@@ -209,15 +170,22 @@
       },
     },
     methods: {
-      getData() {
+      getDataProduk() {
         var uri = this.$apiUrl + 'Produk/' + 'getAll';
         this.$http.get(uri).then((response) => {
           this.produks = response.data.message;
         });
       },
+      getDataLayanan() {
+        var uri = this.$apiUrl + 'Layanan/' + 'getAll';
+        this.$http.get(uri).then((response) => {
+          this.layanans = response.data.message;
+        });
+      },
     },
     mounted() {
-      this.getData();
+      this.getDataProduk();
+      this.getDataLayanan();
     },
   };
 </script>
@@ -229,27 +197,11 @@
     max-height: 800px;
     margin: auto;
     margin-top: 1px;
-    background-color: blanchedalmond;
+    background-color: white;
     padding: 20px;
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: nowrap;
   }
 
-  .kolom-utama {
-    flex: 3;
-    order: 2;
-  }
-
-  .sidebar-satu {
-    flex: 1;
-    order: 1;
-  }
-
-  .sidebar-dua {
-    flex: 1;
-    order: 3;
-  }
   /* akhir dari latihan 1 */
   /* latihan 2 */
   .container-dua {
