@@ -1188,7 +1188,7 @@
                     </v-col>
                     <v-col cols="2">
                       <v-text-field
-                        label="Total Harga*"
+                        label="Subtotal*"
                         v-model="detilTransaksi.total_harga"
                         value
                         outlined
@@ -2678,7 +2678,7 @@
           .catch((error) => {
             this.errors = error;
             this.snackbar = true;
-            this.text = 'Try Again';
+            this.text = 'Coba Lagi';
             this.color = 'red';
           });
       },

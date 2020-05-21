@@ -1,34 +1,28 @@
 <template>
-<v-container> 
+  <v-container>
     <v-row>
-        <v-col cols="12">
-            <v-bottom-navigation
-            :value="activeBtn"
-            grow
-              color="#fd8c00"
-          >
-            <v-btn @click="Pengadaan()">
-              <span>Menunggu Konfirmasi</span>
-              <v-icon>mdi-history</v-icon>
-            </v-btn>
+      <v-col cols="12">
+        <v-bottom-navigation :value="activeBtn" grow color="#f9c99e">
+          <v-btn @click="Pengadaan()">
+            <span>Menunggu Konfirmasi</span>
+            <v-icon>mdi-history</v-icon>
+          </v-btn>
 
-            <v-btn @click="PengadaanDiproses()"> 
-              <span>Sedang Diproses</span>
-              <v-icon>mdi-truck</v-icon>
-            </v-btn>
+          <v-btn @click="PengadaanDiproses()">
+            <span>Sedang Diproses</span>
+            <v-icon>mdi-truck</v-icon>
+          </v-btn>
 
-            <v-btn @click="PengadaanSelesai()">
-              <span>Selesai</span>
-              <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
-            </v-btn>
-          </v-bottom-navigation>
-         <v-card>
-
-      <div class="pa-3">
-        <h2 class="text-md-center">Pengadaan Produk Selesai</h2>
-        <v-layout row wrap style="margin:10px">
-      
-          <!-- <v-flex xs6 class="text-right">
+          <v-btn @click="PengadaanSelesai()">
+            <span>Selesai</span>
+            <v-icon>mdi-checkbox-multiple-marked-outline</v-icon>
+          </v-btn>
+        </v-bottom-navigation>
+        <v-card>
+          <div class="pa-3">
+            <h2 class="text-md-center">Pengadaan Produk Selesai</h2>
+            <v-layout row wrap style="margin:10px">
+              <!-- <v-flex xs6 class="text-right">
             <v-text-field
               v-model="keyword"
               append-icon="mdi-search"
@@ -39,48 +33,43 @@
             >
             </v-text-field>
           </v-flex>-->
-        </v-layout>
-        <v-data-table
-          :headers="headers"
-          :items="filterProgres(pengadaans)"
-        >
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr
-                v-for="(item, index) in items"
-                :key="item.id_pengadaan_produk"
-              >
-                <td>{{ index + 1 }}</td>
-                <td
-                  class="underlinetext"
-                  @click="showDetail(item)"
-                  style="cursor:pointer"
-                >
-                  {{ item.id_pengadaan_produk }}
-                </td>
-                <td>{{ item.nama_supplier }}</td>
-                <td>{{ item.total }}</td>
-                <td>{{ item.status }}</td>
-                <td>{{ item.created_at }}</td>
-                <td>{{ item.created_by }}</td>
-                <td>{{ item.modified_at }}</td>
-                <td>{{ item.modified_by }}</td>
-                <!-- <td>{{ item.delete_by }}</td>
+            </v-layout>
+            <v-data-table :headers="headers" :items="filterProgres(pengadaans)">
+              <template v-slot:body="{ items }">
+                <tbody>
+                  <tr
+                    v-for="(item, index) in items"
+                    :key="item.id_pengadaan_produk"
+                  >
+                    <td>{{ index + 1 }}</td>
+                    <td
+                      class="underlinetext"
+                      @click="showDetail(item)"
+                      style="cursor:pointer"
+                    >
+                      {{ item.id_pengadaan_produk }}
+                    </td>
+                    <td>{{ item.nama_supplier }}</td>
+                    <td>{{ item.total }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.created_by }}</td>
+                    <td>{{ item.modified_at }}</td>
+                    <td>{{ item.modified_by }}</td>
+                    <!-- <td>{{ item.delete_by }}</td>
                 <td>{{ item.delete_at }}</td>-->
+                  </tr>
+                </tbody>
+              </template>
+            </v-data-table>
+          </div>
+          <!-- </v-container> -->
+        </v-card>
+      </v-col>
+      <v-col cols="2"></v-col>
+    </v-row>
 
-               
-              </tr>
-            </tbody>
-          </template>
-        </v-data-table>
-      </div>
-      <!-- </v-container> -->
-    </v-card>
-        </v-col>
-        <v-col cols="2"></v-col>
-    </v-row> 
- 
-<!------------------------  Dialog detail pengadaan------------------------>
+    <!------------------------  Dialog detail pengadaan------------------------>
     <template>
       <v-dialog
         v-model="dialogDetailPengadaanProduk"
@@ -125,18 +114,15 @@
                   <td>{{ item.created_by }}</td>
                   <td>{{ item.modified_at }}</td>
                   <td>{{ item.modified_by }}</td>
-                 
                 </tr>
               </tbody>
             </v-simple-table>
             <!-- </v-container> -->
             <br />
-            
+
             <div class="text-right">
               <v-simple-table>
                 <td class="text-right">
-                
-                 
                   <tr>
                     <td>
                       <h3>{{ 'Total : Rp' }}</h3>
@@ -147,8 +133,6 @@
                   </tr>
                 </td>
               </v-simple-table>
-          
-            
             </div>
           </v-card-text>
           <v-card-actions>
@@ -166,30 +150,26 @@
     </template>
     <!-- ------------------------------------------------------------------------- -->
 
+    <v-snackbar
+      v-model="snackbar"
+      :color="color"
+      :multi-line="true"
+      :timeout="3000"
+    >
+      {{ text }}
 
-<v-snackbar       
-    v-model="snackbar"
-    :color="color"       
-    :multi-line="true"       
-    :timeout="3000">       
-    {{ text }}       
-        
-    <v-btn         
-        dark         
-        text         
-        @click="snackbar = false">         
-        Close       
-    </v-btn>     
-</v-snackbar> 
-</v-container> 
-
+      <v-btn dark text @click="snackbar = false">
+        Tutup
+      </v-btn>
+    </v-snackbar>
+  </v-container>
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-         headers: [
+        headers: [
           {
             text: 'No',
             value: 'index',
@@ -226,87 +206,85 @@
             text: 'Diubah Oleh',
             value: 'modified_by',
           },
-         
         ],
         activeBtn: 2,
-            dialog: false,
-            confirmationDialog: false,
-            editedIndex: -1,
-            produks:[],
-            pengadaans:[],
-            detailPengadaans:[],
-            suppliers:[],
-            detailTambah:[],
-            detailIdPengadaanFiltered:[],
-            detailIdPengadaanFilteredDelete:[],
-            deleteDialog:false,
-            id_supplier:null,
-            empty:null,
-            dialogDetailPengadaanProduk: false,
-            detailItem: '',
-            on: '',
-            user: new FormData(),
-            user2: new FormData(),
-            form: 
-            {
-              subtotal: 0,
-              created_by: sessionStorage.getItem('Nama'),
-              delete_by: sessionStorage.getItem('Nama'),
-              modified_by: sessionStorage.getItem('Nama'),
-            },
-            typeInput: 'new', 
-            search: '',
-            snackbar: false,          
-            color: null,         
-            text: '',          
-            load: false,
-
-      }
+        dialog: false,
+        confirmationDialog: false,
+        editedIndex: -1,
+        produks: [],
+        pengadaans: [],
+        detailPengadaans: [],
+        suppliers: [],
+        detailTambah: [],
+        detailIdPengadaanFilteredDelete: [],
+        deleteDialog: false,
+        id_supplier: null,
+        empty: null,
+        dialogDetailPengadaanProduk: false,
+        detailItem: '',
+        on: '',
+        deletePengadaan: new FormData(),
+        user: new FormData(),
+        user2: new FormData(),
+        form: {
+          subtotal: 0,
+          created_by: sessionStorage.getItem('Nama'),
+          delete_by: sessionStorage.getItem('Nama'),
+          modified_by: sessionStorage.getItem('Nama'),
+        },
+        typeInput: 'new',
+        search: '',
+        snackbar: false,
+        color: null,
+        text: '',
+        load: false,
+      };
     },
     watch: {
       id_supplier() {
         this.empty = 'null';
       },
     },
-    
+
     methods: {
-      Pengadaan(){
-         this.$router.push({ name: 'Pengadaan' });
+      Pengadaan() {
+        this.$router.push({ name: 'Pengadaan' });
       },
-      PengadaanDiproses(){
+      PengadaanDiproses() {
         this.$router.push({ name: 'PengadaanDiproses' });
       },
-      PengadaanSelesai(){
+      PengadaanSelesai() {
         this.$router.push({ name: 'PengadaanSelesai' });
       },
-        getSupplier() {
+      getSupplier() {
         var uri = this.$apiUrl + 'Supplier';
         this.$http.get(uri).then((response) => {
           this.suppliers = response.data.message;
         });
       },
-        getProduk() {
+      getProduk() {
         var uri = this.$apiUrl + 'Produk/' + 'all';
         this.$http.get(uri).then((response) => {
           this.produks = response.data.message;
         });
       },
-       getPengadaan() {
-        var uri = this.$apiUrl + 'PengadaanProduk/'+ 'getWithJoin' ;
+      getPengadaan() {
+        var uri = this.$apiUrl + 'PengadaanProduk/' + 'getWithJoin';
         this.$http.get(uri).then((response) => {
           this.pengadaans = response.data.message;
         });
       },
-       getDetailPengadaan() {
-        var uri = this.$apiUrl + 'DetailPengadaan/'+ 'getWithJoin' ;
+      getDetailPengadaan() {
+        var uri = this.$apiUrl + 'DetailPengadaan/' + 'getWithJoin';
         this.$http.get(uri).then((response) => {
           this.detailPengadaans = response.data.message;
         });
       },
-      setTotal(index){
-        this.detailTambah[index].total_harga = this.detailTambah[index].jumlah * this.detailTambah[index].harga;
+      setTotal(index) {
+        this.detailTambah[index].total_harga =
+          this.detailTambah[index].jumlah * this.detailTambah[index].harga;
       },
-      setTotal2(){
+      setTotal2() {
         this.form.total_harga = this.form.jumlah * this.form.harga;
       },
       setSubtotal() {
@@ -315,14 +293,12 @@
           this.form.subtotal =
             this.form.subtotal + this.detailTambah[i].total_harga;
         }
-
       },
-      setIdPengadaan(detailItem){
+      setIdPengadaan(detailItem) {
         this.form.id_pengadaan_produk = detailItem.id_pengadaan_produk;
       },
       addTambah() {
         this.detailTambah.push({
-         
           id_pengadaan_produk: '',
           id_detail_pengadaan: '',
           id_supplier: '',
@@ -339,10 +315,7 @@
         });
       },
       deleteRow(tambah) {
-        this.detailTambah.splice(
-          this.detailTambah.indexOf(tambah),
-          1
-        );
+        this.detailTambah.splice(this.detailTambah.indexOf(tambah), 1);
       },
       resetDynamic() {
         while (this.detailTambah.length != 0) {
@@ -367,42 +340,39 @@
       },
       showDetail(item) {
         this.detailItem = item;
-        this.dialogDetailPengadaanProduk= true;
+        this.dialogDetailPengadaanProduk = true;
       },
-       
-      
-      
-      
-      
-       deleteDataProduk(deletedId) {
+
+      deleteDataProduk(deletedId) {
         var uri = this.$apiUrl + 'PengadaanProduk/' + deletedId; //data dihapus berdasarkan id
         this.$http
           .delete(uri)
           .then((response) => {
-            
-            this.deleteMultipleDataDetailPengadaan( response.data.message);
+            this.text = response.data.message;
+            this.deleteMultipleDataDetailPengadaan();
+            console.log(this.text);
           })
           .catch((error) => {
             this.errors = error;
             this.snackbar = true;
-            this.text = 'Try Again';
+            this.text = 'Coba Lagi';
             this.color = 'red';
           });
       },
-      
+
       deleteMultipleDataDetailPengadaan() {
-        this.deleteProduk.append(
+        this.deletePengadaan.append(
           'id_detail_pengadaan',
           JSON.stringify(this.detailIdPengadaanFilteredDelete)
         );
         var uri = this.$apiUrl + 'DetailPengadaan/' + 'deleteMultiple';
         this.load = true;
         this.$http
-          .post(uri, this.deleteProduk)
-          .then(() => {
+          .post(uri, this.deletePengadaan)
+          .then((response) => {
             this.snackbar = true;
             this.color = 'green';
-            this.text = 'Berhasil';
+            this.text = response.data.message;
             this.load = false;
             this.deleteDialog = false;
             this.getPengadaan();
@@ -417,14 +387,12 @@
           });
       },
 
-      
-      
-      deleteRowPengadaan(item){
+      deleteRowPengadaan(item) {
         this.deletedId = item.id_pengadaan_produk;
         this.deleteDialog = true;
       },
-      getDetailPengadaanId(item){
-         var uri =
+      getDetailPengadaanId(item) {
+        var uri =
           this.$apiUrl +
           'DetailPengadaan/' +
           'getByIdPengadaan/' +
@@ -439,42 +407,40 @@
           console.log(this.detailIdPengadaanFilteredDelete);
         });
       },
-        resetArray() {
+      resetArray() {
         this.detailIdPengadaanFiltered = [];
         this.detailIdPengadaanFilteredDelete = [];
       },
-        editHandlerPengadaan(item){
- 
-            this.updatedId = item.id_pengadaan_produk;
-            this.id_supplier = item.id_supplier;
-            this.form.total = item.total;
-            console.log(item.total)
-            this.dialogEditPengadaan = true;
-        },
-        editHandlerProduk(item){
- 
-            this.updatedId = item.id_detail_pengadaan;
-            this.form.id_produk = item.id_produk;
-            this.form.total_harga = item.total_harga;
-            this.form.harga = item.harga;
-            this.form.jumlah = item.jumlah;
-            this.dialogEditProduk = true;
-        },
-        resetForm(){ 
-              this.id_supplier = null;
-              this.form.id_pengadaan_produk = '';
-              this.form.id_produk='';
-              this.form.jumlah='';
-              this.form.harga='';
-              this.form.total_harga='';
-              this.form.id_supplier='';
-              this.form.subtotal= 0;
-              this.form.status= 'Sedang Diproses';
-              this.form.created_by= sessionStorage.getItem('Nama');
-              this.form.delete_by=sessionStorage.getItem('Nama');
-              this.form.modified_by= sessionStorage.getItem('Nama');    
-        },
-        customFilter(item, queryText) {
+      editHandlerPengadaan(item) {
+        this.updatedId = item.id_pengadaan_produk;
+        this.id_supplier = item.id_supplier;
+        this.form.total = item.total;
+        console.log(item.total);
+        this.dialogEditPengadaan = true;
+      },
+      editHandlerProduk(item) {
+        this.updatedId = item.id_detail_pengadaan;
+        this.form.id_produk = item.id_produk;
+        this.form.total_harga = item.total_harga;
+        this.form.harga = item.harga;
+        this.form.jumlah = item.jumlah;
+        this.dialogEditProduk = true;
+      },
+      resetForm() {
+        this.id_supplier = null;
+        this.form.id_pengadaan_produk = '';
+        this.form.id_produk = '';
+        this.form.jumlah = '';
+        this.form.harga = '';
+        this.form.total_harga = '';
+        this.form.id_supplier = '';
+        this.form.subtotal = 0;
+        this.form.status = 'Sedang Diproses';
+        this.form.created_by = sessionStorage.getItem('Nama');
+        this.form.delete_by = sessionStorage.getItem('Nama');
+        this.form.modified_by = sessionStorage.getItem('Nama');
+      },
+      customFilter(item, queryText) {
         const textOne = item.nama.toLowerCase();
         const textTwo = item.nama.toLowerCase();
         const searchText = queryText.toLowerCase();
@@ -484,24 +450,22 @@
         );
       },
     },
-    mounted(){         
-        this.getProduk();     
-        this.getSupplier();     
-        this.getPengadaan(); 
-         this.getDetailPengadaan();
+    mounted() {
+      this.getProduk();
+      this.getSupplier();
+      this.getPengadaan();
+      this.getDetailPengadaan();
     },
-  }
+  };
 </script>
 <style scoped>
-.text-md-center{
-  font-family: 'Raleway', sans-serif;
- 
-}
-.text-center{
-  font-family: 'Raleway', sans-serif;
- 
-}
-.v-card__title{
-  color: black;
-}
+  .text-md-center {
+    font-family: 'Raleway', sans-serif;
+  }
+  .text-center {
+    font-family: 'Raleway', sans-serif;
+  }
+  .v-card__title {
+    color: black;
+  }
 </style>

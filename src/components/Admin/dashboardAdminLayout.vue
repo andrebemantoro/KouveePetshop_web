@@ -65,35 +65,28 @@
       <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
-      
+
       <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          
-          icon=""
-          link=""
-          v-on="on"
-        >
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          v-for="(item, index) in menus"
-          :key="index"
-          @click="$router.push(item.to).catch((error) => {})"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>
-            {{ item.title }}
+        <template v-slot:activator="{ on }">
+          <v-btn icon="" link="" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in menus"
+            :key="index"
+            @click="$router.push(item.to).catch((error) => {})"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ item.title }}
             </v-list-item-title>
-          
-        </v-list-item>
-      </v-list>
-    </v-menu>
-      
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <VContent>
@@ -103,71 +96,79 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      collapseOnScroll: true,
-      drawer: null,
-      menus: [
-        { title: 'Stok Produk',
-          icon: "mdi-package-variant",
-          to: "/StokProduk",
-
-        },
-        { title: 'Laporan Pengadaan',
-         icon: "mdi-format-list-bulleted",
-          to: "/menuUkuran",
-         },
-        { title: 'Laporan Transaksi Terlaris',
-         icon: "mdi-tag-faces",
-          to: "/menuUkuran",
- },
-      ],
-      items: [
-        {
-          title: "Pegawai",
-          icon: "mdi-account",
-          to: "/menuPegawai",
-        },
-        {
-          title: "Produk",
-          icon: "mdi-paw",
-          to: "/menuProduk",
-        },
-        {
-          title: "Layanan",
-          icon: "mdi-dog-service",
-          to: "/menuLayanan",
-        },
-        {
-          title: "Supplier",
-          icon: "mdi-package-variant-closed",
-          to: "/menuSupplier",
-        },
-        {
-          title: "Ukuran Hewan",
-          icon: "mdi-ruler",
-          to: "/menuUkuran",
-        },
-        {
-          title: "Jenis Hewan",
-          icon: "mdi-dog",
-          to: "/menuJenis",
-        },
-        {
-          title: "Pengadaan",
-          icon: "mdi-plus-circle-multiple-outline",
-          to: "/menuPengadaan",
-        },
-      ],
-    };
-  },
-  methods: {
-    logout() {
-      sessionStorage.removeItem("Nama");
-      sessionStorage.removeItem("Id");
-      this.$router.push({ name: "Login" });
+  export default {
+    data() {
+      return {
+        drawer: null,
+        menus: [
+          {
+            title: 'Stok Produk',
+            icon: 'mdi-package-variant',
+            to: '/StokProduk',
+          },
+          {
+            title: 'Laporan Pengadaan',
+            icon: 'mdi-format-list-bulleted',
+            to: '/menuUkuran',
+          },
+          {
+            title: 'Laporan Transaksi Terlaris',
+            icon: 'mdi-tag-faces',
+            to: '/menuUkuran',
+          },
+        ],
+        items: [
+          {
+            title: 'Pegawai',
+            icon: 'mdi-account',
+            to: '/menuPegawai',
+          },
+          {
+            title: 'Produk',
+            icon: 'mdi-paw',
+            to: '/menuProduk',
+          },
+          {
+            title: 'Layanan',
+            icon: 'mdi-dog-service',
+            to: '/menuLayanan',
+          },
+          {
+            title: 'Supplier',
+            icon: 'mdi-package-variant-closed',
+            to: '/menuSupplier',
+          },
+          {
+            title: 'Ukuran Hewan',
+            icon: 'mdi-ruler',
+            to: '/menuUkuran',
+          },
+          {
+            title: 'Jenis Hewan',
+            icon: 'mdi-dog',
+            to: '/menuJenis',
+          },
+          {
+            title: 'Pengadaan',
+            icon: 'mdi-plus-circle-multiple-outline',
+            to: '/menuPengadaan',
+          },
+        ],
+      };
     },
-  },
-};
+    methods: {
+      logout() {
+        sessionStorage.removeItem('Nama');
+        sessionStorage.removeItem('Id');
+        this.$router.push({ name: 'Login' });
+      },
+      methods: {
+        logout() {
+          sessionStorage.removeItem('Nama');
+          sessionStorage.removeItem('Id');
+          this.$router.push({ name: 'Login' });
+        },
+      },
+    },
+  };
 </script>

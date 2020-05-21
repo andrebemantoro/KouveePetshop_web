@@ -273,7 +273,6 @@
       return {
         rules: [(value) => !!value || 'Wajib diisi.'],
         munculke: 0,
-        search: '',
         dialogWarning: '',
         show: false,
         notShow: [],
@@ -306,12 +305,12 @@
         updatedId: '',
       };
     },
-    computed:{
-      filteredProduk: function(){
-        return this.produks.filter((item)=>{
+    computed: {
+      filteredProduk: function() {
+        return this.produks.filter((item) => {
           return item.nama.toLowerCase().match(this.keyword.toLowerCase());
-        })
-      }
+        });
+      },
     },
 
     methods: {

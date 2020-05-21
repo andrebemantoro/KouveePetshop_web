@@ -74,42 +74,39 @@
     <VContent>
       <router-view />
     </VContent>
-     
   </div>
-  
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      collapseOnScroll: true,
-      drawer: null,
-      items: [
-        {
-          title: "Pelanggan",
-          icon: "mdi-account",
-          to: "/menuPelanggan",
-        },
-        {
-          title: "Hewan",
-          icon: "mdi-dog",
-          to: "/menuHewan",
-        },
-        {
-          title: "Transaksi",
-          icon: "mdi-cash-multiple",
-          to: "/menuTransaksi",
-        },
-      ],
-    };
-  },
-  methods: {
-    logout() {
-      sessionStorage.removeItem("Nama");
-      sessionStorage.removeItem("Id");
-      this.$router.push({ name: "Login" });
+  export default {
+    data() {
+      return {
+        drawer: null,
+        items: [
+          {
+            title: 'Pelanggan',
+            icon: 'mdi-account',
+            to: '/menuPelanggan',
+          },
+          {
+            title: 'Hewan',
+            icon: 'mdi-dog',
+            to: '/menuHewan',
+          },
+          {
+            title: 'Transaksi',
+            icon: 'mdi-cash-multiple',
+            to: '/menuTransaksi',
+          },
+        ],
+      };
     },
-  },
-};
+    methods: {
+      logout() {
+        sessionStorage.removeItem('Nama');
+        sessionStorage.removeItem('Id');
+        this.$router.push({ name: 'Login' });
+      },
+    },
+  };
 </script>
