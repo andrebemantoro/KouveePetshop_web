@@ -332,7 +332,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="resetForm(), reset(), (dialogEdit = false)"
+            @click="resetForm(), (dialogEdit = false)"
             >Tutup</v-btn
           >
           <v-btn color="blue darken-1" text @click="cekKosongEdit()"
@@ -583,7 +583,7 @@
         this.pegawai.append('username', this.form.username);
         this.pegawai.append('password', this.form.password);
         this.pegawai.append('created_by', this.form.created_by);
-
+      
         var uri = this.$apiUrl + 'Pegawai';
         this.load = true;
         this.$http
@@ -670,6 +670,7 @@
         this.form.telp = item.telp;
         (this.form.role = item.role), (this.form.username = item.username);
         this.updatedId = item.id_pegawai;
+        
       },
       deleteRow(item) {
         this.deleteId = item.id_pegawai;

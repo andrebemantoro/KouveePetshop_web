@@ -5,7 +5,7 @@
   <v-bottom-navigation
     :value="activeBtn"
     grow
-      color="#f9c99e"
+      color="#fd8c00"
   >
     <v-btn @click="Pengadaan()">
       <span>Menunggu Konfirmasi</span>
@@ -109,6 +109,7 @@
                         color="primary"
                         dark
                         v-on="on"
+                         @click="cetakStruk(item)"
                        outlined=""
                       >
                         <v-icon>mdi-pdf-box</v-icon>
@@ -1213,6 +1214,15 @@
           textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
         );
       },
+       cetakStruk(item) {
+        var uri =
+          this.$apiUrl +
+          'CetakStruk/pengadaanProduk/' +
+          item.id_pengadaan_produk;
+        window.open(uri, '_blank');
+        console.log(item.id_pengadaan_produk);
+      },
+ 
     },
     mounted(){         
         this.getProduk();     

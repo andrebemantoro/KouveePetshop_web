@@ -166,6 +166,20 @@ const routes = [
             next({ path: '/LoginAdmin' });
           }
         },
+        name: 'LaporanPengadaan',
+        path: '/LaporanPengadaan',
+        component: loadPengadaan('LaporanPengadaan'),
+      },
+      {
+        beforeEnter(to, from, next) {
+          if (sessionStorage.getItem('Nama') == 'admin') {
+            next();
+          } else {
+            sessionStorage.removeItem('Nama');
+            sessionStorage.removeItem('Id');
+            next({ path: '/LoginAdmin' });
+          }
+        },
         name: 'Produk',
         path: '/MenuProduk',
         component: loadProduk('MenuProduk'),
