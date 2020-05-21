@@ -1188,7 +1188,7 @@
                     </v-col>
                     <v-col cols="2">
                       <v-text-field
-                        label="Total Harga*"
+                        label="Subtotal*"
                         v-model="detilTransaksi.total_harga"
                         value
                         outlined
