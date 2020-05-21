@@ -79,7 +79,7 @@
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-flex xs6 class="text-right">
                 <v-text-field
-                  v-model="search"
+                  v-model="keyword"
                   label="Cari"
                   single-line
                   hide-details
@@ -94,7 +94,7 @@
           <v-flex>
             <template>
               <v-row>
-                <v-col v-for="(item, i) in suppliers" :key="i" cols="3">
+                <v-col v-for="(item, i) in filteredSupplier" :key="i" cols="3">
                   <v-card class="mx-auto" max-width="344">
                     <!-- <v-img      
                   :src= "$apiUrl2+'produk/'+item.gambar"
@@ -248,11 +248,17 @@
         },
         supplier: new FormData(),
         pesan: '',
-        search: '',
         typeInput: 'new',
         errors: '',
         updatedId: '',
       };
+    },
+    computed: {
+      filteredSupplier: function() {
+        return this.suppliers.filter((item) => {
+          return item.nama.toLowerCase().match(this.keyword.toLowerCase());
+        });
+      },
     },
 
     methods: {
