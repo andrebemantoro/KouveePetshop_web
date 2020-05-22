@@ -107,15 +107,11 @@
             to: '/StokProduk',
           },
           {
-            title: 'Laporan Pengadaan',
+            title: 'Menu Laporan',
             icon: 'mdi-format-list-bulleted',
-            to: '/menuUkuran',
+            to: '/LaporanPengadaan',
           },
-          {
-            title: 'Laporan Transaksi Terlaris',
-            icon: 'mdi-tag-faces',
-            to: '/menuUkuran',
-          },
+
         ],
         items: [
           {

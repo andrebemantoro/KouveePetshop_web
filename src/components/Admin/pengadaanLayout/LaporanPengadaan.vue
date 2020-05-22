@@ -1,65 +1,389 @@
 <template>
-<div class="parallax">
-
-
-<v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" jumbotron>
-
+<div >
 <v-container> 
-
   <v-row>
 <v-col cols="2"></v-col>
   <v-col cols="8">
-    <v-card max-width="1000px" class="text-md-center" justify-content-center>
+    <v-card max-width="" class="text-md-center" justify-content-center>
  <v-container grid-list-md mb-20>
-     <h1 class="text-md-center">Menu Cetak Laporan Pengadaan</h1>
+     <p class="display-2 text--primary text-md-center">Menu Laporan</p>
      <v-spacer></v-spacer>
+  <v-row>
+    <v-col cols = "6">
+      <v-hover
+      v-slot:default="{ hover }">
+
+      <v-card
+      
+     width="100%"
+     :elevation="hover ? 12 : 2"
+      >
+    <v-card-text>
+     
+      <p class="display-1 text--primary">
+       Laporan Pengadaan Bulanan
+      </p>
+      <div class=" text--primary">
+        Mencetak laporan pengadaan sesuai bulan dan tahun yang dipilih.<br>
+        Silahkan masukan bulan dan tahun pengadaan.
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-btn
+       :elevation="hover ? 12 : 2"
+       absolute
+          class="white--text"
+          fab
+          
+          right
+          bottom=""
+          rounded=""
+        color="primary"
+        @click="dialogPengadaanBulanan = true"
+      >
+       <v-icon>mdi-calendar</v-icon>
+      </v-btn>
+      </v-hover>
+    </v-card-actions>
+  </v-card>
+    </v-hover>
+    </v-col>
   
-    
-  <v-stepper v-model="e13" vertical>
-    <v-stepper-step step="1" complete>
-      Masukan Tanggal Cetak
-    </v-stepper-step>
-    <v-stepper-content step="1">
-      <v-card  class="mb-5" height="200px">
-        <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="290px"
+    <v-col cols = "6">
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-card 
+     width="100%"
+     :elevation="hover ? 12 : 2"
+      >
+    <v-card-text>  
+      <p class="display-1 text--primary">
+       Laporan Pengadaan Tahunan
+      </p>
+      <div class=" text--primary">
+        Mencetak laporan pengadaan sesuai  tahun yang dipilih.<br>
+        Silahkan masukan  tahun pengadaan.
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-btn
+       :elevation="hover ? 12 : 2"
+       absolute
+          class="white--text"
+          fab
+          
+          right
+          bottom=""
+          rounded=""
+        color="primary"
+        @click="dialogPengadaanTahunan = true"
+      >
+       <v-icon>mdi-calendar</v-icon>
+      </v-btn>
+      </v-hover>
+    </v-card-actions>
+  </v-card>
+    </v-hover>
+    </v-col>
+
+    <v-col cols = "6">
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-card 
+     width="100%"
+     :elevation="hover ? 12 : 2"
+      >
+    <v-card-text>  
+      <p class="display-1 text--primary">
+       Laporan Pendapatan Bulanan
+      </p>
+      <div class=" text--primary">
+        Mencetak laporan Pendapatan sesuai  bulan dan tahun yang dipilih.<br>
+        Silahkan masukan  bulan dan tahun pengadaan.
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-btn
+       :elevation="hover ? 12 : 2"
+       absolute
+          class="white--text"
+          fab
+          right
+          bottom=""
+          rounded=""
+        color="primary"
+        @click="dialogPendapatanBulanan = true"
+      >
+       <v-icon>mdi-calendar</v-icon>
+      </v-btn>
+      </v-hover>
+    </v-card-actions>
+  </v-card>
+    </v-hover>
+    </v-col>
+
+    <v-col cols = "6">
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-card 
+     width="100%"
+     :elevation="hover ? 12 : 2"
+      >
+    <v-card-text>  
+      <p class="display-1 text--primary">
+       Laporan Pendapatan Tahunan
+      </p>
+      <div class=" text--primary">
+        Mencetak laporan Pendapatan sesuai tahun yang dipilih.<br>
+        Silahkan masukan tahun pengadaan.
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-btn
+       :elevation="hover ? 12 : 2"
+       absolute
+          class="white--text"
+          fab
+          right
+          bottom=""
+          rounded=""
+        color="primary"
+        @click="dialogPendapatanTahunan = true"
+      >
+       <v-icon>mdi-calendar</v-icon>
+      </v-btn>
+      </v-hover>
+    </v-card-actions>
+  </v-card>
+    </v-hover>
+    </v-col>
+
+    <v-col cols = "6">
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-card 
+     width="100%"
+     :elevation="hover ? 12 : 2"
+      >
+    <v-card-text>  
+      <p class="display-1 text--primary">
+       Laporan Produk Terlaris
+      </p>
+      <div class=" text--primary">
+        Mencetak laporan produk terlaris dalam satu tahun.<br>
+        Silahkan masukan tahun untuk mencetak.
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-btn
+       :elevation="hover ? 12 : 2"
+       absolute
+          class="white--text"
+          fab
+          right
+          bottom=""
+          rounded=""
+        color="primary"
+        @click="dialogProdukTerlaris = true"
+      >
+       <v-icon>mdi-calendar</v-icon>
+      </v-btn>
+      </v-hover>
+    </v-card-actions>
+  </v-card>
+    </v-hover>
+    </v-col>
+
+    <v-col cols = "6">
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-card 
+     width="100%"
+     :elevation="hover ? 12 : 2"
+      >
+    <v-card-text>  
+      <p class="display-1 text--primary">
+       Laporan Layanan Terlaris
+      </p>
+      <div class=" text--primary">
+        Mencetak laporan layanan terlaris dalam satu tahun.<br>
+        Silahkan masukan tahun untuk mencetak.
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-hover
+      v-slot:default="{ hover }">
+      <v-btn
+       :elevation="hover ? 12 : 2"
+       absolute
+          class="white--text"
+          fab
+          right
+          bottom=""
+          rounded=""
+        color="primary"
+        @click="dialogPendapatanTahunan = true"
+      >
+       <v-icon>mdi-calendar</v-icon>
+      </v-btn>
+      </v-hover>
+    </v-card-actions>
+  </v-card>
+    </v-hover>
+    </v-col>
+  </v-row>
+  <!-- -------------------------------------------------------------------------- -->
+ <v-row justify="center">
+    <v-dialog v-model="dialogPengadaanBulanan" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Tanggal Pengadaan</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12" >
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal1"
+                    :return-value.sync="date"
+                    persistent
+                    width="50%"
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        v-model="bulan"       
+                        v-model="date1"
+                        label="Tanggal Pengadaan"
+                        prepend-icon="mdi-calendar"
                         readonly
-                        outlined
-                        clearable=""
                         v-on="on"
+                        outlined=""
                       ></v-text-field>
                     </template>
-                    <v-date-picker
-                      ref="picker"
-                      v-model="bulan"
-                      type="month"
-                      :max="new Date().toISOString().substr(0, 10)"
-                      min="1950-01-01"
-                      scrollable=""
-                    >
-                    <v-btn text="" outlined="" color="primary" @click="menu = false">Cancel</v-btn>
-                    <v-btn text outlined="" color="primary" @click="$refs.menu.save(bulan)">OK</v-btn></v-date-picker>
-                  </v-menu>
-      </v-card>
-      <v-btn color="primary" @click.native="e13 = 2">Continue</v-btn>
-      <v-btn text="" >Cancel</v-btn>
-    </v-stepper-content>
-    <v-stepper-step step="2" complete>Name of step 2</v-stepper-step>
-    <v-stepper-content step="2">
-      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
-      <v-btn color="primary" @click.native="e13 = 3">Continue</v-btn>
-      <v-btn text="">Cancel</v-btn>
-    </v-stepper-content>
-  </v-stepper>
+                    <v-date-picker v-model="date1" type="month" scrollable :landscape="$vuetify.breakpoint.smAndUp" full-width="">
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="modal1 = false">Cancel</v-btn>
+                      <v-btn text color="primary" @click="$refs.dialog.save(date1)">OK</v-btn>
+                    </v-date-picker>
+                  </v-dialog>
+                </v-col>
+                  </v-row>
+                      </v-container>
+                      <small>*indicates required field</small>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="resetForm(),dialogPengadaanBulanan = false">Close</v-btn>
+                      <v-btn color="blue darken-1" text @click="cetakLaporanBulanan(date1),dialogPengadaanBulanan = false">Save</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+  <!-- -------------------------------------------------------------------------- -->
+ <v-row justify="center">
+    <v-dialog v-model="dialogPendapatanBulanan" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Tanggal Pendapatan</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12" >
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal2"
+                    :return-value.sync="date2"
+                    persistent
+                    width="50%"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="date2"
+                        label="Tanggal Pendapatan"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-on="on"
+                        outlined=""
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date2" type="month" scrollable :landscape="$vuetify.breakpoint.smAndUp" full-width="">
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="modal2 = false">Cancel</v-btn>
+                      <v-btn text color="primary" @click="$refs.dialog.save(date2)">OK</v-btn>
+                    </v-date-picker>
+                  </v-dialog>
+                </v-col>
+                  </v-row>
+                      </v-container>
+                      <small>*indicates required field</small>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="resetForm(),dialogPendapatanBulanan = false">Close</v-btn>
+                      <v-btn color="blue darken-1" text @click="cetakPendapatanBulanan(date2),dialogPendapatanBulanan = false">Save</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+  <!-- -------------------------------------------------------------------------- -->
+ <v-row justify="center">
+    <v-dialog v-model="dialogProdukTerlaris" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Tanggal Pendapatan</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12" >
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal3"
+                    :return-value.sync="date3"
+                    persistent
+                    width="390px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="date3"
+                        label="Tanggal Pendapatan"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-on="on"
+                        outlined=""
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date3" type="String" scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="modal3 = false">Cancel</v-btn>
+                      <v-btn text color="primary" @click="$refs.dialog.save(date3)">OK</v-btn>
+                    </v-date-picker>
+                  </v-dialog>
+                </v-col>
+                  </v-row>
+                      </v-container>
+                      <small>*indicates required field</small>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="resetForm(),dialogProdukTerlaris = false">Close</v-btn>
+                      <v-btn color="blue darken-1" text @click="cetakProdukTerlaris(date2),dialogProdukTerlaris = false">Save</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+            
 
  
  </v-container>
@@ -67,25 +391,10 @@
   </v-col>
     
   </v-row>
- 
 
-<!-- <v-snackbar       
-    v-model="snackbar"
-    :color="color"       
-    :multi-line="true"       
-    :timeout="3000">       
-    {{ text }}       
-        
-    <v-btn         
-        dark         
-        text         
-        @click="snackbar = false">         
-        Close       
-    </v-btn>     
-</v-snackbar>  -->
 </v-container> 
 
- </v-parallax>
+
  </div>
 </template>
 
@@ -93,11 +402,22 @@
   export default {
     data () {
       return {
-      date: null,
-      menu: false,
-      modal: false,
+      date1: null,
+      date2: null, 
+      date3: null, 
+      landscape: false,
+      menu1: false,
+      menu2: false,
+      modal1: false,
+      modal2: false,
+      modal3: false,
          e13: 1,
       bulan:'',
+      dialogPengadaanBulanan :false,
+      dialogPengadaanTahunan :false,
+      dialogPendapatanBulanan :false,
+      dialogPendapatanTahunan :false,
+      dialogProdukTerlaris :false,
         
       }
     },
@@ -108,7 +428,31 @@
     },
     
     methods: {
-    
+        save (date) {
+        this.$refs.menu.save(date)
+      },
+      cetakLaporanBulanan(pengadaanBulanan) {
+        var uri =
+          this.$apiUrl +
+          'Laporan/laporanPengadaanBulanan/' +
+          pengadaanBulanan;
+        window.open(uri, '_blank');
+         this.resetForm()
+
+      },
+      cetakPendapatanBulanan(pendapatanBulanan) {
+        var uri =
+          this.$apiUrl +
+          'Laporan/laporanPendapatanBulanan/' +
+          pendapatanBulanan;
+        window.open(uri, '_blank');
+         this.resetForm()
+
+      },
+      resetForm(){
+        this.date1 = null;
+        this.date2 = null;
+      }
     },
     mounted(){         
       
