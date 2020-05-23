@@ -284,8 +284,8 @@
       sortLayananByPrice: false,
       page: 1,
       page2: 1,
-      rows: 7,
-      rows2: 7,
+      rows: 8,
+      rows2: 8,
       pages: 1,
       pages2: 1,
       dialogDetailLayanan: false,
@@ -666,13 +666,13 @@
 
   @media only screen and (min-width: 1581px) {
     .products {
-      grid-template-columns: repeat(12, minmax(180px, 1fr));
+      grid-template-columns: repeat(12, minmax(160px, 1fr));
     }
   }
 
   @media only screen and (min-width: 1126px) and (max-width: 1580px) {
     .products {
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(6, 1fr);
     }
   }
 
