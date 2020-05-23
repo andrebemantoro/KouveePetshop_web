@@ -284,7 +284,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darken-1" text @click="resetForm(),dialogPengadaanBulanan = false">Close</v-btn>
-                      <v-btn color="blue darken-1" text @click="cetakLaporanBulanan(date1),dialogPengadaanBulanan = false">Save</v-btn>
+                      <v-btn color="blue darken-1" text @click="cekKosongLaporanPengadaan(date1)">Save</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -331,7 +331,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darken-1" text @click="resetForm(),dialogPendapatanBulanan = false">Close</v-btn>
-                      <v-btn color="blue darken-1" text @click="cetakPendapatanBulanan(date2),dialogPendapatanBulanan = false">Save</v-btn>
+                      <v-btn color="blue darken-1" text @click="cekKosongPendapatanBulanan(date2)">Save</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -341,36 +341,21 @@
     <v-dialog v-model="dialogProdukTerlaris" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Tanggal Pendapatan</span>
+          <span class="headline">Tanggal Transaksi</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12" >
-                  <v-dialog
-                    ref="dialog"
-                    v-model="modal3"
-                    :return-value.sync="date3"
-                    persistent
-                    width="390px"
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-text-field
-                        v-model="date3"
-                        label="Tanggal Pendapatan"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-on="on"
-                        outlined=""
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker v-model="date3" type="String" scrollable>
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="modal3 = false">Cancel</v-btn>
-                      <v-btn text color="primary" @click="$refs.dialog.save(date3)">OK</v-btn>
-                    </v-date-picker>
-                  </v-dialog>
+                   <v-text-field 
+                   outlined 
+                   type="text" 
+                   class="form-control" 
+                   placeholder="Masukan tahun transaksi" 
+                   :maxlength="max" 
+                   v-model="date3" />
                 </v-col>
+
                   </v-row>
                       </v-container>
                       <small>*indicates required field</small>
@@ -378,12 +363,28 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darken-1" text @click="resetForm(),dialogProdukTerlaris = false">Close</v-btn>
-                      <v-btn color="blue darken-1" text @click="cetakProdukTerlaris(date2),dialogProdukTerlaris = false">Save</v-btn>
+                      <v-btn color="blue darken-1" text @click=" cekKosongProdukTerlaris(date3)">Save</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
               </v-row>
-            
+    <!-- ------------------Dialog untuk warning kosong-------------------------------------- -->
+    <div class="text-center">
+      <v-dialog width="500" v-model="dialogWarning">
+        <v-card>
+          <v-card-title class="headline Red lighten-2" primary-title
+            >Data Harus Diisi Semua !</v-card-title
+          >
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialogWarning = false"
+              >Kembali</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>         
 
  
  </v-container>
@@ -402,6 +403,8 @@
   export default {
     data () {
       return {
+        
+        max:4,
       date1: null,
       date2: null, 
       date3: null, 
@@ -418,6 +421,7 @@
       dialogPendapatanBulanan :false,
       dialogPendapatanTahunan :false,
       dialogProdukTerlaris :false,
+      dialogWarning :false,
         
       }
     },
@@ -430,6 +434,30 @@
     methods: {
         save (date) {
         this.$refs.menu.save(date)
+      },
+      cekKosongProdukTerlaris(param){
+        if(param == null){
+          this.dialogWarning = true;
+        }else{
+          this.cetakProdukTerlaris(param);
+          this.dialogProdukTerlaris = false;
+        }
+      },
+      cekKosongLaporanPengadaan(param){
+        if(param == null){
+          this.dialogWarning = true;
+        }else{
+          this.cetakLaporanBulanan(param);
+          this.dialogPengadaanBulanan = false;
+        }
+      },
+      cekKosongPendapatanBulanan(param){
+        if(param == null){
+          this.dialogWarning = true;
+        }else{
+          this.cetakPendapatanBulanan(param);
+          this.dialogPendapatanBulanan = false;
+        }
       },
       cetakLaporanBulanan(pengadaanBulanan) {
         var uri =
@@ -449,9 +477,19 @@
          this.resetForm()
 
       },
+      cetakProdukTerlaris(produkTerlaris) {
+        var uri =
+          this.$apiUrl +
+          'Laporan/laporanProdukTerlaris/' +
+          produkTerlaris;
+        window.open(uri, '_blank');
+         this.resetForm()
+
+      },
       resetForm(){
         this.date1 = null;
         this.date2 = null;
+        this.date3 = null;
       }
     },
     mounted(){         

@@ -58,9 +58,6 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title bold>KOUVEE PETSHOP</v-toolbar-title>
       <VSpacer />
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
 
       <v-btn icon>
         <v-icon>mdi-bell</v-icon>
@@ -108,7 +105,7 @@
           },
           {
             title: 'Menu Laporan',
-            icon: 'mdi-format-list-bulleted',
+            icon: 'mdi-receipt',
             to: '/LaporanPengadaan',
           },
 
