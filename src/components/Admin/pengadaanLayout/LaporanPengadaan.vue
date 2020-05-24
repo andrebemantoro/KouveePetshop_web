@@ -549,6 +549,14 @@
           this.dialogPendapatanBulanan = false;
         }
       },
+      cekKosongPendapatanTahunan(param) {
+        if (param == null) {
+          this.dialogWarning = true;
+        } else {
+          this.cetakPendapatanTahunan(param);
+          this.dialogPendapatanTahunan = false;
+        }
+      },
       cetakLaporanBulanan(pengadaanBulanan) {
         var uri =
           this.$apiUrl + 'Laporan/laporanPengadaanBulanan/' + pengadaanBulanan;
@@ -569,10 +577,17 @@
         window.open(uri, '_blank');
         this.resetForm();
       },
+      cetakPendapatanTahunan(pendapatanTahunan) {
+        var uri =
+          this.$apiUrl + 'Laporan/laporanPendapatanTahunan/' + pendapatanTahunan;
+        window.open(uri, '_blank');
+        this.resetForm();
+      },
       resetForm() {
         this.date1 = null;
         this.date2 = null;
         this.date3 = null;
+        this.date4 = null;
       },
     },
     mounted() {},
