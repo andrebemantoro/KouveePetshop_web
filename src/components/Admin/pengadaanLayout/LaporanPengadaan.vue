@@ -207,7 +207,7 @@
                             rounded=""
                             small
                             color="primary"
-                            @click="dialogPendapatanTahunan = true"
+                            @click="dialogLayananTerlaris = true"
                           >
                             <v-icon>mdi-calendar</v-icon>
                           </v-btn>
@@ -380,7 +380,7 @@
                 >
                   <v-card>
                     <v-card-title>
-                      <span class="headline">Tanggal Transaksi</span>
+                      <span class="headline">Tahun Transaksi</span>
                     </v-card-title>
                     <v-card-text>
                       <v-container>
@@ -393,6 +393,7 @@
                               placeholder="Masukan tahun transaksi"
                               :maxlength="max"
                               v-model="date3"
+                              prepend-icon="mdi-calendar"
                             />
                           </v-col>
                         </v-row>
@@ -411,6 +412,53 @@
                         color="blue darken-1"
                         text
                         @click="cekKosongProdukTerlaris(date3)"
+                        >Save</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+              <!-- -------------------------------------------------------------------------- -->
+              <v-row justify="center">
+                <v-dialog
+                  v-model="dialogPendapatanTahunan"
+                  persistent
+                  max-width="600px"
+                >
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">Tahun Pendapatan</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-text-field
+                              outlined
+                              type="text"
+                              class="form-control"
+                              placeholder="Masukan tahun pendaptan"
+                              :maxlength="max"
+                              v-model="date4"
+                              prepend-icon="mdi-calendar"
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                      <small>*indicates required field</small>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="resetForm(), (dialogPendapatanTahunan = false)"
+                        >Close</v-btn
+                      >
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="cekKosongPendapatanTahunan(date4)"
                         >Save</v-btn
                       >
                     </v-card-actions>
@@ -450,12 +498,12 @@
         date1: null,
         date2: null,
         date3: null,
+        date4: null,
         landscape: false,
         menu1: false,
         menu2: false,
         modal1: false,
         modal2: false,
-        modal3: false,
         e13: 1,
         bulan: '',
         dialogPengadaanBulanan: false,
@@ -463,6 +511,7 @@
         dialogPendapatanBulanan: false,
         dialogPendapatanTahunan: false,
         dialogProdukTerlaris: false,
+        dialogLayananTerlaris: false,
         dialogWarning: false,
       };
     },
