@@ -260,7 +260,7 @@
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="modal1 = false"
+                                  @click="resetForm(), (modal1 = false)"
                                   >Cancel</v-btn
                                 >
                                 <v-btn
@@ -337,7 +337,7 @@
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="modal2 = false"
+                                  @click="resetForm(), (modal2 = false)"
                                   >Cancel</v-btn
                                 >
                                 <v-btn
@@ -394,6 +394,7 @@
                               :maxlength="max"
                               v-model="date3"
                               prepend-icon="mdi-calendar"
+                              counter="4"
                             />
                           </v-col>
                         </v-row>
@@ -440,6 +441,7 @@
                               placeholder="Masukan tahun transaksi"
                               :maxlength="max"
                               v-model="date5"
+                              counter="4"
                               prepend-icon="mdi-calendar"
                             />
                           </v-col>
@@ -488,6 +490,8 @@
                               :maxlength="max"
                               v-model="date4"
                               prepend-icon="mdi-calendar"
+                              counter="4"
+                              @input="onlyNumbers"
                             />
                           </v-col>
                         </v-row>
@@ -541,6 +545,7 @@
   export default {
     data() {
       return {
+        message: '12',
         max: 4,
         date1: null,
         date2: null,
@@ -588,6 +593,9 @@
           this.cetakLayananTerlaris(param);
           this.dialogLayananTerlaris = false;
         }
+      },
+      onlyNumbers: function() {
+        this.message = this.message.replace(/[^0-9.]/g, '');
       },
       cekKosongLaporanPengadaan(param) {
         if (param == null) {
@@ -668,5 +676,6 @@
   .v-card__title {
     color: black;
   }
+
   @import '~vue-snotify/styles/material.css';
 </style>

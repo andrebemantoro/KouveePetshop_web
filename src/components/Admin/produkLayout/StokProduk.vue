@@ -13,6 +13,7 @@
               hide-details="auto"
               outlined
               clearable
+              prepend-icon="mdi-magnify"
             ></v-text-field>
           </v-flex>
         </v-layout>
