@@ -266,7 +266,7 @@
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="$refs.dialog.save(date1)"
+                                  @click="$refs.dialog.Simpan(date1)"
                                   >OK</v-btn
                                 >
                               </v-date-picker>
@@ -274,7 +274,7 @@
                           </v-col>
                         </v-row>
                       </v-container>
-                      <small>*indicates required field</small>
+                      <small>*wajib diisi</small>
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -282,13 +282,13 @@
                         color="blue darken-1"
                         text
                         @click="resetForm(), (dialogPengadaanBulanan = false)"
-                        >Close</v-btn
+                        >Tutup</v-btn
                       >
                       <v-btn
                         color="blue darken-1"
                         text
                         @click="cekKosongLaporanPengadaan(date1)"
-                        >Save</v-btn
+                        >Simpan</v-btn
                       >
                     </v-card-actions>
                   </v-card>
@@ -343,7 +343,7 @@
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="$refs.dialog.save(date2)"
+                                  @click="$refs.dialog.Simpan(date2)"
                                   >OK</v-btn
                                 >
                               </v-date-picker>
@@ -351,7 +351,7 @@
                           </v-col>
                         </v-row>
                       </v-container>
-                      <small>*indicates required field</small>
+                      <small>*wajib diisi</small>
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -359,13 +359,13 @@
                         color="blue darken-1"
                         text
                         @click="resetForm(), (dialogPendapatanBulanan = false)"
-                        >Close</v-btn
+                        >Tutup</v-btn
                       >
                       <v-btn
                         color="blue darken-1"
                         text
                         @click="cekKosongPendapatanBulanan(date2)"
-                        >Save</v-btn
+                        >Simpan</v-btn
                       >
                     </v-card-actions>
                   </v-card>
@@ -398,7 +398,7 @@
                           </v-col>
                         </v-row>
                       </v-container>
-                      <small>*indicates required field</small>
+                      <small>*wajib diisi</small>
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -406,13 +406,60 @@
                         color="blue darken-1"
                         text
                         @click="resetForm(), (dialogProdukTerlaris = false)"
-                        >Close</v-btn
+                        >Tutup</v-btn
                       >
                       <v-btn
                         color="blue darken-1"
                         text
                         @click="cekKosongProdukTerlaris(date3)"
-                        >Save</v-btn
+                        >Simpan</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+              <!-- -------------------------------------------------------------------------- -->
+              <v-row justify="center">
+                <v-dialog
+                  v-model="dialogLayananTerlaris"
+                  persistent
+                  max-width="600px"
+                >
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">Tahun Transaksi</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-text-field
+                              outlined
+                              type="text"
+                              class="form-control"
+                              placeholder="Masukan tahun transaksi"
+                              :maxlength="max"
+                              v-model="date5"
+                              prepend-icon="mdi-calendar"
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                      <small>*wajib diisi</small>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="resetForm(), (dialogLayananTerlaris = false)"
+                        >Tutup</v-btn
+                      >
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="cekKosongLayananTerlaris(date5)"
+                        >Simpan</v-btn
                       >
                     </v-card-actions>
                   </v-card>
@@ -445,7 +492,7 @@
                           </v-col>
                         </v-row>
                       </v-container>
-                      <small>*indicates required field</small>
+                      <small>*wajib diisi</small>
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -453,13 +500,13 @@
                         color="blue darken-1"
                         text
                         @click="resetForm(), (dialogPendapatanTahunan = false)"
-                        >Close</v-btn
+                        >Tutup</v-btn
                       >
                       <v-btn
                         color="blue darken-1"
                         text
                         @click="cekKosongPendapatanTahunan(date4)"
-                        >Save</v-btn
+                        >Simpan</v-btn
                       >
                     </v-card-actions>
                   </v-card>
@@ -499,6 +546,7 @@
         date2: null,
         date3: null,
         date4: null,
+        date5: null,
         landscape: false,
         menu1: false,
         menu2: false,
@@ -522,8 +570,8 @@
     },
 
     methods: {
-      save(date) {
-        this.$refs.menu.save(date);
+      Simpan(date) {
+        this.$refs.menu.Simpan(date);
       },
       cekKosongProdukTerlaris(param) {
         if (param == null) {
@@ -531,6 +579,14 @@
         } else {
           this.cetakProdukTerlaris(param);
           this.dialogProdukTerlaris = false;
+        }
+      },
+      cekKosongLayananTerlaris(param) {
+        if (param == null) {
+          this.dialogWarning = true;
+        } else {
+          this.cetakLayananTerlaris(param);
+          this.dialogLayananTerlaris = false;
         }
       },
       cekKosongLaporanPengadaan(param) {
@@ -577,9 +633,17 @@
         window.open(uri, '_blank');
         this.resetForm();
       },
+      cetakLayananTerlaris(layananTerlaris) {
+        var uri =
+          this.$apiUrl + 'Laporan/laporanLayananTerlaris/' + layananTerlaris;
+        window.open(uri, '_blank');
+        this.resetForm();
+      },
       cetakPendapatanTahunan(pendapatanTahunan) {
         var uri =
-          this.$apiUrl + 'Laporan/laporanPendapatanTahunan/' + pendapatanTahunan;
+          this.$apiUrl +
+          'Laporan/laporanPendapatanTahunan/' +
+          pendapatanTahunan;
         window.open(uri, '_blank');
         this.resetForm();
       },
@@ -588,6 +652,7 @@
         this.date2 = null;
         this.date3 = null;
         this.date4 = null;
+        this.date5 = null;
       },
     },
     mounted() {},
