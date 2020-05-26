@@ -394,6 +394,7 @@
                               :maxlength="max"
                               v-model="date3"
                               prepend-icon="mdi-calendar"
+                              counter="4"
                             />
                           </v-col>
                         </v-row>
@@ -441,7 +442,10 @@
                               :maxlength="max"
                               v-model="date4"
                               prepend-icon="mdi-calendar"
+                              counter="4"
+                              @input="onlyNumbers"
                             />
+                           
                           </v-col>
                         </v-row>
                       </v-container>
@@ -494,6 +498,7 @@
   export default {
     data() {
       return {
+        message: '12',
         max: 4,
         date1: null,
         date2: null,
@@ -520,6 +525,7 @@
         val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'));
       },
     },
+   
 
     methods: {
       save(date) {
@@ -532,6 +538,9 @@
           this.cetakProdukTerlaris(param);
           this.dialogProdukTerlaris = false;
         }
+      },
+      onlyNumbers: function() {
+       this.message = this.message.replace(/[^0-9.]/g,'');
       },
       cekKosongLaporanPengadaan(param) {
         if (param == null) {
@@ -589,6 +598,7 @@
         this.date3 = null;
         this.date4 = null;
       },
+      
     },
     mounted() {},
   };
@@ -603,5 +613,6 @@
   .v-card__title {
     color: black;
   }
+
   @import '~vue-snotify/styles/material.css';
 </style>
