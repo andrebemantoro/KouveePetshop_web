@@ -260,7 +260,7 @@
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="modal1 = false"
+                                  @click="resetForm(),modal1 = false"
                                   >Cancel</v-btn
                                 >
                                 <v-btn
@@ -337,7 +337,7 @@
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="modal2 = false"
+                                  @click="resetForm(),modal2 = false"
                                   >Cancel</v-btn
                                 >
                                 <v-btn
