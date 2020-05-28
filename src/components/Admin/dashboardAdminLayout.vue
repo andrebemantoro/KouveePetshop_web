@@ -108,7 +108,6 @@
             icon: 'mdi-receipt',
             to: '/LaporanPengadaan',
           },
-
         ],
         items: [
           {
@@ -154,13 +153,6 @@
         sessionStorage.removeItem('Nama');
         sessionStorage.removeItem('Id');
         this.$router.push({ name: 'Login' });
-      },
-      methods: {
-        logout() {
-          sessionStorage.removeItem('Nama');
-          sessionStorage.removeItem('Id');
-          this.$router.push({ name: 'Login' });
-        },
       },
     },
   };

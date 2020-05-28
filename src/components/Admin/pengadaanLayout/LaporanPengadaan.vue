@@ -233,9 +233,9 @@
                         <v-row>
                           <v-col cols="12">
                             <v-dialog
-                              ref="dialog"
+                              ref="dialog1"
                               v-model="modal1"
-                              :return-value.sync="date"
+                              :return-value.sync="date1"
                               persistent
                               width="50%"
                             >
@@ -261,12 +261,12 @@
                                   text
                                   color="primary"
                                   @click="resetForm(), (modal1 = false)"
-                                  >Cancel</v-btn
+                                  >Batal</v-btn
                                 >
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="$refs.dialog.Simpan(date1)"
+                                  @click="$refs.dialog1.save(date1)"
                                   >OK</v-btn
                                 >
                               </v-date-picker>
@@ -297,6 +297,55 @@
               <!-- -------------------------------------------------------------------------- -->
               <v-row justify="center">
                 <v-dialog
+                  v-model="dialogPengadaanTahunan"
+                  persistent
+                  max-width="600px"
+                >
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">Tahun Pengadaan</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-text-field
+                              outlined
+                              type="text"
+                              class="form-control"
+                              placeholder="Masukan tahun pengadaan"
+                              :maxlength="max"
+                              v-model="date6"
+                              prepend-icon="mdi-calendar"
+                              counter="4"
+                              @input="onlyNumbers"
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                      <small>*wajib diisi</small>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="resetForm(), (dialogPengadaanTahunan = false)"
+                        >Tutup</v-btn
+                      >
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="cekKosongLaporanPengadaanTahunan(date6)"
+                        >Simpan</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+              <!-- -------------------------------------------------------------------------- -->
+              <v-row justify="center">
+                <v-dialog
                   v-model="dialogPendapatanBulanan"
                   persistent
                   max-width="600px"
@@ -310,7 +359,7 @@
                         <v-row>
                           <v-col cols="12">
                             <v-dialog
-                              ref="dialog"
+                              ref="dialog2"
                               v-model="modal2"
                               :return-value.sync="date2"
                               persistent
@@ -338,12 +387,12 @@
                                   text
                                   color="primary"
                                   @click="resetForm(), (modal2 = false)"
-                                  >Cancel</v-btn
+                                  >Batal</v-btn
                                 >
                                 <v-btn
                                   text
                                   color="primary"
-                                  @click="$refs.dialog.Simpan(date2)"
+                                  @click="$refs.dialog2.save(date2)"
                                   >OK</v-btn
                                 >
                               </v-date-picker>
@@ -552,9 +601,8 @@
         date3: null,
         date4: null,
         date5: null,
+        date6: null,
         landscape: false,
-        menu1: false,
-        menu2: false,
         modal1: false,
         modal2: false,
         e13: 1,
@@ -568,15 +616,9 @@
         dialogWarning: false,
       };
     },
-    watch: {
-      menu(val) {
-        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'));
-      },
-    },
-
     methods: {
-      Simpan(date) {
-        this.$refs.menu.Simpan(date);
+      save(date) {
+        this.$refs.menu.save(date);
       },
       cekKosongProdukTerlaris(param) {
         if (param == null) {
@@ -605,6 +647,14 @@
           this.dialogPengadaanBulanan = false;
         }
       },
+      cekKosongLaporanPengadaanTahunan(param) {
+        if (param == null) {
+          this.dialogWarning = true;
+        } else {
+          this.cetakLaporanTahunan(param);
+          this.dialogPengadaanTahunan = false;
+        }
+      },
       cekKosongPendapatanBulanan(param) {
         if (param == null) {
           this.dialogWarning = true;
@@ -624,6 +674,12 @@
       cetakLaporanBulanan(pengadaanBulanan) {
         var uri =
           this.$apiUrl + 'Laporan/laporanPengadaanBulanan/' + pengadaanBulanan;
+        window.open(uri, '_blank');
+        this.resetForm();
+      },
+      cetakLaporanTahunan(pengadaanTahunan) {
+        var uri =
+          this.$apiUrl + 'Laporan/laporanPengadaanTahunan/' + pengadaanTahunan;
         window.open(uri, '_blank');
         this.resetForm();
       },
