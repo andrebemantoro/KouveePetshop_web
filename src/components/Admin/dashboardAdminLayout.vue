@@ -235,6 +235,7 @@
           .then((response) => {
             this.load = false;
             this.messages--;
+            this.getDataNotifikasi();
           })
           .catch((error) => {
             this.load = false;
