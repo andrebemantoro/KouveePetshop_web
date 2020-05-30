@@ -26,7 +26,7 @@
                 <td>{{ item.nama }}</td>
                 <td>{{ item.min_stok }}</td>
                 <td>
-                  <v-chip :color="getColor(items, index)" dark="">
+                  <v-chip :color="getColor(index)" dark="">
                     {{ item.jumlah_stok }}
                   </v-chip>
                 </td>
@@ -99,17 +99,19 @@
           this.produks = response.data.message;
         });
       },
-      getColor(items, index) {
+      getColor(index) {
         this.temp[index] =
-          parseInt(items[index].min_stok) + parseInt(this.temp2);
-
-        if (items[index].jumlah_stok < items[index].min_stok) return 'red';
-        else if (
-          items[index].jumlah_stok > items[index].min_stok &&
-          items[index].jumlah_stok < this.temp[index]
-        )
-          return 'orange';
-        else return 'green';
+          parseInt(this.produks[index].min_stok) + parseInt(this.temp2);
+         
+      
+        if (parseInt(this.produks[index].jumlah_stok) < parseInt(this.produks[index].min_stok)){
+          return 'red'
+          } else if (parseInt(this.produks[index].jumlah_stok) > parseInt(this.produks[index].min_stok) && parseInt(this.produks[index].jumlah_stok) < parseInt(this.temp[index])){
+          return 'orange'
+        }else{
+          return 'green'
+          } 
+            
       },
     },
     mounted() {
