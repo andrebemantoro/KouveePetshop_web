@@ -21,18 +21,23 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-btn text :href="group.href" class="group-title">
-                {{ group.title }}</v-btn
+              <a
+                light
+                :href="group.href"
+                class="group-title"
+                v-smooth-scroll="{ duration: 1000, updateHistory: false }"
+              >
+                {{ group.title }}</a
               >
             </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-app-bar fixed color="#ffebcd" class="appbar">
-        <img
+        <v-img
           src="../../assets/kouveepetshoplogo.png"
           alt="Logo"
-          width="120px"
+          max-width="100px"
         />
         <v-spacer></v-spacer>
         <v-app-bar-items
@@ -41,9 +46,14 @@
           :key="group.title"
           link
         >
-          <v-btn text class="mx-3" :href="group.href">
+          <a
+            light
+            class="group-title"
+            :href="group.href"
+            v-smooth-scroll="{ duration: 1000, updateHistory: false }"
+          >
             {{ group.title }}
-          </v-btn>
+          </a>
         </v-app-bar-items>
         <v-app-bar-items class="hidden-md-and-up">
           <v-app-bar-nav-icon
@@ -199,7 +209,10 @@
               {{ item.nama }}
             </h3>
             <h4>Rp{{ item.harga }},00</h4>
-            <h5 v-if="item.jumlah_stok == 0">Stok Habis!</h5>
+            <h5 v-if="item.jumlah_stok <= item.min_stok">
+              Stok Tinggal Sedikit!
+            </h5>
+            <h5 v-else-if="item.jumlah_stok <= 0">Stok Habis!</h5>
             <h5 v-else>Jumlah Stok: {{ item.jumlah_stok }}</h5>
             <p>
               {{ item.nama }} merupakan salah satu dari beberapa macam produk
@@ -534,8 +547,13 @@
   }
 
   .group-title {
-    font-weight: 700;
+    font-weight: bold;
     text-decoration: none;
+    margin-right: 1.2em;
+    color: black;
+  }
+
+  .group-title:visited {
     color: black;
   }
 

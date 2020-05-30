@@ -1,12 +1,12 @@
-import Vue from "vue";
-import Vuetify from "vuetify/lib";
-import "@mdi/font/css/materialdesignicons.css";
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
+import '@mdi/font/css/materialdesignicons.css';
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
   icons: {
-    iconfont: "mdi"
+    iconfont: 'mdi',
   },
   theme: {
     themes: {
@@ -17,5 +17,5 @@ export default new Vuetify({
         error: '#b71c1c',
       },
     },
-  }
+  },
 });
