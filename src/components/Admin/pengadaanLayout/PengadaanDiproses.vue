@@ -342,6 +342,7 @@
             this.dialogDetailPengadaanProduk = false;
             this.getPengadaan();
             this.getDetailPengadaan();
+            window.location.reload();
           })
           .catch((error) => {
             this.errors = error;
@@ -352,7 +353,6 @@
             this.load = false;
           });
       },
-
       editHandler(company) {
         this.dialog = true;
         this.typeInput = 'edit';

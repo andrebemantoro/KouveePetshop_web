@@ -4,7 +4,6 @@
       <v-container grid-list-md mb-20>
         <h2 class="text-md-center">Stok Produk Kouvee Petshop</h2>
         <v-layout row wrap style="margin:10px">
-         
           <v-flex xs6 class="text-right">
             <v-text-field
               v-model="keyword"
@@ -26,20 +25,18 @@
                 <td>{{ item.id_produk }}</td>
                 <td>{{ item.nama }}</td>
                 <td>{{ item.min_stok }}</td>
-                <td><v-chip 
-                :color="getColor(items,index)" 
-                dark="">
-                {{ item.jumlah_stok }} 
-                </v-chip></td>
-                
-              
+                <td>
+                  <v-chip :color="getColor(items, index)" dark="">
+                    {{ item.jumlah_stok }}
+                  </v-chip>
+                </td>
               </tr>
             </tbody>
           </template>
         </v-data-table>
       </v-container>
     </v-card>
-   
+
     <v-snackbar
       v-model="snackbar"
       :color="color"
@@ -56,7 +53,6 @@
   export default {
     data() {
       return {
-        
         keyword: '',
         temp: [],
         temp2: 10,
@@ -77,47 +73,44 @@
             value: 'nama',
           },
           {
-              text: 'Stok Minimal',
+            text: 'Stok Minimal',
             value: 'min_stok',
           },
-            {
+          {
             text: 'Jumlah Stok',
             value: 'jumlah_stok',
-            },
-          
+          },
         ],
         produks: [],
-       
+
         snackbar: false,
         color: null,
         text: '',
         load: false,
-        
-       
+
         errors: '',
-        
       };
     },
 
-    
-
     methods: {
-     
       getData() {
         var uri = this.$apiUrl + 'Produk/' + 'all_get';
         this.$http.get(uri).then((response) => {
           this.produks = response.data.message;
         });
       },
-       getColor (items,index) {
-   
-        this.temp[index] =(parseInt(items[index].min_stok)+parseInt(this.temp2));
-      
-        if (items[index].jumlah_stok < items[index].min_stok) return 'red'
-        else if (  items[index].jumlah_stok > items[index].min_stok && items[index].jumlah_stok < this.temp[index]) return 'orange' 
-        else return 'green'
+      getColor(items, index) {
+        this.temp[index] =
+          parseInt(items[index].min_stok) + parseInt(this.temp2);
+
+        if (items[index].jumlah_stok < items[index].min_stok) return 'red';
+        else if (
+          items[index].jumlah_stok > items[index].min_stok &&
+          items[index].jumlah_stok < this.temp[index]
+        )
+          return 'orange';
+        else return 'green';
       },
-     
     },
     mounted() {
       this.getData();
