@@ -205,7 +205,6 @@
             this.opened.push(this.produks[i].id_notifikasi);
           }
         }
-        console.log(this.opened);
       },
       checkOpened(id_notifikasi) {
         for (let i = 0; i < this.opened.length; i++) {
@@ -232,12 +231,12 @@
         this.load = true;
         this.$http
           .post(uri)
-          .then((response) => {
+          .then(() => {
             this.load = false;
             this.messages--;
             this.getDataNotifikasi();
           })
-          .catch((error) => {
+          .catch(() => {
             this.load = false;
           });
       },
