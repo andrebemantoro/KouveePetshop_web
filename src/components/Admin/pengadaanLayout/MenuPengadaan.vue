@@ -980,6 +980,7 @@
             this.id_supplier = null;
             this.getPengadaan();
             this.getDetailPengadaan();
+            this.resetDynamic();
           })
           .catch((error) => {
             this.errors = error;
@@ -1012,6 +1013,7 @@
             this.id_supplier = null;
             this.getPengadaan();
             this.getDetailPengadaan();
+            this.resetDynamic();
           })
           .catch((error) => {
             this.errors = error;
@@ -1027,7 +1029,7 @@
         this.status.append('modified_by', this.form.modified_by);
         this.status.append('created_by', item.created_by);
         this.status.append('id_supplier', item.id_supplier);
-        console.log(this.form.status);
+ 
         var uri =
           this.$apiUrl +
           'PengadaanProduk/' +
@@ -1173,7 +1175,6 @@
       },
       deleteRowDetailProduk(item) {
         this.deletedId = item.id_detail_pengadaan;
-        console.log(item.id_detail_pengadaan);
         this.deleteDetailDialog = true;
       },
       deleteRowPengadaan(item) {
@@ -1193,7 +1194,6 @@
               i
             ] = this.detailIdPengadaanFiltered[i].id_detail_pengadaan;
           }
-          console.log(this.detailIdPengadaanFilteredDelete);
         });
       },
       resetArray() {
@@ -1204,7 +1204,7 @@
         this.updatedId = item.id_pengadaan_produk;
         this.id_supplier = item.id_supplier;
         this.form.total = item.total;
-        console.log(item.total);
+
         this.dialogEditPengadaan = true;
       },
       editHandlerProduk(item) {
@@ -1244,7 +1244,6 @@
           'CetakStruk/pengadaanProduk/' +
           item.id_pengadaan_produk;
         window.open(uri, '_blank');
-        console.log(item.id_pengadaan_produk);
       },
     },
     mounted() {
