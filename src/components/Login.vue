@@ -103,7 +103,7 @@
             this.text = 'Login Berhasil';
             this.color = 'green';
             this.$router.push({ name: 'Pegawai' });
-            console.log('admin');
+           
           } else {
             this.snackbar = true;
             this.text = 'Login Gagal';
@@ -133,7 +133,7 @@
                   this.text = 'Login Berhasil';
                   this.color = 'green';
                   this.$router.push({ name: 'Pelanggan' });
-                  console.log('customer service');
+               
                 } else if (this.pegawai.role.toLowerCase() == 'kasir') {
                   //code untuk login ke kasir
                   sessionStorage.setItem(
@@ -148,7 +148,7 @@
                   this.text = 'Login Berhasil';
                   this.color = 'green';
                   this.$router.push({ name: 'TransaksiProduk' });
-                  console.log('customer service');
+               
                 } else {
                   this.snackbar = true;
                   this.text = 'Login Gagal';
