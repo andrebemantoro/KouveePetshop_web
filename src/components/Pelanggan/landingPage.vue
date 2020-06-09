@@ -87,6 +87,9 @@
         <v-btn class="btnSort" @click="sortProduk()" color="#ffebcd" light>
           Urutkan Berdasarkan Harga
         </v-btn>
+        <v-btn class="btnSort" @click="sortStok()" color="#ffebcd" light>
+          Urutkan Berdasarkan Stok
+        </v-btn>
         <section class="products">
           <v-card
             class="product-card"
@@ -294,6 +297,7 @@
       ukurans: [],
       detailItem: '',
       sortProdukByPrice: false,
+      sortProdukByStok: false,
       sortLayananByPrice: false,
       page: 1,
       page2: 1,
@@ -435,6 +439,19 @@
             return b.harga - a.harga;
           });
           this.sortProdukByPrice = false;
+        }
+      },
+      sortStok() {
+        if (this.sortProdukByStok == false) {
+          this.produks.sort(function(a, b) {
+            return a.jumlah_stok - b.jumlah_stok;
+          });
+          this.sortProdukByStok = true;
+        } else {
+          this.produks.sort(function(a, b) {
+            return b.jumlah_stok - a.jumlah_stok;
+          });
+          this.sortProdukByStok = false;
         }
       },
       sortLayanan() {
@@ -680,6 +697,7 @@
     position: relative;
     padding: 1rem;
     font-weight: bold;
+    margin: 5px;
   }
 
   @media only screen and (min-width: 1581px) {
